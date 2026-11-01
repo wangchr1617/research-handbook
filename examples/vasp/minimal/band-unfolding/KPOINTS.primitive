@@ -1,0 +1,9 @@
+Si primitive Gamma-X-L
+8
+Line-mode
+Reciprocal
+0 0 0 ! GAMMA
+0.5 0 0.5 ! X
+
+0.5 0 0.5 ! X
+0.5 0.5 0.5 ! L

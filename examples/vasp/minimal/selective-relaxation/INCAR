@@ -1,0 +1,16 @@
+SYSTEM = ionic-relaxation
+ENCUT = 450
+PREC = Accurate
+EDIFF = 1E-8
+NELM = 100
+ALGO = Normal
+ISMEAR = 0
+SIGMA = 0.05
+LREAL = .FALSE.
+LWAVE = .FALSE.
+LCHARG = .FALSE.
+IBRION = 2
+NSW = 40
+NCORE = 1
+ISIF = 2
+EDIFFG = -0.01

@@ -1,0 +1,12 @@
+#!/bin/bash
+#PBS -N vasp-neb
+#PBS -l nodes=1:ppn=3
+#PBS -l walltime=00:15:00
+#PBS -j oe
+set -euo pipefail
+cd "${PBS_O_WORKDIR:?}"
+# 按集群说明加载计算软件、MPI、Python，以及所需的辅助工具。
+export VASP_EXEC="${VASP_EXEC:-vasp_vtst}"
+export OMP_NUM_THREADS=1
+NP=$(wc -l < "${PBS_NODEFILE:?}")
+python3 run.py --ranks "$NP"

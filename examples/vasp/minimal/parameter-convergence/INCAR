@@ -1,0 +1,14 @@
+SYSTEM = single-point
+ENCUT = 350
+PREC = Accurate
+EDIFF = 1E-7
+NELM = 100
+ALGO = Normal
+ISMEAR = 0
+SIGMA = 0.05
+LREAL = .FALSE.
+LWAVE = .TRUE.
+LCHARG = .TRUE.
+IBRION = -1
+NSW = 0
+NCORE = 1

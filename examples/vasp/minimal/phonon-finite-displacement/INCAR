@@ -1,0 +1,16 @@
+SYSTEM = phonon-finite-displacement
+ENCUT = 350
+PREC = Accurate
+EDIFF = 1E-8
+NELM = 100
+ALGO = Normal
+ISMEAR = 0
+SIGMA = 0.05
+LREAL = .FALSE.
+LWAVE = .FALSE.
+LCHARG = .FALSE.
+IBRION = 6
+NSW = 1
+NCORE = 1
+POTIM = 0.015
+NFREE = 2

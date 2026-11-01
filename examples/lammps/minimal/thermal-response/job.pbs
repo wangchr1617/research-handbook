@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -N cu-thermal
+#PBS -l nodes=1:ppn=2
+#PBS -l walltime=00:10:00
+#PBS -j oe
+set -euo pipefail
+cd "${PBS_O_WORKDIR:?}"
+# 按集群说明加载 LAMMPS，并配置 LAMMPS_POTENTIALS 或在本目录准备 Cu_u3.eam。
+EXEC="${LMP_EXEC:-lmp}"
+export OMP_NUM_THREADS=1
+NP=$(wc -l < "${PBS_NODEFILE:?}")
+if [[ -e lammps.log ]]; then echo "lammps.log 已存在，请在干净目录运行"; exit 1; fi
+mpirun -np "$NP" "$EXEC" -in in.lammps > lammps.log 2>&1
+python3 postprocess.py

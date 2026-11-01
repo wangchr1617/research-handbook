@@ -1,0 +1,4 @@
+BoltzTraP2
+numpy
+ase
+matplotlib

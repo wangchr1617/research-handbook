@@ -1,0 +1,24 @@
+# LJ fcc 静态扫描；rho 为约化数密度，而非晶格常数。
+variable rho index 0.90 0.925 0.95 0.975 1.00 1.025 1.05 1.075 1.10 1.125 1.15 1.175 1.20 1.225 1.25
+label scan
+units lj
+atom_style atomic
+boundary p p p
+lattice fcc ${rho}
+region box block 0 4 0 4 0 4
+create_box 1 box
+create_atoms 1 box
+mass 1 1.0
+pair_style lj/cut 2.5
+pair_coeff * * 1.0 1.0
+pair_modify shift yes
+thermo_style custom step atoms pe press vol
+thermo_modify norm no
+run 0
+variable alat equal lx/4
+variable epa equal pe/count(all)
+variable pressure equal press
+print "${rho} ${alat} ${epa} ${pressure}" append scan.dat screen no
+clear
+next rho
+jump SELF scan

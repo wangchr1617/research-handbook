@@ -1,0 +1,13 @@
+#!/bin/bash
+#PBS -N gmx-energy-min
+#PBS -l nodes=1:ppn=2
+#PBS -l mem=2gb
+#PBS -l walltime=00:10:00
+#PBS -j oe
+set -euo pipefail
+cd "${PBS_O_WORKDIR:?}"
+# 加载 GROMACS 环境；此小例使用单节点 thread-MPI gmx。
+export OMP_NUM_THREADS=2
+export GMX_THREADS=2
+python3 run.py
+python3 postprocess.py

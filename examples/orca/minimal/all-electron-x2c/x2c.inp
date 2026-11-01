@@ -1,0 +1,5 @@
+! HF x2c-SVPall TightSCF X2C
+%pal nprocs 1 end
+%maxcore 1000
+
+* xyzfile 0 1 structure.xyz

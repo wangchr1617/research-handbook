@@ -1,0 +1,45 @@
+System.CurrrentDirectory ./
+System.Name system
+DATA.PATH @DATA_PATH@
+level.of.stdout 1
+level.of.fileout 0
+Species.Number 2
+<Definition.of.Atomic.Species
+Ni Ni6.0S-s2p2d1 Ni_PBE19S
+ O O5.0-s2p2d1 O_PBE19
+Definition.of.Atomic.Species>
+Atoms.Number 2
+Atoms.SpeciesAndCoordinates.Unit FRAC
+<Atoms.SpeciesAndCoordinates
+1 Ni 0 0 0 9.0 7.0 on
+2 O 0.5 0.5 0.5 3.0 3.0 on
+Atoms.SpeciesAndCoordinates>
+Atoms.UnitVectors.Unit Ang
+<Atoms.UnitVectors
+0 2.085 2.085
+2.085 0 2.085
+2.085 2.085 0
+Atoms.UnitVectors>
+scf.XcType GGA-PBE
+scf.SpinPolarization on
+scf.SpinOrbit.Coupling off
+scf.EigenvalueSolver Band
+scf.Kgrid 4 4 4
+scf.energycutoff 200
+scf.ElectronicTemperature 300
+scf.maxIter 200
+scf.criterion 1.0e-8
+scf.Mixing.Type rmm-diisk
+scf.Init.Mixing.Weight 0.03
+scf.Min.Mixing.Weight 0.001
+scf.Max.Mixing.Weight 0.15
+scf.Mixing.History 10
+scf.Mixing.StartPulay 8
+MD.Type nomd
+scf.Hubbard.U on
+scf.DFTU.Type 1
+scf.Hubbard.Occupation dual
+<Hubbard.U.values
+Ni 1s 0.0 2s 0.0 1p 0.0 2p 0.0 1d 4.0
+O 1s 0.0 2s 0.0 1p 0.0 2p 0.0 1d 0.0
+Hubbard.U.values>

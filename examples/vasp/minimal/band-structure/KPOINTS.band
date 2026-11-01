@@ -1,0 +1,18 @@
+Si primitive FCC: Gamma-X-W-K-Gamma-L
+12
+Line-mode
+Reciprocal
+0 0 0 ! GAMMA
+0.5 0 0.5 ! X
+
+0.5 0 0.5 ! X
+0.5 0.25 0.75 ! W
+
+0.5 0.25 0.75 ! W
+0.375 0.375 0.75 ! K
+
+0.375 0.375 0.75 ! K
+0 0 0 ! GAMMA
+
+0 0 0 ! GAMMA
+0.5 0.5 0.5 ! L

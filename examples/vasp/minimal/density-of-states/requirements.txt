@@ -1,0 +1,3 @@
+# 绘图依赖；VASP、VASPKIT、Phonopy 按笔记另行准备。
+numpy
+matplotlib

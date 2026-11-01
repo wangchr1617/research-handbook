@@ -1,0 +1,16 @@
+SYSTEM = Si displaced supercell
+ENCUT = 450
+PREC = Accurate
+EDIFF = 1E-8
+NELM = 100
+ALGO = Normal
+ISMEAR = 0
+SIGMA = 0.05
+LREAL = .FALSE.
+LWAVE = .FALSE.
+LCHARG = .FALSE.
+IBRION = -1
+NSW = 0
+ISYM = 0
+ADDGRID = .TRUE.
+NCORE = 1

@@ -1,0 +1,6 @@
+phonopy>=4.8.6,<5
+ase
+numpy
+scipy
+matplotlib
+PyYAML

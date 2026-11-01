@@ -1,0 +1,9 @@
+! PBE0 pcSseg-1 TightSCF NMR
+%pal nprocs 1 end
+%maxcore 1000
+
+* xyzfile 0 1 structure.xyz
+%eprnmr
+ Nuclei = all H { shift }
+ Nuclei = all O { shift }
+end
