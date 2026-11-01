@@ -1,0 +1,29 @@
+# LJ液体：先平衡，再在NVE下采集剪切压力自相关。
+units lj
+atom_style atomic
+lattice fcc 0.75
+region box block 0 4 0 4 0 4
+create_box 1 box
+create_atoms 1 box
+mass 1 1
+pair_style lj/cut 2.5
+pair_coeff 1 1 1 1
+neighbor 0.3 bin
+timestep 0.005
+velocity all create 1.2 741253 mom yes rot no dist gaussian
+fix thermostat all nvt temp 1.2 1.2 0.5
+run 5000
+unfix thermostat
+reset_timestep 0
+fix integrate all nve
+variable xy equal pxy
+variable xz equal pxz
+variable yz equal pyz
+fix correlation all ave/correlate 5 200 1000 v_xy v_xz v_yz type auto ave running file correlation.dat
+fix temperature all ave/time 5 1 5 c_thermo_temp file temperature.dat
+thermo 1000
+thermo_style custom step temp etotal press vol
+run 20000
+variable volume equal vol
+print "${volume}" file volume.dat
+write_data final.data

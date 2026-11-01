@@ -1,0 +1,31 @@
+**/.ipynb_checkpoints/
+*.xyz
+*.traj
+*.pptx
+/examples/machine-learning/painn/trained_models/
+/examples/machine-learning/painn/data/
+
+# Local macOS metadata
+.DS_Store
+
+# Local Python caches
+__pycache__/
+*.pyc
+
+# Local scientific validation runs (licensed data and generated outputs)
+/_validation_runs/
+/examples/vasp/**/POTCAR
+/examples/vasp/**/WAVECAR
+/examples/vasp/**/CHGCAR
+/examples/vasp/**/vasprun.xml
+/examples/vasp/**/OUTCAR
+!/examples/cp2k/minimal/**/structure.xyz
+!/examples/cp2k/minimal/**/replica-*.xyz
+!/examples/cp2k/minimal/**/initial.xyz
+!/examples/cp2k/minimal/**/final.xyz
+
+# MLFF databases and binary force fields are generated in local runs
+/examples/vasp/**/ML_*
+
+!/examples/orca/minimal/**/structure.xyz
+!/examples/openmx/minimal/**/structure.xyz

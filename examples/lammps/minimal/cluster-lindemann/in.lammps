@@ -1,0 +1,29 @@
+# 自由边界的55粒子LJ团簇；比较有限时间内的成对距离涨落。
+variable state index cold warm
+variable target index 0.05 0.30
+label states
+units lj
+atom_style atomic
+boundary f f f
+read_data cluster.data
+mass 1 1
+pair_style lj/cut 2.5
+pair_coeff * * 1 1
+pair_modify shift yes
+neighbor 0.3 bin
+neigh_modify every 1 delay 0 check yes
+minimize 1e-8 1e-8 1000 10000
+reset_timestep 0
+timestep 0.002
+velocity all create ${target} 34567 mom yes rot yes dist gaussian
+fix integrate all nve
+fix bath all langevin ${target} ${target} 0.2 89123 zero yes
+thermo 1000
+run 5000
+reset_timestep 0
+dump coordinates all custom 20 cluster.${state}.dump id type xu yu zu
+dump_modify coordinates sort id format float %.12g
+run 5000
+clear
+next state target
+jump SELF states

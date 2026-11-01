@@ -1,0 +1,5 @@
+! PBE0 def2-SVP TightSCF
+%pal nprocs 1 end
+%maxcore 1000
+
+* xyzfile 0 1 structure.xyz

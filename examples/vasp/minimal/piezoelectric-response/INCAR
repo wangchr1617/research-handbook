@@ -1,0 +1,16 @@
+SYSTEM = ZnS piezoelectric response
+ENCUT = 450
+PREC = Accurate
+EDIFF = 1E-8
+NELM = 100
+ALGO = Normal
+ISMEAR = 0
+SIGMA = 0.05
+LREAL = .FALSE.
+LWAVE = .FALSE.
+LCHARG = .FALSE.
+IBRION = 8
+NSW = 1
+ISIF = 3
+LEPSILON = .TRUE.
+NCORE = 1

@@ -1,0 +1,6 @@
+#include "amber99sb-ildn.ff/forcefield.itp"
+#include "amber99sb-ildn.ff/tip3p.itp"
+[ system ]
+Small TIP3P water box
+[ molecules ]
+SOL 221

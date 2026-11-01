@@ -1,0 +1,6 @@
+COHPstartEnergy -10
+COHPendEnergy 5
+basisSet pbeVaspFit2015
+basisfunctions Si 3s 3p
+gaussianSmearingWidth 0.05
+cohpGenerator from 2.0 to 2.6 type Si type Si

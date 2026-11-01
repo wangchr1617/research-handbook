@@ -1,0 +1,16 @@
+SYSTEM = Si LOBSTER wavefunctions
+ENCUT = 450
+PREC = Accurate
+EDIFF = 1E-8
+NELM = 100
+ALGO = Normal
+ISMEAR = 0
+SIGMA = 0.05
+ISYM = -1
+NBANDS = 8
+NSW = 0
+IBRION = -1
+LREAL = .FALSE.
+LWAVE = .TRUE.
+LCHARG = .FALSE.
+NCORE = 1

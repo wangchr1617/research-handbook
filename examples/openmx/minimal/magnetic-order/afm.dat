@@ -1,0 +1,37 @@
+System.CurrrentDirectory ./
+System.Name system
+DATA.PATH @DATA_PATH@
+level.of.stdout 1
+level.of.fileout 0
+Species.Number 1
+<Definition.of.Atomic.Species
+Fe Fe6.0S-s2p2d1 Fe_PBE19S
+Definition.of.Atomic.Species>
+Atoms.Number 2
+Atoms.SpeciesAndCoordinates.Unit FRAC
+<Atoms.SpeciesAndCoordinates
+1 Fe 0 0 0 9.0 5.0
+2 Fe 0.5 0.5 0.5 5.0 9.0
+Atoms.SpeciesAndCoordinates>
+Atoms.UnitVectors.Unit Ang
+<Atoms.UnitVectors
+2.86 0 0
+0 2.86 0
+0 0 2.86
+Atoms.UnitVectors>
+scf.XcType GGA-PBE
+scf.SpinPolarization on
+scf.SpinOrbit.Coupling off
+scf.EigenvalueSolver Band
+scf.Kgrid 4 4 4
+scf.energycutoff 200
+scf.ElectronicTemperature 300
+scf.maxIter 200
+scf.criterion 1.0e-8
+scf.Mixing.Type rmm-diisk
+scf.Init.Mixing.Weight 0.03
+scf.Min.Mixing.Weight 0.001
+scf.Max.Mixing.Weight 0.15
+scf.Mixing.History 10
+scf.Mixing.StartPulay 8
+MD.Type nomd

@@ -1,0 +1,17 @@
+SYSTEM = NaCl charge-density difference
+ENCUT = 450
+PREC = Accurate
+EDIFF = 1E-7
+NELM = 100
+ALGO = Normal
+ISMEAR = 0
+SIGMA = 0.05
+LREAL = .FALSE.
+LWAVE = .FALSE.
+LCHARG = .TRUE.
+IBRION = -1
+NSW = 0
+NCORE = 1
+NGXF = 96
+NGYF = 96
+NGZF = 96

@@ -1,0 +1,26 @@
+# 无保守相互作用的 Langevin 粒子系综；两类型保持相同摩擦系数 gamma=m/damp=1。
+units lj
+atom_style atomic
+boundary p p p
+region box block 0 64 0 64 0 64
+create_box 2 box
+create_atoms 1 random 512 13579 box
+create_atoms 2 random 512 24680 box
+mass 1 1
+mass 2 10
+group light type 1
+group heavy type 2
+pair_style zero 1.0
+pair_coeff * *
+neighbor 0.3 bin
+neigh_modify every 1 delay 0 check yes
+timestep 0.01
+velocity all create 1.0 76543 mom no rot no dist gaussian
+fix integrate all nve
+fix bath all langevin 1.0 1.0 1.0 918273 scale 2 10.0
+compute light_msd light msd
+compute heavy_msd heavy msd
+fix sample all ave/time 10 1 10 c_light_msd[4] c_heavy_msd[4] file msd.dat
+thermo 1000
+thermo_style custom step temp
+run 20000

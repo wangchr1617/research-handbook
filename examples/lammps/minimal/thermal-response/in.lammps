@@ -1,0 +1,35 @@
+# 同一Cu势：NPT检查热膨胀，NVT固定相同体积求定容热容。
+variable ensemble index npt nvt
+label ensembles
+variable target index 200 400 600
+label temperatures
+units metal
+atom_style atomic
+boundary p p p
+lattice fcc 3.615
+region box block 0 4 0 4 0 4
+create_box 1 box
+create_atoms 1 box
+pair_style eam
+pair_coeff * * Cu_u3.eam
+neighbor 2.0 bin
+neigh_modify every 1 delay 0 check yes
+timestep 0.001
+velocity all create ${target} 321789 mom yes rot no dist gaussian
+if "${ensemble} == npt" then "fix bath all npt temp ${target} ${target} 0.1 iso 0 0 1.0" else "fix bath all nvt temp ${target} ${target} 0.1"
+thermo 1000
+thermo_style custom step temp press etotal vol
+thermo_modify norm no
+run 5000
+reset_timestep 0
+variable measured_T equal temp
+variable measured_E equal etotal/count(all)
+variable measured_a equal lx/4
+variable measured_V equal vol
+fix sample all ave/time 10 1 10 v_measured_T v_measured_E v_measured_a v_measured_V file samples.${ensemble}.${target}.dat format "%20.12g"
+run 10000
+clear
+next target
+jump SELF temperatures
+next ensemble
+jump SELF ensembles

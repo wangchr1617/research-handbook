@@ -1,0 +1,15 @@
+; 能量kJ/mol，长度nm；先消除初始水盒的坏接触。
+integrator = steep
+emtol = 500
+emstep = 0.01
+nsteps = 2000
+nstenergy = 10
+nstlog = 10
+cutoff-scheme = Verlet
+nstlist = 10
+coulombtype = PME
+rcoulomb = 0.8
+vdwtype = Cut-off
+rvdw = 0.8
+DispCorr = EnerPres
+pbc = xyz

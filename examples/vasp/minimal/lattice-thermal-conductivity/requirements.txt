@@ -1,0 +1,4 @@
+phono3py>=4.8.2,<5
+phonopy>=4.8.6,<5
+numpy
+matplotlib
