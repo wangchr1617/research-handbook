@@ -1,0 +1,15 @@
+{
+  "name": "research-handbook-note-audit",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node check.mjs",
+    "test": "node --test check.test.mjs"
+  },
+  "engines": { "node": ">=22" },
+  "devDependencies": {
+    "@lint-md/core": "2.6.0",
+    "@lint-md/parser": "0.5.0",
+    "markdownlint": "0.42.0"
+  }
+}

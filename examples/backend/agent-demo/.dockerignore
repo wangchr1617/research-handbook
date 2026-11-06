@@ -1,0 +1,6 @@
+*
+!requirements.lock.txt
+!demo/
+!demo/**
+**/__pycache__/
+**/*.pyc

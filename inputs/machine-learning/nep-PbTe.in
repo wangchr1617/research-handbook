@@ -1,0 +1,13 @@
+# PbTe 小型训练起点；与相容的 train.xyz 放在同一目录，运行 nep。
+type 2 Te Pb
+version 4
+cutoff 8 4
+n_max 4 4
+basis_size 8 8
+l_max 4 2 0
+neuron 30
+lambda_e 1
+lambda_f 1
+lambda_v 0.1
+population 50
+generation 10000

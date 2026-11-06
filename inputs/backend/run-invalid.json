@@ -1,0 +1,6 @@
+{
+  "prompt": "演示类型错误和未知字段。",
+  "client_key": "backend-invalid-001",
+  "timeout_seconds": "5",
+  "unexpected_option": true
+}

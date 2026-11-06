@@ -15,6 +15,10 @@
 
 第一次访问，建议从[入门路线](getting-started/README.md)开始；想先动手，可以运行 [RMSE 小案例](examples/rmse/README.md)。希望分享学习与计算经验，可阅读[贡献指南](CONTRIBUTING.md)。
 
+开发科研 Agent 应用，可阅读[后端工程专题](notes/后端工程/README.md)，并运行包含登录、文件上传、历史会话与后台任务的 [Agent Demo](examples/backend/agent-demo/README.md)。
+
+材料计算可从[材料应用专题](notes/材料应用/README.md)按材料体系、功能性质或应用目标选择教程与[实际案例](examples/materials/README.md)。
+
 ## 目录导航
 
 | 目录 | 用途 |
@@ -26,26 +30,15 @@
 | [examples](examples/README.md) | 科研案例、Notebook 与配套数据 |
 | [templates](templates/README.md) | 学习与计算记录模板 |
 
+机器学习原子模型可按任务进入：[势函数](notes/机器学习势函数/README.md)用于原子能量与动力学，[哈密顿量](notes/机器学习哈密顿量/README.md)用于电子矩阵与能谱，[紧束缚模型](notes/机器学习紧束缚模型/README.md)用于有效轨道空间与参数学习。
+
 项目协作约定见 [AGENTS.md](AGENTS.md)，供成员与不同 AI 助手参考。
-
-
-## 🧑‍🤝‍🧑 Contributors
-
-衷心感谢所有参与仓库建设的贡献者！
-
-- @[TongZhao](https://github.com/hathaway77)
-- @[XuanguangZhang](https://github.com/DONCHANG7)
-- @[ZefengLi](https://github.com/Jeffery-Li0513)
-- @[ChangruiWang](https://github.com/wangchr1617)
-- @[JingjingHu](https://github.com/jingjingHu401)
-- @[YuchengLin](https://github.com/915957698)
-- @[MingyuYi](https://github.com/ymy010697)
 
 ## 🛠️ Usage
 
 1. 如何下载？
 
-```
+```bash
 git clone https://github.com/wangchr1617/research-handbook.git
 ```
 
@@ -59,6 +52,6 @@ git clone https://github.com/wangchr1617/research-handbook.git
 
 ## 💬 Contact
 
-Markdown 和 Git 相关问题请首先参阅 [Markdown 入门](notes/git/Markdown入门.md) 和 [Git 入门](notes/git/Git入门.md)。
+Markdown 和 Git 相关问题请首先参阅 [Markdown 入门](getting-started/git/Markdown入门.md) 和 [Git 入门](getting-started/git/Git入门.md)。
 
 如果有任何问题或建议，请随时提交 Issue 或联系仓库所有者。

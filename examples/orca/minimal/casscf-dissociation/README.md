@@ -1,6 +1,6 @@
 # ORCA多参考CASSCF解离曲线最小案例
 
-配套[笔记](../../../../notes/orca/ORCA多参考CASSCF解离曲线.md)说明方法、参数、结果与适用条件。
+配套[笔记](../../../../notes/ORCA/电子结构方法/ORCA多参考CASSCF解离曲线.md)说明方法、参数、结果与适用条件。
 
 科学输入由 `stages.json` 组织，必要结构包含在坐标文件或各输入中。加载笔记指定的软件和外部数据，安装 `requirements.txt`，执行 `qsub job.pbs`。
 

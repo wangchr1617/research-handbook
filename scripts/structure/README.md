@@ -18,7 +18,6 @@ python scripts/structure/xyz_grouped.py model.xyz grouped.xyz --species Ge=0 Te=
 
 训练集导出默认能量为 TOTEN 自由能，单位 eV；`--energy zero` 选择零温外推值。virial 按 ASE 应力乘以负体积换算为 eV；`--no-virial` 可明确省略。电子收敛筛选会核对帧数，不能提供 OSZICAR 时不要把未筛选结果称为已收敛训练集。
 
-
 ## 文件
 
 - [calculate_atomic_centers.py](calculate_atomic_centers.py)：读取POSCAR文件并计算每种元素类型的原子中心位置。

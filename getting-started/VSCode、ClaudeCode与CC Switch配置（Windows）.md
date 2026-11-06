@@ -2,7 +2,7 @@
 
 **适用环境：Windows 11 + WSL 2（Ubuntu）。**
 
-本文介绍如何在 Windows 系统中搭建一套完整的 AI 辅助开发环境：从 WSL 和 VSCode 的安装，到 Claude Code 的配置与使用。
+在 Windows 中安装 WSL 和 VSCode，再配置 Claude Code，组成 AI 辅助开发环境。各步骤注明在 Windows 还是 WSL 中执行。
 
 ---
 
@@ -128,7 +128,7 @@ proxy_off   # 关闭代理（日常使用、连接集群时）
 
 | 插件 | 用途 |
 |---|---|
-| **Claude Code** (Anthropic 官方扩展) | AI 辅助编程 |
+| **Claude Code**（Anthropic 官方扩展） | AI 辅助编程 |
 
 **编辑增强：**
 

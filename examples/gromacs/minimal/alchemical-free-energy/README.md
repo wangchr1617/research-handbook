@@ -1,6 +1,6 @@
 # GROMACS炼金自由能与BAR分析最小案例
 
-配套[笔记](../../../../notes/gromacs/GROMACS炼金自由能与BAR分析.md)说明方法、参数、结果与适用条件。
+配套[笔记](../../../../notes/GROMACS/输运与自由能/GROMACS炼金自由能与BAR分析.md)说明方法、参数、结果与适用条件。
 
 科学输入由 `stages.json` 组织，必要结构包含在坐标文件或各输入中。加载笔记指定的软件和外部数据，安装 `requirements.txt`，执行 `qsub job.pbs`。
 

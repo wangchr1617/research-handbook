@@ -17,8 +17,8 @@
 
 SSH 客户端市面上有挺多，我此前使用的 XShell，后面也跟着师兄、师姐转投了 MobaXterm。
 
-访问 [MobaXterm官网](https://mobaxterm.mobatek.net/download.html) 下载 MobaXterm 的安装包，解压后双击 `.msi` 文件根据提示安装。
-打开软件后，点击左上角的 Session (会话控制)，在弹出的窗口中选择 SSH，输入 `Remote host`、`Specify username` 和 `Port=2022`，如图所示：
+访问 [MobaXterm 官网](https://mobaxterm.mobatek.net/download.html) 下载 MobaXterm 的安装包，解压后双击 `.msi` 文件根据提示安装。
+打开软件后，点击左上角的 Session（会话控制），在弹出的窗口中选择 SSH，输入 `Remote host`、`Specify username` 和 `Port=2022`，如图所示：
 
 <div align="left">
 <img src="assets/first-steps/mobaxterm-001.png" width = "50%" />
@@ -41,17 +41,17 @@ MobaXterm 一个常用的功能是，在文件区选中两个文件 A 和 B，�
 
 ## 接下来学什么
 
-登录与传输跑通后，分别阅读 [Linux 命令行](Linux命令行使用与常用命令.md)、[PBS 作业管理](PBS作业管理系统使用.md)和 [Module 使用](Module使用.md)。下面保留此前集群环境中的例子，具体队列、软件路径与版本以当前查询为准，不直接作为新账号的默认配置。
+登录与传输跑通后，分别阅读 [Linux 命令行](linux/Linux命令行使用与常用命令.md)、[PBS 作业管理](PBS作业管理系统使用.md)和 [Module 使用](Module使用.md)。下面保留此前集群环境中的例子，具体队列、软件路径与版本以当前查询为准，不直接作为新账号的默认配置。
 
 ## Linux 的基本命令
 
-Linux 命令行是一个强大的工具，它允许用户通过输入特定的命令来执行操作，管理文件和目录，配置网络和系统，以及执行许多其他任务。
-对于初学者来说，掌握一些基本的 Linux 命令是非常重要的，这些命令包括文件操作、目录导航、权限设置和文件编辑等。
+Linux 命令行可用于管理文件与目录、配置网络和系统。初学者先掌握文件操作、目录切换、权限设置和文本编辑，再逐步学习作业管理。
 
-不熟悉 Linux 命令时，可以参考 [Linux 基础命令教程](../notes/linux/Linux命令参考.chm)（需使用 CHM 阅读器打开）。
+不熟悉 Linux 命令时，可以参考 [Linux 基础命令教程](linux/Linux命令参考.chm)（需使用 CHM 阅读器打开）。
 可以使用 `man command` 查看 `command` 手册（例如，`man ls` 显示 `ls` 命令的详细介绍），并使用 `q` 退出手册。
 
 先掌握下面这些常用命令：
+
 - `pwd` 是查看当前目录的绝对路径；
 - `cd dir/` 是访问 `dir/` 文件夹；
 - `ls dir/` 是查看 `dir/` 文件夹列表；
@@ -147,16 +147,19 @@ VIM 文本编辑器常用模式有四个：
 ## PBS 作业基本命令
 
 常用的 PBS 作业基本命令有：
+
 - `qsub run.pbs` 提交一个指定脚本；多个脚本应逐个核对后分别提交；
 - `qstat -u "$USER"` 查看自己的作业运行情况；
 - `showq` 查看所有人的作业运行情况；
 - `qdel jobid` 取消作业，`jobid` 通过 `qstat` 查看。
 
 不常用的 PBS 作业命令例如：
+
 - `qmove` 将作业移动到另一个队列；
 - `pbsnodes` 列出集群中所有节点的状态和属性等。
 
 PBS 脚本中 PBS 作业属性以 `#PBS` 的方式指定，其中
+
 - `-N`：作业名称；
 - `-l`：设定作业所需资源，`nodes` 设定作业所需节点资源，`ppn` 为节点的核数，`walltime` 设定作业所需的最大 wallclock 时间；
 - `-q`：设定作业队列名称；
@@ -189,18 +192,18 @@ EXEC=/opt/software/vasp/vasp6.4.0/bin/vasp_std
 mpirun -machinefile $PBS_NODEFILE -np $NP $EXEC > output
 ```
 
-批量提交作业请参考 [VASP 批量计算](../notes/vasp/VASP批量计算.md) 。
+批量提交作业请参考 [VASP 批量计算](../notes/VASP/基础与准备/VASP批量计算.md) 。
 
 ---
 
 ## 使用集群上已经安装好的软件
 
-在 Linux 中，当同一款编辑器、运行库、软件存在多个版本且多个版本都需要在不同的场景或人员使用时，配置这些内容的环境变量是一个非常繁琐的过程，而 module 工具则提供了一个简单快速的方法。
-换言之，通过 module 你可以使用集群上已经安装好的软件。
+集群通常同时提供多个版本的编译器、运行库和计算软件。Module 按模块切换相应环境变量，便于加载已有软件并保持版本配套。
 
 先用 `type module` 检查工具是否初始化。管理员确认模块目录为 `/opt/modulefiles` 时，用 `module use /opt/modulefiles` 增加搜索路径，不覆盖已有 `MODULEPATH`。
 
 常用的 module 命令如下：
+
 - `module avail`：显示可以使用的模块
 - `module load`：加载模块
 - `module unload`：卸载模块

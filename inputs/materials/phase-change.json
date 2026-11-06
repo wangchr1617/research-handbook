@@ -1,0 +1,35 @@
+{
+  "case": "phase-change",
+  "schema_version": 1,
+  "a_A": 6.0,
+  "repeat": [
+    2,
+    2,
+    4
+  ],
+  "rattle_A": 0.08,
+  "seed": 271828,
+  "encut_eV": 300,
+  "dt_fs": 2.0,
+  "coordination_cutoff_A": 3.3,
+  "stages": [
+    {
+      "name": "melt",
+      "steps": 300,
+      "start_K": 2000,
+      "end_K": 2000
+    },
+    {
+      "name": "quench",
+      "steps": 400,
+      "start_K": 2000,
+      "end_K": 300
+    },
+    {
+      "name": "anneal",
+      "steps": 300,
+      "start_K": 600,
+      "end_K": 600
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agent 后端练习</title>
+<style>
+body{font:16px/1.6 system-ui,sans-serif;max-width:900px;margin:32px auto;padding:0 20px;color:#172531;background:#f5f7fa}
+section{background:white;border:1px solid #d6dfe7;padding:20px;margin:16px 0;border-radius:8px}
+label{display:inline-block;margin:5px}input,textarea,button,select{font:inherit;padding:8px;max-width:100%;box-sizing:border-box}
+button{cursor:pointer}textarea{width:100%}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#edf2f6;padding:12px}
+.muted{color:#4d6273}#status{min-height:2em}button:disabled{cursor:wait}
+</style>
+<h1>Agent 后端练习</h1>
+<p class="muted">使用小型文本统计工具模拟 Agent 输出，练习登录、历史会话、上传、后台任务和流式响应。</p>
+<section>
+  <h2>登录</h2>
+  <form id="loginForm">
+    <label>用户名 <input id="username" autocomplete="username" required value="student"></label>
+    <label>密码 <input id="password" type="password" autocomplete="current-password" required minlength="12"></label>
+    <button>登录</button><button type="button" id="logout">退出</button>
+  </form>
+  <p class="muted">账号由管理命令创建；令牌仅保存在当前页面内存，刷新后重新登录。</p>
+</section>
+<section>
+  <h2>会话与文件</h2>
+  <button id="refresh">刷新会话</button>
+  <select id="conversations" aria-label="历史会话"><option value="">选择会话</option></select>
+  <button id="create">新建会话</button>
+  <p><input id="file" type="file" accept=".txt,.md"><button id="upload">上传 UTF-8 文本</button></p>
+  <p id="attachment" class="muted"></p>
+  <pre id="history">选择会话查看最近 50 条消息。</pre>
+  <select id="runs" aria-label="执行记录"><option value="">选择执行记录</option></select>
+  <button id="replay">查看事件／重连</button>
+</section>
+<section>
+  <h2>发起任务</h2>
+  <form id="runForm">
+    <textarea id="prompt" rows="3" maxlength="2000" required placeholder="输入一句话，或上传研究笔记后统计文本"></textarea>
+    <label>模式 <select id="mode"><option value="normal">正常</option><option value="retry_once">先失败一次再重试</option><option value="slow">触发超时</option><option value="fail">工具报错</option></select></label>
+    <button id="submit">执行</button>
+    <button type="button" id="cancel">取消任务</button>
+  </form>
+  <pre id="output">输出显示在这里。</pre>
+  <details><summary>执行事件</summary><pre id="trace"></pre></details>
+</section>
+<p id="status" role="status"></p>
+<script>
+// Bearer 凭据仅保存在内存；展示用户内容使用 textContent。
+let token = '', conversation = '', attachment = null, activeRun = '', controller;
+const $ = id => document.getElementById(id);
+const status = text => { $('status').textContent = text; };
+async function api(path, options = {}) {
+  const headers = new Headers(options.headers);
+  if (token) headers.set('Authorization', 'Bearer ' + token);
+  if (typeof options.body === 'string') headers.set('Content-Type', 'application/json');
+  const response = await fetch(path, {...options, headers});
+  if (!response.ok) throw new Error(`${response.status}: ${await response.text()}`);
+  return response.status === 204 ? null : response.json();
+}
+function action(fn) { return async event => { event?.preventDefault(); try { await fn(); } catch (e) { status(e.message); } }; }
+function needConversation() { if (!conversation) throw new Error('请先选择或新建会话'); }
+async function refresh() {
+  const rows = await api('/api/conversations');
+  $('conversations').replaceChildren(new Option('选择会话', ''), ...rows.map(x => new Option(x.title, x.id)));
+  $('conversations').value = conversation;
+}
+async function history() {
+  needConversation();
+  const rows = await api(`/api/conversations/${conversation}/messages`);
+  $('history').textContent = rows.map(x => `${x.role}: ${x.content}`).join('\n\n') || '暂无消息';
+  const runs = await api(`/api/conversations/${conversation}/runs`);
+  $('runs').replaceChildren(new Option('选择执行记录', ''), ...runs.map(x => new Option(`${x.id.slice(0,8)} ${x.status}`, x.id)));
+}
+async function stream(runId) {
+  controller?.abort(); controller = new AbortController(); activeRun = runId;
+  // 每次从头重放并清空显示；生产前端可存最后已处理 id，传 after 续传并去重。
+  $('output').textContent = ''; $('trace').textContent = '';
+  const response = await fetch(`/api/runs/${runId}/events?after=0`, {
+    headers: {Authorization: 'Bearer ' + token}, signal: controller.signal
+  });
+  if (!response.ok) throw new Error(`流连接失败：${response.status}`);
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder(); let buffer = '';
+  try {
+    while (true) {
+      const {value, done} = await reader.read();
+      buffer += decoder.decode(value, {stream: !done});
+      let end;
+      while ((end = buffer.indexOf('\n\n')) >= 0) {
+        const frame = buffer.slice(0, end); buffer = buffer.slice(end + 2);
+        const lines = frame.split('\n');
+        const kind = lines.find(x => x.startsWith('event:'))?.slice(6).trim();
+        const data = lines.filter(x => x.startsWith('data:')).map(x => x.slice(5).trimStart()).join('\n');
+        if (!data) continue;
+        const payload = JSON.parse(data);
+        if (kind === 'delta') $('output').textContent += payload.text;
+        else $('trace').textContent += `${kind}: ${data}\n`;
+        if (kind === 'error') throw new Error(payload.code);
+        if (kind === 'done') status(`任务状态：${payload.status}`);
+      }
+      if (done) break;
+    }
+  } finally { await reader.cancel(); reader.releaseLock(); }
+  await history();
+}
+$('loginForm').onsubmit = action(async () => {
+  const result = await api('/api/auth/login', {method:'POST', body:JSON.stringify({username:$('username').value,password:$('password').value})});
+  controller?.abort(); token = result.access_token; conversation = ''; attachment = null;
+  $('password').value = ''; $('attachment').textContent = ''; $('history').textContent = '';
+  $('output').textContent = ''; $('trace').textContent = ''; $('runs').replaceChildren();
+  status('已登录'); await refresh();
+});
+$('logout').onclick = action(async () => {
+  await api('/api/auth/logout', {method:'POST'}); controller?.abort(); token = '';
+  conversation = ''; attachment = null; activeRun = '';
+  $('conversations').replaceChildren(); $('runs').replaceChildren();
+  for (const id of ['history','output','trace','attachment']) $(id).textContent = '';
+  status('已退出');
+});
+$('refresh').onclick = action(refresh);
+$('create').onclick = action(async () => {
+  const title = prompt('会话标题', '研究笔记统计'); if (!title) return;
+  const row = await api('/api/conversations', {method:'POST',body:JSON.stringify({title})});
+  controller?.abort(); conversation = row.id; attachment = null; $('attachment').textContent = '';
+  await refresh(); await history();
+});
+$('conversations').onchange = action(async () => {
+  controller?.abort(); conversation = $('conversations').value; attachment = null; activeRun = '';
+  $('attachment').textContent = ''; await history();
+});
+$('upload').onclick = action(async () => {
+  needConversation(); const file = $('file').files[0]; if (!file) throw new Error('请选择文件');
+  const data = new FormData(); data.append('file', file);
+  const row = await api(`/api/conversations/${conversation}/files`, {method:'POST',body:data});
+  attachment = row.id; $('attachment').textContent = `已选附件：${row.filename}，${row.bytes} 字节`;
+});
+$('runForm').onsubmit = action(async () => {
+  needConversation(); $('submit').disabled = true;
+  try {
+    const row = await api(`/api/conversations/${conversation}/runs`, {method:'POST',body:JSON.stringify({
+      prompt:$('prompt').value,client_key:crypto.randomUUID(),attachment_id:attachment,mode:$('mode').value,timeout_seconds:5
+    })});
+    status(`已接收 ${row.id}`); await stream(row.id);
+  } finally { $('submit').disabled = false; }
+});
+$('replay').onclick = action(async () => { const run = $('runs').value; if (run) await stream(run); });
+$('cancel').onclick = action(async () => {
+  if (!activeRun) throw new Error('没有选中的任务');
+  const row = await api(`/api/runs/${activeRun}/cancel`, {method:'POST'});
+  status(`取消请求已接收，当前状态：${row.status}`);
+});
+</script>
+</html>

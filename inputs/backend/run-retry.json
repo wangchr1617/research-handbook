@@ -1,0 +1,6 @@
+{
+  "prompt": "演示短暂故障后重新执行。",
+  "client_key": "backend-retry-001",
+  "timeout_seconds": 5,
+  "mode": "retry_once"
+}

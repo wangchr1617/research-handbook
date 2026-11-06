@@ -2,7 +2,6 @@
 
 原子对径向分布函数使用 `calculate_rdf.py`；`rdf_analysis.py` 处理 ADF 轨道径向函数，两者物理含义不同。其余脚本按文件开头说明选择。
 
-
 ## 文件
 
 - [analyze_energy_data.py](analyze_energy_data.py)：读取 NEP 和 DFT 能量数据，计算每个结构的标准差，按标准差降序排列，选择和绘制指定范围内的数据。

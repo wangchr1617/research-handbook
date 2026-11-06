@@ -72,7 +72,7 @@ claude --version
 
 如果终端成功而扩展失败，在 VSCode 的本机终端重复测试，然后重新加载窗口。检查扩展运行在哪个环境、是否设置了自定义 `CLAUDE_CONFIG_DIR`、是否有旧环境变量覆盖配置。具体扩展设置见 [官方 VSCode 文档](https://code.claude.com/docs/en/vs-code)。
 
-Remote - SSH 窗口的终端运行在集群，Mac 上的 CC Switch 不会自动修改远端配置。需要 AI 协助集群计算时，可以采用[本机 AI → SSH → PBS](../notes/getting-started/Codex连接科研集群（macOS）.md)，把模型调用留在本机。
+Remote - SSH 窗口的终端运行在集群，Mac 上的 CC Switch 不会自动修改远端配置。需要 AI 协助集群计算时，可以采用[本机 AI → SSH → PBS](Codex连接科研集群（macOS）.md)，把模型调用留在本机。
 
 ## 五、日常使用
 

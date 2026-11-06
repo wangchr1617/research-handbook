@@ -1,0 +1,10 @@
+{
+  "text": "Archeos and ALKEMIE use HTTP tools.",
+  "total_timeout_seconds": 2.0,
+  "max_concurrency": 2,
+  "calls": [
+    {"name": "words", "path": "/tools/word-count", "delay_seconds": 0.05, "timeout_seconds": 0.5},
+    {"name": "slow", "path": "/tools/character-count", "delay_seconds": 0.4, "timeout_seconds": 0.1},
+    {"name": "unavailable", "path": "/tools/unavailable", "delay_seconds": 0.0, "timeout_seconds": 0.5}
+  ]
+}

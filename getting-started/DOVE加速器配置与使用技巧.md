@@ -2,7 +2,7 @@
 
 **适用环境：macOS / Windows（本机）；Linux（可选的远端代理）。**
 
-浏览器能联网，不代表终端、Docker 或集群程序也配置好了代理。先确认 DOVE 自己可以正常连接，再逐层检查。
+先确认 DOVE 可以正常连接，再分别检查浏览器、终端、Docker 和集群程序的代理设置；各处配置可能不同。
 
 ## 一、注册、购买和安装
 
@@ -96,7 +96,7 @@ ssh -N -T -o ExitOnForwardFailure=yes \
   -R 127.0.0.1:27897:127.0.0.1:17897 lab-cluster
 ```
 
-`lab-cluster` 是 SSH 别名，尚未配置时先按 [Mac SSH 教程](../notes/getting-started/Codex连接科研集群（macOS）.md#配置-ssh)或 [Windows SSH 教程](Alkemie集群部署（Windows）.md#一准备-ssh-与源码)创建并验证登录。保持终端打开，另开终端登录集群，设置当前远端 shell：
+`lab-cluster` 是 SSH 别名，尚未配置时先按 [Mac SSH 教程](Codex连接科研集群（macOS）.md#配置-ssh)或 [Windows SSH 教程](Alkemie集群部署（Windows）.md#一准备-ssh-与源码)创建并验证登录。保持终端打开，另开终端登录集群，设置当前远端 shell：
 
 ```bash
 export http_proxy=http://127.0.0.1:27897

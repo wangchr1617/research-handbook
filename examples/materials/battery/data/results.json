@@ -1,0 +1,16 @@
+{
+  "energies_eV_cell": {
+    "graphite": -37.45198018,
+    "LiC6": -58.30724944,
+    "Li-metal": -4.13032293
+  },
+  "atom_counts": {
+    "graphite": 4,
+    "LiC6": 7,
+    "Li-metal": 2
+  },
+  "insertion_energy_eV_Li": -0.06411770499999658,
+  "average_voltage_V_vs_Li": 0.06411770499999658,
+  "capacity_mAh_g_graphite": 371.9018836128611,
+  "model": "fixed-cell PBE-D3(BJ), relaxed internal coordinates; graphite-host mass normalization; endpoint voltage only"
+}

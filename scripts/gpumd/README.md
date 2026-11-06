@@ -2,7 +2,6 @@
 
 `check_gpumd.py` 输出任务状态和完整轨迹帧数。结构优化统一使用 [calorine_relax.py](calorine/calorine_relax.py)，通过 `--mode ions|cell|constant-volume` 选择模式，`--backend calorine|pynep` 选择计算器。
 
-
 ## 文件
 
 - [calorine/](calorine/)

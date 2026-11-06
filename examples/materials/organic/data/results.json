@@ -1,0 +1,19 @@
+{
+  "conformers": {
+    "trans": {
+      "energy_Ha": -154.745675930381,
+      "G_Ha": -154.69068118,
+      "minimum_frequency_cm-1": 0.0,
+      "final_dihedral_deg": 179.97809124268255
+    },
+    "gauche": {
+      "energy_Ha": -154.746037491414,
+      "G_Ha": -154.69092909,
+      "minimum_frequency_cm-1": 0.0,
+      "final_dihedral_deg": 60.69925110136707
+    }
+  },
+  "method": "PBE0 D3BJ/def2-SVP",
+  "G_temperature_K": 298.15,
+  "interpretation": "气相刚性转子谐振子构象比较；低频扭转及构象简并度未修正"
+}

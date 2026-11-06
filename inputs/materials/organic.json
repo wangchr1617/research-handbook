@@ -1,0 +1,9 @@
+{
+  "case": "organic",
+  "schema_version": 1,
+  "method": "PBE0 D3BJ",
+  "dihedral_deg": {
+    "trans": 180,
+    "gauche": 60
+  }
+}

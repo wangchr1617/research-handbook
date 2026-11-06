@@ -9,7 +9,6 @@ python scripts/vasp/summarize_outputs.py calculations --recursive -o results.csv
 python scripts/vasp/collect_structures.py calculations --output collected
 ```
 
-
 ## 文件
 
 - [calculate_nose_hoover_mass.py](calculate_nose_hoover_mass.py)：根据给定的温度、频率等参数计算Nosé-Hoover链热浴质量（SMASS）。

@@ -4,6 +4,7 @@
 
 | 目录 | 用途 |
 | --- | --- |
+| [materials](materials/README.md) | 本机材料案例的输入生成、运行、检查与重绘 |
 | [structure](structure/README.md) | 结构、轨迹与训练数据转换，分组和扰动 |
 | [analysis](analysis/README.md) | 误差、键长、RDF、能量与电池性质分析 |
 | [plotting](plotting/README.md) | MSD、能带、态密度及训练结果绘图 |
@@ -14,6 +15,8 @@
 | [visualization](visualization/README.md) | Chemiscope 可视化输入 |
 | [tools](tools/README.md) | 第三方科研工具包 |
 | [utils](utils/README.md) | 通用 Shell 辅助脚本 |
+| [backend](backend/README.md) | Agent 请求、状态恢复与 HTTP 工具并发练习 |
+| [note-audit](note-audit/README.md) | Markdown 结构、中文排版与本地链接检查 |
 
 ## 运行环境
 
@@ -28,6 +31,8 @@ NEP、声子、Raman 等专门计算还需各脚本使用的 Calorine / PyNEP、
 输入模板见 [inputs](../inputs/README.md)。完整案例见 [examples](../examples/README.md)。模板中的集群路径与队列参数应按实际环境修改。
 
 ## 检查与测试
+
+笔记检查使用 Node.js 22 或更新版本，安装与运行见 [note-audit](note-audit/README.md)。下面是 Python 科研脚本的检查方法。
 
 ```bash
 python -m pip install pytest ruff

@@ -78,11 +78,11 @@ scp -P 2022 -r YOUR_USER@login.cluster.example.org:~/projects/demo/results/. \
   "$HOME/Downloads/demo-results/"
 ```
 
-注意：`ssh` 用小写 `-p` 指定端口，`scp` 用大写 `-P`。配置 SSH 别名、独立密钥和免交互登录见 [Mac 集群连接](../notes/getting-started/Codex连接科研集群（macOS）.md)。
+注意：`ssh` 用小写 `-p` 指定端口，`scp` 用大写 `-P`。配置 SSH 别名、独立密钥和免交互登录见 [Mac 集群连接](Codex连接科研集群（macOS）.md)。
 
 ## 四、跑通第一个作业
 
-进入集群后，先学习 [Linux 命令行](Linux命令行使用与常用命令.md)，用 [Module](Module使用.md) 加载已有软件，再按 [PBS 作业管理](PBS作业管理系统使用.md) 提交测试。计算和耗资源的后处理放到计算节点运行。
+进入集群后，先学习 [Linux 命令行](linux/Linux命令行使用与常用命令.md)，用 [Module](Module使用.md) 加载已有软件，再按 [PBS 作业管理](PBS作业管理系统使用.md) 提交测试。计算和耗资源的后处理放到计算节点运行。
 
 以 GeTe 为例，可以为结构优化、静态计算、能带计算分别建目录，保留每一步的输入、脚本和日志。先核对小体系的能量、单位和完成标记，再扩大规模。
 
@@ -90,4 +90,4 @@ scp -P 2022 -r YOUR_USER@login.cluster.example.org:~/projects/demo/results/. \
 
 ## 如何判断准备好了
 
-本机工具能够返回版本；SSH 登录返回自己的账号；上传和下载的小文件内容一致；PBS 测试有完整日志并正常结束。最后阅读 [Git 入门](../notes/git/Git入门.md)，把可共享的输入和经验留在仓库，账号、密钥和计算大文件留在仓库外。
+本机工具能够返回版本；SSH 登录返回自己的账号；上传和下载的小文件内容一致；PBS 测试有完整日志并正常结束。最后阅读 [Git 入门](git/Git入门.md)，把可共享的输入和经验留在仓库，账号、密钥和计算大文件留在仓库外。

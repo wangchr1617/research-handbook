@@ -7,7 +7,6 @@ python scripts/plotting/plot_msd.py msd.out --columns 1 2 3 --time-unit ps
 python scripts/plotting/plot_msd.py MSD_1.dat MSD_2.dat --skiprows 1 --columns 4 --time-unit fs
 ```
 
-
 ## 文件
 
 - [plot_dos_gpumd.py](plot_dos_gpumd.py)：绘制 GPUMD 的声子态密度。

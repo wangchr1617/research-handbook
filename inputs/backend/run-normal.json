@@ -1,0 +1,6 @@
+{
+  "prompt": "请统计这份研究笔记的文本。",
+  "client_key": "backend-normal-001",
+  "timeout_seconds": 5,
+  "mode": "normal"
+}

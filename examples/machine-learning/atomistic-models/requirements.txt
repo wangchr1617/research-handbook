@@ -1,0 +1,10 @@
+# Python 3.13；下面版本用于本文 CPU 案例，不用于约束所有上游模型环境。
+numpy==2.5.4
+scipy==1.18.1
+matplotlib==3.11.2
+ase==3.29.0
+dscribe==2.1.2
+e3nn==0.4.4
+torch==2.15.0
+pyscf==2.15.0
+mace-torch==0.3.17

@@ -1,0 +1,7 @@
+{
+  "reference": "centrosymmetric tetragonal BaTiO3; fixed cell and prescribed polar mode",
+  "polarization_quantum_C_m2": 1.00136039625,
+  "energy_inversion_error_eV": 4.999999703159119e-08,
+  "polarization_inversion_error_C_m2": 7.362944090039125e-06,
+  "interpretation": "绝缘路径的能量与极化扫描；极小值、真实翻转势垒及电滞回线需另行求解"
+}

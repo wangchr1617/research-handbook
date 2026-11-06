@@ -1,6 +1,6 @@
 # VASP态密度计算最小案例
 
-输入参数、PBS 提交与 VASPKIT 操作见[笔记](../../../../notes/vasp/VASP态密度计算.md)。按 `POTCAR.spec` 准备授权势文件，加载计算环境后执行 `qsub job.pbs`。
+输入参数、PBS 提交与 VASPKIT 操作见[笔记](../../../../notes/VASP/电子结构与成键/VASP态密度计算.md)。按 `POTCAR.spec` 准备授权势文件，加载计算环境后执行 `qsub job.pbs`。
 
 `postprocess.py` 检查计算输出，VASPKIT 操作输入保存在 `vaspkit.in`；能带案例由 `run.py` 组织两个阶段。
 

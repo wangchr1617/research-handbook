@@ -1,0 +1,12 @@
+{
+  "case": "electrocatalysis",
+  "schema_version": 1,
+  "pt_a_A": 3.98,
+  "encut_eV": 400,
+  "temperature_K": 298.15,
+  "H2_entropy_J_mol_K": 130.68,
+  "potentials_V_RHE": [
+    0.0,
+    0.2
+  ]
+}

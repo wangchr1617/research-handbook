@@ -47,6 +47,7 @@ Jupyter Notebook 文件可以直接传到谷歌云并用 Colab 打开并执行�
 </div>
 
 使用以下代码即可查看当前获取的 GPU 资源：
+
 ```python
 from google.colab import drive
 drive.mount('/content/drive')
@@ -58,6 +59,7 @@ if gpu_info.find('failed') >= 0:
 else:
     print(gpu_info)
 ```
+
 代码执行情况如图所示：
 <div align="left">
 <img src="assets/colab/colab-007.png" width = "50%" />

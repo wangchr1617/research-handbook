@@ -1,6 +1,6 @@
 # ORCA几何优化与振动频率最小案例
 
-配套[笔记](../../../../notes/orca/ORCA几何优化与振动频率.md)说明方法、参数与检查。
+配套[笔记](../../../../notes/ORCA/基础与结构/ORCA几何优化与振动频率.md)说明方法、参数与检查。
 
 主要输入为 `orca.inp`、`structure.xyz`。加载笔记指定的软件与外部数据后，执行 `qsub job.pbs`；作业调用 `run.py` 和 `postprocess.py`。
 

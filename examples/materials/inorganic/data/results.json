@@ -1,0 +1,6 @@
+{
+  "equilibrium_volume_A3_atom": 9.586718284912212,
+  "E0_eV_atom": -5.955896763698813,
+  "bulk_modulus_GPa": 151.73031009130597,
+  "model": "MgO rocksalt; PBE; static 0 K EOS"
+}

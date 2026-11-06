@@ -1,0 +1,32 @@
+{
+  "config": {
+    "case": "metal",
+    "schema_version": 1,
+    "a_A": 4.05
+  },
+  "tasks": {
+    "Al-EOS": {
+      "command": [
+        "lmp",
+        "-in",
+        "in.lammps"
+      ],
+      "seconds": 0.14,
+      "input_sha256": {
+        "in.lammps": "5a003218343d877424ddb473e54081afb72038643fee3355441a1622a0d1ee65",
+        "Al_mm.eam.fs": "6c9b9351a06ee7986ac54266485f5bc759c1f82f1fba5cfc860ad97caba163b5"
+      },
+      "output_sha256": {
+        "stdout.log": "3d1032e6d33a9927378df9fadedb1b9c39e169e0eb962e14a8dd2c6e48609c59",
+        "curve.dat": "2891a2ecea93d25384b9e072cf6da10164f220083802e82c597ede32d1c0a82b",
+        "log.lammps": "b11a07d17423f0d3d1c90750671247e6ea81056b2a61057bc75ba6da7508dbe8"
+      }
+    }
+  },
+  "analysis_runner_sha256": "6ab9762ff25425faa5c315adb46fd72f7fd872abf5c5fc2c16efc6582101c78d",
+  "derived_sha256": {
+    "curve.csv": "ed31792a3d4c32e42817d1267c364730a41cba49969ab5d7c904ce6c9c2ad585",
+    "results.json": "c7e216c62404e9d2c7ca8f321694edc203f28c051f2adf25f43ff632f02cc419",
+    "result.png": "2dc620f71a478c4420d0f9503e7a577e6960dc4867a03dc0d05363729e4cff5e"
+  }
+}

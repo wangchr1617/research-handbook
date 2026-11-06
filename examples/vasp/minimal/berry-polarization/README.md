@@ -1,6 +1,6 @@
 # VASPBerry相极化与Born有效电荷最小案例
 
-配套[笔记](../../../../notes/vasp/VASPBerry相极化与Born有效电荷.md)说明方法、参数、结果与适用条件。
+配套[笔记](../../../../notes/VASP/响应与输运/VASPBerry相极化与Born有效电荷.md)说明方法、参数、结果与适用条件。
 
 科学输入由 `stages.json` 组织，必要结构包含在坐标文件或各输入中。加载笔记指定的软件和外部数据，安装 `requirements.txt`，执行 `qsub job.pbs`。
 
