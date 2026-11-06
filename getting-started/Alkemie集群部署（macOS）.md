@@ -9,7 +9,7 @@ Mac 负责上传代码、建立隧道和访问网页，Alkemie 服务运行在�
 第一次部署先按顺序准备：
 
 1. 按 [Mac 新生入门](新生入门（Mac）.md)安装 Git、确认终端可用。
-2. 向集群管理员申请个人账号、VPN 和常驻服务许可，按 [SSH 配置教程](../notes/getting-started/Codex连接科研集群（macOS）.md)创建 `lab-cluster` 别名，并确认 `ssh lab-cluster` 能登录。
+2. 向集群管理员申请个人账号、VPN 和常驻服务许可，按 [SSH 配置教程](Codex连接科研集群（macOS）.md)创建 `lab-cluster` 别名，并确认 `ssh lab-cluster` 能登录。
 3. 没有源码时，从第二节的 `git clone` 开始，不先执行 `/path/to/Alkemie` 这个占位路径。
 4. 在 Linux 服务端按 [Conda 安装](Anaconda、Miniconda、Mamba安装与使用.md#二安装)准备环境，再继续第三节。Mac 上安装的 Conda 不会自动出现在集群上。
 
@@ -19,7 +19,7 @@ Mac 负责上传代码、建立隧道和访问网页，Alkemie 服务运行在�
 
 部署前阅读目标版本的 [Alkemie 部署文档](https://github.com/hfood02/Alkemie/blob/main/docs/deployment.md)。确认集群允许常驻服务、安装依赖和前端构建；登录节点不允许这些操作时，改用获准的服务节点或构建环境。
 
-下面假设已配置 SSH 别名 `lab-cluster`，见 [Mac 集群连接](../notes/getting-started/Codex连接科研集群（macOS）.md)。服务端口以 `8445` 为例，不代表它在你的机器上空闲。
+下面假设已配置 SSH 别名 `lab-cluster`，见 [Mac 集群连接](Codex连接科研集群（macOS）.md)。服务端口以 `8445` 为例，使用前检查该端口是否空闲。
 
 ## 二、Mac 准备源码并上传
 
@@ -114,7 +114,7 @@ ssh -N -T -o ExitOnForwardFailure=yes \
   -L 127.0.0.1:8445:127.0.0.1:8445 lab-cluster
 ```
 
-终端保持运行是正常现象，但没有输出不代表后端已健康。另开 Mac 终端检查：
+隧道终端需保持运行。另开 Mac 终端检查后端是否可访问：
 
 ```bash
 curl --fail --show-error http://127.0.0.1:8445/api/server/health

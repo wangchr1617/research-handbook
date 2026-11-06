@@ -1,0 +1,6 @@
+{
+  "prompt": "演示执行期限。",
+  "client_key": "backend-timeout-001",
+  "timeout_seconds": 1,
+  "mode": "slow"
+}

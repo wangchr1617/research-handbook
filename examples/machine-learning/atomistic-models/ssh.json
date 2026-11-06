@@ -1,0 +1,9 @@
+{
+  "label_source": "analytic SSH tight-binding model, not DFT data",
+  "onsite_eV": 0.2,
+  "t1_eV": -1.0,
+  "t2_eV": -0.7,
+  "train_kpoints": 41,
+  "test_kpoints": 257,
+  "initial_parameters_eV": [0.0, -1.3, -0.4]
+}

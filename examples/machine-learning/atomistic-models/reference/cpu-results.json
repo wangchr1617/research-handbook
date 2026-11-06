@@ -1,0 +1,96 @@
+{
+  "descriptors": {
+    "ACSF": {
+      "dimension": 7,
+      "angle_change_norm": 0.008150811695933,
+      "rotation_error": 0.0,
+      "permutation_error": 0.0
+    },
+    "SOAP": {
+      "dimension": 63,
+      "angle_change_norm": 0.17391934920264235,
+      "rotation_error": 1.1102230246251565e-16,
+      "permutation_error": 0.0
+    },
+    "moment_features": {
+      "90_deg": [
+        0.7357588823428847,
+        0.2706705664732254
+      ],
+      "120_deg": [
+        0.7357588823428847,
+        0.13533528323661276
+      ]
+    }
+  },
+  "equivariance": {
+    "input_dimension": 5,
+    "edge_dimension": 3,
+    "output_dimension": 10,
+    "learned_weights": 5,
+    "rotation_error": 2.220446049250313e-15
+  },
+  "water_rhf": {
+    "method": "RHF/STO-3G",
+    "basis_dimension": 7,
+    "electrons": 9.999999999999998,
+    "total_energy_Ha": -74.96306312972914,
+    "orbital_energies_Ha": [
+      -20.241966971950134,
+      -1.2681610475378418,
+      -0.6173854402929737,
+      -0.4531532823803926,
+      -0.391274218877875,
+      0.605135960980258,
+      0.7412409353332676
+    ],
+    "occupied_eigenvalue_sum_Ha": -45.94388192207843,
+    "generalized_eigen_residual": 3.8949287706465265e-15,
+    "ao_labels": [
+      "0 O 1s    ",
+      "0 O 2s    ",
+      "0 O 2px   ",
+      "0 O 2py   ",
+      "0 O 2pz   ",
+      "1 H 1s    ",
+      "2 H 1s    "
+    ]
+  },
+  "ssh_fit": {
+    "label_source": "analytic SSH tight-binding model, not DFT data",
+    "fit_parameters_eV": [
+      0.19999999999999996,
+      -1.0,
+      -0.7
+    ],
+    "test_rmse_eV": 8.232997181783972e-17,
+    "gap_eV": 0.6000000000000001,
+    "sign_flipped_parameters_eV": [
+      0.19999999999999996,
+      1.0,
+      0.7
+    ]
+  },
+  "cu_emt_validation": {
+    "reference": "ASE EMT, not DFT",
+    "validation_structures": 4,
+    "energy_rmse_eV_per_atom": 0.011251820113689715,
+    "force_component_rmse_eV_per_A": 0.003989610421902178
+  },
+  "mace_mp_silicon": {
+    "model": "MACE-MP-0 small (2023-12-10-mace-128-L0_energy_epoch-249.model)",
+    "mace_torch_version": "0.3.17",
+    "torch_version": "2.15.0",
+    "device": "cpu",
+    "dtype": "float64",
+    "dispersion": false,
+    "sampled_minimum_lattice_A": 5.45,
+    "replication_error_eV_per_atom": 1.7763568394002505e-15,
+    "force_eV_per_A": -0.23744609538273578,
+    "finite_difference_force_eV_per_A": -0.2374461091392277,
+    "weight_sha256": {
+      "2023-12-10-mace-128-L0_energy_epoch-249.model": "2ddb079cee0e131eaaf6912ba581b394551ead283e95c99cfe78c605d10b5736"
+    },
+    "model_source": "https://github.com/ACEsuit/mace-mp/releases/download/mace_mp_0/2023-12-10-mace-128-L0_energy_epoch-249.model"
+  }
+}

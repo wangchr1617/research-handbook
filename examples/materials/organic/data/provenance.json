@@ -1,0 +1,45 @@
+{
+  "config": {
+    "case": "organic",
+    "schema_version": 1,
+    "method": "PBE0 D3BJ",
+    "dihedral_deg": {
+      "trans": 180,
+      "gauche": 60
+    }
+  },
+  "tasks": {
+    "trans": {
+      "command": [
+        "orca",
+        "job.inp"
+      ],
+      "seconds": 62.953,
+      "input_sha256": {
+        "job.inp": "87cea22e94e84c98dba147702f8f87f1ca7ff75959fb2d6e52ff8e4e03f876eb"
+      },
+      "output_sha256": {
+        "stdout.log": "d6f7e8938e5321988f344dabc63c2848c0b1e48087ba1b17fbc7417d7d6b0ebd"
+      }
+    },
+    "gauche": {
+      "command": [
+        "orca",
+        "job.inp"
+      ],
+      "seconds": 71.52,
+      "input_sha256": {
+        "job.inp": "398c61c89cb285c044631a3d032d467f569bd684a6c744184f317465bf456b1f"
+      },
+      "output_sha256": {
+        "stdout.log": "70609706e1c05e4851282fe3ab0c1b02347cbe5ea1b40710f8b28f19137d8afb"
+      }
+    }
+  },
+  "analysis_runner_sha256": "6ab9762ff25425faa5c315adb46fd72f7fd872abf5c5fc2c16efc6582101c78d",
+  "derived_sha256": {
+    "curve.csv": "041f43447e5706f433579ef06d70147391a335703716ca01c52a6c88fd0e27b9",
+    "results.json": "8f7b52adba51a078c4b91137e55bba29f5c6fb33abe03c903800010a2187e4e5",
+    "result.png": "2a86ddd911c6875321594b7bee830b9cb5bb7c25fb3f42450d62a58ba6e4b54e"
+  }
+}

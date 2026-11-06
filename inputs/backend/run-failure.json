@@ -1,0 +1,6 @@
+{
+  "prompt": "演示不可重试的工具错误。",
+  "client_key": "backend-failure-001",
+  "timeout_seconds": 5,
+  "mode": "fail"
+}

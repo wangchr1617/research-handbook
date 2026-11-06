@@ -7,7 +7,6 @@ python scripts/cp2k/cp2k_restart.py cp2k.restart cp2k.inp -o continued.inp
 python scripts/cp2k/diag2ot_geo2cell2md.py cp2k.inp ot -o cp2k-ot.inp
 ```
 
-
 ## 文件
 
 - [cp2k_analysis.py](cp2k_analysis.py)：该脚本解析 CP2K 输出文件，提取几何优化信息，并生成优化过程的能量、RMS 步长和 RMS 力的图表。

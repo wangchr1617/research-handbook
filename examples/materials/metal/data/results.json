@@ -1,0 +1,6 @@
+{
+  "atoms": 256,
+  "minimum_sampled_energy_eV_atom": -3.41065695371879,
+  "potential": "Al_mm.eam.fs",
+  "model": "classical EAM; uniform hydrostatic strain; zero-temperature minimization"
+}

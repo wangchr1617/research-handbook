@@ -89,4 +89,4 @@ module show mytool/1.0
 module unload mytool/1.0
 ```
 
-`prepend-path` 在搜索路径前添加目录，`setenv` 设置普通变量；编写和默认版本设置见 [Module 环境管理](../notes/linux/Module环境管理.md)。命令细节参考 [Environment Modules 手册](https://modules.readthedocs.io/en/latest/module.html)。
+`prepend-path` 在搜索路径前添加目录，`setenv` 设置普通变量；编写和默认版本设置见 [Module 环境管理](linux/Module环境管理.md)。命令细节参考 [Environment Modules 手册](https://modules.readthedocs.io/en/latest/module.html)。

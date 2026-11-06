@@ -1,0 +1,58 @@
+{
+  "config": {
+    "case": "semiconductor",
+    "schema_version": 1,
+    "a_A": 5.47,
+    "kmesh": [
+      9,
+      9,
+      9
+    ]
+  },
+  "tasks": {
+    "scf": {
+      "command": [
+        "vasp_std"
+      ],
+      "seconds": 58.93,
+      "input_sha256": {
+        "INCAR": "6138019fe7cec78dc39584b20c0be4ae535e92a6088a1f78abbe33628eb02212",
+        "POSCAR": "941c0f8f4978f6c7880bb8ccc340e34ddb4b75cc9fd3614c3fdeb4f6bedf67e0",
+        "POTCAR": "2a6df1c19701e5d97aaa59e5470b14653ddbd76935b76dacdd8792eb2eba252c",
+        "CHGCAR": "f02953327121ab58b7afd71c53335f129a66c817f9f7873413731f7869005be0",
+        "KPOINTS": "2eb27c077a923323e440ec98c6bdb1e63d7b13e4de8570febbb4a76fbb4ac1a0"
+      },
+      "output_sha256": {
+        "OUTCAR": "ff984b23036093d8ffbf0a5799d488adf61c2e98ee3164cbe7b4141e86c5e81d",
+        "vasprun.xml": "7009657bfff68e287584ef2d91dd3a501171720ec2843ebe4ba4d25ac1e9bf28",
+        "CONTCAR": "93c5b47a55b22a45a9d256b3ec7b95ab2ab3025e398fec69ec68236304281272",
+        "stdout.log": "c1a7d84c14b1fe60a8bd3aad7e603e8ca2023071b7531609df2f1bbe3deef1ba"
+      }
+    },
+    "bands": {
+      "command": [
+        "vasp_std"
+      ],
+      "seconds": 5.913,
+      "input_sha256": {
+        "INCAR": "b8d49e5421baf19c8bf45f527cd357bb48e9ad6790f30487fe241ef93c2ea012",
+        "POSCAR": "941c0f8f4978f6c7880bb8ccc340e34ddb4b75cc9fd3614c3fdeb4f6bedf67e0",
+        "POTCAR": "2a6df1c19701e5d97aaa59e5470b14653ddbd76935b76dacdd8792eb2eba252c",
+        "CHGCAR": "f02953327121ab58b7afd71c53335f129a66c817f9f7873413731f7869005be0",
+        "KPOINTS": "57d739f021fcb8e1038384395dd0ecc06969c3b576426fea041cfa4510921b74"
+      },
+      "output_sha256": {
+        "OUTCAR": "b854e261011b69e5de5613cd9cc067904d21c6b0544afe7c9d0ac3cfb856b37a",
+        "vasprun.xml": "6c9ea0f9fedc51ddef70c5fdb1916db33ce3ec86a7fdea1a666c9f3230a6ebab",
+        "CONTCAR": "93c5b47a55b22a45a9d256b3ec7b95ab2ab3025e398fec69ec68236304281272",
+        "stdout.log": "767da462094f5f2ceefbeb43e0e04491f5cac590c8d1b9da144f11ce15096857"
+      }
+    }
+  },
+  "analysis_runner_sha256": "6ab9762ff25425faa5c315adb46fd72f7fd872abf5c5fc2c16efc6582101c78d",
+  "derived_sha256": {
+    "curve.csv": "741e12488fa44c553d12b6ae504a4cfe3f3cb4edea340517eb191fbf9e3f48a6",
+    "results.json": "d31dda0185638d331f26f76ce29dc56e984ef2cb3f2d3aee63b5dd84a71a8620",
+    "result.png": "d20cc90bf911da648b2156fa3380b83f2b3db5d1c9f9c53ac431a8bff258aea7"
+  }
+}

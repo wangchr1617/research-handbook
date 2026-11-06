@@ -1,0 +1,10 @@
+{
+  "case": "thermoelectric",
+  "schema_version": 1,
+  "a_A": 5.47,
+  "kmesh": [
+    9,
+    9,
+    9
+  ]
+}

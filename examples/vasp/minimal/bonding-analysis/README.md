@@ -1,6 +1,6 @@
 # 硅近邻键合分析
 
-参数与操作见[笔记](../../../../notes/vasp/LOBSTER键合分析.md)。准备授权 Si `POTCAR` 和 LOBSTER 程序，将 `LOBSTER_EXEC` 指向该程序；加载标准 VASP 后执行 `qsub job.pbs`。LOBSTER 使用 OpenMP，与 VASP 的 MPI 启动方式不同。
+参数与操作见[笔记](../../../../notes/VASP/电子结构与成键/LOBSTER键合分析.md)。准备授权 Si `POTCAR` 和 LOBSTER 程序，将 `LOBSTER_EXEC` 指向该程序；加载标准 VASP 后执行 `qsub job.pbs`。LOBSTER 使用 OpenMP，与 VASP 的 MPI 启动方式不同。
 
 `run.py --vasp-only` 只生成波函数，适合分开提交两阶段作业。已有 VASP 输出可直接运行 LOBSTER，再用 `python3 postprocess.py` 检查数据并绘制平均 −COHP。
 

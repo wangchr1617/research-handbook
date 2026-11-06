@@ -1,0 +1,11 @@
+{
+  "case": "magnetism",
+  "schema_version": 1,
+  "a_A": 2.86,
+  "encut_eV": 450,
+  "kmesh": [
+    9,
+    9,
+    9
+  ]
+}

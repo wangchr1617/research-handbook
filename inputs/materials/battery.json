@@ -1,0 +1,9 @@
+{
+  "case": "battery",
+  "schema_version": 1,
+  "graphene_a_A": 2.46,
+  "lic6_c_A": 3.7,
+  "graphite_c_A": 6.708,
+  "li_a_A": 3.45,
+  "encut_eV": 450
+}

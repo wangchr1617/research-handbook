@@ -84,11 +84,11 @@ git diff --check
 git diff
 ```
 
-新文件还要通过 `git status --short` 和编辑器查看，默认 `git diff` 不显示未跟踪文件的内容。Git 管理见 [Git 入门](../notes/git/Git入门.md)。
+新文件还要通过 `git status --short` 和编辑器查看，默认 `git diff` 不显示未跟踪文件的内容。Git 管理见 [Git 入门](git/Git入门.md)。
 
 ## 五、集群、技能与 MCP
 
-集群操作采用[本机 Codex → SSH → PBS](../notes/getting-started/Codex连接科研集群（macOS）.md)，先验证只读查询，再提交明确资源的任务。工具调用成功和计算正确是两件事，仍需检查程序日志与物理结果。
+集群操作采用[本机 Codex → SSH → PBS](Codex连接科研集群（macOS）.md)，先验证只读查询，再提交明确资源的任务。工具调用成功和计算正确是两件事，仍需检查程序日志与物理结果。
 
 Skills 提供工作流程，MCP 接入工具和数据源，安装示例见 [技能与 MCP 工具](技能与MCP工具的安装及使用技巧.md)。一次只加当前任务需要的能力，并用小任务验证是否实际可用。
 
@@ -162,7 +162,7 @@ dot 是 ChatGPT 中持续跟进工作的一类代理，可以创建或继续 Cod
 
 在 dot 资料页打开 `Activity` 查看它创建的任务，进入对应任务检查文件与结果；`Scheduled` 用于查看定时任务。需要停止时，主任务、委派任务和定时任务要分别核对，暂停 dot 主任务不代表其他任务都已停止，见 [dot 控制说明](https://learn.chatgpt.com/docs/dots/controls)。
 
-dot 自己的云端工作可在本机关机后继续；调用本机文件、工具或本机 Codex 时，电脑仍需在线并保持 ChatGPT 应用打开。连接电脑也不会替你连接校园 VPN。集群监测仍须按 [SSH 与 VPN 条件](../notes/getting-started/Codex连接科研集群（macOS）.md#vpn-与定时监测)准备，不把 dot 当作始终在线的集群登录节点。
+dot 自己的云端工作可在本机关机后继续；调用本机文件、工具或本机 Codex 时，电脑仍需在线并保持 ChatGPT 应用打开。连接电脑也不会替你连接校园 VPN。集群监测仍须按 [SSH 与 VPN 条件](Codex连接科研集群（macOS）.md#vpn-与定时监测)准备，不把 dot 当作始终在线的集群登录节点。
 
 ## 十、几个顺手的小命令
 

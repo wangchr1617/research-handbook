@@ -12,6 +12,14 @@
 __pycache__/
 *.pyc
 
+# Project-local Markdown checking dependencies
+/scripts/note-audit/node_modules/
+
+# Local AI assistant settings and skills
+/.agent/
+/.agents/
+/.codex/
+
 # Local scientific validation runs (licensed data and generated outputs)
 /_validation_runs/
 /examples/vasp/**/POTCAR

@@ -27,7 +27,7 @@ Conda 既能管理环境，也能安装 Python 和科学计算依赖。以 ASE�
 
 Windows 在“设置 → 系统 → 系统信息”查看系统类型，Mac 在“关于本机”查看芯片，Linux 执行 `uname -m`。Linux 安装前还要用 `ldd --version` 查看 glibc，旧系统先核对安装器最低要求，不直接运行最新版。不确定时先核对系统与架构，再下载。
 
-Windows 下载 `.exe`，选择个人用户安装，优先从安装器提供的 Prompt 打开，不需要管理员终端，也不必把整套路径手动加入系统 PATH。已有 Windows 图解见 [Anaconda 安装与虚拟环境](../notes/python/Anaconda安装与虚拟环境.md)，日常操作以本篇为准。
+Windows 下载 `.exe`，选择个人用户安装，优先从安装器提供的 Prompt 打开，不需要管理员终端，也不必把整套路径手动加入系统 PATH。已有 Windows 图解见 [Anaconda 安装与虚拟环境](../notes/Python/Anaconda安装与虚拟环境.md)，日常操作以本篇为准。
 
 Mac / Linux 从官方页面下载安装脚本并核对校验值。Apple Silicon 使用 macOS arm64，Intel Mac 使用 macOS x86_64；Linux x86_64 安装器不能在 Mac 直接运行。
 

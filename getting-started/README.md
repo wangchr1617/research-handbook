@@ -13,7 +13,7 @@
 | 适用环境 | 文档 |
 | --- | --- |
 | Windows → Linux 集群 | [新生入门（Windows）](新生入门（Windows）.md) |
-| macOS → Linux 集群 | [新生入门（Mac）](新生入门（Mac）.md)、[SSH 与密钥配置](../notes/getting-started/Codex连接科研集群（macOS）.md) |
+| macOS → Linux 集群 | [新生入门（Mac）](新生入门（Mac）.md)、[SSH 与密钥配置](Codex连接科研集群（macOS）.md) |
 | Windows + WSL | [WSL 与 Docker 安装使用](WSL与Docker安装使用（Windows）.md)、[VSCode、Claude Code 与 CC Switch](VSCode、ClaudeCode与CC%20Switch配置（Windows）.md) |
 | macOS | [VSCode、Claude Code 与 CC Switch](VSCode、ClaudeCode与CC%20Switch配置（Mac）.md)、[Docker 安装与使用](Docker安装与使用（Mac）.md) |
 | Windows / macOS / Linux | [DOVE 加速器](DOVE加速器配置与使用技巧.md)、[浏览器代理配置](SwitchyOmega代理配置.md)、[Colab 入门](Colab入门.md) |
@@ -23,7 +23,8 @@
 
 | 主题 | 文档 |
 | --- | --- |
-| Linux 基础 | [Linux 命令行使用与常用命令](Linux命令行使用与常用命令.md) |
+| SSH 连接与密钥 | [macOS 本机 → Linux 集群](Codex连接科研集群（macOS）.md)、[Windows 新生入门](新生入门（Windows）.md) |
+| Linux 基础 | [Linux 命令行使用与常用命令](linux/Linux命令行使用与常用命令.md)、[Linux 与集群工具导航](linux/README.md) |
 | 提交和管理计算 | [PBS 作业管理系统使用](PBS作业管理系统使用.md) |
 | 使用集群已有软件 | [Module 使用](Module使用.md) |
 | Alkemie 服务部署 | [Mac → Linux](Alkemie集群部署（macOS）.md)、[Windows → Linux](Alkemie集群部署（Windows）.md) |
@@ -31,15 +32,23 @@
 | Python 包与项目 | [pip 与 uv](pip与uv安装与使用.md) |
 | 源码构建 | [高性能计算软件编译常识](高性能计算软件编译常识.md) |
 
+## 记录与协作
+
+[Git 与 Markdown 导航](git/README.md)按安装与首次提交、分支协作、文件管理与撤销、Markdown 排版组织。可先完成一次本地提交，再练习分支和 Pull Request。
+
 ## AI 工具
 
 - [Codex 配置与使用技巧](Codex配置与使用技巧.md)
 - [技能与 MCP 工具的安装及使用技巧](技能与MCP工具的安装及使用技巧.md)
 
+## 应用开发
+
+希望把 Python 工具或科研 Agent 做成可登录、可查询历史的应用，可以从[后端工程学习路线](../notes/后端工程/README.md)开始，配合[完整教学 Demo](../examples/backend/agent-demo/README.md)练习。已有 Docker 和 Linux 笔记可按需查阅。
+
 ## 学习路线
 
 1. **准备环境**：按自己的系统阅读新生入门，确认本机、SSH 与文件传输可用。
 2. **使用集群**：学习 Linux、Module 和 PBS，先提交一个小测试。
-3. **记录与协作**：阅读 [Markdown 入门](../notes/git/Markdown入门.md)和 [Git 入门](../notes/git/Git入门.md)，尝试修改一篇笔记。
+3. **记录与协作**：阅读 [Markdown 入门](git/Markdown入门.md)和 [Git 入门](git/Git入门.md)，尝试修改一篇笔记。
 4. **动手计算**：运行 [RMSE 小案例](../examples/rmse/README.md)，核对结果和单位；再查阅[专题笔记](../notes/README.md)、[输入模板](../inputs/README.md)、[脚本](../scripts/README.md)和[案例](../examples/README.md)。
 5. **记录学习与计算**：参考[记录模板](../templates/README.md)，记下输入、操作、计算条件和结果，方便以后查阅。

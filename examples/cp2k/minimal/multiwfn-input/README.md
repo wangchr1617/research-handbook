@@ -1,6 +1,6 @@
 # 用 Multiwfn 准备水分子单点计算
 
-从 [structure.xyz](structure.xyz) 出发，使用 [multiwfn.in](multiwfn.in) 的菜单选择生成 [cp2k.inp](cp2k.inp)。详细步骤见[笔记](../../../../notes/cp2k/用Multiwfn生成CP2K输入文件.md)。
+从 [structure.xyz](structure.xyz) 出发，使用 [multiwfn.in](multiwfn.in) 的菜单选择生成 [cp2k.inp](cp2k.inp)。详细步骤见[笔记](../../../../notes/CP2K/基础与准备/用Multiwfn生成CP2K输入文件.md)。
 
 目录已附生成的输入，可直接检查并使用。要重新生成，先移走 `cp2k.inp`，再执行 `python3 prepare.py`。程序名可通过 `MULTIWFN_EXEC` 指定。
 

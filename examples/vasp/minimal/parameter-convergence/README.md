@@ -1,5 +1,5 @@
 # 硅的截断能与 k 网格扫描
 
-输入、PBS 步骤和结果解释见[笔记](../../../../notes/vasp/VASP参数收敛测试.md)。准备授权 Si 势，加载 VASP 和 Python 依赖后，执行 `qsub job.pbs`。
+输入、PBS 步骤和结果解释见[笔记](../../../../notes/VASP/基础与准备/VASP参数收敛测试.md)。准备授权 Si 势，加载 VASP 和 Python 依赖后，执行 `qsub job.pbs`。
 
 `run.py` 顺序计算七个不同参数组合，`postprocess.py` 检查收敛并输出每原子能量差，`plot.py` 绘图。已有输出时只运行后处理；阈值仅用于本例能量判据，不代替受力、应力或其他目标性质的测试。

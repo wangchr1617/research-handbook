@@ -1,5 +1,5 @@
 # 水分子隐式溶剂对照
 
-参数、输入链接与结果说明见[笔记](../../../../notes/vasp/VASP隐式溶剂计算.md)。
+参数、输入链接与结果说明见[笔记](../../../../notes/VASP/结构与能量/VASP隐式溶剂计算.md)。
 
 准备授权 `POTCAR`，安装 `requirements.txt` 中依赖，确认 `job.pbs` 的 `VASP_EXEC` 指向对应扩展程序，然后 `qsub job.pbs`。在新目录运行 `run.py`，已有结果可单独执行 `python3 postprocess.py`。

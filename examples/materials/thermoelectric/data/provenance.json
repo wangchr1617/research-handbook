@@ -1,0 +1,43 @@
+{
+  "config": {
+    "case": "thermoelectric",
+    "schema_version": 1,
+    "a_A": 5.47,
+    "kmesh": [
+      9,
+      9,
+      9
+    ]
+  },
+  "tasks": {
+    "scf": {
+      "command": [
+        "vasp_std"
+      ],
+      "seconds": 61.791,
+      "input_sha256": {
+        "INCAR": "38823a999fbbfe41fbefa94c68ce298eac072c7ec980eecb003204e1ebf82f4f",
+        "POSCAR": "941c0f8f4978f6c7880bb8ccc340e34ddb4b75cc9fd3614c3fdeb4f6bedf67e0",
+        "POTCAR": "2a6df1c19701e5d97aaa59e5470b14653ddbd76935b76dacdd8792eb2eba252c",
+        "CHGCAR": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "KPOINTS": "2eb27c077a923323e440ec98c6bdb1e63d7b13e4de8570febbb4a76fbb4ac1a0"
+      },
+      "output_sha256": {
+        "OUTCAR": "cbe943a88e854af97292cfc5f3560cedcb1a4ba8996f8045c1d5319f1d01eef7",
+        "vasprun.xml": "b86aaaed70412ace013efd825c6cbf3f67c78146c051458c18ecc1fc2bbd7c10",
+        "CONTCAR": "93c5b47a55b22a45a9d256b3ec7b95ab2ab3025e398fec69ec68236304281272",
+        "stdout.log": "0e81b8607e686daf0eaac797f1504c217c200fba9e28ef38abfc52c12dc342b1"
+      }
+    }
+  },
+  "runner_sha256": "47c3cfebcf2ffdb9e2b0274f28f26338c2c69bca44237a505095bb05ae4f131e",
+  "platform": "Darwin",
+  "machine": "arm64",
+  "analysis_runner_sha256": "6ab9762ff25425faa5c315adb46fd72f7fd872abf5c5fc2c16efc6582101c78d",
+  "analysis_python": "3.13.5",
+  "derived_sha256": {
+    "curve.csv": "eb7ef5feb56b7660efe4cb46057d70e5ba1b061ca1007da1fac3b4bfb67e60eb",
+    "results.json": "6c1d4c90c339ec125d0d48f4bc9c43c716f4debffcbff8c065b149ee02347f68",
+    "result.png": "08e2d173065f01050c8bbf5b69633c159328cbce2fa71d0ec1e42fd600b11021"
+  }
+}

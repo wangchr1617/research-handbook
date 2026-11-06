@@ -1,0 +1,44 @@
+{
+  "states": {
+    "NM": {
+      "E0_eV": -15.32930361,
+      "ionic_steps": 1,
+      "max_scf_steps": 15,
+      "max_force_eV_A": 4.12310562561766e-08,
+      "ionic_converged": false,
+      "version": "vasp.6.5.1 10Mar25 (build Sep 29 2026 20:26:29) complex",
+      "total_moment_muB": 0.0,
+      "local_moments_muB": [
+        0.0,
+        0.0
+      ]
+    },
+    "FM": {
+      "E0_eV": -16.45651277,
+      "ionic_steps": 1,
+      "max_scf_steps": 17,
+      "max_force_eV_A": 3e-08,
+      "ionic_converged": false,
+      "version": "vasp.6.5.1 10Mar25 (build Sep 29 2026 20:26:29) complex",
+      "total_moment_muB": 4.4562168,
+      "local_moments_muB": [
+        2.231,
+        2.231
+      ]
+    },
+    "AFM": {
+      "E0_eV": -15.53846869,
+      "ionic_steps": 1,
+      "max_scf_steps": 17,
+      "max_force_eV_A": 3e-08,
+      "ionic_converged": false,
+      "version": "vasp.6.5.1 10Mar25 (build Sep 29 2026 20:26:29) complex",
+      "total_moment_muB": -0.0016559,
+      "local_moments_muB": [
+        1.743,
+        -1.744
+      ]
+    }
+  },
+  "model": "bcc Fe, same fixed cell, PBE collinear states; local moments depend on projection"
+}

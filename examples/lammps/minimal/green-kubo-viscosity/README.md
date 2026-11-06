@@ -1,6 +1,6 @@
 # LAMMPS的GreenKubo黏度最小案例
 
-配套[笔记](../../../../notes/lammps/LAMMPS的GreenKubo黏度.md)说明方法、参数、结果与适用条件。
+配套[笔记](../../../../notes/LAMMPS/扩散与输运/LAMMPS的GreenKubo黏度.md)说明方法、参数、结果与适用条件。
 
 科学输入由 `stages.json` 组织，必要结构包含在坐标文件或各输入中。加载笔记指定的软件和外部数据，安装 `requirements.txt`，执行 `qsub job.pbs`。
 

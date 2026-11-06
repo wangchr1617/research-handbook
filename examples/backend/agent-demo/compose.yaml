@@ -1,0 +1,72 @@
+# 在本目录运行；.env 中必须填写 POSTGRES_PASSWORD。
+x-app: &app
+  image: handbook-agent:local
+  build: .
+  environment:
+    DEMO_DATABASE_URL: postgresql+psycopg://demo:${POSTGRES_PASSWORD:?请在 .env 中填写数据库口令}@db:5432/demo
+    DEMO_BROKER_URL: redis://redis:6379/0
+  read_only: true
+  tmpfs:
+    - /tmp:size=16m,mode=1777
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  mem_limit: 512m
+  cpus: 1.0
+  pids_limit: 128
+
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: demo
+      POSTGRES_DB: demo
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?请在 .env 中填写数据库口令}
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U demo -d demo"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    mem_limit: 512m
+  redis:
+    image: redis:7.4
+    command: [redis-server, --appendonly, "yes", --maxmemory, 128mb, --maxmemory-policy, noeviction]
+    volumes: [redisdata:/data]
+    healthcheck:
+      test: [CMD, redis-cli, ping]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    mem_limit: 256m
+  init:
+    <<: *app
+    command: [python, -m, demo.manage, init]
+    depends_on:
+      db: {condition: service_healthy}
+  api:
+    <<: *app
+    ports: ["127.0.0.1:8000:8000"]
+    depends_on:
+      init: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/ready', timeout=3)"]
+      interval: 10s
+      timeout: 4s
+      retries: 5
+  worker:
+    <<: *app
+    command: [celery, -A, "demo.worker:celery_app", worker, -l, INFO, --concurrency=2]
+    depends_on:
+      init: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
+  dispatcher:
+    <<: *app
+    command: [python, -m, demo.manage, dispatch]
+    depends_on:
+      init: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
+
+volumes:
+  pgdata:
+  redisdata:

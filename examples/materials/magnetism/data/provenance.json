@@ -1,0 +1,78 @@
+{
+  "config": {
+    "case": "magnetism",
+    "schema_version": 1,
+    "a_A": 2.86,
+    "encut_eV": 450,
+    "kmesh": [
+      9,
+      9,
+      9
+    ]
+  },
+  "tasks": {
+    "NM": {
+      "command": [
+        "vasp_std"
+      ],
+      "seconds": 28.023,
+      "input_sha256": {
+        "INCAR": "0d1e689812c51208da7960a97881a76930d3f4cd9ce0e82cffbe8d99ab920217",
+        "POSCAR": "0a1ed17c5199007d3e2c7ca03f307a65d5456f7ce1e811f2b34fffbc07e2fb2f",
+        "POTCAR": "519ad496e3627c9885028da91cc038103aabe65859ad2bde1964f223ccb49c0f",
+        "CHGCAR": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "KPOINTS": "2eb27c077a923323e440ec98c6bdb1e63d7b13e4de8570febbb4a76fbb4ac1a0"
+      },
+      "output_sha256": {
+        "OUTCAR": "914de15ba2fd1260c4928a2b854ef5569bea8e0f80b4672415c164f543a4f217",
+        "vasprun.xml": "668a105b798251ab546f4d8ab8a133bd4bdfb58e479aebc66aea04a8dab2cdb7",
+        "CONTCAR": "7bb6bbbc5ce851c3a68c49d2d2b8467ae5bd4ae40c183e36e7cbdebf75ee5420",
+        "stdout.log": "afc6aa8a0b6507788960dedb6480569ff3d594709892d2998109c4e8db2a2a46"
+      }
+    },
+    "FM": {
+      "command": [
+        "vasp_std"
+      ],
+      "seconds": 89.628,
+      "input_sha256": {
+        "INCAR": "517e06b68a1fa576a5b9c21c80fd5673b29381b0f4881d339a79234de3773666",
+        "POSCAR": "0a1ed17c5199007d3e2c7ca03f307a65d5456f7ce1e811f2b34fffbc07e2fb2f",
+        "POTCAR": "519ad496e3627c9885028da91cc038103aabe65859ad2bde1964f223ccb49c0f",
+        "CHGCAR": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "KPOINTS": "2eb27c077a923323e440ec98c6bdb1e63d7b13e4de8570febbb4a76fbb4ac1a0"
+      },
+      "output_sha256": {
+        "OUTCAR": "e3a42dcdd127dc1c0fbeb09db80743af97cc778b4be8dc74b04b7a55b5efb751",
+        "vasprun.xml": "6b245fa9c8410bc2eb36e4b20ed59acaa9e86d7ae26b3066cea4e06f65df6588",
+        "CONTCAR": "7bb6bbbc5ce851c3a68c49d2d2b8467ae5bd4ae40c183e36e7cbdebf75ee5420",
+        "stdout.log": "4860f2c1741a7908aef10897ef2741c46b533bb7480161b1f885e0d20cde751f"
+      }
+    },
+    "AFM": {
+      "command": [
+        "vasp_std"
+      ],
+      "seconds": 64.513,
+      "input_sha256": {
+        "INCAR": "149208670ff73b769fddb356e6c74563d137ca25ce9fc8710413d2e3520298ad",
+        "POSCAR": "0a1ed17c5199007d3e2c7ca03f307a65d5456f7ce1e811f2b34fffbc07e2fb2f",
+        "POTCAR": "519ad496e3627c9885028da91cc038103aabe65859ad2bde1964f223ccb49c0f",
+        "CHGCAR": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "KPOINTS": "2eb27c077a923323e440ec98c6bdb1e63d7b13e4de8570febbb4a76fbb4ac1a0"
+      },
+      "output_sha256": {
+        "OUTCAR": "dda1d304a45dfe8d7e1abc3fd34f87d81871058d6daa512202bb2e73fa7cf20c",
+        "vasprun.xml": "f0e609d0721d58825f5885d37ecefff209f19f3e4fd1c02f1d6029ba4b2c3fb8",
+        "CONTCAR": "7bb6bbbc5ce851c3a68c49d2d2b8467ae5bd4ae40c183e36e7cbdebf75ee5420",
+        "stdout.log": "623ef970831ccc69cf464e06fbf68fe07e793b4577d1d2d34c52a61b76db2f8f"
+      }
+    }
+  },
+  "analysis_runner_sha256": "6ab9762ff25425faa5c315adb46fd72f7fd872abf5c5fc2c16efc6582101c78d",
+  "derived_sha256": {
+    "curve.csv": "600fa6f0371bb0854e6dbd4480898257bbef6bf7f6369bfa300bc98425e5ccd7",
+    "results.json": "4f55563617421d6d28ad6d486ada0e051504d45d96fc0c8fb70e2700b4c732ae",
+    "result.png": "0c9771de0078dfb8e180b6a1e7e1cd7155807e0e089c202c4d8a285210a08990"
+  }
+}
