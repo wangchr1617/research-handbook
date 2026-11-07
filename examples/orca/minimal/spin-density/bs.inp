@@ -1,0 +1,8 @@
+! UHF def2-SVP VeryTightSCF NoAutoStart
+%pal nprocs 1 end
+%maxcore 256
+%scf
+ FlipSpin 1
+ FinalMs 0
+end
+* xyzfile 0 3 structure.xyz

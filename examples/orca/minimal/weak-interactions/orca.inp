@@ -1,0 +1,5 @@
+! PBE0 def2-SVP TightSCF NoAutoStart
+%pal nprocs 1 end
+%maxcore 512
+
+* xyzfile 0 1 structure.xyz

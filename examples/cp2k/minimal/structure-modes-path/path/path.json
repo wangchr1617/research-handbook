@@ -1,0 +1,26 @@
+{
+  "images": 7,
+  "anchor_indices": [
+    1,
+    4,
+    7
+  ],
+  "elements": [
+    "Si",
+    "Si",
+    "Si",
+    "Si",
+    "Si",
+    "Si",
+    "Si"
+  ],
+  "adjacent_cartesian_norm_angstrom": [
+    0.6659164201392779,
+    0.6659164201392775,
+    0.6659164201392775,
+    0.5146435775801006,
+    0.514643577580099,
+    0.5146435775801004
+  ],
+  "meaning": "Initial fixed-cell geometry only; atom mapping, image choice and physical path require review"
+}

@@ -14,6 +14,10 @@ Kristof T. Schütt、Michael Gastegger、Alexandre Tkatchenko、Klaus-Robert Mü
 
 这样做避开了直接预测轨道系数时的部分相位、能级交叉与排序问题，但矩阵仍依赖基的顺序与相位。原始实现还通过旋转数据增强学习正确的旋转行为，这与后来把严格等变约束写进架构的路线有区别。[^paper]
 
+## 为什么轨道相位要用子空间或密度比较
+
+把某列 $c_n$ 乘以 $-1$，密度中的 $c_nc_n^T$ 不变，但系数逐元素 MAE 可以很大。在简并空间还允许多列一起酉混合。比较波函数时采用相位对齐、重叠或子空间投影，比直接比较数组更符合物理对象。
+
 ## 三、特点与后续演进
 
 预测一个中心对象后，可以从轨道和密度推导多种性质，减少每种性质单独训练一个黑箱的需求。不过可得到哪些量仍取决于基、近似和算符信息，不能自动宣称得到任意精确多电子可观测量。
@@ -47,10 +51,6 @@ assert np.isclose(np.trace(p @ sample["overlap"]), 10)
 原作者仓库的 [`src/scripts/run_schnorb.py`](https://github.com/atomistic-machine-learning/SchNOrb/blob/master/src/scripts/run_schnorb.py)负责训练/评估入口，[`extract_data.py`](https://github.com/atomistic-machine-learning/SchNOrb/blob/master/src/scripts/extract_data.py)处理参考数据。其软件发布属于早期 SchNetPack 生态，不能把当前 SchNetPack 的同名类与历史接口直接组合。
 
 阅读源码时按三步追踪：数据字段如何保存 $H,S$ 及基信息；原子对特征怎样展开成矩阵块；训练指标怎样从矩阵转换为轨道量。复现论文需使用原始基组和数据；本文七轨道水例子用于验证同类矩阵流程。
-
-## 为什么轨道相位要用子空间或密度比较
-
-把某列 $c_n$ 乘以 $-1$，密度中的 $c_nc_n^T$ 不变，但系数逐元素 MAE 可以很大。在简并空间还允许多列一起酉混合。比较波函数时采用相位对齐、重叠或子空间投影，比直接比较数组更符合物理对象。
 
 ## 参考资料
 

@@ -62,7 +62,7 @@ AIMD 的 MSD 需展开周期边界并在平衡区间统计 $D=\lim_{t\to\infty}\
 
 CP2K 适用于选择了合适模型的电解液与界面 AIMD；GROMACS/LAMMPS 可在相容力场下研究经典溶剂化和扩散。界面反应则应定义电荷、反应参考和溶剂环境，按问题采用反应能或自由能台阶图，不能把真空中单分子 LUMO 直接解释为电池的实际还原电位。
 
-现有[容量分析脚本](../../../scripts/analysis/capacity_analysis.py)和[电池分析脚本](../../../scripts/analysis/battery_analysis.py)有各自的氧化态与计量假设，应先读脚本再用于新体系。本例容量直接按明确反应式计算。
+现有[容量分析脚本](../../../scripts/analysis/calculate_capacity.py)和[电池分析脚本](../../../scripts/analysis/battery_capacity.py)分别按显式电子计量/输入质量和指定氧化态模型计算，分母与可达插入量的含义见[脚本说明](../../../scripts/analysis/README.md#容量与-rdf-的输入条件)。本例容量直接按明确反应式计算。
 
 [^1]: Aydinol et al. Ab initio study of lithium intercalation in metal oxides and metal dichalcogenides. Physical Review B 56, 1354 (1997). https://doi.org/10.1103/PhysRevB.56.1354
 [^2]: VASP. IVDW. https://vasp.at/wiki/IVDW

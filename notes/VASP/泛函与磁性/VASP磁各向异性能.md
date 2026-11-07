@@ -18,11 +18,11 @@
 
 [INCAR.x](../../../examples/vasp/minimal/magnetic-anisotropy/INCAR.x)、[INCAR.y](../../../examples/vasp/minimal/magnetic-anisotropy/INCAR.y)、[INCAR.z](../../../examples/vasp/minimal/magnetic-anisotropy/INCAR.z)、[KPOINTS](../../../examples/vasp/minimal/magnetic-anisotropy/KPOINTS)、[POSCAR](../../../examples/vasp/minimal/magnetic-anisotropy/POSCAR)、[POTCAR.spec](../../../examples/vasp/minimal/magnetic-anisotropy/POTCAR.spec)、[stages.json](../../../examples/vasp/minimal/magnetic-anisotropy/stages.json)。
 
-结构写在坐标文件或各输入的原子/晶胞段；`stages.json` 列出计算阶段。配套 [run.py](../../../examples/vasp/minimal/magnetic-anisotropy/run.py) 顺序组织任务，[job.pbs](../../../examples/vasp/minimal/magnetic-anisotropy/job.pbs) 提交作业，[postprocess.py](../../../examples/vasp/minimal/magnetic-anisotropy/postprocess.py) 检查结果并绘图。
+`POSCAR` 给出固定结构，`INCAR.x`、`INCAR.y`、`INCAR.z` 分别设置三个磁化方向；`stages.json` 列出计算阶段。配套 [run.py](../../../examples/vasp/minimal/magnetic-anisotropy/run.py) 顺序组织任务，[job.pbs](../../../examples/vasp/minimal/magnetic-anisotropy/job.pbs) 提交作业，[postprocess.py](../../../examples/vasp/minimal/magnetic-anisotropy/postprocess.py) 检查结果并绘图。
 
 ## 参数与提交
 
-从授权安装中按 `POTCAR.spec` 准备 `POTCAR`，元素顺序与 POSCAR 一致。`VASP_EXEC` 指定程序；磁各向异性使用 `vasp_ncl`，Berry 相示例使用 `vasp_std`。数据文件不随案例分发。
+从授权安装中按 `POTCAR.spec` 准备 `POTCAR`，元素顺序与 POSCAR 一致。`VASP_EXEC` 指定支持 SOC 的 `vasp_ncl` 程序；授权势文件不随案例分发。
 
 | 设置 | 关键含义 |
 | --- | --- |

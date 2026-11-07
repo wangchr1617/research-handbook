@@ -29,6 +29,8 @@
 qsub job.pbs
 ```
 
-作业脚本会在计算后运行 `postprocess.py`，生成 `results.json`。同时打开 `cp2k.out`，检查 SCF 收敛、`ENERGY| Total FORCE_EVAL` 能量、原子受力和正常结束标记。本例原始能量以 Hartree 输出，受力以 Hartree/Bohr 输出；脚本转换为 eV、eV/Å，并检查全部原子力和净力。XYZ 坐标为 Å。运行前安装案例 `requirements.txt` 中的依赖。
+运行前安装案例 `requirements.txt` 中的依赖。作业脚本会在计算后调用 `postprocess.py`，生成 `results.json`；同时可打开 `cp2k.out`，核对 SCF 收敛、`ENERGY| Total FORCE_EVAL` 能量、原子受力和正常结束标记。
+
+本例原始能量单位为 Hartree，受力单位为 Hartree/Bohr，XYZ 坐标单位为 Å。后处理将能量与力转换为 eV、eV/Å，并检查全部原子力及其合力。
 
 同一体系的能量差必须使用一致的泛函、势、基组、边界与数值精度。网格参数只是小案例的起点，正式计算应测试能量差和受力随参数的变化。

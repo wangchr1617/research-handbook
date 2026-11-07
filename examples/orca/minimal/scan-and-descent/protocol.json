@@ -1,0 +1,10 @@
+{
+  "method": "RHF",
+  "basis": "def2-SVP",
+  "angles_degree": [85.0, 95.0, 105.0, 115.0, 125.0],
+  "initial_OH_angstrom": 1.0,
+  "charge": 0,
+  "multiplicity": 1,
+  "processes": 1,
+  "maxcore_mb_per_process": 256
+}

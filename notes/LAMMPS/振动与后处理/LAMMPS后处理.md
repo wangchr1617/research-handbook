@@ -4,8 +4,7 @@
 
 ## 提取热力学量
 
-LAMMPS 的 in 文件中，使用 `thermo_modify line yaml` 将自定义的热力学量输出为 YAML 格式，
-以方便 Python 从日志文件 `log.lammps` 中提取和解析这些数据：
+在 LAMMPS 输入中设置 `thermo_modify line yaml`，可将自定义热力学量写成 YAML，便于 Python 从 `log.lammps` 提取。下面读取各个运行段，并以其中一段的温度与晶胞参数作图：
 
 ```python
 import re, yaml

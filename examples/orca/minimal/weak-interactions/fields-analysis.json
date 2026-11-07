@@ -1,0 +1,83 @@
+{
+  "model": "Same fixed planar water dimer; PBE0/def2-SVP actual density for RDG/IRI; geometry-only promolecular comparison",
+  "units": {
+    "coordinates": "Angstrom",
+    "colour": "e/Bohr^3",
+    "RDG": "dimensionless",
+    "IRI": "atomic units with exponent1.1"
+  },
+  "grid": {
+    "shape": [
+      73,
+      54,
+      38
+    ],
+    "origin_Bohr": [
+      -4.232962,
+      -5.211865,
+      -3.779452
+    ],
+    "vectors_Bohr": [
+      [
+        0.2,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.2,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.2
+      ]
+    ]
+  },
+  "cutoffs": {
+    "RDG_maxrho": 0.05,
+    "IRI_rhocut": 5e-05,
+    "IRI_exponent": 1.1,
+    "RDGprodens_maxrho": 0.1
+  },
+  "replaced_grid_points": {
+    "RDG_high_density": 7553,
+    "IRI_low_density": 68639
+  },
+  "formula_relative_error": {
+    "RDG": 1.1683150689556498e-05,
+    "IRI": 9.295871657544197e-06
+  },
+  "surfaces": {
+    "rdg": {
+      "isovalue": 0.5,
+      "vertices": 102,
+      "faces": 200,
+      "scatter_points": 13231
+    },
+    "iri": {
+      "isovalue": 1.0,
+      "vertices": 152,
+      "faces": 284,
+      "scatter_points": 522
+    }
+  },
+  "scatter_filter": "stored points have descriptor<=2; |sign(lambda2)rho|<0.05 for RDG, <0.5 for IRI; promolecular comparison <0.1",
+  "colour_range": [
+    -0.04,
+    0.04
+  ],
+  "original_molden_sha256": "5029d632f77741c77c55017e14aa8fa222543ff2316a9e4d0da09deb54828f46",
+  "electronic_structure_record": "interaction-analysis.json",
+  "source_cube_sha256": {
+    "rdg/func1.cub": "03be79eb0dd433bd22b0f0c816771dbe9441fad064b78b57eeab94d78476db06",
+    "rdg/func2.cub": "aba4cb938a4abe22a4df5140ba25bb33f2a19d4ddac363af42e49e249f86421c",
+    "iri/func1.cub": "03be79eb0dd433bd22b0f0c816771dbe9441fad064b78b57eeab94d78476db06",
+    "iri/func2.cub": "c68a8c82ae1eb8918e22c4e76b4c7bded56f88f752775eddbfcb4e325e29a65a",
+    "density-gradient/func1.cub": "8a85cc9df0cdb0cb8bb5edef106b25d2ae5f53661745dd722214ee72a27cee8f",
+    "density-gradient/func2.cub": "e2bc8d28b071307f027184e697b67024b1bcf88b9b7d80299b6de093d43861c2",
+    "promolecular/func1.cub": "d88a549dbdf9a05412b7e8fec66edf49f6c0b6e25da6bbba2a095bd0666b9179",
+    "promolecular/func2.cub": "6e1d1b8893a197d1ea5149e62b683bd121ef80341e5646334d0a0395246c1044"
+  }
+}

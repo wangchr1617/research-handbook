@@ -2,8 +2,8 @@
 
 import argparse
 import os
-from pathlib import Path
 import tempfile
+from pathlib import Path
 
 from run_case import CASES, plot_case
 
@@ -14,7 +14,7 @@ def main():
     parser.add_argument("data", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    if args.output.exists():
+    if args.output.exists() or args.output.is_symlink():
         parser.error("输出图片已存在，请选择新文件名")
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="materials-plot-") as cache:

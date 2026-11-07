@@ -2,9 +2,11 @@
 
 **适用环境：Linux（Quantum ESPRESSO）。**
 
-下面以 GeTe 为例，讲述如何使用 QE 优化晶格参数和原子坐标。
+下面从 GeTe.cif 出发，用 QE 同时优化晶格参数和原子坐标，再从输出中提取最终结构。
 
-本例从 GeTe.cif 文件出发。使用 `Multiwfn_noGUI GeTe.cif` 打开 Multiwfn 程序，依次键入 `QE`、`pw.inp`、`q` 生成一个基础的输入文件模板（内含结构信息）如下所示：
+## 从 CIF 生成输入模板
+
+使用 `Multiwfn_noGUI GeTe.cif` 打开结构，依次键入 `QE`、`pw.inp`、`q`，生成包含结构信息的基础模板：
 
 ```text
 &control
@@ -38,7 +40,9 @@ K_POINTS automatic
 3 3 3 0 0 0
 ```
 
-然后在这个模板的基础上增加结构优化相关的 section 如下所示：
+## 设置晶胞与原子位置优化
+
+在模板上设置 `vc-relax` 任务，补充 `&IONS`、`&CELL` 等相关段落。下面保留本例的参数与赝势选择：
 
 ```text
 &CONTROL
@@ -108,9 +112,11 @@ K_POINTS automatic
 12 12 3 0 0 0
 ```
 
-其中赝势文件 `Ge.UPF` 和 `Te.UPF` 是 SSSP 赝势库中拷贝到本地的，`K_POINTS` 对应 VASPKIT 设置 Accuracy Levels 为 0.03 时的 KPOINTS 文件。
+赝势取自 SSSP 库；输入中的 `ge_pbe_v1.4.uspp.F.UPF` 和 `Te_pbe_v1.uspp.F.UPF` 应与实际文件名一致，`pseudo_dir` 替换为自己的势目录。这里的 `K_POINTS` 对应 VASPKIT 中 Accuracy Levels 为 0.03 时生成的 KPOINTS。
 
-使用命令 `qsub run_qe.pbs` 提交作业。脚本如下所示：
+## 提交计算
+
+将下面的脚本保存为 `run_qe.pbs`，按所在集群修改软件路径、队列和资源，再用 `qsub run_qe.pbs` 提交：
 
 ```bash
 #PBS -N qe
@@ -135,9 +141,9 @@ EXEC=/home/changruiwang-ICME/Software/qe-7.3.1/bin/pw.x
 mpirun -machinefile $PBS_NODEFILE -np $NP $EXEC -pd .true. < pw.inp > output
 ```
 
-## 结果分析与讨论
+## 查看优化过程与最终结构
 
-计算过程中使用下列命令可以查看优化过程中的收敛情况：
+计算过程中可用下列命令查看能量、受力和应力：
 
 ```bash
 grep " Total force =" output # 查看优化过程中各原子总的受力情况
@@ -150,13 +156,13 @@ grep -A 12 " Total force =" output # 查看优化过程中压力张量大小
 使用命令 `grep "End final coordinates" output` 检查离子步是否收敛；
 如果 QE 结构优化并未在几个离子步内结束，高精度计算时需要提取最后一次离子步输出的结构再进行结构优化。
 
-计算结束后，运行
+计算结束后，用下列命令提取最终晶胞与坐标：
 
 ```text
 awk '/Begin final coordinates/,/End final coordinates/{print $0}' output
 ```
 
-得到 vc-relax 的结果如下所示：
+本例的 `vc-relax` 输出如下：
 
 ```text
 Begin final coordinates

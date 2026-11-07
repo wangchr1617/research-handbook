@@ -2,9 +2,11 @@
 
 **适用环境：Linux（Quantum ESPRESSO）。**
 
-## 结构优化
+本文以 Si 为例，依次完成结构优化、静态自洽计算、动力学矩阵计算和声子色散后处理。
 
-声子谱计算需要非常高的计算精度，并确保初始结构已充分优化以减少虚频的可能性。
+## 先优化 Si 结构
+
+声子频率对结构和数值精度敏感。先充分优化结构，再进行后续计算，有助于减少由残余受力和数值误差引起的虚频。
 
 ```text
 &CONTROL
@@ -62,23 +64,21 @@ K_POINTS (automatic)
 
 运行 `pw.x < 1_vc_relax.inp > 1_vc_relax.out` 即可。
 
-计算结束后，运行
+计算结束后，提取最终晶胞与坐标：
 
 ```text
 awk '/Begin final coordinates/,/End final coordinates/{print $0}' output
 ```
 
-查看 vc-relax 的结果。
+其中 `output` 替换为本次运行的输出文件名 `1_vc_relax.out`。
 
 ## 自洽计算
 
-vc-relax 计算之后需要再做一次自洽计算，否则后续计算会出错。
-修改 `calculation = 'vc-relax'` 为 `calculation = 'scf'`，然后运行 `pw.x < 2_scf.inp > 2_scf.out` 即可。
-当 `calculation = 'scf'` 时，`pw.x` 会自动忽略 `IONS` 和 `CELL` 等不相干的模块。
+用优化后的结构进行静态自洽计算，为声子任务准备电子态。将最终晶胞与坐标写入 `2_scf.inp`，把 `calculation = 'vc-relax'` 改为 `calculation = 'scf'`，再运行 `pw.x < 2_scf.inp > 2_scf.out`。此时 `pw.x` 会忽略与静态任务无关的 `IONS` 和 `CELL` 模块。
 
 ## 声子计算
 
-自洽计算完成后，需要在倒空间进行动力学矩阵的计算。这一步耗时最长。
+自洽完成后，用 `ph.x` 计算倒空间中的动力学矩阵。可以先计算单个 q 点，再扩展到规则 q 网格；这部分通常是流程中耗时较多的步骤。
 
 ### 单个 q 点的计算
 
@@ -118,7 +118,7 @@ phonons of Si q-grid
 
 ## 后处理
 
-`ph.x` 计算结束后，使用 `q2r.x` 读取由 ph.x 代码生成的 q 点网格的力常数矩阵 C(q)，做傅里叶变换，并在实空间计算相应的原子间力常数（IFC）C(R)。
+规则 q 网格计算完成后，`q2r.x` 读取 `ph.x` 生成的 C(q)，通过傅里叶变换得到实空间原子间力常数 C(R)。随后由 `matdyn.x` 利用这些力常数计算所需路径上的声子频率。
 
 输入 `q2r.inp` 如下，再运行 `q2r.x < 4_q2r.inp > 4_q2r.out` 即可。
 
@@ -136,8 +136,7 @@ phonons of Si q-grid
 fft-check success (sum of imaginary terms < 10^-12)
 ```
 
-然后使用 `matdyn.x` 在超胞基础上计算任意 q 点的声子频率。
-将以下内容保存为 `5_matdyn.inp`，运行 `matdyn.x < 5_matdyn.inp > 5_matdyn.out`。
+将以下内容保存为 `5_matdyn.inp`，运行 `matdyn.x < 5_matdyn.inp > 5_matdyn.out`，计算指定路径上的声子频率。
 
 ```text
 &INPUT

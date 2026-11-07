@@ -2,12 +2,11 @@
 
 **适用环境：Linux 集群。**
 
+本文保留原集群中 LAMMPS 29Sep2021、23Jun2022 等版本的构建记录。目录、编译器和扩展接口对应原环境；使用其他版本时，先核对其构建要求。
+
 ## LAMMPS make 安装
 
-安装 LAMMPS 需要 MPICH、FFTW、以及 LAMMPS 安装包。
-**MPICH** 在集群 Intel 编译器中有，可以通过 `which mpirun` 查看路径。
-**FFTW** 在集群的 `/opt/software/` 目录下。
-LAMMPS 安装包可以到 [LAMMPS 官网](https://note.youdao.com/) 下载。
+先准备 LAMMPS 源码、MPI 与 FFTW。原集群的 MPI 随 Intel 编译环境提供，可用 `which mpirun` 核对路径；FFTW 位于 `/opt/software/`。源码从[LAMMPS 官方下载页](https://www.lammps.org/download.html)获取。
 
 1.  解压 LAMMPS 安装包：`tar -xzvf lammps-stable.tar.gz`；
 2.  进入 LAMMPS 安装目录，并修改配置文件：
@@ -45,8 +44,7 @@ make g++_mpich
 安装 MTP 势函数的接口。
 
 首先需要访问 [网址](https://gitlab.com/ashapeev/mlip-2) 下载 mlip 安装包。
-我们仅编译需要用到的 mlip 接口库 **libinterface** 即可。
-编译方法如下：
+本例只编译 LAMMPS 接口所需的 **libinterface** 库：
 
 ```bash
 ssh cu02
@@ -71,7 +69,7 @@ make yes-manybody
 make yes-REPLICA        # neb计算用
 ```
 
-然后用下面的命令编译好接口文件，注意这里编译的是 `intel_cpu_intelmpi`，因为 `g++_mpich` 方式编译会报错：
+原环境使用 `g++_mpich` 目标构建这一接口时曾报错，因此下面采用 `intel_cpu_intelmpi`：
 
 ```bash
 module load intel/2020.1.217
@@ -93,11 +91,11 @@ which cmake
 cmake --version
 ```
 
-CMake 方式安装可以分为三部分：
+CMake 构建分为三个阶段：
 
-> 1. configuration：检测哪些特性和设置应该被启用，以及如何编译 LAMMPS
-> 2. compilation：生成和编译所有必要的源文件，构建库和可执行文件
-> 3. installation：复制编译好的可执行文件到指定位置，不再依赖于源文件
+1. 配置（configuration）：确定编译器、依赖库和启用的功能。
+2. 编译（compilation）：构建库与可执行程序。
+3. 安装（installation）：将构建产物复制到指定安装位置。
 
 配置和编译必须在单独的 build 目录中，并且该目录必须不同于源目录。
 
@@ -115,7 +113,7 @@ CMake 方式安装可以分为三部分：
 tar -xzvf lammps-stable.tar.gz
 
 cd lammps-23Jun2022
-make build && cd build
+mkdir build && cd build
 cmake ../cmake                      # 这一步并不会编译代码
 
 # 这两种方式任选一种都可以编译，一定是在build目录下，make方式还需要make install
@@ -125,9 +123,7 @@ make -j 8
 make install
 ```
 
----
-
-以下是运行 `cmake ../cmake` 命令后的输出，特别注意 **Could NOT find** 之后的内容，如果是必须的库，就需要先手动安装好。
+配置时留意 **Could NOT find** 等信息，区分可选功能与当前任务必需的库；缺少必需依赖时，先补齐再编译。
 
 ### 设置选项
 
@@ -205,5 +201,5 @@ mpirun -np 8 lmp_gpu -sf gpu -pk gpu 1 -in in.file
 ```
 
 ```bash
-cmake -c ../cmake/presets/kokkos-cuda.cmake -C ../cmake/presets/basic.cmake -D PKG_GPU=on -D GPU_API=cuda -D GPU_PREC=mixed -D GPU_ARCH=sm_86 -D CUDPP_OPT=yes -D PKG_ML-SNAP=yes ../cmake
+cmake -C ../cmake/presets/kokkos-cuda.cmake -C ../cmake/presets/basic.cmake -D PKG_GPU=on -D GPU_API=cuda -D GPU_PREC=mixed -D GPU_ARCH=sm_86 -D CUDPP_OPT=yes -D PKG_ML-SNAP=yes ../cmake
 ```

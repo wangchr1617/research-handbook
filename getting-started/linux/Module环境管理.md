@@ -64,6 +64,6 @@ Modules 与 Lmod 在配置、模块层级和默认版本机制上存在差别，
 
 批处理脚本先初始化 Module，再加载明确版本；编译与运行使用相配套的编译器、MPI 和数学库。将 `module list` 与程序版本写入日志，方便复现。
 
-不要把很多软件自动加载到个人 `.bashrc`。需要切换工具链时，记录已有模块，优先在新终端中测试；`module purge` 会影响当前 shell 的全部模块。
+按任务显式加载所需版本，避免在个人 `.bashrc` 中自动加载大量软件。需要切换工具链时，记录已有模块，优先在新终端中测试；`module purge` 会影响当前 shell 的全部模块。
 
 参考：[Environment Modules 命令手册](https://modules.readthedocs.io/en/latest/module.html)。

@@ -2,11 +2,7 @@
 
 **适用环境：通用（LAMMPS 输入文件）。**
 
-键结作用：harmonics 键长和键角势能，Fourier 扭矩势能
-
-非键作用：LJ 势和 Coulomb 势
-
-分别通过以下的 LAMMPS 参数设置：
+OPLS-AA 的成键项包括谐和键长、键角势，以及 Fourier 形式的二面角势；非键项包括 Lennard–Jones（LJ）与 Coulomb 相互作用。下面的片段选择这些势函数形式及相应组合规则：
 
 ```text
 atom_style full

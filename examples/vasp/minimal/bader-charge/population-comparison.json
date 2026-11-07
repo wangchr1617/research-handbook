@@ -1,0 +1,58 @@
+{
+  "system": "NaCl two-atom primitive cell, lattice parameter 5.64 Angstrom",
+  "conditions": {
+    "functional": "PBE",
+    "PAW_datasets": [
+      "Na_pv",
+      "Cl"
+    ],
+    "effective_nuclear_charges": [
+      7,
+      7
+    ],
+    "ENCUT_eV": 450,
+    "k_mesh": [
+      5,
+      5,
+      5
+    ],
+    "fine_FFT_mesh": [
+      96,
+      96,
+      96
+    ],
+    "ISMEAR": 0,
+    "SIGMA_eV": 0.05
+  },
+  "valence_density_sha256": "a09b26e0c33e98aecb5ffeaebc911f984c906af54faae38780f5e5036fa9982d",
+  "integrated_valence_electrons": 14.000000129653825,
+  "Hirshfeld": {
+    "analyzer": "Multiwfn 2026.7.15",
+    "net_charge_e": [
+      0.21524241,
+      -0.21524254
+    ],
+    "printed_decimal_places": 8
+  },
+  "CM5": {
+    "analyzer": "Multiwfn 2026.7.15",
+    "net_charge_e": [
+      0.440532,
+      -0.440532
+    ],
+    "printed_decimal_places": 6,
+    "reported_charge_sum_e": -1.3e-07
+  },
+  "Bader": {
+    "net_charge_e": [
+      0.8636879999999998,
+      -0.8636879999999998
+    ],
+    "partition_reference": "AECCAR0 + AECCAR2",
+    "population_field": "CHGCAR valence density",
+    "printed_decimal_places": 6
+  },
+  "negative_grid_points": 1,
+  "integrated_negative_density_e": -1.137212460892289e-07,
+  "scope": "Same density, different charge definitions; not a ranking or convergence proof. MBIS not evaluated on this signed PAW density."
+}

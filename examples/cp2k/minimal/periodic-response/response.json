@@ -1,0 +1,104 @@
+{
+  "model": "fixed water dimer, 8 Angstrom cubic cell, Gamma, PBE/DZVP-MOLOPT-SR-GTH, GTH O q6/H q1",
+  "versions": {
+    "cp2k": "2026.2",
+    "multiwfn": "2026.7.15"
+  },
+  "input_sha256": "a2b4f4835d81e7f49138a8faab43db9ce6349ecf735b083d91d80bb54a2c0e67",
+  "geometry_sha256": "c56923fb4984fbfb9dd49c9e1cbcb3afe3615aa3bad8baba2f9587c661baf197",
+  "wavefunction_sha256": "e3d3e0d7aba98f76e0b909a32502ee89583fc344cb178675b3a028c98e33fac7",
+  "analysis_wavefunction_sha256": "e00dad1f04a63517d73537ba4b37474ae6440fc8b605a8e55ef3cb161be760ff",
+  "nmo": 46,
+  "electrons": 16,
+  "states": [
+    {
+      "state": 1,
+      "energy_ev": 9.35049,
+      "oscillator_strength": 5.36535e-05,
+      "printed_norm": 0.9999991099619998,
+      "nto_weights": [
+        0.9998943492848927,
+        3.749052196678124e-05,
+        2.1447057693470003e-05,
+        2.0309598106268907e-05,
+        1.420179759099445e-05,
+        6.139443664174276e-06,
+        3.2856488541591735e-06,
+        1.8866092304205623e-06
+      ]
+    },
+    {
+      "state": 2,
+      "energy_ev": 10.33149,
+      "oscillator_strength": 0.000485409,
+      "printed_norm": 1.000000862224,
+      "nto_weights": [
+        0.9998142912714767,
+        0.00012853476852275035,
+        3.369878302199809e-05,
+        1.6617803880439585e-05,
+        6.715788557080682e-06,
+        7.181602072172362e-07,
+        2.430881766054564e-07,
+        4.256015665891066e-08
+      ]
+    },
+    {
+      "state": 3,
+      "energy_ev": 11.00357,
+      "oscillator_strength": 0.0159781,
+      "printed_norm": 0.999999241347,
+      "nto_weights": [
+        0.9929751784304003,
+        0.005538130251600245,
+        0.0008870398517231043,
+        0.0003399120805685334,
+        0.00025382079996773564,
+        2.7332190016322925e-06,
+        2.17505783583545e-06,
+        2.516559031587067e-07
+      ]
+    }
+  ],
+  "native_nto_max_abs_error": 2.8489277603682694e-10,
+  "fields": {
+    "grid/func1.cub": {
+      "shape": [
+        23,
+        13,
+        13
+      ],
+      "max_translation_difference": 0.0
+    },
+    "grid/func2.cub": {
+      "shape": [
+        23,
+        13,
+        13
+      ],
+      "max_translation_difference": 0.0
+    },
+    "igmh/dg_inter.cub": {
+      "shape": [
+        23,
+        13,
+        13
+      ],
+      "max_translation_difference": 0.0
+    },
+    "igmh/sl2r.cub": {
+      "shape": [
+        23,
+        13,
+        13
+      ],
+      "max_translation_difference": 0.0
+    }
+  },
+  "broadening_sigma_ev": 0.15,
+  "grid_spacing_bohr": 0.2,
+  "limitations": [
+    "Finite image-summation defaults retained; translation equality does not establish image convergence",
+    "Compact basis, fixed artificial cell, three roots; no converged material absorption spectrum"
+  ]
+}

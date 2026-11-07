@@ -21,6 +21,26 @@ Archeos 提供科研工作台与运行时网关，ALKEMIE 包含科研工具、�
 
 阅读练习：从 `auth.py::login` 找到 `Credentials`，再追踪 `issue_session` 写入的字段，最后看 `security.py::current_user` 如何验证这些字段。注意身份不是前端提交的角色；权限检查也不只是“已经登录”。
 
+### 一段真实的登录校验
+
+[auth.py::login](https://github.com/hfood02/Archeos/blob/275ee9c5edcf4df6c773512d8576cb0010168fd4/backend/archeos/auth.py) 完整函数：
+
+```python
+@router.post("/login", response_model=LoginView)
+def login(body: Credentials, request: Request, response: Response, db: DB):
+    key = record_attempt(db, request, body.email)
+    user = db.scalar(select(User).where(User.email == body.email))
+    ok = check_password(body.password, user.password_hash if user else DUMMY_HASH)
+    if not user or not ok or not user.active:
+        fail("invalid_credentials", 401)
+    db.execute(delete(LoginAttempt).where(LoginAttempt.key == key))
+    return issue_session(db, response, user)
+```
+
+`record_attempt` 在校验密码前执行，使失败尝试也计入预算；不存在用户时仍走 DUMMY_HASH 校验路径，减少直接跳过密码计算造成的时间差；有效用户也必须 active。成功之后不是返回数据库 User 原对象，而是由 `issue_session` 创建会话并返回 LoginView。
+
+该函数挂在 auth router 下，完整 URL 还要看 app.include_router 的 prefix；不能仅把装饰器里的 `/login` 当成对外路径。Demo 的 `/api/auth/login` 与这里的原项目路径和输入字段均不同。
+
 ## Archeos：持久化、流式与任务
 
 | 入口 | 观察重点 |
@@ -51,6 +71,23 @@ Archeos 提供科研工作台与运行时网关，ALKEMIE 包含科研工具、�
 
 这个快照能缓解历史查询与实时订阅的竞态，但进程退出会丢失，多个进程也不会自动共享。若改成多 worker 部署，需要共享事件存储和明确重放协议；把字典机械替换成 Redis 键并不能自动完成恢复设计。
 
+### ALKEMIE 的 scope 是如何形成的
+
+[stream_recovery.py::agent_stream_scope](https://github.com/hfood02/Alkemie/blob/46bd55237fa01bf30fa65c7ae99bcbb6b4eca8a6/backend/agents/stream_recovery.py) 的完整函数：
+
+```python
+def agent_stream_scope(project_id: str, user_id: str | None) -> str:
+    """Return the isolation key used by recovery state and Socket.IO rooms."""
+    normalized_project_id = str(project_id or "temp")
+    if is_user_scoped_agent_context_id(normalized_project_id):
+        return f"user:{str(user_id or '')}:session:{normalized_project_id}"
+    return f"project:{normalized_project_id}"
+```
+
+用户级会话的恢复键同时包含 user 与 session，项目级上下文使用项目键。是否允许某个用户订阅对应 project／session，还需要上游鉴权；生成一个 room／scope 字符串本身不等于授权完成。接着读注册、更新和清理快照的调用方，确定每个入口传入的 user_id 来自可信认证上下文。
+
+`AgentStreamRecoveryStore` 的 RLock 只保护同进程中的线程。跨进程部署后，相同字符串 scope 不会让多个 Python 字典自动同步；共享事件存储与消费协议必须另行实现。
+
 ## 迁移为自己的 Demo
 
 1. 从输入模型与身份检查开始，先验证未登录、越权、未知字段和超长输入。
@@ -70,43 +107,6 @@ Archeos 提供科研工作台与运行时网关，ALKEMIE 包含科研工具、�
 | 登录后发送写请求 | Credentials → login → issue_session → app.boundary → current_user | 密码、Cookie、Origin、CSRF 分别在哪校验 |
 | 一个 run 的流 | events → runtime／grant → engine.stream → pending → close_iterator | 断开和权限撤销怎样结束订阅 |
 | 科研任务后续执行 | ScientificTask → record_task_intent → reconciliation_loop → continuation receipt | 唯一意图、授权复查、核对与重试如何区分 |
-
-### 一段真实的登录校验
-
-[auth.py::login](https://github.com/hfood02/Archeos/blob/275ee9c5edcf4df6c773512d8576cb0010168fd4/backend/archeos/auth.py) 完整函数：
-
-```python
-@router.post("/login", response_model=LoginView)
-def login(body: Credentials, request: Request, response: Response, db: DB):
-    key = record_attempt(db, request, body.email)
-    user = db.scalar(select(User).where(User.email == body.email))
-    ok = check_password(body.password, user.password_hash if user else DUMMY_HASH)
-    if not user or not ok or not user.active:
-        fail("invalid_credentials", 401)
-    db.execute(delete(LoginAttempt).where(LoginAttempt.key == key))
-    return issue_session(db, response, user)
-```
-
-`record_attempt` 在校验密码前执行，使失败尝试也计入预算；不存在用户时仍走 DUMMY_HASH 校验路径，减少直接跳过密码计算造成的时间差；有效用户也必须 active。成功之后不是返回数据库 User 原对象，而是由 `issue_session` 创建会话并返回 LoginView。
-
-该函数挂在 auth router 下，完整 URL 还要看 app.include_router 的 prefix；不能仅把装饰器里的 `/login` 当成对外路径。Demo 的 `/api/auth/login` 与这里的原项目路径和输入字段均不同。
-
-### ALKEMIE 的 scope 是如何形成的
-
-[stream_recovery.py::agent_stream_scope](https://github.com/hfood02/Alkemie/blob/46bd55237fa01bf30fa65c7ae99bcbb6b4eca8a6/backend/agents/stream_recovery.py) 的完整函数：
-
-```python
-def agent_stream_scope(project_id: str, user_id: str | None) -> str:
-    """Return the isolation key used by recovery state and Socket.IO rooms."""
-    normalized_project_id = str(project_id or "temp")
-    if is_user_scoped_agent_context_id(normalized_project_id):
-        return f"user:{str(user_id or '')}:session:{normalized_project_id}"
-    return f"project:{normalized_project_id}"
-```
-
-用户级会话的恢复键同时包含 user 与 session，项目级上下文使用项目键。是否允许某个用户订阅对应 project／session，还需要上游鉴权；生成一个 room／scope 字符串本身不等于授权完成。接着读注册、更新和清理快照的调用方，确定每个入口传入的 user_id 来自可信认证上下文。
-
-`AgentStreamRecoveryStore` 的 RLock 只保护同进程中的线程。跨进程部署后，相同字符串 scope 不会让多个 Python 字典自动同步；共享事件存储与消费协议必须另行实现。
 
 ## 把阅读结果映射到自己的代码
 

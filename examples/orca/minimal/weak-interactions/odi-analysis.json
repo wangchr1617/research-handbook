@@ -1,0 +1,256 @@
+{
+  "model": "Fixed water dimer, PBE0/def2-SVP, same wavefunction as interaction-analysis.json",
+  "method": "Hirshfeld, built-in spherical atomic densities",
+  "atom_centered_points_per_atom": 9060,
+  "formula": "ODI=100*sum(p_A^2), p normalized to one",
+  "fragment_formula": "ODI_F=100*sum((p_A/sum_F(p_A))^2)",
+  "composition_precision": "orbcomp.txt percentages rounded to0.001%; exported fractions rescaled to sum1; fragment reconstruction omitted below1% weight",
+  "HOMO_fragment_percent_native": 99.691,
+  "HOMO_total_before_normalization_percent": 100.003053,
+  "orbitals": [
+    {
+      "index": 1,
+      "energy_Ha": -19.226402,
+      "occupancy": 2.0,
+      "rounded_atomic_fractions": [
+        0.0,
+        2e-05,
+        0.0,
+        0.99738,
+        0.0013,
+        0.0013
+      ],
+      "native_ODI": 99.48,
+      "reconstructed_ODI": 99.47702448000003,
+      "effective_atoms": 1.0052572493270053,
+      "fragment": [
+        1,
+        2,
+        3
+      ],
+      "fragment_fraction": 2e-05,
+      "native_fragment_ODI": 87.31,
+      "reconstructed_fragment_ODI": null
+    },
+    {
+      "index": 2,
+      "energy_Ha": -19.151838,
+      "occupancy": 2.0,
+      "rounded_atomic_fractions": [
+        0.99733,
+        0.00136,
+        0.00131,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "native_ODI": 99.47,
+      "reconstructed_ODI": 99.46706946000002,
+      "effective_atoms": 1.0053578590672594,
+      "fragment": [
+        1,
+        2,
+        3
+      ],
+      "fragment_fraction": 1.0,
+      "native_fragment_ODI": 99.47,
+      "reconstructed_fragment_ODI": 99.46706946000002
+    },
+    {
+      "index": 3,
+      "energy_Ha": -1.041175,
+      "occupancy": 2.0,
+      "rounded_atomic_fractions": [
+        0.0023599999999999997,
+        0.00482,
+        0.0003,
+        0.78675,
+        0.10326,
+        0.10250999999999999
+      ],
+      "native_ODI": 64.02,
+      "reconstructed_ODI": 64.01753821999999,
+      "effective_atoms": 1.562071938104589,
+      "fragment": [
+        1,
+        2,
+        3
+      ],
+      "fragment_fraction": 0.007479999999999999,
+      "native_fragment_ODI": 51.58,
+      "reconstructed_fragment_ODI": null
+    },
+    {
+      "index": 4,
+      "energy_Ha": -0.970141,
+      "occupancy": 2.0,
+      "rounded_atomic_fractions": [
+        0.7874800000000001,
+        0.10055,
+        0.10669000000000001,
+        0.00421,
+        0.00054,
+        0.00053
+      ],
+      "native_ODI": 64.16,
+      "reconstructed_ODI": 64.16361056000002,
+      "effective_atoms": 1.5585157868647217,
+      "fragment": [
+        1,
+        2,
+        3
+      ],
+      "fragment_fraction": 0.99472,
+      "native_fragment_ODI": 64.84,
+      "reconstructed_fragment_ODI": 64.84473351853683
+    },
+    {
+      "index": 5,
+      "energy_Ha": -0.56248,
+      "occupancy": 2.0,
+      "rounded_atomic_fractions": [
+        0.0003000030000300003,
+        0.003070030700307003,
+        0.00014000140001400017,
+        0.6538365383653836,
+        0.17135171351713518,
+        0.17130171301713015
+      ],
+      "native_ODI": 48.62,
+      "reconstructed_ODI": 48.621744020018234,
+      "effective_atoms": 2.0566929881994493,
+      "fragment": [
+        1,
+        2,
+        3
+      ],
+      "fragment_fraction": 0.0035100351003510034,
+      "native_fragment_ODI": 77.37,
+      "reconstructed_fragment_ODI": null
+    },
+    {
+      "index": 6,
+      "energy_Ha": -0.499936,
+      "occupancy": 2.0,
+      "rounded_atomic_fractions": [
+        0.57961,
+        0.16556,
+        0.15618,
+        0.08294,
+        0.0072299999999999994,
+        0.00848
+      ],
+      "native_ODI": 39.48,
+      "reconstructed_ODI": 39.475328499999996,
+      "effective_atoms": 2.533227810884462,
+      "fragment": [
+        1,
+        2,
+        3
+      ],
+      "fragment_fraction": 0.90135,
+      "native_fragment_ODI": 47.73,
+      "reconstructed_fragment_ODI": 47.7270888905881
+    },
+    {
+      "index": 7,
+      "energy_Ha": -0.419386,
+      "occupancy": 2.0,
+      "rounded_atomic_fractions": [
+        0.11312886871131289,
+        0.031639683603163965,
+        0.03094969050309497,
+        0.6864431355686442,
+        0.07006929930700692,
+        0.06776932230677693
+      ],
+      "native_ODI": 49.55,
+      "reconstructed_ODI": 49.54636599772541,
+      "effective_atoms": 2.0183114944210203,
+      "fragment": [
+        1,
+        2,
+        3
+      ],
+      "fragment_fraction": 0.1757182428175718,
+      "native_fragment_ODI": 47.8,
+      "reconstructed_fragment_ODI": 47.79331294965727
+    },
+    {
+      "index": 8,
+      "energy_Ha": -0.341249,
+      "occupancy": 2.0,
+      "rounded_atomic_fractions": [
+        0.8082980829808298,
+        0.07271072710727107,
+        0.07319073190731909,
+        0.03755037550375504,
+        0.003920039200392004,
+        0.004330043300433004
+      ],
+      "native_ODI": 66.54,
+      "reconstructed_ODI": 66.54336707068708,
+      "effective_atoms": 1.5027793813585193,
+      "fragment": [
+        1,
+        2,
+        3
+      ],
+      "fragment_fraction": 0.95419954199542,
+      "native_fragment_ODI": 72.93,
+      "reconstructed_fragment_ODI": 72.9260716632489
+    },
+    {
+      "index": 9,
+      "energy_Ha": -0.339284,
+      "occupancy": 2.0,
+      "rounded_atomic_fractions": [
+        0.0024399756002439973,
+        0.008099919000809993,
+        0.0002899971000289997,
+        0.8778412215877841,
+        0.05569944300556994,
+        0.05562944370556294
+      ],
+      "native_ODI": 77.69,
+      "reconstructed_ODI": 77.68739195439217,
+      "effective_atoms": 1.2872101570703631,
+      "fragment": [
+        1,
+        2,
+        3
+      ],
+      "fragment_fraction": 0.01082989170108299,
+      "native_fragment_ODI": 61.13,
+      "reconstructed_fragment_ODI": 61.086513728068056
+    },
+    {
+      "index": 10,
+      "energy_Ha": -0.269638,
+      "occupancy": 2.0,
+      "rounded_atomic_fractions": [
+        0.88404,
+        0.05589000000000001,
+        0.056990000000000006,
+        0.0027300000000000007,
+        0.00017000000000000004,
+        0.00018
+      ],
+      "native_ODI": 78.79,
+      "reconstructed_ODI": 78.7905788,
+      "effective_atoms": 1.2691872749638944,
+      "fragment": [
+        1,
+        2,
+        3
+      ],
+      "fragment_fraction": 0.99692,
+      "native_fragment_ODI": 79.28,
+      "reconstructed_fragment_ODI": 79.27742425605987
+    }
+  ],
+  "source_sha256": {
+    "run.log": "f5b91d29c0d23db3228e1aa532fed3e68041c1e67dec88eea56f8805eb521c25",
+    "orbcomp.txt": "7ebdebe57bc9dd2a641ab86bbb4626f6164d8a0333a89b8491dfb9b84677639d"
+  }
+}

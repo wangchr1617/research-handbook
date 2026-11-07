@@ -29,8 +29,7 @@ Colab 不要求先安装 Python、Jupyter 或 Google Drive 桌面客户端。需
 <img src="assets/colab/colab-003.png" width = "50%" />
 </div>
 
-可以像 Jupyter Notebook 一样使用 Colab，甚至他们的文件格式都是一样的。
-Jupyter Notebook 文件可以直接传到谷歌云并用 Colab 打开并执行：
+Colab 使用 `.ipynb` 格式，可以上传已有的 Jupyter Notebook，再在云端环境中打开和运行：
 
 <div align="left">
 <img src="assets/colab/colab-004.png" width = "50%" />

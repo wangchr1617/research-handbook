@@ -36,6 +36,32 @@ erDiagram
 
 多团队版本需加入 `teams`、`memberships`，把资源绑定到团队和成员；不能只凭前端传来的 `team_id` 查询。真实 Agent 可增加 `tool_calls`、`run_attempts`、模型用量与对象存储引用，将每次重试的起止时间、输入摘要、错误类别单独记录。
 
+## 从 Python 字段看真实表定义
+
+[demo/db.py::Message](../../../examples/backend/agent-demo/demo/db.py) 完整类定义如下：
+
+```python
+class Message(Base):
+    __tablename__ = "messages"
+    __table_args__ = (UniqueConstraint("run_id", "role"),)
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    conversation_id: Mapped[str] = mapped_column(ForeignKey("conversations.id"), index=True)
+    run_id: Mapped[str] = mapped_column(ForeignKey("runs.id"))
+    role: Mapped[str] = mapped_column(String(16))
+    content: Mapped[str] = mapped_column(Text)
+    created_at: Mapped[float] = mapped_column(default=time.time)
+```
+
+`Mapped[int]`、`Mapped[str]` 表示属性类型；`mapped_column` 指定列的存储与约束。消息 ID 自增供分页使用，`run_id` 外键关联一次逻辑执行。这里 `(run_id, role)` 唯一，是因为 Demo 每次执行只有一条 user 输入与一条最终 assistant 输出；真实工具对话若有多条 tool／assistant 消息，应改成 `(run_id, sequence)`，保留 role 作为普通字段，不能照搬这个唯一约束。
+
+`created_at` 使用 `time.time` 作为可调用默认值，在插入时计算。若错误地写成 `default=time.time()`，值会在加载模块时计算，之后记录可能共用同一时间。Float 存的是 Unix 秒；PostgreSQL 正式业务也可以使用 `TIMESTAMPTZ` 并在接口中返回带时区 ISO 8601。
+
+### 外键不能替代资源归属检查
+
+`Run.attachment_id` 的外键只能保证附件存在，不能保证附件和 run 的会话相同。Demo 在 submit 中检查 `attachment.conversation_id == conversation_id`。高完整性设计还可用联合外键约束 `(conversation_id, attachment_id)`，但仍不能免掉当前用户访问权限检查。
+
+SQLite 的字符串长度声明也不等于 PostgreSQL 的 VARCHAR 长度行为；HTTP 的 Pydantic 长度约束与数据库 CHECK 各自承担不同入口的约束。后台脚本直接写库时不会自动经过 HTTP 输入类。
+
 ## 约束、索引与事务
 
 外键保证引用对象存在，唯一约束防止重复，CHECK 约束限制状态和值域。必要索引包括 `(run_id, event_id)`、`(conversation_id, message_id)`、`(status, next_at)` 和用户下的会话排序键。索引增加写入与存储成本，应结合查询计划选择。[PostgreSQL 约束文档](https://www.postgresql.org/docs/current/ddl-constraints.html)解释了外键、唯一性和 CHECK 的边界。
@@ -59,6 +85,28 @@ with session() as db:
 
 SQLite 练习启用外键、WAL 和 busy timeout；它仍只有有限的写并发能力。生产并发竞争、隔离级别、`SELECT FOR UPDATE` 与死锁应在 PostgreSQL 实例中验证，不能仅凭 SQLite 测试推断。
 
+## 一次提交为什么要同时写三种记录
+
+[Demo submit](../../../examples/backend/agent-demo/demo/main.py) 的关键事务为：
+
+```python
+with session() as db:
+    run = Run(conversation_id=conversation_id,
+              request_id=request.state.request_id, **body.model_dump())
+    db.add(run)
+    db.flush()
+    db.add(Message(conversation_id=conversation_id, run_id=run.id,
+                   role="user", content=body.prompt))
+    add_event(db, run.id, "status", {"status": "queued"})
+    db.commit()
+```
+
+此处省略的是前后的授权、幂等处理与 broker 投递，完整函数见链接。`flush()` 发送 INSERT 并取得主键，不代表事务已经成功提交。后面的消息插入失败时，三类记录都应回滚；不能在每加一条记录后就单独 commit。
+
+同时提交两个相同幂等键时，即使两边都先 SELECT 到“不存在”，唯一约束仍会让一边失败。Demo 捕获 IntegrityError 后显式 rollback，再重新查询旧 run 并核对内容。这是“先查再写”之外不可省掉的并发保护。
+
+`with session() as db` 负责关闭 Session，本身不表示自动提交；如果改用 `with Session.begin()` 等上下文，需要明确正常退出与异常退出的提交／回滚语义。详见 [SQLAlchemy 事务基础](https://docs.sqlalchemy.org/en/20/orm/session_basics.html)。
+
 ## 查询历史与保存执行状态
 
 下面是使用绑定参数的查询形状，参数由 SQLAlchemy 传入：
@@ -77,6 +125,30 @@ LIMIT :page_size;
 首次查询省略 `before_id` 条件。取到最新一页后，在应用中反转为正序展示；下一页使用最小的消息 ID。禁止直接把整段历史无限制交给模型，先按授权查询，再根据上下文预算截断或总结。
 
 历史消息是完成后的对话记录，事件是执行过程。失败任务可能已经输出部分 delta，但不能把这些片段伪装成完整成功回复。前端用 `run_id` 关联输入、事件与最终状态；恢复页面时先查询 run，再决定读历史还是重放事件。
+
+## 在自己的练习库中检查数据
+
+先按[请求与恢复实操](../../../examples/backend/agent-demo/请求与恢复实操.md)生成 `/tmp/agent-backend-lab/demo.db`。SQLite 命令在本机执行：
+
+```bash
+sqlite3 /tmp/agent-backend-lab/demo.db '.schema runs'
+sqlite3 -header -column /tmp/agent-backend-lab/demo.db < inputs/backend/查看任务.sql
+```
+
+这组查询不选择密码哈希与登录令牌摘要。重点核对：成功 normal／retry 各有一条 assistant，其他终态只有输入；retry 的 attempt 是 2，取消前未执行的任务 attempt 是 0；过期 worker 的 late write 不会产生成功消息。
+
+查询历史时采用 `ORDER BY id DESC LIMIT 50` 后再反转，是为了获取**最新一页**并以正序展示；直接 `ORDER BY id ASC LIMIT 50` 会固定读到最早 50 条。查询到的消息数不足 50 并不意味着用户从未有更多历史，还需结合分页游标。
+
+### 检查查询是否使用索引
+
+```sql
+EXPLAIN QUERY PLAN
+SELECT id, kind, data FROM run_events
+WHERE run_id = '替换为练习报告中的run_id' AND id > 0
+ORDER BY id LIMIT 100;
+```
+
+在 SQLite 练习中观察是否使用 `ix_event_run_cursor` 等索引；PostgreSQL 用 EXPLAIN，性能诊断时按需要使用 `EXPLAIN (ANALYZE, BUFFERS)`。ANALYZE 会实际执行语句，对写操作尤其要谨慎，不在真实业务上随意试验。
 
 ## Redis 在哪里起作用
 
@@ -110,78 +182,6 @@ Streams 的消费组和待确认列表见 [Redis Streams 官方说明](https://r
 缓存可以配置淘汰；任务队列被淘汰可能直接丢消息。生产通常把 broker 与可淘汰缓存分实例管理，设置容量、ACL、网络边界和监控。Demo 的 Redis 只做 Celery broker，使用 AOF 和 `noeviction`；内存满会导致写入失败，应报警并扩容，数据库补投意图仍需保留。
 
 备份要包含关系数据库、对象存储和恢复所需密钥，并实际演练恢复。把 Redis `PING` 成功当成“数据安全”或“任务一定执行成功”都不足够。
-
-## 从 Python 字段看真实表定义
-
-[demo/db.py::Message](../../../examples/backend/agent-demo/demo/db.py) 完整类定义如下：
-
-```python
-class Message(Base):
-    __tablename__ = "messages"
-    __table_args__ = (UniqueConstraint("run_id", "role"),)
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    conversation_id: Mapped[str] = mapped_column(ForeignKey("conversations.id"), index=True)
-    run_id: Mapped[str] = mapped_column(ForeignKey("runs.id"))
-    role: Mapped[str] = mapped_column(String(16))
-    content: Mapped[str] = mapped_column(Text)
-    created_at: Mapped[float] = mapped_column(default=time.time)
-```
-
-`Mapped[int]`、`Mapped[str]` 表示属性类型；`mapped_column` 指定列的存储与约束。消息 ID 自增供分页使用，`run_id` 外键关联一次逻辑执行。这里 `(run_id, role)` 唯一，是因为 Demo 每次执行只有一条 user 输入与一条最终 assistant 输出；真实工具对话若有多条 tool／assistant 消息，应改成 `(run_id, sequence)`，保留 role 作为普通字段，不能照搬这个唯一约束。
-
-`created_at` 使用 `time.time` 作为可调用默认值，在插入时计算。若错误地写成 `default=time.time()`，值会在加载模块时计算，之后记录可能共用同一时间。Float 存的是 Unix 秒；PostgreSQL 正式业务也可以使用 `TIMESTAMPTZ` 并在接口中返回带时区 ISO 8601。
-
-### 外键不能替代资源归属检查
-
-`Run.attachment_id` 的外键只能保证附件存在，不能保证附件和 run 的会话相同。Demo 在 submit 中检查 `attachment.conversation_id == conversation_id`。高完整性设计还可用联合外键约束 `(conversation_id, attachment_id)`，但仍不能免掉当前用户访问权限检查。
-
-SQLite 的字符串长度声明也不等于 PostgreSQL 的 VARCHAR 长度行为；HTTP 的 Pydantic 长度约束与数据库 CHECK 各自承担不同入口的约束。后台脚本直接写库时不会自动经过 HTTP 输入类。
-
-## 一次提交为什么要同时写三种记录
-
-[Demo submit](../../../examples/backend/agent-demo/demo/main.py) 的关键事务为：
-
-```python
-with session() as db:
-    run = Run(conversation_id=conversation_id,
-              request_id=request.state.request_id, **body.model_dump())
-    db.add(run)
-    db.flush()
-    db.add(Message(conversation_id=conversation_id, run_id=run.id,
-                   role="user", content=body.prompt))
-    add_event(db, run.id, "status", {"status": "queued"})
-    db.commit()
-```
-
-此处省略的是前后的授权、幂等处理与 broker 投递，完整函数见链接。`flush()` 发送 INSERT 并取得主键，不代表事务已经成功提交。后面的消息插入失败时，三类记录都应回滚；不能在每加一条记录后就单独 commit。
-
-同时提交两个相同幂等键时，即使两边都先 SELECT 到“不存在”，唯一约束仍会让一边失败。Demo 捕获 IntegrityError 后显式 rollback，再重新查询旧 run 并核对内容。这是“先查再写”之外不可省掉的并发保护。
-
-`with session() as db` 负责关闭 Session，本身不表示自动提交；如果改用 `with Session.begin()` 等上下文，需要明确正常退出与异常退出的提交／回滚语义。详见 [SQLAlchemy 事务基础](https://docs.sqlalchemy.org/en/20/orm/session_basics.html)。
-
-## 在自己的练习库中检查数据
-
-先按[请求与恢复实操](../../../examples/backend/agent-demo/请求与恢复实操.md)生成 `/tmp/agent-backend-lab/demo.db`。SQLite 命令在本机执行：
-
-```bash
-sqlite3 /tmp/agent-backend-lab/demo.db '.schema runs'
-sqlite3 -header -column /tmp/agent-backend-lab/demo.db < inputs/backend/查看任务.sql
-```
-
-这组查询不选择密码哈希与登录令牌摘要。重点核对：成功 normal／retry 各有一条 assistant，其他终态只有输入；retry 的 attempt 是 2，取消前未执行的任务 attempt 是 0；过期 worker 的 late write 不会产生成功消息。
-
-查询历史时采用 `ORDER BY id DESC LIMIT 50` 后再反转，是为了获取**最新一页**并以正序展示；直接 `ORDER BY id ASC LIMIT 50` 会固定读到最早 50 条。查询到的消息数不足 50 并不意味着用户从未有更多历史，还需结合分页游标。
-
-### 检查查询是否使用索引
-
-```sql
-EXPLAIN QUERY PLAN
-SELECT id, kind, data FROM run_events
-WHERE run_id = '替换为练习报告中的run_id' AND id > 0
-ORDER BY id LIMIT 100;
-```
-
-在 SQLite 练习中观察是否使用 `ix_event_run_cursor` 等索引；PostgreSQL 用 EXPLAIN，性能诊断时按需要使用 `EXPLAIN (ANALYZE, BUFFERS)`。ANALYZE 会实际执行语句，对写操作尤其要谨慎，不在真实业务上随意试验。
 
 ## Redis 的两个具体实现练习
 

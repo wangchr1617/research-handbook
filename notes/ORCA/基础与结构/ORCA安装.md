@@ -1,8 +1,8 @@
-# 集群 3 编译 ORCA
+# 集群 3 安装 ORCA 与 OpenMPI
 
 **适用环境：Linux 集群。**
 
-本例记录集群 3 上 ORCA 的安装过程，先准备匹配的 OpenMPI 环境，再配置 ORCA 的执行路径。
+本例记录集群 3 上 ORCA 6.1.0 的安装过程：先编译 OpenMPI 4.1.8，再解压 ORCA 安装包并配置执行路径。下面的模块名与个人目录对应原环境，使用时按实际位置替换。
 
 ## 编译 OpenMPI
 
@@ -43,14 +43,14 @@ export PATH=/home/changruiwang-ICME/Software/openmpi-4.1.8/bin:$PATH
 export LD_LIBRARY_PATH=/home/changruiwang-ICME/Software/openmpi-4.1.8/lib:$LD_LIBRARY_PATH
 ```
 
-下载 ORCA 安装包，拖入集群并解压。设置环境变量即可：
+将 ORCA 安装包上传到集群并解压，再把程序目录加入环境变量：
 
 ```bash
 export PATH=/home/changruiwang-ICME/Software/orca_6.1.0:$PATH
 export LD_LIBRARY_PATH=/home/changruiwang-ICME/Software/orca_6.1.0:$LD_LIBRARY_PATH
 ```
 
-注意执行文件路径：
+本例 ORCA 驱动的完整路径为：
 
 ```text
 /home/changruiwang-ICME/Software/orca_6.1.0/orca

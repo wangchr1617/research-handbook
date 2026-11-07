@@ -1,0 +1,240 @@
+{
+  "model": "Fixed planar water dimer; full IGMH field from prior PBE0/def2-SVP density, mIGM from same geometry",
+  "units": {
+    "level": "e/Bohr^4",
+    "area": "Angstrom^2",
+    "volume": "Angstrom^3",
+    "integral": "e/Bohr"
+  },
+  "full_fine_integral_e_Bohr": 0.08503356803223185,
+  "fine_grid_vectors_Bohr": [
+    [
+      0.2,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.2,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.2
+    ]
+  ],
+  "coarse_grid_vectors_Bohr": [
+    [
+      0.25,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.25,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.25
+    ]
+  ],
+  "thresholds_fine": [
+    {
+      "level": 0.003,
+      "area_A2": 6.0877658407068935,
+      "volume_A3": 0.8526267239875157,
+      "node_count_volume_A3": 0.8594713265385445,
+      "closed": true,
+      "consistently_oriented": true,
+      "vertices": 732,
+      "triangles": 1460
+    },
+    {
+      "level": 0.006,
+      "area_A2": 4.10094291450323,
+      "volume_A3": 0.44675638487862024,
+      "node_count_volume_A3": 0.45166700056715237,
+      "closed": true,
+      "consistently_oriented": true,
+      "vertices": 484,
+      "triangles": 964
+    },
+    {
+      "level": 0.012,
+      "area_A2": 2.359299198196268,
+      "volume_A3": 0.1835755495253073,
+      "node_count_volume_A3": 0.19323286375970034,
+      "closed": true,
+      "consistently_oriented": true,
+      "vertices": 270,
+      "triangles": 536
+    }
+  ],
+  "thresholds_coarse": [
+    {
+      "level": 0.003,
+      "area_A2": 6.093827174384119,
+      "volume_A3": 0.8793628367220929,
+      "node_count_volume_A3": 0.8474313187314313,
+      "closed": true,
+      "consistently_oriented": true,
+      "vertices": 452,
+      "triangles": 900
+    },
+    {
+      "level": 0.006,
+      "area_A2": 4.063371991427734,
+      "volume_A3": 0.45027086549969986,
+      "node_count_volume_A3": 0.4121387287819529,
+      "closed": true,
+      "consistently_oriented": true,
+      "vertices": 286,
+      "triangles": 568
+    },
+    {
+      "level": 0.012,
+      "area_A2": 2.313923323033336,
+      "volume_A3": 0.1795882116302918,
+      "node_count_volume_A3": 0.21533090885798664,
+      "closed": true,
+      "consistently_oriented": true,
+      "vertices": 186,
+      "triangles": 368
+    }
+  ],
+  "grid_screening": [
+    {
+      "factor": 0.75,
+      "retained_grid_fraction": 8.010894816951053e-05,
+      "integral_e_Bohr": 0.0019470568000000013,
+      "retained_integral_fraction": 0.022897507949589654,
+      "high_grid_points_omitted_at_level_0006": 369,
+      "surface_at_0006": {
+        "level": 0.006,
+        "area_A2": 0.40169079265466984,
+        "volume_A3": 0.016906427288389318,
+        "node_count_volume_A3": 0.014225732301327633,
+        "closed": true,
+        "consistently_oriented": true,
+        "vertices": 42,
+        "triangles": 80
+      }
+    },
+    {
+      "factor": 1.0,
+      "retained_grid_fraction": 0.006408715853560842,
+      "integral_e_Bohr": 0.053519194976640025,
+      "retained_integral_fraction": 0.6293890308866453,
+      "high_grid_points_omitted_at_level_0006": 0,
+      "surface_at_0006": {
+        "level": 0.006,
+        "area_A2": 4.100506775720733,
+        "volume_A3": 0.44579276581772403,
+        "node_count_volume_A3": 0.45166700056715237,
+        "closed": true,
+        "consistently_oriented": true,
+        "vertices": 484,
+        "triangles": 964
+      }
+    },
+    {
+      "factor": 1.25,
+      "retained_grid_fraction": 0.02660284653795829,
+      "integral_e_Bohr": 0.07311621074307204,
+      "retained_integral_fraction": 0.85985114390775,
+      "high_grid_points_omitted_at_level_0006": 0,
+      "surface_at_0006": {
+        "level": 0.006,
+        "area_A2": 4.10094291450323,
+        "volume_A3": 0.44675638487862024,
+        "node_count_volume_A3": 0.45166700056715237,
+        "closed": true,
+        "consistently_oriented": true,
+        "vertices": 484,
+        "triangles": 964
+      }
+    },
+    {
+      "factor": 1.5,
+      "retained_grid_fraction": 0.06564260727923309,
+      "integral_e_Bohr": 0.08072899859364804,
+      "retained_integral_fraction": 0.9493779981459538,
+      "high_grid_points_omitted_at_level_0006": 0,
+      "surface_at_0006": {
+        "level": 0.006,
+        "area_A2": 4.10094291450323,
+        "volume_A3": 0.44675638487862024,
+        "node_count_volume_A3": 0.45166700056715237,
+        "closed": true,
+        "consistently_oriented": true,
+        "vertices": 484,
+        "triangles": 964
+      }
+    },
+    {
+      "factor": 2.0,
+      "retained_grid_fraction": 0.22426500040054473,
+      "integral_e_Bohr": 0.08462306682994565,
+      "retained_integral_fraction": 0.9951724805651976,
+      "high_grid_points_omitted_at_level_0006": 0,
+      "surface_at_0006": {
+        "level": 0.006,
+        "area_A2": 4.10094291450323,
+        "volume_A3": 0.44675638487862024,
+        "node_count_volume_A3": 0.45166700056715237,
+        "closed": true,
+        "consistently_oriented": true,
+        "vertices": 484,
+        "triangles": 964
+      }
+    },
+    {
+      "factor": 2.5,
+      "retained_grid_fraction": 0.4550989345509893,
+      "integral_e_Bohr": 0.08501381032787154,
+      "retained_integral_fraction": 0.999767648179213,
+      "high_grid_points_omitted_at_level_0006": 0,
+      "surface_at_0006": {
+        "level": 0.006,
+        "area_A2": 4.10094291450323,
+        "volume_A3": 0.44675638487862024,
+        "node_count_volume_A3": 0.45166700056715237,
+        "closed": true,
+        "consistently_oriented": true,
+        "vertices": 484,
+        "triangles": 964
+      }
+    }
+  ],
+  "actual_default_screening_factor": 2.0,
+  "reconstructed_mask_max_difference": 1.000000000001134e-12,
+  "mIGM_screened": {
+    "integral_e_Bohr": 0.14039193472732575,
+    "surface_at_0006": {
+      "level": 0.006,
+      "area_A2": 5.709298187435687,
+      "volume_A3": 0.6923548657892636,
+      "node_count_volume_A3": 0.7136575704499363,
+      "closed": true,
+      "consistently_oriented": true,
+      "vertices": 720,
+      "triangles": 1436
+    }
+  },
+  "Multiwfn_same_Cube_surface": {
+    "level": 0.006,
+    "algorithm": "improved Marching Tetrahedra, existing-grid entry",
+    "area_A2": 4.09638,
+    "volume_A3": 0.44485
+  },
+  "python_surface_algorithm": "scikit-image marching_cubes; no mesh smoothing; oriented closed mesh volume; node-count volume separately approximate",
+  "sha256": {
+    "full_fine": "cd6cb09ee9686039abbd7277174578818805960a6703de5cd95c23fa3235a703",
+    "full_coarse": "39f5f42489a1b751b7fdd144195c1d664e0a4981f00616db9fd1f34843076435",
+    "screened": "747ca8c22c8052d9d9941a27354acfddaf48f359c06a76f6dc839c9dcccc13ac",
+    "migm": "c0ab48f34969e7ea72a1641ec2f613e9577c2d57be36f7a3d30261ed2c741798"
+  }
+}

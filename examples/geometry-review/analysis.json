@@ -1,0 +1,138 @@
+{
+  "coordinate_unit": "angstrom",
+  "model": "Six native RHF/def2-SVP water optimization frames with artificial display rotations/translations; not dynamics or native Gaussian output.",
+  "mapping": "Input order preserved; all three atoms fit/report; unit weights; first frame reference; no permutation search.",
+  "source_sha256": {
+    "examples/orca/minimal/scan-and-descent/optimization.xyz": "68be919cacb6f0945cf010b430759c2be19a93aef5d841e0486fe23cabcba777",
+    "examples/solvent-shell/packed-191917.xyz": "923d191ac2be5a4f98ab184a6c8e6c4a0bb7f757f4535e67568779a1cf358913",
+    "examples/solvent-shell/analysis.json": "2dbc5c61661bc34de2d97bd421ace2e77ab3852444811afc67689e948c953752"
+  },
+  "frames": [
+    {
+      "frame_1based": 1,
+      "energy_Ha": -75.945735440492,
+      "raw_RMSD_A": 0.7,
+      "fitted_RMSD_A": 6.692407107888383e-17,
+      "native_fitted_RMSD_A": 8.356564349238244e-17,
+      "det_rotation": 0.9999999999999999,
+      "mobile_centered_rank": 2,
+      "reference_centered_rank": 2,
+      "covariance_singular_values_A2": [
+        0.3042812320666667,
+        0.12079497216199997,
+        0.0
+      ]
+    },
+    {
+      "frame_1based": 2,
+      "energy_Ha": -75.959029714424,
+      "raw_RMSD_A": 1.1715748381290032,
+      "fitted_RMSD_A": 0.05410849807151877,
+      "native_fitted_RMSD_A": 0.05410849807151885,
+      "det_rotation": 0.9999999999999999,
+      "mobile_centered_rank": 2,
+      "reference_centered_rank": 2,
+      "covariance_singular_values_A2": [
+        0.31857986922000003,
+        0.10428766781066666,
+        0.0
+      ]
+    },
+    {
+      "frame_1based": 3,
+      "energy_Ha": -75.961318920065,
+      "raw_RMSD_A": 1.6769857487098692,
+      "fitted_RMSD_A": 0.09404447651333199,
+      "native_fitted_RMSD_A": 0.09404447651333203,
+      "det_rotation": 1.0,
+      "mobile_centered_rank": 2,
+      "reference_centered_rank": 2,
+      "covariance_singular_values_A2": [
+        0.3358592094533333,
+        0.09486248248199998,
+        0.0
+      ]
+    },
+    {
+      "frame_1based": 4,
+      "energy_Ha": -75.961338200352,
+      "raw_RMSD_A": 1.6377067632838507,
+      "fitted_RMSD_A": 0.0978930156117153,
+      "native_fitted_RMSD_A": 0.09789301561171537,
+      "det_rotation": 1.0,
+      "mobile_centered_rank": 2,
+      "reference_centered_rank": 2,
+      "covariance_singular_values_A2": [
+        0.3379548896333333,
+        0.09419729478866669,
+        0.0
+      ]
+    },
+    {
+      "frame_1based": 5,
+      "energy_Ha": -75.96133848766,
+      "raw_RMSD_A": 2.2484505452469556,
+      "fitted_RMSD_A": 0.0981187109984634,
+      "native_fitted_RMSD_A": 0.09811871099846348,
+      "det_rotation": 1.0,
+      "mobile_centered_rank": 2,
+      "reference_centered_rank": 2,
+      "covariance_singular_values_A2": [
+        0.3379512864866666,
+        0.09409522288400002,
+        0.0
+      ]
+    },
+    {
+      "frame_1based": 6,
+      "energy_Ha": -75.961338493687,
+      "raw_RMSD_A": 2.813170329227092,
+      "fitted_RMSD_A": 0.09808918712183429,
+      "native_fitted_RMSD_A": 0.09808918712183431,
+      "det_rotation": 1.0,
+      "mobile_centered_rank": 2,
+      "reference_centered_rank": 2,
+      "covariance_singular_values_A2": [
+        0.33795128648666667,
+        0.09410833003066668,
+        0.0
+      ]
+    }
+  ],
+  "mirror_toy": {
+    "definition": "Four labeled mathematical points; not a computed molecular structure.",
+    "proper_fit_RMSD_A": 0.6713023905014821,
+    "det_rotation": 0.9999999999999999,
+    "mobile_centered_rank": 3,
+    "reference_centered_rank": 3,
+    "covariance_singular_values_A2": [
+      1.830412348848958,
+      0.6819259262777913,
+      0.11266172487325103
+    ]
+  },
+  "flag_example": {
+    "atoms": 197,
+    "active_atoms": 15,
+    "fixed_atoms": 182,
+    "selection_cutoff_A": 4.0,
+    "active_atom_indices_0based": [
+      11,
+      12,
+      13,
+      128,
+      129,
+      130,
+      158,
+      159,
+      160,
+      179,
+      180,
+      181,
+      182,
+      183,
+      184
+    ],
+    "meaning": "Whole nearby water molecules active, central methane and remaining waters fixed; coordinate fragment only, no MM parameters or Gaussian job."
+  }
+}

@@ -2,6 +2,8 @@
 
 **适用环境：Linux（LAMMPS 与 Phonopy）。**
 
+本流程由 LAMMPS 提供受力，phonolammps 组织有限位移，再用 Phonopy 处理力常数与声子路径。下面保留 GeTe 示例的输入与后处理命令。
+
 ## 安装环境
 
 首先 `pip install phonolammps` 安装 phonolammps。
@@ -16,7 +18,7 @@ make install-python
 
 ## 使用 NEP 势函数计算 GeTe 声子谱
 
-然后准备 LAMMPS 的输入文件 `in.lammps` 如下所示：
+准备 `in.lammps`，使读取的结构、NEP 模型和后面 `POSCAR` 描述同一体系。下面的 `graphene.data` 是示例文件名，应用到 GeTe 时替换为对应结构文件：
 
 ```text
 units    metal
@@ -66,7 +68,7 @@ phonopy --dim="4 4 4" -c POSCAR --factor=521.471 -p -s band.conf
 phonopy-bandplot --gnuplot band.yaml > band.dat
 ```
 
-其中，`--factor=521.471` 意指将单位从 THZ 换为 $cm^{-1}$。
+`--factor=521.471` 是这组旧流程从力常数和质量单位得到波数的换算因子，并非 THz 到 $cm^{-1}$ 的换算倍数；1 THz 约为 33.3564 cm⁻¹。新版 Phonopy 的接口与换算选项已有变化，使用时核对[官方单位说明](https://phonopy.github.io/phonopy/setting-tags.html#frequency-conversion-factor)，热学计算应保留其要求的 THz 频率约定。
 
 `band.dat` 可以直接拖进 Origin 画图，第 2 行是 band.conf 中高对称点对应的横坐标。
 访问 [网址](https://henriquemiranda.github.io/phononwebsite/phonon.html) 并上传 `band.yaml` 可以查看声子谱的振动模式。

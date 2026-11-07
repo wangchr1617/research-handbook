@@ -2,9 +2,9 @@
 
 **适用环境：Linux 集群。**
 
-首先，`ssh cu02` 切换到编译节点。
+下面记录在原集群中编译 NEP_CPU 接口的步骤。软件目录沿用原示例，使用时替换为自己的路径；另一组编译记录见[GPUMD 编译指南](GPUMD编译.md#编译带-nep-插件的-lammps)。
 
-然后加载 Intel 编译模块：
+先用 `ssh cu02` 进入编译节点，再加载 Intel 模块：
 
 ```bash
 module load intel/2020.1.217

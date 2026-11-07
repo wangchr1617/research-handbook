@@ -21,9 +21,9 @@ def main():
     if not converter:
         converter = next(
             (
-                parent / "scripts/structure/vasp2xyz.py"
+                parent / "scripts/structure/vasp_to_xyz.py"
                 for parent in Path(__file__).resolve().parents
-                if (parent / "scripts/structure/vasp2xyz.py").is_file()
+                if (parent / "scripts/structure/vasp_to_xyz.py").is_file()
             ),
             None,
         )

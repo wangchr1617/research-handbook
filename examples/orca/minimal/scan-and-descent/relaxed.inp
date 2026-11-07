@@ -1,0 +1,10 @@
+! RHF def2-SVP VeryTightSCF TightOpt Opt NoAutoStart
+%pal nprocs 1 end
+%maxcore 256
+%geom
+ Constraints
+  { A 1 0 2 C }
+ end
+ MaxIter 60
+end
+* xyzfile 0 1 structure.xyz

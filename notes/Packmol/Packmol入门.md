@@ -2,19 +2,19 @@
 
 **适用环境：Linux（编译与命令示例）。**
 
-## 安装
+Packmol 用已有结构模板装填指定空间，生成后续模拟所需的初始坐标。下面以 GeTe 为例介绍输入与运行方式；装填后的结构还需要经过相应的最小化和平衡。
 
-将 [官网](https://m3g.github.io/packmol/download.shtml) 上下载到的 `packmol.tar.gz` 上传到集群并解压。
-进入解压后的目录，执行 `./configure` 配置编译文件，然后输入 `make` 编译即可。
-编译完成后当前目录就出现了名为 `packmol` 的可执行文件。
-最后修改 `~/.bashrc`：
+## 安装与运行
+
+从[官网](https://m3g.github.io/packmol/download.shtml)下载 `packmol.tar.gz`，上传到集群并解压。在源码目录执行 `./configure`，再用 `make` 编译，生成可执行文件 `packmol`。
+
+将安装目录加入 `~/.bashrc` 中的 `PATH`。下面是原示例的路径，使用时替换为自己的安装位置：
 
 ```bash
 export PATH=/home/changruiwang-ICME/Software/packmol-20.14.2:${PATH}
 ```
 
-将其添加到环境变量即可。
-输入 `packmol` 命令检查是否安装成功。
+使修改后的 `PATH` 生效后，输入 `packmol`，检查程序是否能启动。
 
 将 `.inp` 文件重定向到 `packmol` 即可运行程序，例如：
 
@@ -22,11 +22,9 @@ export PATH=/home/changruiwang-ICME/Software/packmol-20.14.2:${PATH}
 packmol < test.inp
 ```
 
-## 简单示例
+## 用 GeTe 模板生成初始结构
 
-Packmol 程序需要预先提供输入文件和结构文件。
-
-以生成液相 GeTe 为例，结构文件 `model.xyz` 如下所示：
+需要准备两个文件：结构模板指定“放什么”，输入文件指定“放多少、放在哪里”。本例为液相 GeTe 模拟准备初态，结构模板 `model.xyz` 如下：
 
 ```text
 2
@@ -35,7 +33,7 @@ Ge      -0.00000000       0.00000000       0.00000000
 Te       2.99096965       2.99096958       2.99096938
 ```
 
-输入文件 run.inp 如下所示：
+输入文件 `run.inp` 如下：
 
 ```text
 tolerance 2 # 要求原子间距不能小于 2.0 埃
@@ -48,10 +46,10 @@ structure model.xyz # 指定输入文件
 end structure
 ```
 
-将 model.xyz 和 run.inp 都放到当前目录，运行 `packmol < run.inp` 即可。
+将 `model.xyz` 和 `run.inp` 放在同一目录，运行 `packmol < run.inp`。空间约束越复杂，装填通常需要越多迭代；若约束互相冲突，则需要先调整模型。
 
-如果你设定的空间范围约束比较简单，Packmol 很快就会生成最终结构。
-空间约束设定得越多、越复杂，生成结构需要的循环次数越多，总耗时就越高。
+## 怎样理解装填结果
 
-一般情况下，用 Packmol 构建的体系是比较松散的，其密度显著低于真实密度。
-因此需要在 NPT 系综下跑一段分子动力学模拟调节盒子尺寸。
+初始密度由粒子数、组成和实际盒体积决定，Packmol 不保证密度一定偏低。体相模型可在相容力场下最小化并通过合适的 NPT 流程调节体积；固定体积、界面与受限体系则按研究模型选择系综，不能统一要求用 NPT 压缩。
+
+上面的两原子 `model.xyz` 在装填时是一个刚性模板，`tolerance` 主要约束不同模板实例之间的原子接触；模板内部的距离不会因此优化。输入中固定范围、输出的盒元数据与真正的周期镜像检查是不同设置。详见[空间分区、周期边界与拓扑对应](空间分区、周期边界与拓扑对应.md)，可运行的例子见[周期水盒与定向水层](../../examples/packmol-regions/README.md)。

@@ -18,6 +18,10 @@ if [[ -z "$candidate_python" || ! -x "$candidate_python" ]]; then
   echo '请用 MATERIALS_PYTHON 指定已有且含 ASE、NumPy、Matplotlib 的 Python 绝对路径。' >&2
   exit 2
 fi
+if ! "$candidate_python" -c 'import ase,numpy,matplotlib' >/dev/null 2>&1; then
+  echo '指定的 Python 环境缺少 ASE、NumPy 或 Matplotlib；请使用已有科研环境。' >&2
+  exit 2
+fi
 export PATH="$(dirname "$candidate_python"):$HOME/Software/bin:$PATH"
 if [[ "${1:-}" == "--plot" ]]; then
   shift

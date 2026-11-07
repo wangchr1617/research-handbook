@@ -1,0 +1,13 @@
+{
+  "solute": "independently generated tetrahedral methane, fixed",
+  "solvent": "independently generated rigid water geometry; packing only",
+  "CH_angstrom": 1.09,
+  "OH_angstrom": 0.96,
+  "HOH_degree": 104.5,
+  "water_molecules": 64,
+  "sphere_radius_angstrom": 8.0,
+  "intermolecular_tolerance_angstrom": 2.0,
+  "packing_precision": 1e-8,
+  "seeds": [191917, 271828],
+  "shell_cutoffs_angstrom": [3.0, 4.0, 5.0]
+}

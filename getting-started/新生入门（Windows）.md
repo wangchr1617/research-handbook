@@ -13,7 +13,7 @@
 
 先开通个人集群账号，再用 SSH 客户端连接。下面以 Windows 上的 MobaXterm 为例，介绍登录、传文件和 Linux 基础操作。
 
-> 如果你觉得集群账号没有管理员权限不方便，可以自己在 Windows 里面安装一个 Linux 子系统 WSL2。
+> 想在本机练习 Linux 或自行配置开发环境，可使用 Windows 的 WSL 2；集群账号仍按管理员分配的权限使用。
 
 SSH 客户端市面上有挺多，我此前使用的 XShell，后面也跟着师兄、师姐转投了 MobaXterm。
 
@@ -25,13 +25,13 @@ SSH 客户端市面上有挺多，我此前使用的 XShell，后面也跟着师
 </div>
 
 首次登录时，需要输入管理员给的初始密码（输入密码时屏幕不显示字符），然后 Enter 确认进入个人账号。
-登录成功后，第一件事是键入 `passwd` 命令根据提示修改密码。首次登录一定要修改初始密码，否则下次用初始密码登录时可能会提示 `access denied`。
+登录成功后，按管理员要求用 `passwd` 修改初始密码。后续出现 `access denied` 时，应检查账号、凭据与访问策略，不能仅据此判断是未改密码。
 
 MobaXterm 界面分为文件区（左）和终端区。
 勾选左下角的 `Follow terminal folder` 可以让两个区块的路径保持一致。
 文件传输和下载可以采用直接拖拽的方式。
 
-MobaXterm 一个常用的功能是，在文件区选中两个文件 A 和 B，右键 `Compare text files` 可以直观地比较它们的异同并修改（比命令 `diff A B` 好用很多），如图所示：
+MobaXterm 一个常用的功能是，在文件区选中两个文件 A 和 B，右键 `Compare text files` 可以直观地比较它们的异同并修改；习惯命令行时也可用 `diff A B`，如图所示：
 
 <div align="left">
 <img src="assets/first-steps/mobaxterm-002.png" width = "50%" />
@@ -69,7 +69,7 @@ Linux 最常用的文本编辑器是 VIM。
 如前所述，键入命令 `vi XXX` 即可编辑 `XXX` 文件（可以省去 `touch XXX` 创建空文件这一步骤）。
 VIM 文本编辑器常用模式有四个：
 
-1. Normal-mode：初始模式，在该模式下可以使用 VIM 快捷键，如 `dd` 剪切光标所在行，`yy` 复制光标所在行，`p` 粘贴行，`u` 撤销上一步操作等等，熟练掌握快捷键能极大地提高你的工作效率；
+1. Normal-mode：初始模式，在该模式下可以使用 VIM 快捷键，如 `dd` 剪切光标所在行，`yy` 复制光标所在行，`p` 粘贴行，`u` 撤销上一步操作等等；
 
 2. Insert-mode：在初始模式下键入 `i`、`a` 或者 `o` 进入文本编辑模式，编辑完成后需要键入 `Esc` 返回初始模式；
 
@@ -83,10 +83,10 @@ VIM 文本编辑器常用模式有四个：
 > 除了使用 VIM 文本编辑器，也可以使用命令 `sed` 或 `awk` 实现文本替换。
 > 例如命令 `sed "s/A/B/g" XXX > XXX.new` 是替换文本并另存到新文件，检查后再决定是否替换原文件；
 > 又如命令 `awk '{ gsub(/dft_forces/, "forces"); print $0 }' train.xyz > out.xyz` 是替换文本中的 `dft_forces` 为 `forces` 并输出到 `out.xyz` 文件中。
-> 熟练掌握 VIM 编辑器后可以试一试，效率翻倍！
+> 需要批量处理时再尝试这些工具，先保留原文件并检查替换结果。
 
 > **ps**：
-> 使用别名 `alias` 可以极大提升工作效率。
+> 别名 `alias` 可以缩短经常输入的命令。
 > 例如，设置一个别名 `alias ll='ls -al'` 即可键入 `ll` 列出所有文件包括隐藏文件的详细信息。
 > 如果要永久使用该别名，可以将该命令写入 `~/.bashrc` 配置文件（文件名前面加一个点表示隐藏文件）里面，然后 `source ~/.bashrc` 加载配置文件即可。
 > 单独键入 `alias` 可以列出系统中已设置的所有别名。
@@ -241,11 +241,11 @@ julia/1.8.5                     wannier90/310_vasp642
 lammps/2020.10.29               yambo/4.5.1.r165
 ```
 
-集群上有的软件一般就不要自己再重复安装了（除非管理员没有更新）。
+先检查已有软件的版本和功能是否满足任务；需要不同版本或功能时，再在获准的位置准备个人安装。
 
 例如，想要使用 Anaconda 可以直接 `module load anaconda/3-python3.7.3`，然后 `conda create -n XXX python=*` 创建指定版本号为 `*` 的 Python 环境 XXX，对应的环境路径就会自动添加到 `~/.conda/envs` 中。
 如果集群限制联网，创建环境可能因下载依赖失败而停住。
-如果你要求不高 Python 3.7 也能将就，那么 `conda create -n XXX --clone base` 克隆 base 环境就好。
+若项目明确兼容已有 base 中的 Python 与依赖版本，可用 `conda create -n XXX --clone base` 克隆 base 环境就好。
 安装新发行版也不会自动解决离线依赖问题，环境准备见 [Anaconda、Miniconda、Mamba](Anaconda、Miniconda、Mamba安装与使用.md)。
 
 ---

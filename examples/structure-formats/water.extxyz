@@ -1,0 +1,5 @@
+3
+Lattice="7.0 0.0 0.0 1.5 8.0 0.0 0.7 1.2 9.0" Properties=species:S:1:pos:R:3:charge:R:1:atom_id:I:1 geometry="Gas-phase optimized water; artificial cell for format demonstration" coordinate_unit=angstrom charge_model=CM5 energy_unit=eV energy=-2080.667859703044 pbc="T F T"
+O       -0.00000000       0.00000000       0.01043527      -0.63890551      101
+H        0.76501959       0.00000000       0.59478236       0.31945276      102
+H       -0.76501959       0.00000000       0.59478236       0.31945276      103

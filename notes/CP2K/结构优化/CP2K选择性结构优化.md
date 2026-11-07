@@ -29,6 +29,8 @@ qsub job.pbs
 
 ![约束水分子优化中的原子位移](../assets/water-selective.png)
 
-图中 O、H1 保持固定，H2 完成放松。输入使用显式居中的坐标，避免自动居中改变约束参考位置。固定原子上可有约束反力，因此不以所有原始受力均为零判断该问题是否收敛。本例使用 PBE、DZVP-MOLOPT-SR-GTH 和 900/80 Ry 网格，演示的是约束下的几何极小值，不是完全自由的水分子平衡结构。
+图中 O、H1 保持固定，H2 完成放松。输入坐标已显式居中，以免自动居中改变约束参考位置。固定原子可能存在约束反力；判断收敛时，应关注可动自由度，而非要求所有原始受力都为零。
+
+本例采用 PBE、DZVP-MOLOPT-SR-GTH 和 900/80 Ry 网格。得到的是约束下的几何极小值，与完全自由水分子的平衡结构不同。
 
 参考：[CP2K 的 FIXED_ATOMS](https://manual.cp2k.org/trunk/CP2K_INPUT/MOTION/CONSTRAINT/FIXED_ATOMS.html)。

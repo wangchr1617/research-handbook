@@ -1,4 +1,4 @@
-"""CP2K 区块读写辅助，供 cp2k_restart.py 和 diag2ot_geo2cell2md.py 调用。
+"""CP2K 区块读写辅助，供 apply_cp2k_restart.py 和 convert_cp2k_run_type.py 调用。
 
 按完整区块路径匹配，忽略注释和大小写；不使用跨区块的贪婪文本替换。
 """

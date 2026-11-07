@@ -2,9 +2,11 @@
 
 **适用环境：Linux 集群。**
 
+DPGEN 将势函数训练、构型探索和第一性原理标记组织成迭代流程。本文保留集群 3 上的安装和 GeTe 配置示例，重点区分“算什么”与“在哪里算”这两类设置。
+
 ## DPGEN 在集群 3 的安装
 
-DPGEN 的安装过程类似 DeePMD-kit 的安装，下载离线安装包后拖入集群并赋予可执行权限，键入命令 `./dpgen-0.10.6-Linux-x86_64.sh` 即可。
+本例使用 DPGEN 0.10.6 离线安装包。上传到集群并赋予可执行权限后，运行 `./dpgen-0.10.6-Linux-x86_64.sh`，安装方式与 DeePMD-kit 类似。
 
 安装完成后，使用命令 `conda activate dpgen` 加载环境。
 如果找不到 `libffi.so.7`，`cd /home/changruiwang-ICME/Software/dpgen/lib` 目录，检查有没有 `libffi.so.7`。
@@ -18,22 +20,19 @@ status_word = stdout.read().decode('utf-8').split('<job_state>')[-1].split('</jo
 
 ## DPGEN 的基本任务流程
 
-DPGEN 的基本任务类型包括 init_bulk、init_surf、run、test 等。
-使用命令 `dpgen -h` 查看 DPGEN 支持的任务类型，命令 `dpgen run -h` 查看某个具体任务类型的用法。
-例如，使用命令 `nohup dpgen init_bulk param.json machine.json 1>log 2>err &` 可以在后台执行 init_bulk 任务；
-使用命令 `nohup dpgen run param.json machine.json 1>log 2>err &` 可以在后台执行 run 任务。
-根据 `nohup` 返回的进程号，使用命令 `ps -ux` 查看后台进程运行情况。
+常见任务有 `init_bulk`、`init_surf`、`run` 和 `test`。先用 `dpgen -h` 查看任务列表，再用 `dpgen run -h` 等命令查看具体用法。
 
-DPGEN 的关键参数文件是 `param.json` 和 `machine.json`。
-`param.json` 告诉 DPGEN 执行什么样的计算任务；`machine.json` 告诉 DPGEN 在什么环境及什么机器上工作。
-DPGEN 任务均在含有 `machine.json` 的主文件夹下进行。
+例如，`nohup dpgen init_bulk param.json machine.json 1>log 2>err &` 在后台执行 `init_bulk`，`nohup dpgen run param.json machine.json 1>log 2>err &` 则启动 `run`。记录返回的进程号，并用 `ps -ux` 查看运行情况。
+
+### 两个 JSON 文件分别管什么
+
+`param.json` 定义执行什么计算，例如体系、训练设置和探索条件；`machine.json` 定义运行环境、程序路径和资源。本例从存放 `machine.json` 的主目录启动任务。
 
 <div align="left">
 <img alt="DPGEN 入门示例图" src="assets/dp-002.png" width="50%" />
 </div>
 
-以最常用的 run 为例，由于每一次迭代都包括探索（见上图）、标记和训练三个步骤，相应地，`machine.json` 由 `train`、`model_devi` 和 `fp` 三个部分组成。
-在 `machine.json` 文件中，每个部分都是一个字典，每个字典可以被视为独立的计算环境，如下所示：
+以常用的 `run` 为例，每次迭代涉及训练、探索和标记，对应 `machine.json` 中的 `train`、`model_devi` 和 `fp`。三个部分分别配置各自的程序与计算环境，因此训练和第一性原理标记可以使用不同资源。示例如下：
 
 ```json
 {
@@ -126,7 +125,7 @@ DPGEN 任务均在含有 `machine.json` 的主文件夹下进行。
 }
 ```
 
-与之搭配的 `param.json` 如下所示：
+下面的 `param.json` 与之配套，定义 GeTe 数据、模型和探索任务：
 
 ```json
 {
@@ -229,7 +228,9 @@ DPGEN 任务均在含有 `machine.json` 的主文件夹下进行。
 }
 ```
 
-当 `param.json` 的关键词 `model_devi_jobs` 下有 `template` 参数时，`model_devi` 步骤使用指定的 `lmp/input.lammps` 为模板，如下所示：
+### 使用自己的 LAMMPS 模板
+
+在 `model_devi_jobs` 下设置 `template` 时，探索步骤使用指定的 `lmp/input.lammps` 模板：
 
 ```text
 "model_devi_jobs":  [{
@@ -241,10 +242,11 @@ DPGEN 任务均在含有 `machine.json` 的主文件夹下进行。
       	}}, …… ]
 ```
 
-需要注意 `input.lammps` 中 `dump` 行需要修改为 `dump dpgen_dump`。
-使用模板时 DPGEN 会调用 `revise_lmp_input_dump` 函数来写 `input.lammps` 里的 `trj_freq`，而不是像一般情况下在文件开头定义 `DUMP_FREQ` 再调用。
+模板中的 `dump` 行需使用 `dump dpgen_dump`。在这一模式下，DPGEN 调用 `revise_lmp_input_dump` 写入 `trj_freq`，与在文件开头定义并引用 `DUMP_FREQ` 的方式不同。
 
-我们可以将 run 主流程的执行过程分解为如下 9 步：
+### 迭代过程与恢复
+
+`run` 主流程可进一步拆成图中的 9 步：
 
 <div align="left">
 <img alt="DPGEN 入门示例图" src="assets/dp-003.png" width="50%" />
@@ -253,14 +255,16 @@ DPGEN 任务均在含有 `machine.json` 的主文件夹下进行。
 假设最后一个迭代的候选构型数小于 `fp_task_min` 时，那该轮迭代实际上并没有进行新的 `00.train/`，而是软链接到前一轮迭代的 `00.train/`。
 如果任务异常退出需要重启，删除 `record.dpgen` 最后一行并重新键入前述命令即可。
 
-同理 VASP 计算，DPGEN 也需要进行 `ENCUT` 和 `KSPACING` 的收敛测试。
+## 标记精度与模型偏差阈值
+
+用 VASP 标记 DPGEN 构型时，同样需要测试 `ENCUT` 和 `KSPACING` 的收敛。
 通过 MP 下载的晶体结构，可以先做晶胞微扰后再测试，目的是增大原子受力区分度。
 收敛标准是以渐进收敛线（或最高精度值）为参考，取相对波动小于一定范围的参数。
 一般而言，`ENCUT` 和 `KSPACING` 收敛测试的相对能量偏差小于 `1E-3 eV/atom`，
 力和位力偏差小于 `1E-2 eV/Angstrom` 和 `1E-2 eV/atom` 即可。
 此外，DPGEN 还需要通过测试来确定两个关键参数 `model_devi_f_trust_lo` 和 `model_devi_f_trust_hi` 的取值。
 具体的做法是先做一轮 run 迭代，模拟中采样构型的模型力偏差可以在 `iter.00000*/01.model_devi/task*/model_devi.out` 查看。
-使用 [dpgen_max_devi_f_distribution.py](../../scripts/deepmd/dpgen_max_devi_f_distribution.py) 收集 `model_devi.out` 的最大力偏差并输出 CSV。需要比较不同温度时，应依据来源目录和实际任务配置分组，不可将同一批数据重复标注为不同温度。分布图示例如下：
+使用 [collect_dpgen_deviations.py](../../scripts/deepmd/collect_dpgen_deviations.py) 收集 `model_devi.out` 的最大力偏差并输出 CSV。需要比较不同温度时，应依据来源目录和实际任务配置分组，不可将同一批数据重复标注为不同温度。分布图示例如下：
 
 <div align="left">
 <img alt="DPGEN 入门示例图" src="assets/dp-004.png" width="50%" />
@@ -272,11 +276,7 @@ DPGEN 任务均在含有 `machine.json` 的主文件夹下进行。
 
 ## 训练集收集
 
-DPGEN 迭代生成的训练集是分散储存的，使用 `collect` 函数进行数据收集。
-首先可以使用 `dpgen collect -h` 查看 `collect` 函数使用说明。
-一般键入命令 `dpgen collect JOB_DIR OUTPUT_DIR -p param.json` 即可。
-其中 `JOB_DIR` 是 DPGEN 的输出目录，包含 `iter.0000*` 等；`OUTPUT_DIR` 是目标文件夹。
-例如：
+迭代生成的数据分散在各轮目录中，可用 `dpgen collect` 汇总。先用 `dpgen collect -h` 查看说明，命令格式为 `dpgen collect JOB_DIR OUTPUT_DIR -p param.json`。其中 `JOB_DIR` 是包含 `iter.0000*` 的任务目录，`OUTPUT_DIR` 是收集后的目标目录。例如：
 
 ```bash
 dpgen collect ./ ./collect -p param.json
@@ -284,4 +284,4 @@ dpgen collect ./ ./collect -p param.json
 
 上述命令会把当前文件夹下的数据收集到 `collect` 目录里。
 `collect` 目录中，`init.*` 是初始训练集，`sys.*` 是 DPGEN 生成的训练集（按照 `param.json` 中的 `sys` 分类）。
-最后，使用命令 `python dp2xyz.py collect/sys.000/` 即可将 DP 数据转成 `.xyz` 格式。
+最后，使用命令 `python deepmd_to_xyz.py collect/sys.000/` 即可将 DP 数据转成 `.xyz` 格式。

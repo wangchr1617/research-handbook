@@ -1,0 +1,189 @@
+{
+  "model": "Own H2 at2.4Angstrom, RHF/UHF def2-SVP VeryTightSCF, ORCA6.1.1/Multiwfn2026.7.15",
+  "methods": {
+    "rhf": {
+      "energy_Ha": -0.87494945755,
+      "Nalpha": 1.0000000004383334,
+      "Nbeta": 1.0000000004383334,
+      "Ms": 0.0,
+      "S2_from_orbitals": -1.42487754928311e-09,
+      "native_printed_S2": 0,
+      "Mulliken_atom_spin": [
+        0.0,
+        0.0
+      ],
+      "UNO_occupations": [
+        2.0000000009256675,
+        1.0015780132707202e-12,
+        1.1957407377597346e-16,
+        6.848593689852863e-29,
+        1.7598058044016357e-32,
+        1.2460238256867136e-49,
+        5.2886815782282585e-50,
+        -7.495398658746091e-20,
+        -6.762715785174041e-17,
+        -5.000487171714411e-11
+      ],
+      "SNO_eigenvalues": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "NO_odd_weight_sum": -9.746707844491593e-10
+    },
+    "hs": {
+      "energy_Ha": -0.995109442549,
+      "Nalpha": 2.0000000017688038,
+      "Nbeta": 0.0,
+      "Ms": 1.0000000008844019,
+      "S2_from_orbitals": 2.0000000026532057,
+      "native_printed_S2": 2.0,
+      "Mulliken_atom_spin": [
+        1.0000000008844019,
+        1.000000000884402
+      ],
+      "UNO_occupations": [
+        1.0000000009218362,
+        1.0000000008429129,
+        2.9344301353233846e-12,
+        1.6423284466361685e-12,
+        7.316363289338076e-48,
+        1.7378093178107873e-50,
+        -2.2052283473235708e-29,
+        -3.1189490204659346e-20,
+        -3.639814070968824e-14,
+        -4.885125424523609e-13
+      ],
+      "SNO_eigenvalues": [
+        1.0000000009218362,
+        1.0000000008429129,
+        2.9344301353233846e-12,
+        1.6423284466361685e-12,
+        7.316363289338076e-48,
+        1.7378093178107873e-50,
+        -2.2052283473235708e-29,
+        -3.1189490204659346e-20,
+        -3.639814070968824e-14,
+        -4.885125424523609e-13
+      ],
+      "NO_odd_weight_sum": 1.9999999982393029,
+      "native_NO_reconstruction_AO_max_differences": {
+        "UNO": 3.401318740547943e-10,
+        "SNO": 3.401318740547943e-10,
+        "NSO1": 3.401318740547943e-10,
+        "NSO2": 0.0
+      },
+      "Becke_atom_spin": [
+        1.00000001,
+        1.00000001
+      ],
+      "spin_grid_integral": 1.9999740893722415,
+      "spin_grid_absolute_integral": 1.9999740893722415,
+      "rho_grid_integral": 1.9999740893722415,
+      "zeta_density_mask": 1e-08,
+      "zeta_max_absolute_valid": 1.0
+    },
+    "bs": {
+      "energy_Ha": -0.999673433062,
+      "Nalpha": 0.999999999494394,
+      "Nbeta": 0.9999999994943941,
+      "Ms": -5.551115123125783e-17,
+      "S2_from_orbitals": 0.9701502116037203,
+      "native_printed_S2": 0.97015,
+      "Mulliken_atom_spin": [
+        0.9933678078123944,
+        -0.9933678078123944
+      ],
+      "UNO_occupations": [
+        1.17277091056786,
+        0.8272290881670746,
+        1.503907462939442e-10,
+        1.0345671821361094e-10,
+        1.816955203447018e-15,
+        8.253966878694811e-16,
+        6.878317707772299e-27,
+        -4.861541127994853e-50,
+        -1.092531768094605e-49,
+        -8.462654087882074e-28
+      ],
+      "SNO_eigenvalues": [
+        0.9849620352886337,
+        1.2492096135029814e-10,
+        1.1528380062541066e-15,
+        1.6728483620477524e-27,
+        8.386338733978075e-50,
+        -1.240111455641619e-50,
+        -8.946223913108208e-27,
+        -1.0749283092380627e-15,
+        -1.2492100891820158e-10,
+        -0.9849620352886328
+      ],
+      "NO_odd_weight_sum": 1.6544581778530645,
+      "native_NO_reconstruction_AO_max_differences": {
+        "UNO": 9.268848015497877e-10,
+        "SNO": 1.915167080479563e-09,
+        "NSO1": 4.1558534391583635e-10,
+        "NSO2": 4.1558534391583635e-10
+      },
+      "Becke_atom_spin": [
+        0.93444446,
+        -0.93444446
+      ],
+      "spin_grid_integral": 1.294802472557422e-06,
+      "spin_grid_absolute_integral": 1.9173479767498456,
+      "rho_grid_integral": 1.9999733525392607,
+      "zeta_density_mask": 1e-08,
+      "zeta_max_absolute_valid": 0.9991318022474855
+    }
+  },
+  "source_sha256": {
+    "rhf/orca.inp": "442101dbb7317b0369ef67d9f118eb09b981ebf1f5c1d2b5f7f6d6b154dd6707",
+    "rhf/structure.xyz": "7ab740a2665fb5cd9962f839aa7f463830a4b691dae47fcb3fd00c958f5111d5",
+    "rhf/orca.out": "9c931ce05149c2bfd393a38ddc1c1f7ffc01778d1e23f536d3af8fca0c300f46",
+    "rhf/orca.molden.input": "62a75f777cbbe3a226f8261cb6390efa79164447de860713040dedf1bc7cf6f7",
+    "rhf-export/matrices.mwfn": "2daba5af06433ddc928aabe7612e813fcac7e6092fa95ae94ddef66fb1648e1a",
+    "rhf-export/scf.fch": "54cabcf2867c716c5b9a2a3c38792bc7d23706925485157cd97dc8c2a8ef6b97",
+    "hs/orca.inp": "822dbc9478eb56c185b022dd01d1855dd3b4cfcd1a5ceeaca2e31ed28f59a53f",
+    "hs/structure.xyz": "7ab740a2665fb5cd9962f839aa7f463830a4b691dae47fcb3fd00c958f5111d5",
+    "hs/orca.out": "48fc34936eb7a180435bb661ace21d0cc691f8974db962d54d39833cb3bd0252",
+    "hs/orca.molden.input": "a35ce90fff400e28fdf201dd6acf0a41ce93250bff7ce6e611b1c7765871bf13",
+    "hs-export/matrices.mwfn": "fb5d55c098e9ae9f809bbec36acbdc8d50d38d85592755c66d8028555e6c88c2",
+    "hs-export/scf.fch": "e3f3f4b1d8d131367049400a0d34eec7c72c24897336dad10262e058e17dcc08",
+    "hs-UNO/new.mwfn": "2486e6ca633a07b48d8d9e59e17c5c32f7ee757980f02069649e5cb1e92a40e1",
+    "hs-NSO/new.mwfn": "37361aa2f25d9f03043e181e77e3f321c0977b18f6d3c9e36946e0d66f3de5a6",
+    "hs-SNO/new.mwfn": "2486e6ca633a07b48d8d9e59e17c5c32f7ee757980f02069649e5cb1e92a40e1",
+    "hs-UNO/multiwfn.out": "357297ab92079426f0111bff57e9099eb9703b605c047d28b94dad68cda3f72e",
+    "hs-NSO/multiwfn.out": "aa8b69a1b197ca55cb711f54d9c5e6fa237f0470e7a34957c7665ed527a7aadb",
+    "hs-SNO/multiwfn.out": "a1d6e09bdd8ef360c729969f07ba0a23bca4d6d703cd8033572a471c3b21def1",
+    "hs-becke/multiwfn.out": "123008cb41bc49a35e8240926ab99ce6235e61d70f8b0e8a6039e610fbb6b48d",
+    "hs-spin-grid/multiwfn.out": "3b8059f538606c9eac03bdc2dfb5a961ce717a270d14b1d5a3946a931de96146",
+    "hs-rho-grid/multiwfn.out": "c4f9b480f7335e8da0a15cd12ad102e30298d0633add8ea3f3c39042717a11ce",
+    "hs-spin-grid/spindensity.cub": "b251913e796a1343051e0700cdbdc7b66f99ec6922617c4fae4b6e81b43543fe",
+    "hs-rho-grid/density.cub": "b251913e796a1343051e0700cdbdc7b66f99ec6922617c4fae4b6e81b43543fe",
+    "bs/orca.inp": "c37440076077883ac490cf51baf982c43999899b18e65cf8072c5d3885dfb460",
+    "bs/structure.xyz": "7ab740a2665fb5cd9962f839aa7f463830a4b691dae47fcb3fd00c958f5111d5",
+    "bs/orca.out": "842a6f749af84f7f01d60d6189c237fef90565a899ca5d212a98bec5bd73db80",
+    "bs/orca.molden.input": "49f3ea698e978f35ff04c25457cd50a2088ec37ab971d29810b8e8e1c0f861f8",
+    "bs-export/matrices.mwfn": "8afe257e79e1c53831cb8435671242783fedcb51c8a355a71c0240d05d5ad466",
+    "bs-export/scf.fch": "6e2970960c3a084cd774f9b104d2e3e1731cc317a72c4e911f221a892707c44e",
+    "bs-UNO/new.mwfn": "54d40eb2373d3f02d5a698bb5bddaeaaffe0dca204a9dc5356919f425fb62f81",
+    "bs-NSO/new.mwfn": "f1b192759fa49addea337eab2f33d427e8685f811e4b455e088636d6ca914f10",
+    "bs-SNO/new.mwfn": "f3e31903a08cac9f23e797b4755778ce5eee3e269cdc99d98fd9a27f554c6019",
+    "bs-UNO/multiwfn.out": "10dd26bd9e931dfb0f6fc73f05a8d29496c90c444cb8763697c998c7deaeab53",
+    "bs-NSO/multiwfn.out": "1158878cc78f724f7e76c45e6e79f03f1743b480d844f4aed2382ff6743ee8ff",
+    "bs-SNO/multiwfn.out": "2734967ed80ee42f75a42dae1c1b79b6d84c934fdd181e231551539069867896",
+    "bs-becke/multiwfn.out": "3b233cfeac3ac71c1453d64847f25216eb05cdf6fccb6f58245f5a437b47c33b",
+    "bs-spin-grid/multiwfn.out": "7c15520f3135ee947d65019bf718e6f82ccda8690d6331279f107cfd1d0e5623",
+    "bs-rho-grid/multiwfn.out": "dcd13d13b7e031a42980fd898243239f22673cca76d656bd2898ba6494c85146",
+    "bs-spin-grid/spindensity.cub": "147b491b2dcb06405944d8fe5f80d7df671c1828c43d6099023f455359faa352",
+    "bs-rho-grid/density.cub": "20eaaeb1343b16ecd0b034233bd004760fab1f51d92df0034f2aed34cf5ede40"
+  },
+  "scope": "BS has Ms0 but is not a pure singlet; no projected ground-state or experimental magnetic moment inferred."
+}

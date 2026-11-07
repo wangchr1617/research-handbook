@@ -2,8 +2,11 @@
 
 **适用环境：Linux 集群。**
 
-以 GROMACS 2018.8 为例，先编译 FFTW，再编译 GROMACS。
-访问 [下载链接](http://www.fftw.org/fftw-3.3.8.tar.gz) 下载压缩包，拖入集群解压，进入此目录后运行：
+下面保留 GROMACS 2018.8、FFTW 3.3.8 在原集群中的编译记录；编译器、指令集和目录对应这一环境，使用时按目标机器调整。
+
+## 先编译 FFTW
+
+下载[FFTW 压缩包](http://www.fftw.org/fftw-3.3.8.tar.gz)，上传到集群并解压，在源码目录运行：
 
 ```bash
 module load gcc/9.3
@@ -12,7 +15,9 @@ module load gcc/9.3
 
 然后 `make -j install` 开始编译。
 
-访问 [GROMACS 官网](http://ftp.gromacs.org/pub/gromacs/gromacs-2018.8.tar.gz) 下载 GROMACS 2018.8 压缩包，拖入集群解压，进入此目录后运行：
+## 编译 GROMACS
+
+下载[GROMACS 2018.8 压缩包](http://ftp.gromacs.org/pub/gromacs/gromacs-2018.8.tar.gz)，上传到集群并解压，在源码目录运行：
 
 ```bash
 module load intel/2020.1.217

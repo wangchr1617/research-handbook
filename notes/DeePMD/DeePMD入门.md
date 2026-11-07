@@ -2,11 +2,11 @@
 
 **适用环境：Linux 集群。**
 
-## 数据准备
+本文从已有 VASP 数据出发，介绍数据转换、DeePMD-kit 训练、模型检查和 LAMMPS 调用。训练部分使用 GeTe 数据，最后的分子动力学输入则是独立的 Sb 示例，使用时需分别准备对应体系的模型。
 
-有了 VASP 静态计算数据后，可以使用 `python vasp_to_xyz.py` 将其转化成 `.xyz` 格式。
-使用 `python xyz2dp.py` 可以将 `.xyz` 格式转化成 `.npy` 格式的 DP 训练集；
-反之，使用 `python dp2xyz.py` 可以将 DP 训练集转化成 NEP 训练集。
+## 将计算数据整理为 DP 训练集
+
+数据可以经 `.xyz` 在不同训练格式之间转换：`vasp_to_xyz.py` 读取 VASP 数据，`xyz_to_deepmd.py` 写出 `.npy` 格式的 DP 训练集，`deepmd_to_xyz.py` 则将 DP 数据转回 NEP 使用的 `.xyz` 格式。各脚本的参数见下文。
 
 ### DP 训练集的目录结构
 
@@ -25,12 +25,12 @@ DP 训练集的目录结构如下：
     └── type.raw
 ```
 
-- **set.000**：一个目录，包含压缩格式的数据；
+- **set.000**：存放这一数据分片的 NumPy 文件；
   - `box.npy`：储存系统的盒子信息；
   - `coord.npy`：储存原子的坐标；
   - `energy.npy`：储存系统的能量；
   - `force.npy`：储存原子所受的力；
-  - `virial.npy`：储存系统的应力张量；
+  - `virial.npy`：储存系统的位力张量（能量量纲；ASE 应力需再取负并除以体积）；
 - **type_map.raw**：将整数类型映射到原子名称；
 - **type.raw**：包含原子整数类型的信息；
 
@@ -39,7 +39,7 @@ DP 按系统分类，例如上面的 `Ge64Te64` 就是一个系统。
 
 ### 文件转换工具
 
-以下是文件转换工具的详细使用说明：
+按转换方向选择脚本：
 
 - `vasp_to_xyz.py`：将 VASP 数据转化为 `.xyz` 格式。使用方法：
 
@@ -49,27 +49,25 @@ DP 按系统分类，例如上面的 `Ge64Te64` 就是一个系统。
 
   `input_file` 为 VASP 数据文件，`output_file` 为生成的 `.xyz` 格式文件。
 
-- `xyz2dp.py`：将 `.xyz` 格式的 NEP 训练集转化为 `.npy` 格式的 DP 训练集。使用方法：
+- `xyz_to_deepmd.py`：将 `.xyz` 格式的 NEP 训练集转化为 `.npy` 格式的 DP 训练集。使用方法：
 
   ```bash
-  python xyz2dp.py input_file output_dir
+  python xyz_to_deepmd.py input_file output_dir
   ```
 
   `input_file` 为 `.xyz` 格式的训练集文件，`output_dir` 为生成的 DP 训练集目录。
 
-- `dp2xyz.py`：将 DP 训练集转化为 NEP 训练集。使用方法：
+- `deepmd_to_xyz.py`：将 DP 训练集转化为 NEP 训练集。使用方法：
 
   ```bash
-  python dp2xyz.py input_dir output_file
+  python deepmd_to_xyz.py input_dir output_file
   ```
 
   `input_dir` 为 DP 训练集目录，`output_file` 为生成的 `.xyz` 格式文件。
 
-通过以上步骤，你可以将不同格式的训练集进行互相转换，并根据需求进行训练数据的准备。
-
 ## 势函数训练
 
-数据准备完成后，就可以进行 DP 势函数的训练，首先需要准备训练脚本 `input.json`，如下所示：
+数据准备完成后，用 `input.json` 指定模型、损失函数和训练设置。本例输入如下：
 
 ```json
 {
@@ -125,7 +123,7 @@ DP 按系统分类，例如上面的 `Ge64Te64` 就是一个系统。
 }
 ```
 
-同样的训练参数可以适配不同的系统，所以我们一般只需要微调 `input.json` 即可。
+换用自己的体系时，可从这个输入调整元素、数据路径和模型参数，并检查它们是否适合目标数据。
 设置 `input.json` 中的 `sel` 时，可以使用 `dp neighbor-stat -s train -r 8.0 -t Ge Te` 查看系统近邻数。
 本例中，结果显示截断半径为 8 埃时，Ge、Te 的近邻原子数分别是 68、68。
 考虑到 MD 模拟过程中可能存在一些极端几何形状，`sel` 应设置为比训练数据集更高的值，例如 `[80, 80]`。
@@ -156,23 +154,24 @@ EXEC=/home/changruiwang-ICME/Software/deepmd-gpu/bin/dp
 mpirun -machinefile $PBS_NODEFILE -np $NP $EXEC train input.json > output
 ```
 
-如果一切正常，将在屏幕上看到每 1000 步打印一次的信息，并每隔 10000 步将模型保存在检查点文件 `model.ckpt` 中。
-我们可以通过观察输出文件 `lcurve.out` 来观察训练阶段误差的情况，其中第四列和第五列是能量的训练和测试误差，第六列和第七列是力的训练和测试误差。
-使用 `dploss.py` 脚本可以对该文件进行可视化。
+### 查看训练误差与恢复训练
 
-训练过程异常停止时，我们可以从检查点重新开始训练。
-修改提交脚本中 `$EXEC train input.json > output` 为 `$EXEC train --restart model.ckpt input.json > output` 即可。
+按本例设置，每 1000 步打印一次训练信息，每 10000 步将模型保存到检查点 `model.ckpt`。查看 `lcurve.out` 可跟踪误差变化：本例第四、第五列为能量的训练与测试误差，第六、第七列为力的训练与测试误差。可用 `dploss.py` 绘图。
+
+训练异常停止后，可从已有检查点继续。将提交脚本中的 `$EXEC train input.json > output` 改为 `$EXEC train --restart model.ckpt input.json > output`。
 
 训练中需要使用预训练模型时，可以在 `$EXEC train input.json ` 后面增加 `--finetune ../pretrain_model/model.pt` 选项，表示在模型 `../pretrain_model/model.pt` 的基础上微调。
 
-训练结束时，需要使用命令 `dp freeze -o graph.pb` 冻结模型参数为一个 `.pb` 文件，通过 `-o` 参数指定模型文件名。它将在当前目录中输出一个名为 graph.pb 的模型文件。
+### 导出模型并检查预测
+
+训练结束后，运行 `dp freeze -o graph.pb` 冻结模型。`-o` 指定输出文件名，此处生成当前目录下的 `graph.pb`。
 
 压缩模型能将 DPMD 的模拟速度再提高一个数量级，并且消耗更少的内存。
 可以使用命令 `dp compress -i graph.pb -o graph-compress.pb` 压缩 `graph.pb`。
 
 如果准备了验证集，可以使用命令 `dp test -m graph-compress.pb -s ./test/ -d results` 检查训练模型的质量，它将在当前目录中输出名为 `results.e.out` 和 `results.f.out` 等文件。
 
-也可以使用下面的 Python 代码。
+也可以用 dpdata 读取参考数据并调用模型预测：
 
 ```python
 import dpdata
@@ -206,16 +205,26 @@ plt.savefig("e_peratom.png")
 
 ## 训练集可视化
 
-可以使用 chemiscope 可视化训练集中的原子局域环境。
-以 GeTe 训练集为例，首先使用命令 `python dp2ase.py train/ Ge Te` 生成 `ase_dataset.db` 文件。
-然后 `python dp_descriptors.py graph.pb ase_dataset.db Ge Te -a` 生成 `descriptors.npy` 和 `energies.npy` 文件。
-最后 `python create_chemiscope_input.py -a 8 ase_dataset.db descriptors.npy energies.npy` 生成 `chemiscope.json.gz`（`-a` 后面的 8 是截断半径）压缩包。
-将 `chemiscope.json.gz` 上传到 [网址](https://chemiscope.org/) 即可可视化训练集分布。
+可以使用 Chemiscope 可视化训练集中的原子局域环境。以下命令从仓库根目录运行，以 GeTe 的元素映射为例：
+
+```bash
+python scripts/structure/deepmd_to_ase.py train/ Ge Te -o ase_dataset.db
+python scripts/deepmd/extract_deepmd_descriptors.py graph.pb ase_dataset.db Ge Te -a
+python scripts/visualization/create_chemiscope_input.py -a 8 ase_dataset.db descriptors.npy energies.npy
+```
+
+三个入口依次为[数据库转换](../../scripts/structure/deepmd_to_ase.py)、[描述符提取](../../scripts/deepmd/extract_deepmd_descriptors.py)和 [Chemiscope 输入生成](../../scripts/visualization/create_chemiscope_input.py)。`-a 8` 指定原子局域环境的截断半径为 8 Å，须按实际环境范围选择；输出 `chemiscope.json.gz` 可在 [Chemiscope](https://chemiscope.org/) 查看。
+
+数据库转换读取全部 `set.*` 分片，并保留能量与力。描述符与能量有两种对应方式：
+
+- 加 `-a` 时，描述符按结构中的原子顺序拼接，配套能量为模型原子能。
+- 不加 `-a` 时，每帧对应一行描述符，配套能量为输入结构的每原子参考能。结构描述符默认按原子求和，可用 `--aggregation mean` 改为均值；比较不同原子数的体系时需说明选择。
+
+可视化脚本检查行数与有限值，并将常量描述符列归零。PCA 用来查看数据分布，不能直接衡量势函数精度。已有输出不会被覆盖，重新分析时请使用新目录或文件名。
 
 ## 势函数用于分子动力学模拟
 
-使用 LAMMPS 运行 DPMD 所需的输入文件包括初始结构文件 `coord.lmp`、模型文件 `graph-compress.pb`、输入文件 `lammps.in` 和提交脚本 `run_deepmd.pbs`。
-下面以 Sb 相变模拟为例加以说明，输入文件 `lammps.in` 如下：
+运行前准备初始结构 `coord.lmp`、对应体系的模型、输入文件 `lammps.in` 和提交脚本 `run_deepmd.pbs`。下面以 Sb 相变模拟为例，`pair_style` 行使用 `graph.pb`；若使用前面压缩得到的 `graph-compress.pb`，相应修改模型路径。`lammps.in` 如下：
 
 ```text
 units       		metal
@@ -295,8 +304,7 @@ write_restart   	nvt6.restart
 unfix           	6
 ```
 
-`qsub run_deepmd.pbs` 提交脚本即可运行 MLMD 模拟。
-注意修改 `run_deepmd.pbs` 最后两行为：
+提交前，将训练脚本末尾的程序调用部分改为 LAMMPS 调用，再用 `qsub run_deepmd.pbs` 提交 MLMD 任务：
 
 ```bash
 export LAMMPS_PLUGIN_PATH=/home/changruiwang-ICME/Software/deepmd-gpu/lib/deepmd_lmp

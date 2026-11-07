@@ -31,4 +31,6 @@
 
 放大体系或计算弱相互作用能时，仍需测试基组、积分网格、色散截断与参考态。不要将一次修正能对照当成模型精度验证。
 
+色散、BSSE 和完整能量差的定义见[色散一致性检查](../../计算化学/色散校正、阻尼与一致性检查.md)。改用 D4 或非局域方案时，重新核对数据版本、参数、净电荷和多体设置，不仅替换名称。
+
 参考：[CP2K 的 PAIR_POTENTIAL](https://manual.cp2k.org/trunk/CP2K_INPUT/FORCE_EVAL/DFT/XC/VDW_POTENTIAL/PAIR_POTENTIAL.html)。

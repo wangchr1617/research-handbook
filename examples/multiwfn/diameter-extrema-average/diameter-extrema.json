@@ -1,0 +1,228 @@
+{
+  "diameter_models": "Same idealC20, planar C12R3A, single-Ar8A periodic cell; no optimized phase claim",
+  "diameters": {
+    "diameter-cage": {
+      "radius_A": 0.5,
+      "diameter_A": 1.0,
+      "sphere_volume_A3": 0.523599,
+      "analytic_radius_A": 0.5
+    },
+    "diameter-ring": {
+      "radius_A": 1.3,
+      "diameter_A": 2.6,
+      "sphere_volume_A3": 9.202772,
+      "analytic_radius_A": 1.3
+    },
+    "diameter-ring-above": {
+      "radius_A": 1.905551,
+      "diameter_A": 3.811103,
+      "sphere_volume_A3": 28.98348,
+      "analytic_radius_A": 1.9055512754639892
+    },
+    "diameter-periodic": {
+      "radius_A": 5.048203,
+      "diameter_A": 10.096406,
+      "sphere_volume_A3": 538.888729,
+      "analytic_radius_A": 5.048203230275509
+    }
+  },
+  "ESP": {
+    "model": "Fixed water dimer PBE0/def2-SVP",
+    "value_unit": "atomic potential units",
+    "derivative_units": "atomic potential units perBohr/perBohr2",
+    "CPs": [
+      {
+        "position_A": [
+          -0.584300325108,
+          -0.735117491068,
+          0.668738375722
+        ],
+        "value": -0.1226985571,
+        "gradient_Bohr": [
+          -2.457556381e-07,
+          -2.97770697e-07,
+          4.485023464e-08
+        ],
+        "hessian_Bohr2": [
+          [
+            0.07927739507,
+            0.04581425898,
+            -0.06050065136
+          ],
+          [
+            0.04581425898,
+            0.09966317563,
+            -0.07394668801
+          ],
+          [
+            -0.06050065136,
+            -0.07394668801,
+            0.07838338069
+          ]
+        ],
+        "eigenvalues_Bohr2": [
+          0.007532136347,
+          0.04255006541,
+          0.2072417496
+        ],
+        "density_e_Bohr3": 0.0204768666,
+        "poisson_relative_residual": 1.576509897017941e-05
+      },
+      {
+        "position_A": [
+          -0.584300363325,
+          -0.735117574115,
+          -0.6687382607
+        ],
+        "value": -0.1226985529,
+        "gradient_Bohr": [
+          -2.458383497e-07,
+          -2.978683966e-07,
+          -4.495237516e-08
+        ],
+        "hessian_Bohr2": [
+          [
+            0.07927739715,
+            0.04581426558,
+            0.060500642
+          ],
+          [
+            0.04581426558,
+            0.09966318777,
+            0.07394668454
+          ],
+          [
+            0.060500642,
+            0.07394668454,
+            0.07838335016
+          ]
+        ],
+        "eigenvalues_Bohr2": [
+          0.007532130125,
+          0.04255006495,
+          0.20724174
+        ],
+        "density_e_Bohr3": 0.02047686525,
+        "poisson_relative_residual": 1.5767643925964436e-05
+      },
+      {
+        "position_A": [
+          2.297137461799,
+          -0.035306298966,
+          1.051126886141
+        ],
+        "value": -0.05683442376,
+        "gradient_Bohr": [
+          7.639888722e-08,
+          1.404321104e-08,
+          -1.22812871e-08
+        ],
+        "hessian_Bohr2": [
+          [
+            0.06167182078,
+            -0.001818342005,
+            -0.04312962903
+          ],
+          [
+            -0.001818342005,
+            0.0366089898,
+            -0.0001804490585
+          ],
+          [
+            -0.04312962903,
+            -0.0001804490585,
+            0.1071402057
+          ]
+        ],
+        "eigenvalues_Bohr2": [
+          0.03440975495,
+          0.03784429432,
+          0.133166967
+        ],
+        "density_e_Bohr3": 0.01634717501,
+        "poisson_relative_residual": -1.773591085131871e-05
+      },
+      {
+        "position_A": [
+          2.297137458076,
+          -0.035306285852,
+          -1.051126865752
+        ],
+        "value": -0.05683442866,
+        "gradient_Bohr": [
+          7.641998145e-08,
+          1.404487637e-08,
+          1.233291247e-08
+        ],
+        "hessian_Bohr2": [
+          [
+            0.06167183569,
+            -0.001818341311,
+            0.04312963355
+          ],
+          [
+            -0.001818341311,
+            0.03660899292,
+            0.0001804466299
+          ],
+          [
+            0.04312963355,
+            0.0001804466299,
+            0.1071402106
+          ]
+        ],
+        "eigenvalues_Bohr2": [
+          0.03440976316,
+          0.03784429745,
+          0.1331669786
+        ],
+        "density_e_Bohr3": 0.01634717685,
+        "poisson_relative_residual": -1.773684409754413e-05
+      }
+    ]
+  },
+  "UFF": {
+    "model": "Fixed6Ar at ±4A axes, defaultC probe",
+    "value_unit": "kcal/mol",
+    "derivative_units": "kcal/mol perBohr/perBohr2",
+    "CPs": [
+      {
+        "position_A": [
+          -4.86209e-07,
+          -3.45452e-07,
+          -1.79414e-07
+        ],
+        "value": -0.8050603148,
+        "gradient_Bohr": [
+          -1.682244718e-07,
+          -1.195236948e-07,
+          -6.207573777e-08
+        ],
+        "hessian_Bohr2": [
+          [
+            0.1830911141,
+            -9.501324376e-14,
+            -4.934600816e-14
+          ],
+          [
+            -9.501324376e-14,
+            0.1830911141,
+            -3.506039967e-14
+          ],
+          [
+            -4.934600816e-14,
+            -3.506039967e-14,
+            0.1830911141
+          ]
+        ],
+        "eigenvalues_Bohr2": [
+          0.1830911141,
+          0.1830911141,
+          0.1830911141
+        ],
+        "density_e_Bohr3": null
+      }
+    ]
+  },
+  "search_scope": "Given deterministic starting points only; neither full extrema coverage nor adsorption equilibria asserted"
+}

@@ -56,15 +56,20 @@ def main():
     if args.natoms is not None and args.natoms <= 0:
         parser.error("--natoms 必须大于零")
     files = sorted(
-        args.root.rglob("OUTCAR") if args.recursive else args.root.glob("*/OUTCAR")
+        set(args.root.rglob("OUTCAR") if args.recursive else args.root.glob("*/OUTCAR"))
     )
-    if (args.root / "OUTCAR").is_file():
+    if (args.root / "OUTCAR").is_file() and (args.root / "OUTCAR") not in files:
         files.insert(0, args.root / "OUTCAR")
     if not files:
         parser.error("未找到 OUTCAR")
-    rows = [summarize(file.parent, args.natoms) for file in files]
+    if args.output and (args.output.exists() or args.output.is_symlink()):
+        parser.error("输出已存在")
+    try:
+        rows = [summarize(file.parent, args.natoms) for file in files]
+    except (OSError, ValueError) as error:
+        parser.exit(1, f"错误：{error}\n")
     stream = (
-        args.output.open("w", newline="", encoding="utf-8")
+        args.output.open("x", newline="", encoding="utf-8")
         if args.output
         else sys.stdout
     )

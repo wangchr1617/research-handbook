@@ -6,7 +6,7 @@
 
 ## 采样与统一标注
 
-可从小位移、小应变和目标条件下的 MD 结构开始，筛除原子重叠等明显不合理构型，再加入模型误差较大的结构。扰动幅度和轨迹抽样间隔取决于体系相关时间与目标环境，不将固定的百分比、位移幅度或 `0.1 ps` 当作通用标准。随机构型方法可参考 [RAG 原始论文](https://pubs.acs.org/doi/10.1021/acs.jpcb.0c05075)。
+可从小位移、小应变和目标条件下的 MD 结构开始，筛除原子重叠等明显不合理构型，再加入模型误差较大的结构。扰动幅度应匹配目标环境，轨迹抽样间隔应结合体系相关时间选择；固定的百分比、位移幅度或 `0.1 ps` 不能作为通用标准。随机构型方法可参考 [RAG 原始论文](https://pubs.acs.org/doi/10.1021/acs.jpcb.0c05075)。
 
 标注使用一致的势、泛函、截断能、电子收敛和能量定义。对于受力或应力敏感的任务，应直接检查这些目标量的收敛；不能只凭总能量平稳或某个统一 `KSPACING` 判断标签精度。
 
@@ -17,10 +17,10 @@
 在包含纯 DFT 子任务的目录中执行仓库脚本：
 
 ```bash
-python3 scripts/structure/vasp2xyz.py calculations -o train.xyz --frames all --converged --energy free
+python3 scripts/structure/vasp_to_xyz.py calculations -o train.xyz --frames all --converged --energy free
 ```
 
-[vasp2xyz.py](../../../scripts/structure/vasp2xyz.py)优先读取 `vasprun.xml`，必要时回退 OUTCAR；`--frames last` 只取每个任务的最后一帧。示例命令从仓库根目录执行，`calculations` 替换为自己的计算目录。
+[vasp_to_xyz.py](../../../scripts/structure/vasp_to_xyz.py)优先读取 `vasprun.xml`，必要时回退 OUTCAR；`--frames last` 只取每个任务的最后一帧。示例命令从仓库根目录执行，`calculations` 替换为自己的计算目录。
 
 默认能量为 TOTEN 自由能，单位 eV；`--energy zero` 可选择零温外推能量，但整个数据集应保持同一定义。力单位为 eV/Å。位力采用：
 

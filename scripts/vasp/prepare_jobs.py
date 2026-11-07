@@ -7,6 +7,7 @@
 """
 
 import argparse
+import math
 import re
 import shutil
 import subprocess
@@ -25,10 +26,14 @@ def copy_inputs(source, target):
 
 
 def prepare_parameter(source, output, values, mode):
-    if any(value <= 0 for value in values) or len(set(values)) != len(values):
+    if any(not math.isfinite(value) or value <= 0 for value in values) or len(
+        set(values)
+    ) != len(values):
         raise ValueError("参数必须为互不重复的正数")
     targets = [output / f"{value:g}" for value in values]
-    if any(target.exists() for target in targets):
+    if len(set(targets)) != len(targets) or any(
+        target.exists() or target.is_symlink() for target in targets
+    ):
         raise FileExistsError("输出任务目录已存在")
     for value, target in zip(values, targets):
         copy_inputs(source, target)
@@ -55,7 +60,9 @@ def prepare_structures(pattern, output):
     if not sources:
         raise ValueError("未匹配到结构文件")
     targets = [output / p.stem for p in sources]
-    if len(set(targets)) != len(targets) or any(p.exists() for p in targets):
+    if len(set(targets)) != len(targets) or any(
+        p.exists() or p.is_symlink() for p in targets
+    ):
         raise FileExistsError("输出目录重名或已经存在")
     for source, target in zip(sources, targets):
         target.mkdir(parents=True)
@@ -88,9 +95,12 @@ def main():
         elif args.mode == "structures":
             prepare_structures(args.pattern, args.output)
         else:
-            if args.spacing <= 0:
+            if not math.isfinite(args.spacing) or args.spacing <= 0:
                 parser.error("间距须大于零")
-            for path in sorted(args.root.glob("*/INCAR")):
+            inputs = sorted(args.root.glob("*/INCAR"))
+            if not inputs:
+                raise ValueError("未找到子目录 INCAR")
+            for path in inputs:
                 subprocess.run(
                     [args.executable],
                     cwd=path.parent,

@@ -54,4 +54,6 @@ python3 postprocess.py
 
 比较网格时应检查各原子电荷的变化，同时留意真空电荷和非核吸引子。总电子数守恒不能单独证明原子电荷已收敛。本例演示检查方法；研究计算还需结合目标精度收敛 k 点、截断能和结构。
 
+同一份 `96³` 价密度还可用于 Hirshfeld 和 CM5 对照；结果与分区差异见[原子电荷的方法选择](../../计算化学/原子电荷、片段电荷与方法选择.md#以同一份-nacl-密度比较)。不同方法的数值大小不构成精度排名，净原子电荷也不等于氧化态。
+
 输入文件：[POSCAR](../../../examples/vasp/minimal/bader-charge/POSCAR)、[INCAR](../../../examples/vasp/minimal/bader-charge/INCAR)、[KPOINTS](../../../examples/vasp/minimal/bader-charge/KPOINTS)；作业入口：[job.pbs](../../../examples/vasp/minimal/bader-charge/job.pbs)；绘图脚本：[plot.py](../../../examples/vasp/minimal/bader-charge/plot.py)。

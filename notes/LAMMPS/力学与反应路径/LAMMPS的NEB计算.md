@@ -2,11 +2,13 @@
 
 **适用环境：Linux（NEB 多副本计算）。**
 
-## 命令
+NEB 用一串副本表示反应路径。`fix neb` 定义副本之间的附加力，`neb` 驱动路径最小化；下面先看命令，再结合投影力理解两个优化阶段。
+
+## 两个命令怎样配合
 
 ### fix neb
 
-向不同副本点添加 nudging force 来寻找过渡态。通过弹簧力使不同点之间尽可能保持相同的距离。该命令产生的力会在 neb 的 minimization 中施加。
+`fix neb` 为多副本优化定义附加的 nudging force，其中弹簧项用于控制副本间距。这些力在 `neb` 的最小化过程中施加。
 
 `fix ID group-ID neb Kspring keyword value`
 
@@ -29,13 +31,13 @@
 
 - etol：能量收敛条件，每个 replica 都要达到收敛标准，这里的能量计算不包括 replica 之间的 nudging forces 贡献
 - ftol：力收敛条件，每个 replica 都要达到收敛标准，这里的力计算包括 replica 之间的 nudging forces 贡献
-- N1：运行初始 NEB 的最大步长
-- N2：运行 barrier-climbing NEB 的最大步长
+- N1：初始 NEB 的最大迭代步数
+- N2：爬坡 NEB 的最大迭代步数
 - Nevery：在两个阶段中，每隔 Nevery 时间步，每个 replica 的势能及其沿反应路径的归一化距离（反应坐标 RD）将被输出到主日志 `log.lammps` 文件中。N1 和 N2 都必须为 Nevery 的倍数。
 - file-style：
   - final：需要存在指定的文件，文件中指定 NEB atom 或 group 最终的坐标。NEB 计算时以这个作为 last replica，middle replica 的初始位置通过 first replica 和 last replica 插值得到。
-  - each：为每个 replica 指定单独的坐标文件，文件名可以使用变量。除了 first replica 外都会读取对应的文件。**这种方法对扩散路径应该会控制的更好，但很麻烦。**
-  - nono：不指定文件，但是需要通过 read_data，read_restart 或 read_dump 这些命令来读取结构作为 replica
+  - each：为每个 replica 指定单独的坐标文件，文件名可以使用变量。除了 first replica 外都会读取对应的文件。这种方式便于控制初始扩散路径，但需要逐副本准备坐标。
+  - none：不指定文件，各副本需预先通过 `read_data`、`read_restart` 或 `read_dump` 取得自己的初始结构
 - verbosity：设置输出主日志 `log.lammps` 的输出信息，不影响分区日志。每隔 Nevery 输出一次
   - terse：timestep, the maximum force of a replica, the maximum force per atom (in any replica), potential gradients in the initial, final, and climbing replicas, the forward and backward energy barriers, the total reaction coordinate (RDT).
   - default：除了 terse 中的还额外输出反应坐标和每个 replica 的势能
@@ -47,7 +49,7 @@ neb 0.0 0.001 1000 500 50 each coords.initial.$i				# each要用变量文件名
 neb 0.0 0.001 1000 500 50 none verbose
 ```
 
-NEB 计算时，时间步长设大一些会更快的收敛（正常的 10 倍）。
+这里的时间步长服务于阻尼动力学最小化，区别于真实 MD 的物理步长。官方文档指出，约为常规动力学步长 10 倍的设置常可加快 NEB 收敛，实际仍需检查优化稳定性。
 
 `fix neb` 和 `neb` 两个命令需要联用。
 
@@ -55,28 +57,26 @@ NEB 计算时，时间步长设大一些会更快的收敛（正常的 10 倍）
 
 NEB 计算分为两步，每一步都是一个 minimization 过程：
 
-> 注意这时需要通过 `min_style` 指定 minimize 算法，用 quickmin 或 fire；不能用 cg/sd/hftn，因为这些算法在内部进行迭代，不能进行不同 replicas 之间的同步。
+用 `min_style` 选择 `quickmin` 或 `fire`。`cg/sd/hftn` 的内部迭代方式不适合这里的多副本同步，不能直接用于此流程。
 
-### 第一步
-
-initial NEB
+### 第一步：优化整体路径
 
 首先，n 个 replicas 朝着最小能量路径（minimum energy path，MEP）弛豫直到收敛，这时的能量收敛指的是所有 replicas 中的能量都达到收敛标准。
 
 这个阶段先优化整体路径形状，不精确定位路径上的最高能量点（鞍点）。
 
-### 第二步
+### 第二步：爬坡定位鞍点
 
 在初始路径被优化之后，第二阶段是**climbing image NEB**，它精细化路径以更准确地定位鞍点，鞍点对应于 MEP 上的最高能态。
 
-将能量最高的 replica 设置为鞍点，然后将作用在该 replica 上的力修改为驱动其到势垒顶部的力（这个力方向沿着切线斜向上，拉着该点爬升）。其他 replica 位置也会重新分布以保证间距相等。
+选择能量最高的副本作为爬坡副本，修改其受力，使它沿路径向高能方向移动、向路径垂直方向弛豫，从而逼近鞍点。其余副本继续调整路径与间距。
 
 每个 replica 的力通过下面的公式计算：
 $$
 F_i=-\nabla V+\left(\nabla V \cdot T^{\prime}\right) T^{\prime}+F_{\|}+F_{\perp}
 $$
 
-- $-\nabla V$：未进行 NEB 计算之前 N 个 replica 之间的相互作用力
+- $-\nabla V$：当前副本自身势能面的原子力；副本间的人工耦合另由弹簧项描述
 - $\nabla V \cdot T^{\prime}$：消除平行于路径的梯度分量，因为沿着路径的力会使得点之间分布不均匀
 - $F_{\|}$：在切线方向人为施加的 nudging force，为了保证不同 replicas 之间距离相等
 - $F_{\perp}$：在垂直于切线方向施加的 nudging force，防止路径形成尖锐的扭折
@@ -91,7 +91,7 @@ $$
 ## 注意事项
 
 1. 必须用 [atom_modify map](https://docs.lammps.org/atom_modify.html) 命令定义原子映射，因为对于 `atom_style atomic` 原子类型映射不是默认的。
-2. The damped dynamics [minimizers](https://docs.lammps.org/min_style.html), such as *quickmin* and *fire*), adjust the position and velocity of the atoms via an Euler integration step. Thus you must define an appropriate [timestep](https://docs.lammps.org/timestep.html) to use with NEB. As mentioned above, NEB will often converge more quickly if you use a timestep about 10x larger than you would normally use for dynamics simulations.
+2. `quickmin`、`fire` 等阻尼动力学[最小化器](https://docs.lammps.org/min_style.html)通过积分步骤调整原子位置与速度，因此需要设置合适的 [timestep](https://docs.lammps.org/timestep.html)，并检查路径优化的稳定性。
 3. 下方是输入的 replica 文件格式，原子 ID 顺序无所谓
 
 ```text
@@ -107,6 +107,8 @@ $$
 
 4. 不要求 replica 文件中的原子与 fix NEB 命令定义的组中的 NEB 原子相对应，不是每个 NEB 原子都需要在输入文件中，并且非 NEB 原子也可以在文件中列出。
 5. 如果输入脚本中的 `dump` 命令定义了一个包含*universe*或*uloop*样式 `variable` 的文件名，那么将为每个副本创建一个 dump 文件（每个转储命令）。
+
+力的定义与两阶段流程见[LAMMPS fix neb 手册](https://docs.lammps.org/fix_neb.html)，文件选项见[neb 手册](https://docs.lammps.org/neb.html)。
 
 ## Python 脚本
 

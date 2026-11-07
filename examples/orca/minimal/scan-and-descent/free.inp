@@ -1,0 +1,4 @@
+! RHF def2-SVP VeryTightSCF TightOpt Opt Freq NoAutoStart
+%pal nprocs 1 end
+%maxcore 256
+* xyzfile 0 1 structure.xyz

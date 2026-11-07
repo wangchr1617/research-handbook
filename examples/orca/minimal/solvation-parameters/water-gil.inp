@@ -1,0 +1,17 @@
+! B3LYP/G def2-TZVP VeryTightSCF DEFGRID3
+%pal nprocs 1 end
+%maxcore 256
+%cpcm
+  smd true
+  SMDsolvent "acetonitrile"
+  epsilon 11.5
+  refrac 1.43
+  soln 1.43
+  soln25 1.43
+  sola 0.229
+  solb 0.265
+  solg 61.24
+  solc 0.23076923076923078
+  solh 0.3076923076923077
+end
+* xyzfile 0 1 structure.xyz

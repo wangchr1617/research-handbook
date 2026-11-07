@@ -1,0 +1,16 @@
+{
+  "anchors": [
+    {
+      "index": 1,
+      "file": "../neb/initial.xyz"
+    },
+    {
+      "index": 4,
+      "file": "waypoint.xyz"
+    },
+    {
+      "index": 7,
+      "file": "../neb/final.xyz"
+    }
+  ]
+}

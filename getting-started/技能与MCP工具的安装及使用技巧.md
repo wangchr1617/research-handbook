@@ -40,7 +40,9 @@ check-inputs/
 | Codex | `.agents/skills/技能目录/` | `~/.agents/skills/技能目录/` |
 | Claude Code | `.claude/skills/技能目录/` | `~/.claude/skills/技能目录/` |
 
-复制完整目录，保证 `SKILL.md` 直接位于技能目录中，避免多套一层仓库文件夹。不同客户端的专用字段、工具名和调用命令仍可能需要调整，不能仅靠复制宣称完全兼容。
+复制完整目录，保证 `SKILL.md` 直接位于技能目录中，避免多套一层仓库文件夹。
+
+不同客户端的专用字段、工具名和调用命令仍可能需要调整，不能仅靠复制宣称完全兼容。
 
 Codex 可通过 `$skill-installer` 安装受支持的技能；安装后用 `/skills` 或 `$技能名` 查看、选择。若未出现，检查路径和元数据，必要时重启。详见 [OpenAI 技能文档](https://developers.openai.com/codex/skills/)。
 

@@ -1,0 +1,332 @@
+{
+  "model": "Fixed water dimer in8A cubic periodic box; PBE/DZVP-MOLOPT-SR-GTH, Oq6/Hq1, Gamma only; no adsorption slab or phase inference",
+  "software": "CP2K2026.2 and Multiwfn2026.7.15",
+  "cell_A": [
+    8,
+    8,
+    8
+  ],
+  "basis_counts": [
+    46,
+    23,
+    23
+  ],
+  "explicit_electrons": [
+    16,
+    8,
+    8
+  ],
+  "full_orbital_space": true,
+  "reference_fragments": "neutral singlet Aatoms1-3, Batoms4-6 at same cell/coordinates/basis; no ghost centres",
+  "CDA": {
+    "d_e": 0.00045401450443980414,
+    "b_e": 0.026625309214380305,
+    "d_minus_b_e": -0.0261712947099405,
+    "r_e": -0.04386080141370942,
+    "per_orbital": [
+      {
+        "index": 1,
+        "d_e": 0.00011199916052434823,
+        "b_e": -0.004288305330876077,
+        "r_e": 0.002856120770453376
+      },
+      {
+        "index": 2,
+        "d_e": -0.0004674610832088205,
+        "b_e": 0.00010480083760188611,
+        "r_e": -0.001181321068854535
+      },
+      {
+        "index": 3,
+        "d_e": 1.6002599452954843e-06,
+        "b_e": 8.281705996937856e-05,
+        "r_e": 0.0006206301435762265
+      },
+      {
+        "index": 4,
+        "d_e": 0.0005909732382951664,
+        "b_e": -0.0003901294529163361,
+        "r_e": 0.05518705032043523
+      },
+      {
+        "index": 5,
+        "d_e": 0.00014853220991016842,
+        "b_e": 0.02335884565131177,
+        "r_e": -0.029430017806153896
+      },
+      {
+        "index": 6,
+        "d_e": 0.0001623856262482951,
+        "b_e": 0.0045474038676212095,
+        "r_e": -0.06971018089731226
+      },
+      {
+        "index": 7,
+        "d_e": -2.1680669942387098e-05,
+        "b_e": 0.003128155485454093,
+        "r_e": 0.007858061820819768
+      },
+      {
+        "index": 8,
+        "d_e": -7.233423733226185e-05,
+        "b_e": 8.17210962143781e-05,
+        "r_e": -0.010061144696673324
+      },
+      {
+        "index": 9,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 10,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 11,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 12,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 13,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 14,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 15,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 16,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 17,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 18,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 19,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 20,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 21,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 22,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 23,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 24,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 25,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 26,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 27,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 28,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 29,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 30,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 31,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 32,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 33,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 34,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 35,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 36,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 37,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 38,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 39,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 40,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 41,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 42,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 43,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 44,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 45,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      },
+      {
+        "index": 46,
+        "d_e": 0.0,
+        "b_e": 0.0,
+        "r_e": 0.0
+      }
+    ]
+  },
+  "ECDA_net_A_to_B_e": -0.03088716284107565,
+  "Mulliken_B_electrons": 7.96911284379671,
+  "Mulliken_B_net_charge_e": 0.03088715620329019,
+  "coefficient_max_difference": 1.1980931524657734e-08,
+  "overlap_max_difference": 6.517072671449742e-09,
+  "overlap_condition_number": 111.52704899429399,
+  "SCF": [
+    {
+      "fragment": "complex",
+      "energy_Ha": -34.44642784101646,
+      "SCF_steps": 22,
+      "wavefunction_sha256": "2c61c50ee2c332879342d70533e427ca3aed47f8a897413c81bf0c4a1b4e8c6e"
+    },
+    {
+      "fragment": "A",
+      "energy_Ha": -17.219538706031415,
+      "SCF_steps": 21,
+      "wavefunction_sha256": "efc3b12c7b046217fc4ca630f5637250442fb527621907e646379b40fc4fb932"
+    },
+    {
+      "fragment": "B",
+      "energy_Ha": -17.219465822817767,
+      "SCF_steps": 20,
+      "wavefunction_sha256": "b7b2a5dee93147024fbd12aac9e1ad55afcf4da289040de29f259705fee0b4de"
+    }
+  ],
+  "conventions": "Mulliken/ECDA agreement here follows same complete AO block partition and integer occupations; not universal agreement with Hirshfeld/Bader/other charge definitions"
+}

@@ -62,7 +62,7 @@ conda info --base
 conda info --envs
 ```
 
-Linux 集群安装前还要查看 `uname -m` 和 `ldd --version`，旧系统可能达不到新安装器的 glibc 要求。按软件部署文档选择受支持版本，不通过替换系统 glibc 解决个人软件安装。
+集群按软件部署文档选择受支持的安装器版本，不通过替换系统 glibc 解决个人软件安装。
 
 ## 三、创建与使用环境
 

@@ -39,7 +39,8 @@
   "analysis_runner_sha256": "6ab9762ff25425faa5c315adb46fd72f7fd872abf5c5fc2c16efc6582101c78d",
   "derived_sha256": {
     "curve.csv": "041f43447e5706f433579ef06d70147391a335703716ca01c52a6c88fd0e27b9",
-    "results.json": "8f7b52adba51a078c4b91137e55bba29f5c6fb33abe03c903800010a2187e4e5",
-    "result.png": "2a86ddd911c6875321594b7bee830b9cb5bb7c25fb3f42450d62a58ba6e4b54e"
-  }
+    "results.json": "c309ef96c643c3995184156f719d6566b23b9718694f8dccb72f3257fa3b2ebd",
+    "result.png": "33a45a9f4f851b29bd03e70cef554ef3cb3823024afee4ef592070879ca97296"
+  },
+  "plot_runner_sha256": "92e191e346e4b4b49c156cc8ad48c1484e8d6690ad7281235ac2b9b0ba634205"
 }

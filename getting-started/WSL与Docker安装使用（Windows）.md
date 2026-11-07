@@ -74,7 +74,7 @@ unset HTTP_PROXY HTTPS_PROXY ALL_PROXY
 
 ## 在 WSL 的 Ubuntu 中安装 Docker
 
-以下命令在 WSL 的 Ubuntu 终端执行。
+以下保留在 WSL Ubuntu 内安装 Docker Engine 的历史流程，软件源、包名和补全脚本需按所用 Ubuntu 与 Docker 版本核对。命令在自己的 WSL 环境执行；共享集群的安装和权限由管理员管理。
 
 ### 安装前的准备工作
 
@@ -131,7 +131,7 @@ source /etc/bash_completion.d/docker.sh
 当我们安装好了 Docker 之后，需要在 docker 命令前加上 sudo 来执行 docker 命令，例如 `sudo docker ps`。
 或者先使用 `sudo -i` 切换至 root 用户，再执行 docker 命令。
 
-如果是在集群上，需要将用户添加到 Docker 用户组，使其无需 sudo 即可运行 Docker 命令。：
+在自行管理的 Linux 环境中，管理员可按访问策略授权 Docker 组，下面保留相应命令。共享集群用户应使用管理员提供的运行方式，不自行改组或系统服务：
 
 ```bash
 sudo groupadd docker # 创建 docker 用户组, 注意：Docker 安装后通常会自动创建此组，重复执行可能报错
@@ -140,7 +140,7 @@ newgrp docker # 切换当前会话的组到 docker，实际是启动一个新的
 docker ps -a # 验证用户是否有权限执行 docker 命令，成功列出容器即表示配置正确。
 ```
 
-最后，我们需要在配置文件中增加国的可用的 Docker hub 镜像。
+需要镜像加速时，先确认服务当前可用性与信任范围。下面保留历史配置示例，地址不能直接视为当前可用：
 使用 `sudo vim /etc/docker/daemon.json` 命令编辑配置文件如下：
 
 ```json
@@ -185,7 +185,7 @@ sudo docker search ubuntu
 sudo docker pull ubuntu:20.04 # 指定 Ubuntu 镜像版本是 20.04
 ```
 
-所有已下载的 Docker 镜像都保存在 `/var/lib/docker` 路径下。
+此 Linux Docker Engine 示例使用默认数据目录 `/var/lib/docker`；实际存储位置以运行服务的配置为准。
 
 使用 `docker images` 命令查看所有已下载的 Docker 镜像，输出如下：
 
@@ -312,8 +312,7 @@ CMD ["bash"]
 - `CMD` 在 docker run 时运行（如果 Dockerfile 中如果存在多个 CMD 指令，仅最后一个生效。）。
 - `RUN` 是在 docker build 时运行。
 
-Dockerfile 的指令每执行一次都会在 docker 上新建一层，而过多无意义的层，会造成镜像膨胀过大。
-因此，推荐使用 `&&` 符号连接命令，减少创建镜像层数。
+组织 Dockerfile 时同时考虑依赖缓存和镜像体积；相关安装命令可用 `&&` 连接，便于在同一步处理依赖。
 
 在 Dockerfile 文件的存放目录下，执行构建命令：
 
@@ -374,7 +373,7 @@ ctest -L deterministic
 
 ### 通过 apptainer 在计算节点上配置（以 QMCPACK 为例）
 
-上传 `.tar` 文件到集群，并修改权限：
+上传 `.tar` 文件到个人目录。下面保留历史权限命令，实际只授予运行账号所需的读取权限，不使用全员可写权限：
 
 ```text
 chmod 777 qmcpack-4.1.0.tar
@@ -388,5 +387,6 @@ apptainer build --sandbox qmcpack-sandbox docker-archive:///home/changruiwang-IC
 apptainer build qmcpack.sif qmcpack-sandbox
 ```
 
-由于已通过 Docker 编译 QMCPACK 并固化到镜像中​​，因此​​无需挂载。
-​直接运行 `apptainer exec qmcpack.sif qmcpack <参数>` 即可。
+QMCPACK 程序已编译并固化到镜像中，输入、输出和工作目录仍需在容器中可访问。
+
+运行形式为 `apptainer exec qmcpack.sif qmcpack <参数>` 即可。

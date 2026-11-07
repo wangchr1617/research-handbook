@@ -62,7 +62,7 @@ cd "$HOME/Software/Alkemie"
 tar -xf "$HOME/alkemie-source.tar"
 ```
 
-本例假设兼容的 Conda 已安装，见 [Conda 与 Mamba](Anaconda、Miniconda、Mamba安装与使用.md)。Alkemie 当前文档要求 Python 3.12，并给出了旧 glibc 系统的专用安装器方案；安装前核对目标版本文档，不直接在旧系统运行最新版安装器。
+本例假设兼容的 Conda 已安装，见 [Conda 与 Mamba](Anaconda、Miniconda、Mamba安装与使用.md)。上述 Alkemie 版本的文档要求 Python 3.12，并给出了旧 glibc 系统的专用安装器方案；安装前核对目标版本文档，不直接在旧系统运行最新版安装器。
 
 ```bash
 conda create -n alkemie python=3.12
