@@ -2,12 +2,13 @@
 
 **适用环境：Linux x86_64 集群（CUDA）。**
 
-首先，`ssh gpu04` 切换到 gpu 队列的编译节点。
+下面记录 CUDA 11.7、PyTorch 2.0.1 和 NequIP 0.6.1 相关环境的编译过程。它是一组具体版本的安装记录，使用其他版本时需核对依赖与接口；示例中的个人目录替换为自己的路径。
+
+先用 `ssh gpu04` 进入原集群的 GPU 编译节点。
 
 ## MLP 环境搭建
 
-考虑到集群不允许联网，使用命令 `conda create -n mlp --clone base` 通过克隆 base 环境创建虚拟环境 mlp。
-然后使用命令 `conda activate mlp` 切换虚拟环境。
+原集群无法直接联网，因此用 `conda create -n mlp --clone base` 克隆已有的 base 环境，再用 `conda activate mlp` 激活。
 
 > 如果需要删除环境，使用 `conda remove --name mlp --all` 删除虚拟环境。
 
@@ -64,8 +65,7 @@ pip install mkl_include-2024.2.2-py2.py3-none-manylinux1_x86_64.whl
 unzip libtorch-shared-with-deps-2.0.1%2Bcu117.zip
 ```
 
-之所以不选择 cxx11-abi 版本是因为 `strings /usr/lib64/libstdc++.so.6 | grep GLIBCXX` 发现集群系统的 libstdc++.so.6 版本最高支持到 GLIBCXX_3.4.19，
-而支持 cxx11-abi 的 PyTorch 通常需要至少 GLIBCXX_3.4.20 或更高版本。
+本例未选择 cxx11-abi 包：运行 `strings /usr/lib64/libstdc++.so.6 | grep GLIBCXX` 时，原集群的 `libstdc++.so.6` 最高支持到 GLIBCXX_3.4.19，而相应 cxx11-abi PyTorch 包通常需要 GLIBCXX_3.4.20 或更高版本。
 
 ## 安装 Allegro
 

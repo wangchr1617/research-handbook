@@ -1,0 +1,80 @@
+{
+  "model": "Fixed unoptimized water dimer, O-O2.9A, neutral singlet PBE0/def2-SVP; isolated fragment geometry identical to complex; no ghost centres",
+  "software": "ORCA6.1.1 and Multiwfn2026.7.15",
+  "fragment_A": "atoms1-3, FOs1-24",
+  "fragment_B": "atoms4-6, FOs25-48",
+  "basis_count": 48,
+  "occupied_spatial_orbitals": 10,
+  "spin_convention": "one spatial orbital counts once in DOS; occupations used separately in populations/CDA",
+  "full_state_count": 48,
+  "finite_plot_window_Ha": [
+    -1.5,
+    1.5
+  ],
+  "mulliken_range": [
+    1.2384971094802637e-07,
+    1.0000008138157261
+  ],
+  "scpa_range": [
+    1.2637185995342617e-07,
+    0.9999908671706625
+  ],
+  "HOMO": {
+    "index": 10,
+    "energy_Ha": -0.269638261238902,
+    "mulliken_fragment_A": 0.9976239700482876,
+    "scpa_fragment_A": 0.9973708586869282
+  },
+  "LUMO": {
+    "index": 11,
+    "energy_Ha": 0.0411906400825879,
+    "mulliken_fragment_A": 0.08796163496535275,
+    "scpa_fragment_A": 0.05909898166981208
+  },
+  "curves": {
+    "dos-002": {
+      "fwhm": 0.02,
+      "energy_unit": "Ha",
+      "max_rebuild_difference": 7.216152226874328e-07,
+      "finite_window_state_integral": 27.00015814271424
+    },
+    "dos-005": {
+      "fwhm": 0.05,
+      "energy_unit": "Ha",
+      "max_rebuild_difference": 5.721642324374443e-07,
+      "finite_window_state_integral": 27.072402343114373
+    },
+    "dos-ev": {
+      "fwhm": 0.544227676,
+      "energy_unit": "eV",
+      "max_rebuild_difference": 4.99930146113936e-07,
+      "finite_window_state_integral": 27.00015796021829
+    }
+  },
+  "LDOS": {
+    "point_Bohr": [
+      2.7,
+      0,
+      0
+    ],
+    "max_broadening_difference": 5.024836573497282e-07,
+    "weight_unit": "Bohr^-3"
+  },
+  "CDA": {
+    "d_e": 0.0015427772110565398,
+    "b_e": 0.045713953057140884,
+    "d_minus_b_e": -0.04417117584608434,
+    "r_e": -0.026320692430009292,
+    "ECDA_net_A_to_B_e": -0.053910294929916495,
+    "normalization": "GCDA uses refocc2; r is twice original CDA formula r; signed terms, not probabilities or energies",
+    "coefficient_reconstruction_max_error": 1.0560024937822377e-08,
+    "overlap_reconstruction_max_error": 5.05957144236735e-09
+  },
+  "energy_conversion_eV_per_Ha": 27.2113838,
+  "public_plot_convention": "From Ha curves: convert x byEV and DOS y by1/EV; native eV conversion separately checked with explicit scale ratioEV compensating strength1/EV",
+  "source_sha256": {
+    "complex.molden.input": "5029d632f77741c77c55017e14aa8fa222543ff2316a9e4d0da09deb54828f46",
+    "fragment-1/orca.molden.input": "e0a02bca07b884323b48fb84c69a35c1d8d353dcc5948b6baaff6df968d0d8d0",
+    "fragment-2/orca.molden.input": "043a3660480c3005cdb1580263e766b050a8ebabdc70343aa975f7b711fed4af"
+  }
+}

@@ -28,7 +28,7 @@ EDIFFG = -0.015
 
 ## 判断是否优化完成
 
-检查电子自洽与 `reached required accuracy` 标记，再看最终受力。程序正常结束或达到 `NSW` 上限时，仍需根据上述标记和受力判断是否收敛。
+先检查各离子步的电子自洽，再找 `reached required accuracy` 标记，并核对最终受力。若只是达到 `NSW` 上限，则计算虽然停止，结构仍可能未收敛。
 
 `CONTCAR` 保存最后结构，`OUTCAR` 保存受力，`vasprun.xml` 记录优化各步。后处理会调用 [plot.py](../../../examples/vasp/minimal/ionic-relaxation/plot.py) 画出能量变化与最大原子受力：
 

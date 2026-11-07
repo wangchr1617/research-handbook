@@ -5,12 +5,22 @@
 """
 
 import argparse
+import math
 from pathlib import Path
 
 
 def relax(
     atoms, calculator, mode="ions", pressure=0.0, fmax=0.001, steps=1000, max_step=0.1
 ):
+    if mode not in {"ions", "cell", "constant-volume"}:
+        raise ValueError("未知优化模式")
+    if (
+        not all(math.isfinite(v) for v in (pressure, fmax, max_step))
+        or min(fmax, max_step, steps) <= 0
+    ):
+        raise ValueError("优化参数无效")
+    if mode == "ions" and pressure:
+        raise ValueError("ions 模式不能指定外压")
     from ase.filters import ExpCellFilter
     from ase.optimize import BFGS
     from ase.units import GPa
@@ -47,9 +57,19 @@ def main():
     parser.add_argument("--max-step", type=float, default=0.1)
     parser.add_argument("-o", "--output", type=Path, default=Path("CONTCAR"))
     args = parser.parse_args()
-    if not args.model.is_file() or args.output.exists():
+    if (
+        not args.input.is_file()
+        or not args.model.is_file()
+        or args.output.exists()
+        or args.output.is_symlink()
+    ):
         parser.error("模型不存在或输出结构已存在")
-    if args.fmax <= 0 or args.steps <= 0 or args.max_step <= 0:
+    if (
+        not all(math.isfinite(v) for v in (args.pressure, args.fmax, args.max_step))
+        or args.fmax <= 0
+        or args.steps <= 0
+        or args.max_step <= 0
+    ):
         parser.error("优化阈值、步数和步长必须为正")
     if args.mode == "ions" and args.pressure:
         parser.error("ions 模式不能指定外压")

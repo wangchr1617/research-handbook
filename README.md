@@ -13,11 +13,40 @@
 
 ## 从哪里开始
 
+完整阅读顺序见[入门阅读目录](getting-started/阅读目录.md)与[专题阅读目录](notes/阅读目录.md)。
+
 第一次访问，建议从[入门路线](getting-started/README.md)开始；想先动手，可以运行 [RMSE 小案例](examples/rmse/README.md)。希望分享学习与计算经验，可阅读[贡献指南](CONTRIBUTING.md)。
 
 开发科研 Agent 应用，可阅读[后端工程专题](notes/后端工程/README.md)，并运行包含登录、文件上传、历史会话与后台任务的 [Agent Demo](examples/backend/agent-demo/README.md)。
 
+构建文献检索与科研知识库，可阅读[知识工程专题](notes/知识工程/README.md)，学习 MinerU 文档解析、RAG、知识图谱与 Neo4j，并对照 Archeos、Alkemie 的源码实例。
+
+查找结构、性质、谱学、反应和 AI 训练数据，可阅读[材料数据库专题](notes/材料数据库专题/README.md)，了解数据内容、官网入口与 API 调用方法。
+
+研究未知晶体结构，可先读[晶体结构预测专题](notes/晶体结构预测专题/README.md)了解任务、生成模型、数据与评价，再读[晶体结构搜索专题](notes/晶体结构搜索专题/README.md)学习全局优化算法、软件工作流与结果验证。
+
 材料计算可从[材料应用专题](notes/材料应用/README.md)按材料体系、功能性质或应用目标选择教程与[实际案例](examples/materials/README.md)。
+
+认识毕业后的产业与学术方向，可阅读[企业专题](notes/企业专题/README.md)和[高校与研究院专题](notes/高校与研究院专题/README.md)，按领域对照产品、研究方法、工具平台与岗位能力。
+
+搭建自己的计算环境，可阅读[算力硬件与集群搭建专题](notes/算力硬件与集群搭建专题/README.md)，从需求分析、CPU/GPU 与存储选型走到网络、Slurm 部署和基本运维。
+
+## 最近新增的十篇笔记
+
+展示 `notes/` 与 `getting-started/` 最近新增的十篇正文笔记，新增笔记时同步更新。按新增日期及加入先后倒序排列，无法区分先后时按路径排序；历史日期依据 Git 新增记录，更新或重命名已有笔记不计入新增。维护规则见 [AGENTS.md](AGENTS.md#阅读目录与最近新增笔记)。
+
+| 新增日期 | 笔记 | 主题 |
+| --- | --- | --- |
+| 2026-11-06 | [CP2K 范德华修正](notes/CP2K/电子结构与响应/CP2K范德华修正.md) | CP2K |
+| 2026-11-06 | [VASP 批量计算](notes/VASP/基础与准备/VASP批量计算.md) | VASP |
+| 2026-11-06 | [VASP ACFDT-RPA 关联能](notes/VASP/泛函与磁性/VASPRPA关联能.md) | VASP |
+| 2026-11-06 | [VASP 自旋轨道耦合](notes/VASP/泛函与磁性/VASP自旋轨道耦合.md) | VASP |
+| 2026-11-06 | [VASP 费米面计算](notes/VASP/电子结构与成键/VASP费米面计算.md) | VASP |
+| 2026-11-06 | [VASP 固定晶格优化](notes/VASP/结构与能量/VASP固定晶格优化.md) | VASP |
+| 2026-11-06 | [VASP 隐式溶剂计算](notes/VASP/结构与能量/VASP隐式溶剂计算.md) | VASP |
+| 2026-11-06 | [H 在 Al(111) 上的吸附能](notes/VASP/表面与反应/VASP吸附能计算.md) | VASP |
+| 2026-11-06 | [Archeos 与 ALKEMIE 源码阅读](notes/后端工程/交付与实战/Archeos与ALKEMIE源码阅读.md) | 后端工程 |
+| 2026-11-06 | [Docker 与 Linux 运维](notes/后端工程/交付与实战/Docker与Linux运维.md) | 后端工程 |
 
 ## 目录导航
 

@@ -74,7 +74,7 @@ python -m build
 python -m twine check dist/*
 ```
 
-第一次构建时 `dist` 是新目录。应生成源码归档 `.tar.gz` 和 wheel `.whl`；`twine check` 检查包元数据与说明格式，不验证程序正确性。
+第一次构建会生成 `dist` 目录，其中应有源码归档 `.tar.gz` 与 wheel `.whl`。`twine check` 核对包元数据和说明格式；接下来还需安装 wheel，检查程序本身是否能用。
 
 在另一个干净环境中安装自己生成的 wheel。下例文件名需与实际产物一致：
 

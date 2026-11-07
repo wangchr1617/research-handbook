@@ -374,7 +374,7 @@ def organic(r):
     data[:, 1:] -= data[:, 1:].min(axis=0)
     r.table("curve.csv", data, "initial_dihedral_deg,relative_E_eV,relative_G_eV")
     r.finish({"conformers": results, "method": c["method"] + "/def2-SVP", "G_temperature_K": 298.15,
-              "interpretation": "气相刚性转子谐振子构象比较；低频扭转及构象简并度未修正"})
+              "interpretation": "气相构象自由能比较；低频热化学模型以 ORCA 输出为准，未另做受阻转子或构象简并度修正"})
 
 
 def semiconductor(r):
@@ -631,7 +631,7 @@ def plot_case(case, work, output=None):
     elif case == "organic":
         x = np.arange(len(data))
         ax.bar(x-.18, data[:, 1]*1000, width=.36, label="Electronic E")
-        ax.bar(x+.18, data[:, 2]*1000, width=.36, label="RRHO G")
+        ax.bar(x+.18, data[:, 2]*1000, width=.36, label="ORCA G")
         ax.set(xticks=x, xticklabels=[f"Initial {a:g} deg" for a in data[:, 0]],
                ylabel="Relative energy (meV/molecule)")
         ax.legend()

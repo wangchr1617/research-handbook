@@ -77,6 +77,43 @@ docker compose down
 
 Demo 使用内存、CPU、PID 上限、只读应用根文件系统、临时目录、移除 capabilities 和禁止提权。它们是服务资源约束，不能证明任意用户代码已经安全隔离。基础镜像标签仍会变化，生产构建可固定 digest，同时定期更新与重新验证安全补丁。
 
+## 把 Compose 中的一段配置读透
+
+[compose.yaml](../../../examples/backend/agent-demo/compose.yaml) 的应用公共配置含以下真实内容（锚点 `app` 被 api／worker／dispatcher／init 合并引用）：
+
+```yaml
+x-app: &app
+  image: handbook-agent:local
+  build: .
+  environment:
+    DEMO_DATABASE_URL: postgresql+psycopg://demo:${POSTGRES_PASSWORD:?请在 .env 中填写数据库口令}@db:5432/demo
+    DEMO_BROKER_URL: redis://redis:6379/0
+  read_only: true
+  tmpfs:
+    - /tmp:size=16m,mode=1777
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  mem_limit: 512m
+  cpus: 1.0
+  pids_limit: 128
+```
+
+`build: .` 的点是 Dockerfile 构建上下文，不是宿主全部文件；`.dockerignore` 决定哪些文件能进入上下文。`read_only` 使应用根文件系统不可写，multipart 临时文件放到有大小上限的 tmpfs。数据库不写到应用镜像中，而是由 db 服务使用自己的命名卷。
+
+`${POSTGRES_PASSWORD:?...}` 在 Compose 解析时检查变量非空，早于容器启动。如果漏填口令，`docker compose config --quiet` 就应失败。它不验证该口令是否与已有数据库卷一致，也不负责把 URL 中的特殊字符转义。
+
+### 根据修改类型决定下一步命令
+
+| 修改 | 操作 | 为什么 |
+| --- | --- | --- |
+| Python 源码／依赖锁 | `docker compose up -d --build` | 镜像中的 COPY 内容需要重新构建 |
+| environment、端口、资源上限 | `docker compose up -d` | 让 Compose 按新配置重新创建相应容器 |
+| 仅服务暂时卡住且无配置变化 | 核对日志后 `docker compose restart worker` | restart 使用现有容器配置 |
+| 表结构 | 先备份并执行版本化迁移，再启动新代码 | init/create_all 不会升级已有列 |
+| PostgreSQL 大版本 | 独立的数据升级与恢复演练 | 不是简单重建应用镜像 |
+
+只运行 `restart` 不会把新环境变量或新镜像内容自动应用到旧容器。排查时可以用 `docker compose images` 看实际镜像，避免把磁盘上的源码和正在运行的镜像混为一谈。
+
 ## Linux 常用检查
 
 以下命令在**运行服务的 Linux 主机／容器**执行。Docker 极简镜像可能没有 `ps`、`ss`、`top`，优先从宿主检查，或在专门的调试环境安装工具。
@@ -123,43 +160,6 @@ location /api/ {
 ```
 
 后端心跳应短于代理空闲超时；不要无限放大超时来掩盖 worker 卡死。只信任受控代理提供的转发头，避免用户伪造来源 IP 绕过限流。密钥轮换、备份恢复、磁盘容量和日志轮转应与应用发布一起演练。
-
-## 把 Compose 中的一段配置读透
-
-[compose.yaml](../../../examples/backend/agent-demo/compose.yaml) 的应用公共配置含以下真实内容（锚点 `app` 被 api／worker／dispatcher／init 合并引用）：
-
-```yaml
-x-app: &app
-  image: handbook-agent:local
-  build: .
-  environment:
-    DEMO_DATABASE_URL: postgresql+psycopg://demo:${POSTGRES_PASSWORD:?请在 .env 中填写数据库口令}@db:5432/demo
-    DEMO_BROKER_URL: redis://redis:6379/0
-  read_only: true
-  tmpfs:
-    - /tmp:size=16m,mode=1777
-  cap_drop: [ALL]
-  security_opt: [no-new-privileges:true]
-  mem_limit: 512m
-  cpus: 1.0
-  pids_limit: 128
-```
-
-`build: .` 的点是 Dockerfile 构建上下文，不是宿主全部文件；`.dockerignore` 决定哪些文件能进入上下文。`read_only` 使应用根文件系统不可写，multipart 临时文件放到有大小上限的 tmpfs。数据库不写到应用镜像中，而是由 db 服务使用自己的命名卷。
-
-`${POSTGRES_PASSWORD:?...}` 在 Compose 解析时检查变量非空，早于容器启动。如果漏填口令，`docker compose config --quiet` 就应失败。它不验证该口令是否与已有数据库卷一致，也不负责把 URL 中的特殊字符转义。
-
-### 根据修改类型决定下一步命令
-
-| 修改 | 操作 | 为什么 |
-| --- | --- | --- |
-| Python 源码／依赖锁 | `docker compose up -d --build` | 镜像中的 COPY 内容需要重新构建 |
-| environment、端口、资源上限 | `docker compose up -d` | 让 Compose 按新配置重新创建相应容器 |
-| 仅服务暂时卡住且无配置变化 | 核对日志后 `docker compose restart worker` | restart 使用现有容器配置 |
-| 表结构 | 先备份并执行版本化迁移，再启动新代码 | init/create_all 不会升级已有列 |
-| PostgreSQL 大版本 | 独立的数据升级与恢复演练 | 不是简单重建应用镜像 |
-
-只运行 `restart` 不会把新环境变量或新镜像内容自动应用到旧容器。排查时可以用 `docker compose images` 看实际镜像，避免把磁盘上的源码和正在运行的镜像混为一谈。
 
 ## 逐层排查一个“页面一直等待”的任务
 

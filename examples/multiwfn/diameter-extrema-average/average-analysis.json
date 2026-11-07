@@ -1,0 +1,51 @@
+{
+  "model": "Three constructed rigid-water snapshots, not MD; first water fixed; second water translated0,+0.3,-0.3A inY",
+  "frame_count": 3,
+  "grid": {
+    "shape": [
+      17,
+      20,
+      16
+    ],
+    "origin_Bohr": [
+      1.511781,
+      -1.889726,
+      -1.511781
+    ],
+    "vectors_Bohr": [
+      [
+        0.2,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.2,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.2
+      ]
+    ]
+  },
+  "mean_definition": "arithmetic mean of per-frame delta-g, same amIGM implementation per frame",
+  "std_definition": "population standard deviation, ddof0",
+  "mean_max_difference": 6.666666666974019e-08,
+  "mean_geometry_max_difference": 0.00958461,
+  "colour_mean_difference": 0.02980596666666667,
+  "colour_definition": "sign(lambda2(mean Hessian of promolecular density))*mean promolecular density, not mean of framewise signed density",
+  "minimum_mean": 2.64111e-05,
+  "maximum_std": 0.012661766275761932,
+  "local_integral_e_Bohr": 0.10862196536640004,
+  "sigma_TFI_implementation": "Postprocessing of native single-frame amIGM fields; population std, ddof0",
+  "software_version": "Multiwfn2026.7.15",
+  "displayed_mean_threshold": 0.003,
+  "z_slice_A": 0.04668348436865178,
+  "source_delta_grid_sha256": {
+    "frame1": "8dd6e492acf90e46f9e5e3f0e6bffe54edea521f4bee6200dcee2adef5cdf408",
+    "frame2": "4ddae4caa3d17c0a87a56e22dd1381bb51601c33e653c732614a7e01d73f6959",
+    "frame3": "545a0efa388e3d80f55e7f4f0921db506c0a4a664c8377c46ec6104c9e7be45f"
+  }
+}

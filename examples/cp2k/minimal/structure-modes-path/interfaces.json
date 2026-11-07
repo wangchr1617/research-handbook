@@ -1,0 +1,403 @@
+{
+  "multiwfn": "2026.7.15",
+  "cp2k": "2026.2",
+  "input_models": {
+    "plain": {
+      "cell_angstrom": [
+        [
+          11.514,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          10.586,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          10.0
+        ]
+      ],
+      "coordinates_angstrom": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.757,
+          0.586,
+          0.0
+        ],
+        [
+          -0.757,
+          0.586,
+          0.0
+        ]
+      ],
+      "geometry_periodic": "XYZ",
+      "poisson_periodic": "XYZ",
+      "poisson_solver": "PERIODIC",
+      "repetitions": [
+        1,
+        1,
+        1
+      ],
+      "coordinate_atom_count": 3,
+      "effective_atom_count": 3,
+      "effective_volume_angstrom3": 1218.87204
+    },
+    "lattice": {
+      "cell_angstrom": [
+        [
+          8.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          7.5,
+          0.0
+        ],
+        [
+          0.5,
+          0.3,
+          9.0
+        ]
+      ],
+      "coordinates_angstrom": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.757,
+          0.586,
+          0.0
+        ],
+        [
+          -0.757,
+          0.586,
+          0.0
+        ]
+      ],
+      "geometry_periodic": "XYZ",
+      "poisson_periodic": "XYZ",
+      "poisson_solver": "PERIODIC",
+      "repetitions": [
+        1,
+        1,
+        1
+      ],
+      "coordinate_atom_count": 3,
+      "effective_atom_count": 3,
+      "effective_volume_angstrom3": 539.9999999999997
+    },
+    "tv": {
+      "cell_angstrom": [
+        [
+          8.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          7.5,
+          0.0
+        ],
+        [
+          0.5,
+          0.3,
+          9.0
+        ]
+      ],
+      "coordinates_angstrom": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.757,
+          0.586,
+          0.0
+        ],
+        [
+          -0.757,
+          0.586,
+          0.0
+        ]
+      ],
+      "geometry_periodic": "XYZ",
+      "poisson_periodic": "XYZ",
+      "poisson_solver": "PERIODIC",
+      "repetitions": [
+        1,
+        1,
+        1
+      ],
+      "coordinate_atom_count": 3,
+      "effective_atom_count": 3,
+      "effective_volume_angstrom3": 539.9999999999997
+    },
+    "replicated": {
+      "cell_angstrom": [
+        [
+          8.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          7.5,
+          0.0
+        ],
+        [
+          0.5,
+          0.3,
+          9.0
+        ]
+      ],
+      "coordinates_angstrom": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.757,
+          0.586,
+          0.0
+        ],
+        [
+          -0.757,
+          0.586,
+          0.0
+        ]
+      ],
+      "geometry_periodic": "XYZ",
+      "poisson_periodic": "XYZ",
+      "poisson_solver": "PERIODIC",
+      "repetitions": [
+        2,
+        1,
+        1
+      ],
+      "coordinate_atom_count": 3,
+      "effective_atom_count": 6,
+      "effective_volume_angstrom3": 1079.9999999999993
+    },
+    "explicit": {
+      "cell_angstrom": [
+        [
+          16.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          7.5,
+          0.0
+        ],
+        [
+          0.5,
+          0.3,
+          9.0
+        ]
+      ],
+      "coordinates_angstrom": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.757,
+          0.586,
+          0.0
+        ],
+        [
+          -0.757,
+          0.586,
+          0.0
+        ],
+        [
+          8.0,
+          0.0,
+          0.0
+        ],
+        [
+          8.757,
+          0.586,
+          0.0
+        ],
+        [
+          7.243,
+          0.586,
+          0.0
+        ]
+      ],
+      "geometry_periodic": "XYZ",
+      "poisson_periodic": "XYZ",
+      "poisson_solver": "PERIODIC",
+      "repetitions": [
+        1,
+        1,
+        1
+      ],
+      "coordinate_atom_count": 6,
+      "effective_atom_count": 6,
+      "effective_volume_angstrom3": 1079.9999999999995
+    },
+    "vib": {
+      "cell_angstrom": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "coordinates_angstrom": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.757,
+          0.586,
+          0.0
+        ],
+        [
+          -0.757,
+          0.586,
+          0.0
+        ]
+      ],
+      "geometry_periodic": "NONE",
+      "poisson_periodic": "NONE",
+      "poisson_solver": "WAVELET",
+      "repetitions": [
+        1,
+        1,
+        1
+      ],
+      "coordinate_atom_count": 3,
+      "effective_atom_count": 3,
+      "effective_volume_angstrom3": 0.0
+    },
+    "isolated": {
+      "cell_angstrom": [
+        [
+          8.514,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          8.514,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          8.514
+        ]
+      ],
+      "coordinates_angstrom": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.757,
+          0.586,
+          0.0
+        ],
+        [
+          -0.757,
+          0.586,
+          0.0
+        ]
+      ],
+      "geometry_periodic": "NONE",
+      "poisson_periodic": "NONE",
+      "poisson_solver": "WAVELET",
+      "repetitions": [
+        1,
+        1,
+        1
+      ],
+      "coordinate_atom_count": 3,
+      "effective_atom_count": 3,
+      "effective_volume_angstrom3": 617.1645007439995
+    },
+    "slab": {
+      "cell_angstrom": [
+        [
+          8.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          7.5,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          8.0
+        ]
+      ],
+      "coordinates_angstrom": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.757,
+          0.586,
+          0.0
+        ],
+        [
+          -0.757,
+          0.586,
+          0.0
+        ]
+      ],
+      "geometry_periodic": "XY",
+      "poisson_periodic": "XY",
+      "poisson_solver": "MT",
+      "repetitions": [
+        1,
+        1,
+        1
+      ],
+      "coordinate_atom_count": 3,
+      "effective_atom_count": 3,
+      "effective_volume_angstrom3": 479.99999999999955
+    }
+  },
+  "supercell_energy_hartree": {
+    "replicated": -34.439790700046736,
+    "explicit": -34.43979070004674
+  },
+  "energy_difference_hartree": 7.105427357601002e-15,
+  "meaning": "Input-format and representation comparison on an artificial periodic water array; not convergence or material-property benchmark"
+}

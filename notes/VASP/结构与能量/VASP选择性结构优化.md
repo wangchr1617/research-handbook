@@ -15,7 +15,9 @@ Direct
 .25 .25 .28 F F T
 ```
 
-`T` 表示可变，`F` 表示冻结。三个标志相对于晶格基矢定义，即使坐标以 Cartesian 写入也如此；在斜晶胞中不能直接理解为笛卡尔 x、y、z。本例原胞正是斜晶胞，自由的第三方向同时包含笛卡尔 x、y 分量。
+`T` 表示可变，`F` 表示冻结。这里选择的是晶格基矢方向，即使坐标写成 Cartesian，标志的定义也不变。
+
+本例使用斜晶胞，第三晶格方向同时含有笛卡尔 x、y 分量。因此，`F F T` 允许的运动方向并非笛卡尔 z 轴。
 
 准备授权 Si `POTCAR`，安装 [依赖](../../../examples/vasp/minimal/selective-relaxation/requirements.txt)，加载 VASP 后执行：
 

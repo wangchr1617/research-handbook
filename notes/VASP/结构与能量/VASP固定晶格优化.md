@@ -28,6 +28,6 @@ qsub job.pbs
 
 ## 不同补丁不要混用
 
-`OPTCELL` 并无适用于所有 VASP 程序的统一格式。旧式三行矩阵、三整数对角应力补丁和 `IOPTCELL` 九分量补丁是不同实现，应先确认所用程序。
+`OPTCELL` 的含义取决于所用补丁。旧式三行矩阵、三整数对角应力补丁与 `IOPTCELL` 九分量补丁是不同实现，使用前先核对程序来源和输入格式。
 
 [VASP_OPT_AXIS](https://github.com/Chengcheng-Xiao/VASP_OPT_AXIS)还提供 `IOPTCELL = xx xy xz yx yy yz zx zy zz` 的应力掩码，以及直接恢复晶格分量的另一套补丁。后者要求 `IBRION = 2`；两种约束在斜晶胞中也不能等同。换补丁后应重新检查晶格轨迹，不能仅凭输入里存在该参数判断约束已生效。

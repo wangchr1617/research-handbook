@@ -1,0 +1,567 @@
+{
+  "model": "Same fixed, unoptimized water dimer; PBE0/def2-SVP; no new electronic structure calculation",
+  "bin_order": [
+    "satt",
+    "matt",
+    "watt",
+    "rep"
+  ],
+  "bin_edges_au": [
+    -0.05,
+    -0.013,
+    0.009
+  ],
+  "IRI_level": 1.0,
+  "IRI_exponent": 1.1,
+  "connectivity": 26,
+  "periodic": false,
+  "integration": "uniform-grid node counting",
+  "domain_numbers": "local script IDs; match other grids/programs by position, not ID",
+  "IRI": {
+    "coarse": {
+      "shape": [
+        73,
+        54,
+        38
+      ],
+      "origin_Bohr": [
+        -4.232962,
+        -5.211865,
+        -3.779452
+      ],
+      "vectors_Bohr": [
+        [
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.2,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.2
+        ]
+      ],
+      "domains": [
+        {
+          "id": 1,
+          "points": 17,
+          "centroid_A": [
+            1.6759243356638156,
+            0.037300612114059155,
+            -0.0015776951622002826
+          ],
+          "touches_box": false,
+          "q_e": [
+            0.0,
+            0.003104246400000001,
+            0.0,
+            0.0
+          ],
+          "volume_Bohr3": [
+            0.0,
+            0.13600000000000007,
+            0.0,
+            0.0
+          ],
+          "volume_A3": [
+            0.0,
+            0.02015312076021415,
+            0.0,
+            0.0
+          ],
+          "q_total_e": 0.003104246400000001,
+          "volume_total_A3": 0.02015312076021415,
+          "mean_density_e_Bohr3": 0.022825341176470587,
+          "attraction_q_fraction": 1.0,
+          "attraction_volume_fraction": 1.0,
+          "attraction_mean_density_e_Bohr3": 0.022825341176470587,
+          "repulsion_mean_density_e_Bohr3": null,
+          "signed_density_range": [
+            -0.0243226,
+            -0.0216837
+          ]
+        },
+        {
+          "id": 2,
+          "points": 5,
+          "centroid_A": [
+            3.369291410553416,
+            -0.5989571638187242,
+            -0.010293555106485051
+          ],
+          "touches_box": false,
+          "q_e": [
+            0.014699944000000006,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "volume_Bohr3": [
+            0.04000000000000002,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "volume_A3": [
+            0.005927388458886514,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "q_total_e": 0.014699944000000006,
+          "volume_total_A3": 0.005927388458886514,
+          "mean_density_e_Bohr3": 0.36749859999999995,
+          "attraction_q_fraction": 1.0,
+          "attraction_volume_fraction": 1.0,
+          "attraction_mean_density_e_Bohr3": 0.36749859999999995,
+          "repulsion_mean_density_e_Bohr3": null,
+          "signed_density_range": [
+            -0.396768,
+            -0.348598
+          ]
+        },
+        {
+          "id": 3,
+          "points": 6,
+          "centroid_A": [
+            0.7586838367652823,
+            0.011360552756069519,
+            -0.006765707033798538
+          ],
+          "touches_box": false,
+          "q_e": [
+            0.01765067200000001,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "volume_Bohr3": [
+            0.04800000000000002,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "volume_A3": [
+            0.007112866150663816,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "q_total_e": 0.01765067200000001,
+          "volume_total_A3": 0.007112866150663816,
+          "mean_density_e_Bohr3": 0.3677223333333334,
+          "attraction_q_fraction": 1.0,
+          "attraction_volume_fraction": 1.0,
+          "attraction_mean_density_e_Bohr3": 0.3677223333333334,
+          "repulsion_mean_density_e_Bohr3": null,
+          "signed_density_range": [
+            -0.421839,
+            -0.346841
+          ]
+        },
+        {
+          "id": 4,
+          "points": 6,
+          "centroid_A": [
+            3.3516521701899826,
+            0.6110947251128026,
+            -0.006765707033798538
+          ],
+          "touches_box": false,
+          "q_e": [
+            0.017457192000000007,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "volume_Bohr3": [
+            0.04800000000000002,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "volume_A3": [
+            0.007112866150663816,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "q_total_e": 0.017457192000000007,
+          "volume_total_A3": 0.007112866150663816,
+          "mean_density_e_Bohr3": 0.3636915,
+          "attraction_q_fraction": 1.0,
+          "attraction_volume_fraction": 1.0,
+          "attraction_mean_density_e_Bohr3": 0.3636915,
+          "repulsion_mean_density_e_Bohr3": null,
+          "signed_density_range": [
+            -0.404119,
+            -0.331992
+          ]
+        },
+        {
+          "id": 5,
+          "points": 6,
+          "centroid_A": [
+            -0.19383514286011783,
+            0.7169301672934026,
+            -0.006765707033798538
+          ],
+          "touches_box": false,
+          "q_e": [
+            0.017603040000000007,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "volume_Bohr3": [
+            0.04800000000000002,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "volume_A3": [
+            0.007112866150663816,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "q_total_e": 0.017603040000000007,
+          "volume_total_A3": 0.007112866150663816,
+          "mean_density_e_Bohr3": 0.36673,
+          "attraction_q_fraction": 1.0,
+          "attraction_volume_fraction": 1.0,
+          "attraction_mean_density_e_Bohr3": 0.36673,
+          "repulsion_mean_density_e_Bohr3": null,
+          "signed_density_range": [
+            -0.400646,
+            -0.332102
+          ]
+        }
+      ]
+    },
+    "fine": {
+      "shape": [
+        146,
+        107,
+        76
+      ],
+      "origin_Bohr": [
+        -4.232962,
+        -5.211865,
+        -3.779452
+      ],
+      "vectors_Bohr": [
+        [
+          0.1,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.1,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.1
+        ]
+      ],
+      "domains": [
+        {
+          "id": 1,
+          "points": 161,
+          "centroid_A": [
+            1.644042230410653,
+            0.014756928229773612,
+            -0.0026024080660314646
+          ],
+          "touches_box": false,
+          "q_e": [
+            0.0,
+            0.0035957573000000025,
+            0.0,
+            0.0
+          ],
+          "volume_Bohr3": [
+            0.0,
+            0.16100000000000003,
+            0.0,
+            0.0
+          ],
+          "volume_A3": [
+            0.0,
+            0.023857738547018212,
+            0.0,
+            0.0
+          ],
+          "q_total_e": 0.0035957573000000025,
+          "volume_total_A3": 0.023857738547018212,
+          "mean_density_e_Bohr3": 0.022333896273291937,
+          "attraction_q_fraction": 1.0,
+          "attraction_volume_fraction": 1.0,
+          "attraction_mean_density_e_Bohr3": 0.022333896273291937,
+          "repulsion_mean_density_e_Bohr3": null,
+          "signed_density_range": [
+            -0.0243226,
+            -0.0196243
+          ]
+        },
+        {
+          "id": 2,
+          "points": 47,
+          "centroid_A": [
+            3.3569064120003667,
+            -0.5816181658444558,
+            -0.00151146522341384
+          ],
+          "touches_box": false,
+          "q_e": [
+            0.0171033,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "volume_Bohr3": [
+            0.047000000000000014,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "volume_A3": [
+            0.006964681439191653,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "q_total_e": 0.0171033,
+          "volume_total_A3": 0.006964681439191653,
+          "mean_density_e_Bohr3": 0.36389999999999983,
+          "attraction_q_fraction": 1.0,
+          "attraction_volume_fraction": 1.0,
+          "attraction_mean_density_e_Bohr3": 0.36389999999999983,
+          "repulsion_mean_density_e_Bohr3": null,
+          "signed_density_range": [
+            -0.427933,
+            -0.336738
+          ]
+        },
+        {
+          "id": 3,
+          "points": 41,
+          "centroid_A": [
+            0.7569629352664109,
+            0.0027560452617116323,
+            0.0018388004605593491
+          ],
+          "touches_box": false,
+          "q_e": [
+            0.014727053000000009,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "volume_Bohr3": [
+            0.04100000000000001,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "volume_A3": [
+            0.006075573170358675,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "q_total_e": 0.014727053000000009,
+          "volume_total_A3": 0.006075573170358675,
+          "mean_density_e_Bohr3": 0.3591964146341465,
+          "attraction_q_fraction": 1.0,
+          "attraction_volume_fraction": 1.0,
+          "attraction_mean_density_e_Bohr3": 0.3591964146341465,
+          "repulsion_mean_density_e_Bohr3": null,
+          "signed_density_range": [
+            -0.421839,
+            -0.331414
+          ]
+        },
+        {
+          "id": 4,
+          "points": 48,
+          "centroid_A": [
+            3.353857075235411,
+            0.5835334120449381,
+            -0.0023558969429399858
+          ],
+          "touches_box": false,
+          "q_e": [
+            0.017538514000000005,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "volume_Bohr3": [
+            0.048000000000000015,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "volume_A3": [
+            0.007112866150663815,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "q_total_e": 0.017538514000000005,
+          "volume_total_A3": 0.007112866150663815,
+          "mean_density_e_Bohr3": 0.36538570833333334,
+          "attraction_q_fraction": 1.0,
+          "attraction_volume_fraction": 1.0,
+          "attraction_mean_density_e_Bohr3": 0.36538570833333334,
+          "repulsion_mean_density_e_Bohr3": null,
+          "signed_density_range": [
+            -0.435415,
+            -0.331992
+          ]
+        },
+        {
+          "id": 5,
+          "points": 51,
+          "centroid_A": [
+            -0.18242151674260193,
+            0.7117421554218042,
+            -0.003652899910839491
+          ],
+          "touches_box": false,
+          "q_e": [
+            0.018670486,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "volume_Bohr3": [
+            0.05100000000000001,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "volume_A3": [
+            0.007557420285080304,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "q_total_e": 0.018670486,
+          "volume_total_A3": 0.007557420285080304,
+          "mean_density_e_Bohr3": 0.36608796078431366,
+          "attraction_q_fraction": 1.0,
+          "attraction_volume_fraction": 1.0,
+          "attraction_mean_density_e_Bohr3": 0.36608796078431366,
+          "repulsion_mean_density_e_Bohr3": null,
+          "signed_density_range": [
+            -0.435421,
+            -0.332102
+          ]
+        }
+      ]
+    }
+  },
+  "orbital": {
+    "index": 10,
+    "normalization": "one spatial orbital, occupancy excluded",
+    "threshold_unit": "Bohr^(-3/2)",
+    "meshes": [
+      {
+        "level": 0.025,
+        "area_A2": 34.658222704687795,
+        "volume_A3": 12.30294189871988,
+        "node_count_volume_A3": 12.32422608371684,
+        "closed": true,
+        "consistently_oriented": true,
+        "vertices": 4568,
+        "triangles": 9120
+      },
+      {
+        "level": 0.05,
+        "area_A2": 21.30929041513941,
+        "volume_A3": 6.272000657626499,
+        "node_count_volume_A3": 6.292515587953923,
+        "closed": true,
+        "consistently_oriented": true,
+        "vertices": 2792,
+        "triangles": 5576
+      },
+      {
+        "level": 0.1,
+        "area_A2": 11.59016540960759,
+        "volume_A3": 2.5425265213221606,
+        "node_count_volume_A3": 2.581970412690965,
+        "closed": true,
+        "consistently_oriented": true,
+        "vertices": 1548,
+        "triangles": 3088
+      }
+    ],
+    "Multiwfn_at_005": {
+      "volume_A3": 6.25824,
+      "area_A2": 21.34648
+    }
+  },
+  "HS": {
+    "fragment": [
+      1,
+      2,
+      3
+    ],
+    "environment": [
+      4,
+      5,
+      6
+    ],
+    "grid_spacing_Bohr": 0.3,
+    "box_vdw_multiplier": 1.7,
+    "mesh": {
+      "level": 0.5,
+      "area_A2": 29.244914456099742,
+      "volume_A3": null,
+      "node_count_volume_A3": 136.34164114659598,
+      "closed": false,
+      "consistently_oriented": false,
+      "vertices": 1332,
+      "triangles": 2518
+    },
+    "Multiwfn": {
+      "volume_A3": 126.18988,
+      "area_A2": 28.81885
+    },
+    "contact_areas": [
+      {
+        "pair": "H-H",
+        "area_A2": 13.3,
+        "percent": 46.151
+      },
+      {
+        "pair": "H-O",
+        "area_A2": 15.519,
+        "percent": 53.849
+      }
+    ],
+    "dnorm_implementation": "2026.7.15 multiplies the usual dimensionless formula by b2a; do not transfer numerical colour bounds blindly",
+    "maximum_dnorm_difference_for_unambiguous_rounded_coordinates": 0.0005443744139634887,
+    "excluded_ambiguous_nearest_atom_checks": 8,
+    "fingerprint_points": 1349
+  },
+  "source_cube_sha256": {
+    "coarse-0": "c68a8c82ae1eb8918e22c4e76b4c7bded56f88f752775eddbfcb4e325e29a65a",
+    "coarse-1": "8a85cc9df0cdb0cb8bb5edef106b25d2ae5f53661745dd722214ee72a27cee8f",
+    "coarse-2": "03be79eb0dd433bd22b0f0c816771dbe9441fad064b78b57eeab94d78476db06",
+    "fine-0": "40ac6f27619ab263ce379d5e97a123e939917d4fc4a306cbc5a526212471a2ff",
+    "fine-1": "60fc777f267ff5550d2f1dc270ae6ed2afa22612088c2241d27075dbc7198400",
+    "fine-2": "3d008e27410046fdc327f6275fe7e454b1ebf7f64b7170336c11d88a8be5be0a"
+  }
+}

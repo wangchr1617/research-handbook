@@ -2,9 +2,9 @@
 
 **适用环境：Linux 集群。**
 
-以 OpenMX 3.9 为例。
+下面记录 OpenMX 3.9 与 patch3.9.9 在 Intel 2020 环境下的编译步骤。路径和编译器配置对应这一环境，使用时按实际安装位置调整。
 
-下载资源：
+先下载并解压源码与补丁：
 
 ```bash
 wget https://www.openmx-square.org/openmx3.9.tar.gz
@@ -15,7 +15,7 @@ tar -xvf patch3.9.9.tar.gz
 mv kpoint.in ../work/
 ```
 
-修改 `openmx3.9/source/makefile` 第 8 到 11 行如下：
+在 `openmx3.9/source/makefile` 中找到 MKL 路径、编译器和链接库配置，修改为：
 
 ```makefile
 MKLROOT = /opt/intel2020/compilers_and_libraries_2020.1.217/linux/mkl

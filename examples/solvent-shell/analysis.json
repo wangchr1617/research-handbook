@@ -1,0 +1,3261 @@
+{
+  "software": "Packmol 21.2.3",
+  "definition": "Packing geometry, not energy minimization or equilibrium sampling; nonperiodic complete-molecule selection by any-atom distance",
+  "protocol": {
+    "solute": "independently generated tetrahedral methane, fixed",
+    "solvent": "independently generated rigid water geometry; packing only",
+    "CH_angstrom": 1.09,
+    "OH_angstrom": 0.96,
+    "HOH_degree": 104.5,
+    "water_molecules": 64,
+    "sphere_radius_angstrom": 8.0,
+    "intermolecular_tolerance_angstrom": 2.0,
+    "packing_precision": 1e-08,
+    "seeds": [
+      191917,
+      271828
+    ],
+    "shell_cutoffs_angstrom": [
+      3.0,
+      4.0,
+      5.0
+    ]
+  },
+  "source_sha256": {
+    "seed-191917/packmol.inp": "f15f5e46ad78cf69eeb15a131a84170be8ffaaec492b8710305bb12714307af7",
+    "seed-191917/solute.xyz": "f70488ed24fb6de9845c8e745f53697fca185db8be18a062682a28f52b4428af",
+    "seed-191917/water.xyz": "dd6cd15b63867f294f77967807c4b01d6107a2bb908ce17894f50a7a232487f0",
+    "seed-191917/molecules.json": "43a4197706e73de1e39fd798b6767cf45c798e67b76bd1ecfb4f461697eb76a5",
+    "seed-191917/packmol.out": "435863df8564dc1ff6f69814f77ac5445a80ddd41a73137dfa2804766ad6c064",
+    "seed-191917/packed.xyz": "923d191ac2be5a4f98ab184a6c8e6c4a0bb7f757f4535e67568779a1cf358913",
+    "seed-271828/packmol.inp": "bea55c9d906cbbb499a7d85b6be1d7ad8828c3c378c0bb28c25868719bbd9d09",
+    "seed-271828/solute.xyz": "f70488ed24fb6de9845c8e745f53697fca185db8be18a062682a28f52b4428af",
+    "seed-271828/water.xyz": "dd6cd15b63867f294f77967807c4b01d6107a2bb908ce17894f50a7a232487f0",
+    "seed-271828/molecules.json": "43a4197706e73de1e39fd798b6767cf45c798e67b76bd1ecfb4f461697eb76a5",
+    "seed-271828/packmol.out": "c2d4b98dd0c8f06d978b6bf675bdcb347d0fa7258f19297004b677b5e359e3ed",
+    "seed-271828/packed.xyz": "0ca25c6fe0f3855bd093b563a6f4682fd212ee22d0dd66899281b30be07c7b51"
+  },
+  "packings": [
+    {
+      "seed": 191917,
+      "atoms": 197,
+      "minimum_intermolecular_distance_Angstrom": 2.199201581652305,
+      "maximum_solvent_atom_radius_Angstrom": 8.000014508699593,
+      "water_rigid_distance_max_error_Angstrom": 1.2177121975209815e-06,
+      "selections": [
+        {
+          "cutoff_Angstrom": 3.0,
+          "water_count": 0,
+          "whole_molecule_atom_count": 5,
+          "atom_only_atom_count": 5,
+          "selected_molecule_ids": [
+            0
+          ],
+          "selected_atom_indices_0based": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "water_nearest_distances": [
+            {
+              "molecule_id": 1,
+              "nearest_atom_distance_Angstrom": 6.86652083638126
+            },
+            {
+              "molecule_id": 2,
+              "nearest_atom_distance_Angstrom": 5.245119435433096
+            },
+            {
+              "molecule_id": 3,
+              "nearest_atom_distance_Angstrom": 3.7379159678267246
+            },
+            {
+              "molecule_id": 4,
+              "nearest_atom_distance_Angstrom": 6.476802171003605
+            },
+            {
+              "molecule_id": 5,
+              "nearest_atom_distance_Angstrom": 6.898767792728931
+            },
+            {
+              "molecule_id": 6,
+              "nearest_atom_distance_Angstrom": 7.076766725831013
+            },
+            {
+              "molecule_id": 7,
+              "nearest_atom_distance_Angstrom": 6.389382047063551
+            },
+            {
+              "molecule_id": 8,
+              "nearest_atom_distance_Angstrom": 6.554964066948117
+            },
+            {
+              "molecule_id": 9,
+              "nearest_atom_distance_Angstrom": 5.317507585391958
+            },
+            {
+              "molecule_id": 10,
+              "nearest_atom_distance_Angstrom": 6.477332016358742
+            },
+            {
+              "molecule_id": 11,
+              "nearest_atom_distance_Angstrom": 6.070913357115962
+            },
+            {
+              "molecule_id": 12,
+              "nearest_atom_distance_Angstrom": 6.364152481946516
+            },
+            {
+              "molecule_id": 13,
+              "nearest_atom_distance_Angstrom": 4.150492791037228
+            },
+            {
+              "molecule_id": 14,
+              "nearest_atom_distance_Angstrom": 4.810492458575733
+            },
+            {
+              "molecule_id": 15,
+              "nearest_atom_distance_Angstrom": 4.836951122992458
+            },
+            {
+              "molecule_id": 16,
+              "nearest_atom_distance_Angstrom": 5.701255632309956
+            },
+            {
+              "molecule_id": 17,
+              "nearest_atom_distance_Angstrom": 6.39953416508741
+            },
+            {
+              "molecule_id": 18,
+              "nearest_atom_distance_Angstrom": 6.118243990641269
+            },
+            {
+              "molecule_id": 19,
+              "nearest_atom_distance_Angstrom": 6.138686234402927
+            },
+            {
+              "molecule_id": 20,
+              "nearest_atom_distance_Angstrom": 4.549418438855454
+            },
+            {
+              "molecule_id": 21,
+              "nearest_atom_distance_Angstrom": 5.528860278808012
+            },
+            {
+              "molecule_id": 22,
+              "nearest_atom_distance_Angstrom": 5.624366217311778
+            },
+            {
+              "molecule_id": 23,
+              "nearest_atom_distance_Angstrom": 6.344613117502517
+            },
+            {
+              "molecule_id": 24,
+              "nearest_atom_distance_Angstrom": 6.258760312543451
+            },
+            {
+              "molecule_id": 25,
+              "nearest_atom_distance_Angstrom": 4.258188418472226
+            },
+            {
+              "molecule_id": 26,
+              "nearest_atom_distance_Angstrom": 5.275292323590514
+            },
+            {
+              "molecule_id": 27,
+              "nearest_atom_distance_Angstrom": 6.172252812370942
+            },
+            {
+              "molecule_id": 28,
+              "nearest_atom_distance_Angstrom": 6.50038203851166
+            },
+            {
+              "molecule_id": 29,
+              "nearest_atom_distance_Angstrom": 5.435741173971954
+            },
+            {
+              "molecule_id": 30,
+              "nearest_atom_distance_Angstrom": 4.084368370894329
+            },
+            {
+              "molecule_id": 31,
+              "nearest_atom_distance_Angstrom": 4.118148702968604
+            },
+            {
+              "molecule_id": 32,
+              "nearest_atom_distance_Angstrom": 6.178833652194402
+            },
+            {
+              "molecule_id": 33,
+              "nearest_atom_distance_Angstrom": 6.591750879532008
+            },
+            {
+              "molecule_id": 34,
+              "nearest_atom_distance_Angstrom": 5.781141453943676
+            },
+            {
+              "molecule_id": 35,
+              "nearest_atom_distance_Angstrom": 6.395770951810736
+            },
+            {
+              "molecule_id": 36,
+              "nearest_atom_distance_Angstrom": 7.329813550376641
+            },
+            {
+              "molecule_id": 37,
+              "nearest_atom_distance_Angstrom": 5.756068601471668
+            },
+            {
+              "molecule_id": 38,
+              "nearest_atom_distance_Angstrom": 4.02639529563529
+            },
+            {
+              "molecule_id": 39,
+              "nearest_atom_distance_Angstrom": 5.742767476659315
+            },
+            {
+              "molecule_id": 40,
+              "nearest_atom_distance_Angstrom": 4.040122245627476
+            },
+            {
+              "molecule_id": 41,
+              "nearest_atom_distance_Angstrom": 6.329216373457776
+            },
+            {
+              "molecule_id": 42,
+              "nearest_atom_distance_Angstrom": 3.8219781976570717
+            },
+            {
+              "molecule_id": 43,
+              "nearest_atom_distance_Angstrom": 6.545361629069093
+            },
+            {
+              "molecule_id": 44,
+              "nearest_atom_distance_Angstrom": 6.303588504384784
+            },
+            {
+              "molecule_id": 45,
+              "nearest_atom_distance_Angstrom": 4.482819288447283
+            },
+            {
+              "molecule_id": 46,
+              "nearest_atom_distance_Angstrom": 4.988197880612696
+            },
+            {
+              "molecule_id": 47,
+              "nearest_atom_distance_Angstrom": 6.163406558935894
+            },
+            {
+              "molecule_id": 48,
+              "nearest_atom_distance_Angstrom": 5.619472898695571
+            },
+            {
+              "molecule_id": 49,
+              "nearest_atom_distance_Angstrom": 4.294169791633885
+            },
+            {
+              "molecule_id": 50,
+              "nearest_atom_distance_Angstrom": 4.909180755282902
+            },
+            {
+              "molecule_id": 51,
+              "nearest_atom_distance_Angstrom": 6.2547595383980985
+            },
+            {
+              "molecule_id": 52,
+              "nearest_atom_distance_Angstrom": 3.655777815010234
+            },
+            {
+              "molecule_id": 53,
+              "nearest_atom_distance_Angstrom": 5.974519128780324
+            },
+            {
+              "molecule_id": 54,
+              "nearest_atom_distance_Angstrom": 6.411716100979675
+            },
+            {
+              "molecule_id": 55,
+              "nearest_atom_distance_Angstrom": 4.792710578725781
+            },
+            {
+              "molecule_id": 56,
+              "nearest_atom_distance_Angstrom": 6.7317211659917255
+            },
+            {
+              "molecule_id": 57,
+              "nearest_atom_distance_Angstrom": 4.451993623589099
+            },
+            {
+              "molecule_id": 58,
+              "nearest_atom_distance_Angstrom": 5.749590405999109
+            },
+            {
+              "molecule_id": 59,
+              "nearest_atom_distance_Angstrom": 3.346240882277455
+            },
+            {
+              "molecule_id": 60,
+              "nearest_atom_distance_Angstrom": 3.8389689866884833
+            },
+            {
+              "molecule_id": 61,
+              "nearest_atom_distance_Angstrom": 6.101679329487334
+            },
+            {
+              "molecule_id": 62,
+              "nearest_atom_distance_Angstrom": 6.0627345630453755
+            },
+            {
+              "molecule_id": 63,
+              "nearest_atom_distance_Angstrom": 4.1457112598116375
+            },
+            {
+              "molecule_id": 64,
+              "nearest_atom_distance_Angstrom": 7.263589796049404
+            }
+          ]
+        },
+        {
+          "cutoff_Angstrom": 4.0,
+          "water_count": 5,
+          "whole_molecule_atom_count": 20,
+          "atom_only_atom_count": 14,
+          "selected_molecule_ids": [
+            0,
+            3,
+            42,
+            52,
+            59,
+            60
+          ],
+          "selected_atom_indices_0based": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            11,
+            12,
+            13,
+            128,
+            129,
+            130,
+            158,
+            159,
+            160,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184
+          ],
+          "water_nearest_distances": [
+            {
+              "molecule_id": 1,
+              "nearest_atom_distance_Angstrom": 6.86652083638126
+            },
+            {
+              "molecule_id": 2,
+              "nearest_atom_distance_Angstrom": 5.245119435433096
+            },
+            {
+              "molecule_id": 3,
+              "nearest_atom_distance_Angstrom": 3.7379159678267246
+            },
+            {
+              "molecule_id": 4,
+              "nearest_atom_distance_Angstrom": 6.476802171003605
+            },
+            {
+              "molecule_id": 5,
+              "nearest_atom_distance_Angstrom": 6.898767792728931
+            },
+            {
+              "molecule_id": 6,
+              "nearest_atom_distance_Angstrom": 7.076766725831013
+            },
+            {
+              "molecule_id": 7,
+              "nearest_atom_distance_Angstrom": 6.389382047063551
+            },
+            {
+              "molecule_id": 8,
+              "nearest_atom_distance_Angstrom": 6.554964066948117
+            },
+            {
+              "molecule_id": 9,
+              "nearest_atom_distance_Angstrom": 5.317507585391958
+            },
+            {
+              "molecule_id": 10,
+              "nearest_atom_distance_Angstrom": 6.477332016358742
+            },
+            {
+              "molecule_id": 11,
+              "nearest_atom_distance_Angstrom": 6.070913357115962
+            },
+            {
+              "molecule_id": 12,
+              "nearest_atom_distance_Angstrom": 6.364152481946516
+            },
+            {
+              "molecule_id": 13,
+              "nearest_atom_distance_Angstrom": 4.150492791037228
+            },
+            {
+              "molecule_id": 14,
+              "nearest_atom_distance_Angstrom": 4.810492458575733
+            },
+            {
+              "molecule_id": 15,
+              "nearest_atom_distance_Angstrom": 4.836951122992458
+            },
+            {
+              "molecule_id": 16,
+              "nearest_atom_distance_Angstrom": 5.701255632309956
+            },
+            {
+              "molecule_id": 17,
+              "nearest_atom_distance_Angstrom": 6.39953416508741
+            },
+            {
+              "molecule_id": 18,
+              "nearest_atom_distance_Angstrom": 6.118243990641269
+            },
+            {
+              "molecule_id": 19,
+              "nearest_atom_distance_Angstrom": 6.138686234402927
+            },
+            {
+              "molecule_id": 20,
+              "nearest_atom_distance_Angstrom": 4.549418438855454
+            },
+            {
+              "molecule_id": 21,
+              "nearest_atom_distance_Angstrom": 5.528860278808012
+            },
+            {
+              "molecule_id": 22,
+              "nearest_atom_distance_Angstrom": 5.624366217311778
+            },
+            {
+              "molecule_id": 23,
+              "nearest_atom_distance_Angstrom": 6.344613117502517
+            },
+            {
+              "molecule_id": 24,
+              "nearest_atom_distance_Angstrom": 6.258760312543451
+            },
+            {
+              "molecule_id": 25,
+              "nearest_atom_distance_Angstrom": 4.258188418472226
+            },
+            {
+              "molecule_id": 26,
+              "nearest_atom_distance_Angstrom": 5.275292323590514
+            },
+            {
+              "molecule_id": 27,
+              "nearest_atom_distance_Angstrom": 6.172252812370942
+            },
+            {
+              "molecule_id": 28,
+              "nearest_atom_distance_Angstrom": 6.50038203851166
+            },
+            {
+              "molecule_id": 29,
+              "nearest_atom_distance_Angstrom": 5.435741173971954
+            },
+            {
+              "molecule_id": 30,
+              "nearest_atom_distance_Angstrom": 4.084368370894329
+            },
+            {
+              "molecule_id": 31,
+              "nearest_atom_distance_Angstrom": 4.118148702968604
+            },
+            {
+              "molecule_id": 32,
+              "nearest_atom_distance_Angstrom": 6.178833652194402
+            },
+            {
+              "molecule_id": 33,
+              "nearest_atom_distance_Angstrom": 6.591750879532008
+            },
+            {
+              "molecule_id": 34,
+              "nearest_atom_distance_Angstrom": 5.781141453943676
+            },
+            {
+              "molecule_id": 35,
+              "nearest_atom_distance_Angstrom": 6.395770951810736
+            },
+            {
+              "molecule_id": 36,
+              "nearest_atom_distance_Angstrom": 7.329813550376641
+            },
+            {
+              "molecule_id": 37,
+              "nearest_atom_distance_Angstrom": 5.756068601471668
+            },
+            {
+              "molecule_id": 38,
+              "nearest_atom_distance_Angstrom": 4.02639529563529
+            },
+            {
+              "molecule_id": 39,
+              "nearest_atom_distance_Angstrom": 5.742767476659315
+            },
+            {
+              "molecule_id": 40,
+              "nearest_atom_distance_Angstrom": 4.040122245627476
+            },
+            {
+              "molecule_id": 41,
+              "nearest_atom_distance_Angstrom": 6.329216373457776
+            },
+            {
+              "molecule_id": 42,
+              "nearest_atom_distance_Angstrom": 3.8219781976570717
+            },
+            {
+              "molecule_id": 43,
+              "nearest_atom_distance_Angstrom": 6.545361629069093
+            },
+            {
+              "molecule_id": 44,
+              "nearest_atom_distance_Angstrom": 6.303588504384784
+            },
+            {
+              "molecule_id": 45,
+              "nearest_atom_distance_Angstrom": 4.482819288447283
+            },
+            {
+              "molecule_id": 46,
+              "nearest_atom_distance_Angstrom": 4.988197880612696
+            },
+            {
+              "molecule_id": 47,
+              "nearest_atom_distance_Angstrom": 6.163406558935894
+            },
+            {
+              "molecule_id": 48,
+              "nearest_atom_distance_Angstrom": 5.619472898695571
+            },
+            {
+              "molecule_id": 49,
+              "nearest_atom_distance_Angstrom": 4.294169791633885
+            },
+            {
+              "molecule_id": 50,
+              "nearest_atom_distance_Angstrom": 4.909180755282902
+            },
+            {
+              "molecule_id": 51,
+              "nearest_atom_distance_Angstrom": 6.2547595383980985
+            },
+            {
+              "molecule_id": 52,
+              "nearest_atom_distance_Angstrom": 3.655777815010234
+            },
+            {
+              "molecule_id": 53,
+              "nearest_atom_distance_Angstrom": 5.974519128780324
+            },
+            {
+              "molecule_id": 54,
+              "nearest_atom_distance_Angstrom": 6.411716100979675
+            },
+            {
+              "molecule_id": 55,
+              "nearest_atom_distance_Angstrom": 4.792710578725781
+            },
+            {
+              "molecule_id": 56,
+              "nearest_atom_distance_Angstrom": 6.7317211659917255
+            },
+            {
+              "molecule_id": 57,
+              "nearest_atom_distance_Angstrom": 4.451993623589099
+            },
+            {
+              "molecule_id": 58,
+              "nearest_atom_distance_Angstrom": 5.749590405999109
+            },
+            {
+              "molecule_id": 59,
+              "nearest_atom_distance_Angstrom": 3.346240882277455
+            },
+            {
+              "molecule_id": 60,
+              "nearest_atom_distance_Angstrom": 3.8389689866884833
+            },
+            {
+              "molecule_id": 61,
+              "nearest_atom_distance_Angstrom": 6.101679329487334
+            },
+            {
+              "molecule_id": 62,
+              "nearest_atom_distance_Angstrom": 6.0627345630453755
+            },
+            {
+              "molecule_id": 63,
+              "nearest_atom_distance_Angstrom": 4.1457112598116375
+            },
+            {
+              "molecule_id": 64,
+              "nearest_atom_distance_Angstrom": 7.263589796049404
+            }
+          ]
+        },
+        {
+          "cutoff_Angstrom": 5.0,
+          "water_count": 21,
+          "whole_molecule_atom_count": 68,
+          "atom_only_atom_count": 52,
+          "selected_molecule_ids": [
+            0,
+            3,
+            13,
+            14,
+            15,
+            20,
+            25,
+            30,
+            31,
+            38,
+            40,
+            42,
+            45,
+            46,
+            49,
+            50,
+            52,
+            55,
+            57,
+            59,
+            60,
+            63
+          ],
+          "selected_atom_indices_0based": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            11,
+            12,
+            13,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            62,
+            63,
+            64,
+            77,
+            78,
+            79,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97,
+            116,
+            117,
+            118,
+            122,
+            123,
+            124,
+            128,
+            129,
+            130,
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154,
+            158,
+            159,
+            160,
+            167,
+            168,
+            169,
+            173,
+            174,
+            175,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            191,
+            192,
+            193
+          ],
+          "water_nearest_distances": [
+            {
+              "molecule_id": 1,
+              "nearest_atom_distance_Angstrom": 6.86652083638126
+            },
+            {
+              "molecule_id": 2,
+              "nearest_atom_distance_Angstrom": 5.245119435433096
+            },
+            {
+              "molecule_id": 3,
+              "nearest_atom_distance_Angstrom": 3.7379159678267246
+            },
+            {
+              "molecule_id": 4,
+              "nearest_atom_distance_Angstrom": 6.476802171003605
+            },
+            {
+              "molecule_id": 5,
+              "nearest_atom_distance_Angstrom": 6.898767792728931
+            },
+            {
+              "molecule_id": 6,
+              "nearest_atom_distance_Angstrom": 7.076766725831013
+            },
+            {
+              "molecule_id": 7,
+              "nearest_atom_distance_Angstrom": 6.389382047063551
+            },
+            {
+              "molecule_id": 8,
+              "nearest_atom_distance_Angstrom": 6.554964066948117
+            },
+            {
+              "molecule_id": 9,
+              "nearest_atom_distance_Angstrom": 5.317507585391958
+            },
+            {
+              "molecule_id": 10,
+              "nearest_atom_distance_Angstrom": 6.477332016358742
+            },
+            {
+              "molecule_id": 11,
+              "nearest_atom_distance_Angstrom": 6.070913357115962
+            },
+            {
+              "molecule_id": 12,
+              "nearest_atom_distance_Angstrom": 6.364152481946516
+            },
+            {
+              "molecule_id": 13,
+              "nearest_atom_distance_Angstrom": 4.150492791037228
+            },
+            {
+              "molecule_id": 14,
+              "nearest_atom_distance_Angstrom": 4.810492458575733
+            },
+            {
+              "molecule_id": 15,
+              "nearest_atom_distance_Angstrom": 4.836951122992458
+            },
+            {
+              "molecule_id": 16,
+              "nearest_atom_distance_Angstrom": 5.701255632309956
+            },
+            {
+              "molecule_id": 17,
+              "nearest_atom_distance_Angstrom": 6.39953416508741
+            },
+            {
+              "molecule_id": 18,
+              "nearest_atom_distance_Angstrom": 6.118243990641269
+            },
+            {
+              "molecule_id": 19,
+              "nearest_atom_distance_Angstrom": 6.138686234402927
+            },
+            {
+              "molecule_id": 20,
+              "nearest_atom_distance_Angstrom": 4.549418438855454
+            },
+            {
+              "molecule_id": 21,
+              "nearest_atom_distance_Angstrom": 5.528860278808012
+            },
+            {
+              "molecule_id": 22,
+              "nearest_atom_distance_Angstrom": 5.624366217311778
+            },
+            {
+              "molecule_id": 23,
+              "nearest_atom_distance_Angstrom": 6.344613117502517
+            },
+            {
+              "molecule_id": 24,
+              "nearest_atom_distance_Angstrom": 6.258760312543451
+            },
+            {
+              "molecule_id": 25,
+              "nearest_atom_distance_Angstrom": 4.258188418472226
+            },
+            {
+              "molecule_id": 26,
+              "nearest_atom_distance_Angstrom": 5.275292323590514
+            },
+            {
+              "molecule_id": 27,
+              "nearest_atom_distance_Angstrom": 6.172252812370942
+            },
+            {
+              "molecule_id": 28,
+              "nearest_atom_distance_Angstrom": 6.50038203851166
+            },
+            {
+              "molecule_id": 29,
+              "nearest_atom_distance_Angstrom": 5.435741173971954
+            },
+            {
+              "molecule_id": 30,
+              "nearest_atom_distance_Angstrom": 4.084368370894329
+            },
+            {
+              "molecule_id": 31,
+              "nearest_atom_distance_Angstrom": 4.118148702968604
+            },
+            {
+              "molecule_id": 32,
+              "nearest_atom_distance_Angstrom": 6.178833652194402
+            },
+            {
+              "molecule_id": 33,
+              "nearest_atom_distance_Angstrom": 6.591750879532008
+            },
+            {
+              "molecule_id": 34,
+              "nearest_atom_distance_Angstrom": 5.781141453943676
+            },
+            {
+              "molecule_id": 35,
+              "nearest_atom_distance_Angstrom": 6.395770951810736
+            },
+            {
+              "molecule_id": 36,
+              "nearest_atom_distance_Angstrom": 7.329813550376641
+            },
+            {
+              "molecule_id": 37,
+              "nearest_atom_distance_Angstrom": 5.756068601471668
+            },
+            {
+              "molecule_id": 38,
+              "nearest_atom_distance_Angstrom": 4.02639529563529
+            },
+            {
+              "molecule_id": 39,
+              "nearest_atom_distance_Angstrom": 5.742767476659315
+            },
+            {
+              "molecule_id": 40,
+              "nearest_atom_distance_Angstrom": 4.040122245627476
+            },
+            {
+              "molecule_id": 41,
+              "nearest_atom_distance_Angstrom": 6.329216373457776
+            },
+            {
+              "molecule_id": 42,
+              "nearest_atom_distance_Angstrom": 3.8219781976570717
+            },
+            {
+              "molecule_id": 43,
+              "nearest_atom_distance_Angstrom": 6.545361629069093
+            },
+            {
+              "molecule_id": 44,
+              "nearest_atom_distance_Angstrom": 6.303588504384784
+            },
+            {
+              "molecule_id": 45,
+              "nearest_atom_distance_Angstrom": 4.482819288447283
+            },
+            {
+              "molecule_id": 46,
+              "nearest_atom_distance_Angstrom": 4.988197880612696
+            },
+            {
+              "molecule_id": 47,
+              "nearest_atom_distance_Angstrom": 6.163406558935894
+            },
+            {
+              "molecule_id": 48,
+              "nearest_atom_distance_Angstrom": 5.619472898695571
+            },
+            {
+              "molecule_id": 49,
+              "nearest_atom_distance_Angstrom": 4.294169791633885
+            },
+            {
+              "molecule_id": 50,
+              "nearest_atom_distance_Angstrom": 4.909180755282902
+            },
+            {
+              "molecule_id": 51,
+              "nearest_atom_distance_Angstrom": 6.2547595383980985
+            },
+            {
+              "molecule_id": 52,
+              "nearest_atom_distance_Angstrom": 3.655777815010234
+            },
+            {
+              "molecule_id": 53,
+              "nearest_atom_distance_Angstrom": 5.974519128780324
+            },
+            {
+              "molecule_id": 54,
+              "nearest_atom_distance_Angstrom": 6.411716100979675
+            },
+            {
+              "molecule_id": 55,
+              "nearest_atom_distance_Angstrom": 4.792710578725781
+            },
+            {
+              "molecule_id": 56,
+              "nearest_atom_distance_Angstrom": 6.7317211659917255
+            },
+            {
+              "molecule_id": 57,
+              "nearest_atom_distance_Angstrom": 4.451993623589099
+            },
+            {
+              "molecule_id": 58,
+              "nearest_atom_distance_Angstrom": 5.749590405999109
+            },
+            {
+              "molecule_id": 59,
+              "nearest_atom_distance_Angstrom": 3.346240882277455
+            },
+            {
+              "molecule_id": 60,
+              "nearest_atom_distance_Angstrom": 3.8389689866884833
+            },
+            {
+              "molecule_id": 61,
+              "nearest_atom_distance_Angstrom": 6.101679329487334
+            },
+            {
+              "molecule_id": 62,
+              "nearest_atom_distance_Angstrom": 6.0627345630453755
+            },
+            {
+              "molecule_id": 63,
+              "nearest_atom_distance_Angstrom": 4.1457112598116375
+            },
+            {
+              "molecule_id": 64,
+              "nearest_atom_distance_Angstrom": 7.263589796049404
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 271828,
+      "atoms": 197,
+      "minimum_intermolecular_distance_Angstrom": 2.012374444014831,
+      "maximum_solvent_atom_radius_Angstrom": 7.999520690998993,
+      "water_rigid_distance_max_error_Angstrom": 1.0001409633808578e-06,
+      "selections": [
+        {
+          "cutoff_Angstrom": 3.0,
+          "water_count": 6,
+          "whole_molecule_atom_count": 23,
+          "atom_only_atom_count": 16,
+          "selected_molecule_ids": [
+            0,
+            25,
+            37,
+            44,
+            48,
+            61,
+            62
+          ],
+          "selected_atom_indices_0based": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            77,
+            78,
+            79,
+            113,
+            114,
+            115,
+            134,
+            135,
+            136,
+            146,
+            147,
+            148,
+            185,
+            186,
+            187,
+            188,
+            189,
+            190
+          ],
+          "water_nearest_distances": [
+            {
+              "molecule_id": 1,
+              "nearest_atom_distance_Angstrom": 5.984289400212778
+            },
+            {
+              "molecule_id": 2,
+              "nearest_atom_distance_Angstrom": 4.236017321081678
+            },
+            {
+              "molecule_id": 3,
+              "nearest_atom_distance_Angstrom": 5.348763800448661
+            },
+            {
+              "molecule_id": 4,
+              "nearest_atom_distance_Angstrom": 3.505751082078846
+            },
+            {
+              "molecule_id": 5,
+              "nearest_atom_distance_Angstrom": 6.001595085657312
+            },
+            {
+              "molecule_id": 6,
+              "nearest_atom_distance_Angstrom": 4.558373262233469
+            },
+            {
+              "molecule_id": 7,
+              "nearest_atom_distance_Angstrom": 4.950745151680805
+            },
+            {
+              "molecule_id": 8,
+              "nearest_atom_distance_Angstrom": 5.847862267293579
+            },
+            {
+              "molecule_id": 9,
+              "nearest_atom_distance_Angstrom": 3.0084864189537237
+            },
+            {
+              "molecule_id": 10,
+              "nearest_atom_distance_Angstrom": 6.5540570178262865
+            },
+            {
+              "molecule_id": 11,
+              "nearest_atom_distance_Angstrom": 5.975709712698736
+            },
+            {
+              "molecule_id": 12,
+              "nearest_atom_distance_Angstrom": 4.509063322274594
+            },
+            {
+              "molecule_id": 13,
+              "nearest_atom_distance_Angstrom": 6.575506738953281
+            },
+            {
+              "molecule_id": 14,
+              "nearest_atom_distance_Angstrom": 7.023741190976074
+            },
+            {
+              "molecule_id": 15,
+              "nearest_atom_distance_Angstrom": 5.360075775376782
+            },
+            {
+              "molecule_id": 16,
+              "nearest_atom_distance_Angstrom": 6.130492279511166
+            },
+            {
+              "molecule_id": 17,
+              "nearest_atom_distance_Angstrom": 5.460567045614402
+            },
+            {
+              "molecule_id": 18,
+              "nearest_atom_distance_Angstrom": 6.179121620012104
+            },
+            {
+              "molecule_id": 19,
+              "nearest_atom_distance_Angstrom": 4.620406655330892
+            },
+            {
+              "molecule_id": 20,
+              "nearest_atom_distance_Angstrom": 4.582666067976697
+            },
+            {
+              "molecule_id": 21,
+              "nearest_atom_distance_Angstrom": 5.946694844239194
+            },
+            {
+              "molecule_id": 22,
+              "nearest_atom_distance_Angstrom": 5.619396514909765
+            },
+            {
+              "molecule_id": 23,
+              "nearest_atom_distance_Angstrom": 4.846283188793862
+            },
+            {
+              "molecule_id": 24,
+              "nearest_atom_distance_Angstrom": 5.924395406861869
+            },
+            {
+              "molecule_id": 25,
+              "nearest_atom_distance_Angstrom": 2.663988777518967
+            },
+            {
+              "molecule_id": 26,
+              "nearest_atom_distance_Angstrom": 5.2431548213285675
+            },
+            {
+              "molecule_id": 27,
+              "nearest_atom_distance_Angstrom": 5.4170887088171265
+            },
+            {
+              "molecule_id": 28,
+              "nearest_atom_distance_Angstrom": 6.006421367678012
+            },
+            {
+              "molecule_id": 29,
+              "nearest_atom_distance_Angstrom": 3.835215522980032
+            },
+            {
+              "molecule_id": 30,
+              "nearest_atom_distance_Angstrom": 7.058122261895582
+            },
+            {
+              "molecule_id": 31,
+              "nearest_atom_distance_Angstrom": 6.485381210398507
+            },
+            {
+              "molecule_id": 32,
+              "nearest_atom_distance_Angstrom": 6.267813950147372
+            },
+            {
+              "molecule_id": 33,
+              "nearest_atom_distance_Angstrom": 5.59791775503651
+            },
+            {
+              "molecule_id": 34,
+              "nearest_atom_distance_Angstrom": 4.803549790726229
+            },
+            {
+              "molecule_id": 35,
+              "nearest_atom_distance_Angstrom": 5.052652413492244
+            },
+            {
+              "molecule_id": 36,
+              "nearest_atom_distance_Angstrom": 6.2297795427428255
+            },
+            {
+              "molecule_id": 37,
+              "nearest_atom_distance_Angstrom": 2.176844970205274
+            },
+            {
+              "molecule_id": 38,
+              "nearest_atom_distance_Angstrom": 5.072603598716738
+            },
+            {
+              "molecule_id": 39,
+              "nearest_atom_distance_Angstrom": 3.382272328671658
+            },
+            {
+              "molecule_id": 40,
+              "nearest_atom_distance_Angstrom": 4.945216524248559
+            },
+            {
+              "molecule_id": 41,
+              "nearest_atom_distance_Angstrom": 6.304803865233795
+            },
+            {
+              "molecule_id": 42,
+              "nearest_atom_distance_Angstrom": 6.5712480879183826
+            },
+            {
+              "molecule_id": 43,
+              "nearest_atom_distance_Angstrom": 5.486233778818125
+            },
+            {
+              "molecule_id": 44,
+              "nearest_atom_distance_Angstrom": 2.994406675068869
+            },
+            {
+              "molecule_id": 45,
+              "nearest_atom_distance_Angstrom": 5.731229186942449
+            },
+            {
+              "molecule_id": 46,
+              "nearest_atom_distance_Angstrom": 3.033283268869559
+            },
+            {
+              "molecule_id": 47,
+              "nearest_atom_distance_Angstrom": 4.72518986953572
+            },
+            {
+              "molecule_id": 48,
+              "nearest_atom_distance_Angstrom": 2.3595272864226424
+            },
+            {
+              "molecule_id": 49,
+              "nearest_atom_distance_Angstrom": 5.349884659898847
+            },
+            {
+              "molecule_id": 50,
+              "nearest_atom_distance_Angstrom": 3.6566368331548866
+            },
+            {
+              "molecule_id": 51,
+              "nearest_atom_distance_Angstrom": 4.61932005770871
+            },
+            {
+              "molecule_id": 52,
+              "nearest_atom_distance_Angstrom": 6.498422183963889
+            },
+            {
+              "molecule_id": 53,
+              "nearest_atom_distance_Angstrom": 6.384061682354659
+            },
+            {
+              "molecule_id": 54,
+              "nearest_atom_distance_Angstrom": 5.55019527932072
+            },
+            {
+              "molecule_id": 55,
+              "nearest_atom_distance_Angstrom": 6.133344849408437
+            },
+            {
+              "molecule_id": 56,
+              "nearest_atom_distance_Angstrom": 6.121035086227329
+            },
+            {
+              "molecule_id": 57,
+              "nearest_atom_distance_Angstrom": 6.642277642610629
+            },
+            {
+              "molecule_id": 58,
+              "nearest_atom_distance_Angstrom": 6.467539661385078
+            },
+            {
+              "molecule_id": 59,
+              "nearest_atom_distance_Angstrom": 3.0907663543893125
+            },
+            {
+              "molecule_id": 60,
+              "nearest_atom_distance_Angstrom": 5.66171724027843
+            },
+            {
+              "molecule_id": 61,
+              "nearest_atom_distance_Angstrom": 2.6680871382466127
+            },
+            {
+              "molecule_id": 62,
+              "nearest_atom_distance_Angstrom": 2.2734224615554846
+            },
+            {
+              "molecule_id": 63,
+              "nearest_atom_distance_Angstrom": 5.803404244323068
+            },
+            {
+              "molecule_id": 64,
+              "nearest_atom_distance_Angstrom": 5.004116103775471
+            }
+          ]
+        },
+        {
+          "cutoff_Angstrom": 4.0,
+          "water_count": 13,
+          "whole_molecule_atom_count": 44,
+          "atom_only_atom_count": 38,
+          "selected_molecule_ids": [
+            0,
+            4,
+            9,
+            25,
+            29,
+            37,
+            39,
+            44,
+            46,
+            48,
+            50,
+            59,
+            61,
+            62
+          ],
+          "selected_atom_indices_0based": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            14,
+            15,
+            16,
+            29,
+            30,
+            31,
+            77,
+            78,
+            79,
+            89,
+            90,
+            91,
+            113,
+            114,
+            115,
+            119,
+            120,
+            121,
+            134,
+            135,
+            136,
+            140,
+            141,
+            142,
+            146,
+            147,
+            148,
+            152,
+            153,
+            154,
+            179,
+            180,
+            181,
+            185,
+            186,
+            187,
+            188,
+            189,
+            190
+          ],
+          "water_nearest_distances": [
+            {
+              "molecule_id": 1,
+              "nearest_atom_distance_Angstrom": 5.984289400212778
+            },
+            {
+              "molecule_id": 2,
+              "nearest_atom_distance_Angstrom": 4.236017321081678
+            },
+            {
+              "molecule_id": 3,
+              "nearest_atom_distance_Angstrom": 5.348763800448661
+            },
+            {
+              "molecule_id": 4,
+              "nearest_atom_distance_Angstrom": 3.505751082078846
+            },
+            {
+              "molecule_id": 5,
+              "nearest_atom_distance_Angstrom": 6.001595085657312
+            },
+            {
+              "molecule_id": 6,
+              "nearest_atom_distance_Angstrom": 4.558373262233469
+            },
+            {
+              "molecule_id": 7,
+              "nearest_atom_distance_Angstrom": 4.950745151680805
+            },
+            {
+              "molecule_id": 8,
+              "nearest_atom_distance_Angstrom": 5.847862267293579
+            },
+            {
+              "molecule_id": 9,
+              "nearest_atom_distance_Angstrom": 3.0084864189537237
+            },
+            {
+              "molecule_id": 10,
+              "nearest_atom_distance_Angstrom": 6.5540570178262865
+            },
+            {
+              "molecule_id": 11,
+              "nearest_atom_distance_Angstrom": 5.975709712698736
+            },
+            {
+              "molecule_id": 12,
+              "nearest_atom_distance_Angstrom": 4.509063322274594
+            },
+            {
+              "molecule_id": 13,
+              "nearest_atom_distance_Angstrom": 6.575506738953281
+            },
+            {
+              "molecule_id": 14,
+              "nearest_atom_distance_Angstrom": 7.023741190976074
+            },
+            {
+              "molecule_id": 15,
+              "nearest_atom_distance_Angstrom": 5.360075775376782
+            },
+            {
+              "molecule_id": 16,
+              "nearest_atom_distance_Angstrom": 6.130492279511166
+            },
+            {
+              "molecule_id": 17,
+              "nearest_atom_distance_Angstrom": 5.460567045614402
+            },
+            {
+              "molecule_id": 18,
+              "nearest_atom_distance_Angstrom": 6.179121620012104
+            },
+            {
+              "molecule_id": 19,
+              "nearest_atom_distance_Angstrom": 4.620406655330892
+            },
+            {
+              "molecule_id": 20,
+              "nearest_atom_distance_Angstrom": 4.582666067976697
+            },
+            {
+              "molecule_id": 21,
+              "nearest_atom_distance_Angstrom": 5.946694844239194
+            },
+            {
+              "molecule_id": 22,
+              "nearest_atom_distance_Angstrom": 5.619396514909765
+            },
+            {
+              "molecule_id": 23,
+              "nearest_atom_distance_Angstrom": 4.846283188793862
+            },
+            {
+              "molecule_id": 24,
+              "nearest_atom_distance_Angstrom": 5.924395406861869
+            },
+            {
+              "molecule_id": 25,
+              "nearest_atom_distance_Angstrom": 2.663988777518967
+            },
+            {
+              "molecule_id": 26,
+              "nearest_atom_distance_Angstrom": 5.2431548213285675
+            },
+            {
+              "molecule_id": 27,
+              "nearest_atom_distance_Angstrom": 5.4170887088171265
+            },
+            {
+              "molecule_id": 28,
+              "nearest_atom_distance_Angstrom": 6.006421367678012
+            },
+            {
+              "molecule_id": 29,
+              "nearest_atom_distance_Angstrom": 3.835215522980032
+            },
+            {
+              "molecule_id": 30,
+              "nearest_atom_distance_Angstrom": 7.058122261895582
+            },
+            {
+              "molecule_id": 31,
+              "nearest_atom_distance_Angstrom": 6.485381210398507
+            },
+            {
+              "molecule_id": 32,
+              "nearest_atom_distance_Angstrom": 6.267813950147372
+            },
+            {
+              "molecule_id": 33,
+              "nearest_atom_distance_Angstrom": 5.59791775503651
+            },
+            {
+              "molecule_id": 34,
+              "nearest_atom_distance_Angstrom": 4.803549790726229
+            },
+            {
+              "molecule_id": 35,
+              "nearest_atom_distance_Angstrom": 5.052652413492244
+            },
+            {
+              "molecule_id": 36,
+              "nearest_atom_distance_Angstrom": 6.2297795427428255
+            },
+            {
+              "molecule_id": 37,
+              "nearest_atom_distance_Angstrom": 2.176844970205274
+            },
+            {
+              "molecule_id": 38,
+              "nearest_atom_distance_Angstrom": 5.072603598716738
+            },
+            {
+              "molecule_id": 39,
+              "nearest_atom_distance_Angstrom": 3.382272328671658
+            },
+            {
+              "molecule_id": 40,
+              "nearest_atom_distance_Angstrom": 4.945216524248559
+            },
+            {
+              "molecule_id": 41,
+              "nearest_atom_distance_Angstrom": 6.304803865233795
+            },
+            {
+              "molecule_id": 42,
+              "nearest_atom_distance_Angstrom": 6.5712480879183826
+            },
+            {
+              "molecule_id": 43,
+              "nearest_atom_distance_Angstrom": 5.486233778818125
+            },
+            {
+              "molecule_id": 44,
+              "nearest_atom_distance_Angstrom": 2.994406675068869
+            },
+            {
+              "molecule_id": 45,
+              "nearest_atom_distance_Angstrom": 5.731229186942449
+            },
+            {
+              "molecule_id": 46,
+              "nearest_atom_distance_Angstrom": 3.033283268869559
+            },
+            {
+              "molecule_id": 47,
+              "nearest_atom_distance_Angstrom": 4.72518986953572
+            },
+            {
+              "molecule_id": 48,
+              "nearest_atom_distance_Angstrom": 2.3595272864226424
+            },
+            {
+              "molecule_id": 49,
+              "nearest_atom_distance_Angstrom": 5.349884659898847
+            },
+            {
+              "molecule_id": 50,
+              "nearest_atom_distance_Angstrom": 3.6566368331548866
+            },
+            {
+              "molecule_id": 51,
+              "nearest_atom_distance_Angstrom": 4.61932005770871
+            },
+            {
+              "molecule_id": 52,
+              "nearest_atom_distance_Angstrom": 6.498422183963889
+            },
+            {
+              "molecule_id": 53,
+              "nearest_atom_distance_Angstrom": 6.384061682354659
+            },
+            {
+              "molecule_id": 54,
+              "nearest_atom_distance_Angstrom": 5.55019527932072
+            },
+            {
+              "molecule_id": 55,
+              "nearest_atom_distance_Angstrom": 6.133344849408437
+            },
+            {
+              "molecule_id": 56,
+              "nearest_atom_distance_Angstrom": 6.121035086227329
+            },
+            {
+              "molecule_id": 57,
+              "nearest_atom_distance_Angstrom": 6.642277642610629
+            },
+            {
+              "molecule_id": 58,
+              "nearest_atom_distance_Angstrom": 6.467539661385078
+            },
+            {
+              "molecule_id": 59,
+              "nearest_atom_distance_Angstrom": 3.0907663543893125
+            },
+            {
+              "molecule_id": 60,
+              "nearest_atom_distance_Angstrom": 5.66171724027843
+            },
+            {
+              "molecule_id": 61,
+              "nearest_atom_distance_Angstrom": 2.6680871382466127
+            },
+            {
+              "molecule_id": 62,
+              "nearest_atom_distance_Angstrom": 2.2734224615554846
+            },
+            {
+              "molecule_id": 63,
+              "nearest_atom_distance_Angstrom": 5.803404244323068
+            },
+            {
+              "molecule_id": 64,
+              "nearest_atom_distance_Angstrom": 5.004116103775471
+            }
+          ]
+        },
+        {
+          "cutoff_Angstrom": 5.0,
+          "water_count": 24,
+          "whole_molecule_atom_count": 77,
+          "atom_only_atom_count": 61,
+          "selected_molecule_ids": [
+            0,
+            2,
+            4,
+            6,
+            7,
+            9,
+            12,
+            19,
+            20,
+            23,
+            25,
+            29,
+            34,
+            37,
+            39,
+            40,
+            44,
+            46,
+            47,
+            48,
+            50,
+            51,
+            59,
+            61,
+            62
+          ],
+          "selected_atom_indices_0based": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            8,
+            9,
+            10,
+            14,
+            15,
+            16,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            29,
+            30,
+            31,
+            38,
+            39,
+            40,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            71,
+            72,
+            73,
+            77,
+            78,
+            79,
+            89,
+            90,
+            91,
+            104,
+            105,
+            106,
+            113,
+            114,
+            115,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            134,
+            135,
+            136,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            148,
+            152,
+            153,
+            154,
+            155,
+            156,
+            157,
+            179,
+            180,
+            181,
+            185,
+            186,
+            187,
+            188,
+            189,
+            190
+          ],
+          "water_nearest_distances": [
+            {
+              "molecule_id": 1,
+              "nearest_atom_distance_Angstrom": 5.984289400212778
+            },
+            {
+              "molecule_id": 2,
+              "nearest_atom_distance_Angstrom": 4.236017321081678
+            },
+            {
+              "molecule_id": 3,
+              "nearest_atom_distance_Angstrom": 5.348763800448661
+            },
+            {
+              "molecule_id": 4,
+              "nearest_atom_distance_Angstrom": 3.505751082078846
+            },
+            {
+              "molecule_id": 5,
+              "nearest_atom_distance_Angstrom": 6.001595085657312
+            },
+            {
+              "molecule_id": 6,
+              "nearest_atom_distance_Angstrom": 4.558373262233469
+            },
+            {
+              "molecule_id": 7,
+              "nearest_atom_distance_Angstrom": 4.950745151680805
+            },
+            {
+              "molecule_id": 8,
+              "nearest_atom_distance_Angstrom": 5.847862267293579
+            },
+            {
+              "molecule_id": 9,
+              "nearest_atom_distance_Angstrom": 3.0084864189537237
+            },
+            {
+              "molecule_id": 10,
+              "nearest_atom_distance_Angstrom": 6.5540570178262865
+            },
+            {
+              "molecule_id": 11,
+              "nearest_atom_distance_Angstrom": 5.975709712698736
+            },
+            {
+              "molecule_id": 12,
+              "nearest_atom_distance_Angstrom": 4.509063322274594
+            },
+            {
+              "molecule_id": 13,
+              "nearest_atom_distance_Angstrom": 6.575506738953281
+            },
+            {
+              "molecule_id": 14,
+              "nearest_atom_distance_Angstrom": 7.023741190976074
+            },
+            {
+              "molecule_id": 15,
+              "nearest_atom_distance_Angstrom": 5.360075775376782
+            },
+            {
+              "molecule_id": 16,
+              "nearest_atom_distance_Angstrom": 6.130492279511166
+            },
+            {
+              "molecule_id": 17,
+              "nearest_atom_distance_Angstrom": 5.460567045614402
+            },
+            {
+              "molecule_id": 18,
+              "nearest_atom_distance_Angstrom": 6.179121620012104
+            },
+            {
+              "molecule_id": 19,
+              "nearest_atom_distance_Angstrom": 4.620406655330892
+            },
+            {
+              "molecule_id": 20,
+              "nearest_atom_distance_Angstrom": 4.582666067976697
+            },
+            {
+              "molecule_id": 21,
+              "nearest_atom_distance_Angstrom": 5.946694844239194
+            },
+            {
+              "molecule_id": 22,
+              "nearest_atom_distance_Angstrom": 5.619396514909765
+            },
+            {
+              "molecule_id": 23,
+              "nearest_atom_distance_Angstrom": 4.846283188793862
+            },
+            {
+              "molecule_id": 24,
+              "nearest_atom_distance_Angstrom": 5.924395406861869
+            },
+            {
+              "molecule_id": 25,
+              "nearest_atom_distance_Angstrom": 2.663988777518967
+            },
+            {
+              "molecule_id": 26,
+              "nearest_atom_distance_Angstrom": 5.2431548213285675
+            },
+            {
+              "molecule_id": 27,
+              "nearest_atom_distance_Angstrom": 5.4170887088171265
+            },
+            {
+              "molecule_id": 28,
+              "nearest_atom_distance_Angstrom": 6.006421367678012
+            },
+            {
+              "molecule_id": 29,
+              "nearest_atom_distance_Angstrom": 3.835215522980032
+            },
+            {
+              "molecule_id": 30,
+              "nearest_atom_distance_Angstrom": 7.058122261895582
+            },
+            {
+              "molecule_id": 31,
+              "nearest_atom_distance_Angstrom": 6.485381210398507
+            },
+            {
+              "molecule_id": 32,
+              "nearest_atom_distance_Angstrom": 6.267813950147372
+            },
+            {
+              "molecule_id": 33,
+              "nearest_atom_distance_Angstrom": 5.59791775503651
+            },
+            {
+              "molecule_id": 34,
+              "nearest_atom_distance_Angstrom": 4.803549790726229
+            },
+            {
+              "molecule_id": 35,
+              "nearest_atom_distance_Angstrom": 5.052652413492244
+            },
+            {
+              "molecule_id": 36,
+              "nearest_atom_distance_Angstrom": 6.2297795427428255
+            },
+            {
+              "molecule_id": 37,
+              "nearest_atom_distance_Angstrom": 2.176844970205274
+            },
+            {
+              "molecule_id": 38,
+              "nearest_atom_distance_Angstrom": 5.072603598716738
+            },
+            {
+              "molecule_id": 39,
+              "nearest_atom_distance_Angstrom": 3.382272328671658
+            },
+            {
+              "molecule_id": 40,
+              "nearest_atom_distance_Angstrom": 4.945216524248559
+            },
+            {
+              "molecule_id": 41,
+              "nearest_atom_distance_Angstrom": 6.304803865233795
+            },
+            {
+              "molecule_id": 42,
+              "nearest_atom_distance_Angstrom": 6.5712480879183826
+            },
+            {
+              "molecule_id": 43,
+              "nearest_atom_distance_Angstrom": 5.486233778818125
+            },
+            {
+              "molecule_id": 44,
+              "nearest_atom_distance_Angstrom": 2.994406675068869
+            },
+            {
+              "molecule_id": 45,
+              "nearest_atom_distance_Angstrom": 5.731229186942449
+            },
+            {
+              "molecule_id": 46,
+              "nearest_atom_distance_Angstrom": 3.033283268869559
+            },
+            {
+              "molecule_id": 47,
+              "nearest_atom_distance_Angstrom": 4.72518986953572
+            },
+            {
+              "molecule_id": 48,
+              "nearest_atom_distance_Angstrom": 2.3595272864226424
+            },
+            {
+              "molecule_id": 49,
+              "nearest_atom_distance_Angstrom": 5.349884659898847
+            },
+            {
+              "molecule_id": 50,
+              "nearest_atom_distance_Angstrom": 3.6566368331548866
+            },
+            {
+              "molecule_id": 51,
+              "nearest_atom_distance_Angstrom": 4.61932005770871
+            },
+            {
+              "molecule_id": 52,
+              "nearest_atom_distance_Angstrom": 6.498422183963889
+            },
+            {
+              "molecule_id": 53,
+              "nearest_atom_distance_Angstrom": 6.384061682354659
+            },
+            {
+              "molecule_id": 54,
+              "nearest_atom_distance_Angstrom": 5.55019527932072
+            },
+            {
+              "molecule_id": 55,
+              "nearest_atom_distance_Angstrom": 6.133344849408437
+            },
+            {
+              "molecule_id": 56,
+              "nearest_atom_distance_Angstrom": 6.121035086227329
+            },
+            {
+              "molecule_id": 57,
+              "nearest_atom_distance_Angstrom": 6.642277642610629
+            },
+            {
+              "molecule_id": 58,
+              "nearest_atom_distance_Angstrom": 6.467539661385078
+            },
+            {
+              "molecule_id": 59,
+              "nearest_atom_distance_Angstrom": 3.0907663543893125
+            },
+            {
+              "molecule_id": 60,
+              "nearest_atom_distance_Angstrom": 5.66171724027843
+            },
+            {
+              "molecule_id": 61,
+              "nearest_atom_distance_Angstrom": 2.6680871382466127
+            },
+            {
+              "molecule_id": 62,
+              "nearest_atom_distance_Angstrom": 2.2734224615554846
+            },
+            {
+              "molecule_id": 63,
+              "nearest_atom_distance_Angstrom": 5.803404244323068
+            },
+            {
+              "molecule_id": 64,
+              "nearest_atom_distance_Angstrom": 5.004116103775471
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "GB_model": {
+    "kind": "Independent opposite-charge pair with externally fixed Born radii; no ionic-strength term, no nonpolar term or MD dynamics",
+    "charges_e": [
+      1,
+      -1
+    ],
+    "Born_radii_Angstrom": [
+      1.5,
+      1.5
+    ],
+    "eps_in": 1.0,
+    "eps_out": 78.5,
+    "isolated_self_sum_kJ_mol": -914.4371946870151,
+    "rows": [
+      {
+        "distance_Angstrom": 2.0,
+        "polar_kJ_mol": -326.4881300161251,
+        "vacuum_Coulomb_kJ_mol": -694.6772882219099,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -106.72822355101994,
+        "uniform_dielectric_Coulomb_kJ_mol": -8.849392206648533
+      },
+      {
+        "distance_Angstrom": 2.1,
+        "polar_kJ_mol": -344.31818492739103,
+        "vacuum_Coulomb_kJ_mol": -661.5974173541998,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -91.47840759457574,
+        "uniform_dielectric_Coulomb_kJ_mol": -8.427992577760508
+      },
+      {
+        "distance_Angstrom": 2.2,
+        "polar_kJ_mol": -361.51649635688386,
+        "vacuum_Coulomb_kJ_mol": -631.5248074744635,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -78.60410914433226,
+        "uniform_dielectric_Coulomb_kJ_mol": -8.04490200604412
+      },
+      {
+        "distance_Angstrom": 2.3,
+        "polar_kJ_mol": -378.0777917025099,
+        "vacuum_Coulomb_kJ_mol": -604.0672071494869,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -67.70780416498167,
+        "uniform_dielectric_Coulomb_kJ_mol": -7.695123657955246
+      },
+      {
+        "distance_Angstrom": 2.4,
+        "polar_kJ_mol": -394.0039883024971,
+        "vacuum_Coulomb_kJ_mol": -578.8977401849249,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -58.46453380040691,
+        "uniform_dielectric_Coulomb_kJ_mol": -7.374493505540445
+      },
+      {
+        "distance_Angstrom": 2.5,
+        "polar_kJ_mol": -409.30264200710997,
+        "vacuum_Coulomb_kJ_mol": -555.7418305775279,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -50.607277897622794,
+        "uniform_dielectric_Coulomb_kJ_mol": -7.079513765318827
+      },
+      {
+        "distance_Angstrom": 2.6,
+        "polar_kJ_mol": -423.98565116373317,
+        "vacuum_Coulomb_kJ_mol": -534.3671447860845,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -43.91560126280251,
+        "uniform_dielectric_Coulomb_kJ_mol": -6.807224774345025
+      },
+      {
+        "distance_Angstrom": 2.7,
+        "polar_kJ_mol": -438.0681850991378,
+        "vacuum_Coulomb_kJ_mol": -514.5757690532665,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -38.20675946538927,
+        "uniform_dielectric_Coulomb_kJ_mol": -6.555105338258172
+      },
+      {
+        "distance_Angstrom": 2.8,
+        "polar_kJ_mol": -451.56780640046907,
+        "vacuum_Coulomb_kJ_mol": -496.19806301564995,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -33.32867472910391,
+        "uniform_dielectric_Coulomb_kJ_mol": -6.320994433320381
+      },
+      {
+        "distance_Angstrom": 2.9,
+        "polar_kJ_mol": -464.5037581442343,
+        "vacuum_Coulomb_kJ_mol": -479.08778498062753,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -29.154348437846693,
+        "uniform_dielectric_Coulomb_kJ_mol": -6.103029108033471
+      },
+      {
+        "distance_Angstrom": 3.0,
+        "polar_kJ_mol": -476.89638993239794,
+        "vacuum_Coulomb_kJ_mol": -463.1181921479399,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -25.577387393322738,
+        "uniform_dielectric_Coulomb_kJ_mol": -5.899594804432356
+      },
+      {
+        "distance_Angstrom": 3.1,
+        "polar_kJ_mol": -488.76669965575314,
+        "vacuum_Coulomb_kJ_mol": -448.1788956270386,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -22.50840059577672,
+        "uniform_dielectric_Coulomb_kJ_mol": -5.709285294611957
+      },
+      {
+        "distance_Angstrom": 3.2,
+        "polar_kJ_mol": -500.13597099407866,
+        "vacuum_Coulomb_kJ_mol": -434.17330513869365,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -19.872081445757203,
+        "uniform_dielectric_Coulomb_kJ_mol": -5.530870129155333
+      },
+      {
+        "distance_Angstrom": 3.3,
+        "polar_kJ_mol": -511.0254895893918,
+        "vacuum_Coulomb_kJ_mol": -421.01653831630904,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -17.604833218685712,
+        "uniform_dielectric_Coulomb_kJ_mol": -5.363268004029415
+      },
+      {
+        "distance_Angstrom": 3.4000000000000004,
+        "polar_kJ_mol": -521.4563234917104,
+        "vacuum_Coulomb_kJ_mol": -408.6336989540646,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -15.652827758759827,
+        "uniform_dielectric_Coulomb_kJ_mol": -5.205524827440313
+      },
+      {
+        "distance_Angstrom": 3.5,
+        "polar_kJ_mol": -531.449155833403,
+        "vacuum_Coulomb_kJ_mol": -396.95845041251994,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -13.970411558907813,
+        "uniform_dielectric_Coulomb_kJ_mol": -5.056795546656305
+      },
+      {
+        "distance_Angstrom": 3.6,
+        "polar_kJ_mol": -541.024159732197,
+        "vacuum_Coulomb_kJ_mol": -385.9318267899499,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -12.518791835131765,
+        "uniform_dielectric_Coulomb_kJ_mol": -4.91632900369363
+      },
+      {
+        "distance_Angstrom": 3.7,
+        "polar_kJ_mol": -550.2009071692104,
+        "vacuum_Coulomb_kJ_mol": -375.501236876708,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -11.264949358903323,
+        "uniform_dielectric_Coulomb_kJ_mol": -4.783455246837044
+      },
+      {
+        "distance_Angstrom": 3.8,
+        "polar_kJ_mol": -558.9983050632759,
+        "vacuum_Coulomb_kJ_mol": -365.6196253799526,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -10.18073575621338,
+        "uniform_dielectric_Coulomb_kJ_mol": -4.657574845604492
+      },
+      {
+        "distance_Angstrom": 3.9000000000000004,
+        "polar_kJ_mol": -567.4345529973713,
+        "vacuum_Coulomb_kJ_mol": -356.24476319072295,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -9.242121501079055,
+        "uniform_dielectric_Coulomb_kJ_mol": -4.53814984956335
+      },
+      {
+        "distance_Angstrom": 4.0,
+        "polar_kJ_mol": -575.5271180790498,
+        "vacuum_Coulomb_kJ_mol": -347.33864411095493,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -8.428567502989608,
+        "uniform_dielectric_Coulomb_kJ_mol": -4.424696103324266
+      },
+      {
+        "distance_Angstrom": 4.1,
+        "polar_kJ_mol": -583.2927232647689,
+        "vacuum_Coulomb_kJ_mol": -338.8669698643463,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -7.722498442100118,
+        "uniform_dielectric_Coulomb_kJ_mol": -4.316776686170017
+      },
+      {
+        "distance_Angstrom": 4.2,
+        "polar_kJ_mol": -590.7473461756812,
+        "vacuum_Coulomb_kJ_mol": -330.7987086770999,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -7.108860165765918,
+        "uniform_dielectric_Coulomb_kJ_mol": -4.213996288880254
+      },
+      {
+        "distance_Angstrom": 4.300000000000001,
+        "polar_kJ_mol": -597.9062260043073,
+        "vacuum_Coulomb_kJ_mol": -323.1057154520511,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -6.574746769343278,
+        "uniform_dielectric_Coulomb_kJ_mol": -4.115996375185364
+      },
+      {
+        "distance_Angstrom": 4.4,
+        "polar_kJ_mol": -604.7838765788252,
+        "vacuum_Coulomb_kJ_mol": -315.76240373723175,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -6.109085629041829,
+        "uniform_dielectric_Coulomb_kJ_mol": -4.02245100302206
+      },
+      {
+        "distance_Angstrom": 4.5,
+        "polar_kJ_mol": -611.3941040326243,
+        "vacuum_Coulomb_kJ_mol": -308.74546143195994,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -5.702370777569172,
+        "uniform_dielectric_Coulomb_kJ_mol": -3.9330632029549037
+      },
+      {
+        "distance_Angstrom": 4.6,
+        "polar_kJ_mol": -617.7500278366031,
+        "vacuum_Coulomb_kJ_mol": -302.03360357474344,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -5.346436724331397,
+        "uniform_dielectric_Coulomb_kJ_mol": -3.847561828977623
+      },
+      {
+        "distance_Angstrom": 4.7,
+        "polar_kJ_mol": -623.8641042032124,
+        "vacuum_Coulomb_kJ_mol": -295.6073566901744,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -5.03426620637174,
+        "uniform_dielectric_Coulomb_kJ_mol": -3.7656988113398016
+      },
+      {
+        "distance_Angstrom": 4.800000000000001,
+        "polar_kJ_mol": -629.748151075103,
+        "vacuum_Coulomb_kJ_mol": -289.4488700924624,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -4.759826480550373,
+        "uniform_dielectric_Coulomb_kJ_mol": -3.6872467527702217
+      },
+      {
+        "distance_Angstrom": 4.9,
+        "polar_kJ_mol": -635.4133740761896,
+        "vacuum_Coulomb_kJ_mol": -283.54175029465705,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -4.5179296838315395,
+        "uniform_dielectric_Coulomb_kJ_mol": -3.6119968190402174
+      },
+      {
+        "distance_Angstrom": 5.0,
+        "polar_kJ_mol": -640.8703929362123,
+        "vacuum_Coulomb_kJ_mol": -277.87091528876397,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -4.304113537961143,
+        "uniform_dielectric_Coulomb_kJ_mol": -3.5397568826594137
+      },
+      {
+        "distance_Angstrom": 5.1,
+        "polar_kJ_mol": -646.1292680073732,
+        "vacuum_Coulomb_kJ_mol": -272.42246596937645,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -4.114539289734466,
+        "uniform_dielectric_Coulomb_kJ_mol": -3.4703498849602097
+      },
+      {
+        "distance_Angstrom": 5.2,
+        "polar_kJ_mol": -651.1995265781968,
+        "vacuum_Coulomb_kJ_mol": -267.18357239304225,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -3.945904284223957,
+        "uniform_dielectric_Coulomb_kJ_mol": -3.4036123871725126
+      },
+      {
+        "distance_Angstrom": 5.300000000000001,
+        "polar_kJ_mol": -656.0901887593338,
+        "vacuum_Coulomb_kJ_mol": -262.1423729139282,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -3.795366986247018,
+        "uniform_dielectric_Coulomb_kJ_mol": -3.339393285527748
+      },
+      {
+        "distance_Angstrom": 5.4,
+        "polar_kJ_mol": -660.809792771841,
+        "vacuum_Coulomb_kJ_mol": -257.28788452663326,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -3.6604826114592015,
+        "uniform_dielectric_Coulomb_kJ_mol": -3.277552669129086
+      },
+      {
+        "distance_Angstrom": 5.5,
+        "polar_kJ_mol": -665.3664195131199,
+        "vacuum_Coulomb_kJ_mol": -252.60992298978542,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -3.53914781589026,
+        "uniform_dielectric_Coulomb_kJ_mol": -3.2179608024176485
+      },
+      {
+        "distance_Angstrom": 5.6,
+        "polar_kJ_mol": -669.7677163113264,
+        "vacuum_Coulomb_kJ_mol": -248.09903150782498,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -3.4295531321362205,
+        "uniform_dielectric_Coulomb_kJ_mol": -3.1604972166601906
+      },
+      {
+        "distance_Angstrom": 5.7,
+        "polar_kJ_mol": -674.0209198073892,
+        "vacuum_Coulomb_kJ_mol": -243.74641691996837,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -3.33014204034248,
+        "uniform_dielectric_Coulomb_kJ_mol": -3.105049897069661
+      },
+      {
+        "distance_Angstrom": 5.800000000000001,
+        "polar_kJ_mol": -678.1328779262166,
+        "vacuum_Coulomb_kJ_mol": -239.5438924903137,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -3.2395757295151952,
+        "uniform_dielectric_Coulomb_kJ_mol": -3.051514554016735
+      },
+      {
+        "distance_Angstrom": 5.9,
+        "polar_kJ_mol": -682.1100709163493,
+        "vacuum_Coulomb_kJ_mol": -235.48382651590163,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -3.1567027452358616,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.999793968355435
+      },
+      {
+        "distance_Angstrom": 6.0,
+        "polar_kJ_mol": -685.9586314511664,
+        "vacuum_Coulomb_kJ_mol": -231.55909607396995,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -3.0805328381212576,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.949797402216178
+      },
+      {
+        "distance_Angstrom": 6.1000000000000005,
+        "polar_kJ_mol": -689.6843637955228,
+        "vacuum_Coulomb_kJ_mol": -227.76304531865895,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -3.010214427166602,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.9014400677536174
+      },
+      {
+        "distance_Angstrom": 6.2,
+        "polar_kJ_mol": -693.2927620499846,
+        "vacuum_Coulomb_kJ_mol": -224.0894478135193,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.9450151764888233,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.8546426473059787
+      },
+      {
+        "distance_Angstrom": 6.3,
+        "polar_kJ_mol": -696.7890274911367,
+        "vacuum_Coulomb_kJ_mol": -220.53247245139997,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.8843052555215536,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.8093308592535027
+      },
+      {
+        "distance_Angstrom": 6.4,
+        "polar_kJ_mol": -700.1780850311534,
+        "vacuum_Coulomb_kJ_mol": -217.08665256934682,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.827542913485104,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.7654350645776664
+      },
+      {
+        "distance_Angstrom": 6.5,
+        "polar_kJ_mol": -703.4645988232702,
+        "vacuum_Coulomb_kJ_mol": -213.7468579144338,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.7742620506888898,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.72288990973801
+      },
+      {
+        "distance_Angstrom": 6.6000000000000005,
+        "polar_kJ_mol": -706.6529870422318,
+        "vacuum_Coulomb_kJ_mol": -210.5082691581545,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.7240615133711117,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.681634002014707
+      },
+      {
+        "distance_Angstrom": 6.7,
+        "polar_kJ_mol": -709.7474358704305,
+        "vacuum_Coulomb_kJ_mol": -207.3663546931074,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.6765958765228106,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.641609613924935
+      },
+      {
+        "distance_Angstrom": 6.800000000000001,
+        "polar_kJ_mol": -712.7519127214449,
+        "vacuum_Coulomb_kJ_mol": -204.3168494770323,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.6315675114620944,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.6027624137201566
+      },
+      {
+        "distance_Angstrom": 6.9,
+        "polar_kJ_mol": -715.6701787331923,
+        "vacuum_Coulomb_kJ_mol": -201.35573571649562,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.588719762672781,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.5650412193184153
+      },
+      {
+        "distance_Angstrom": 7.0,
+        "polar_kJ_mol": -718.5058005630176,
+        "vacuum_Coulomb_kJ_mol": -198.47922520625997,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.547831082262519,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.5283977733281526
+      },
+      {
+        "distance_Angstrom": 7.1000000000000005,
+        "polar_kJ_mol": -721.2621615168391,
+        "vacuum_Coulomb_kJ_mol": -195.68374316110135,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.508709990925354,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.492786537084094
+      },
+      {
+        "distance_Angstrom": 7.2,
+        "polar_kJ_mol": -723.9424720440406,
+        "vacuum_Coulomb_kJ_mol": -192.96591339497496,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.471190752000439,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.458164501846815
+      },
+      {
+        "distance_Angstrom": 7.300000000000001,
+        "polar_kJ_mol": -726.549779629178,
+        "vacuum_Coulomb_kJ_mol": -190.32254471833144,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.43512966049434,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.424491015520146
+      },
+      {
+        "distance_Angstrom": 7.4,
+        "polar_kJ_mol": -729.0869781108184,
+        "vacuum_Coulomb_kJ_mol": -187.750618438354,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.4004018621573096,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.391727623418522
+      },
+      {
+        "distance_Angstrom": 7.5,
+        "polar_kJ_mol": -731.5568164569627,
+        "vacuum_Coulomb_kJ_mol": -185.24727685917597,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.3668986291235115,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.359837921772942
+      },
+      {
+        "distance_Angstrom": 7.6000000000000005,
+        "polar_kJ_mol": -733.9619070255791,
+        "vacuum_Coulomb_kJ_mol": -182.80981268997627,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.33452502854027,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.3287874228022454
+      },
+      {
+        "distance_Angstrom": 7.7,
+        "polar_kJ_mol": -736.3047333377752,
+        "vacuum_Coulomb_kJ_mol": -180.43565927841814,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.303197929178282,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.29854343029832
+      },
+      {
+        "distance_Angstrom": 7.800000000000001,
+        "polar_kJ_mol": -738.587657390124,
+        "vacuum_Coulomb_kJ_mol": -178.12238159536147,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.2728442984704316,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.269074924781675
+      },
+      {
+        "distance_Angstrom": 7.9,
+        "polar_kJ_mol": -740.8129265316087,
+        "vacuum_Coulomb_kJ_mol": -175.86766790428098,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.2433997488745945,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.2403524573793754
+      },
+      {
+        "distance_Angstrom": 8.0,
+        "polar_kJ_mol": -742.9826799295956,
+        "vacuum_Coulomb_kJ_mol": -173.66932205547747,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.2148072980579627,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.212348051662133
+      },
+      {
+        "distance_Angstrom": 8.100000000000001,
+        "polar_kJ_mol": -745.0989546481933,
+        "vacuum_Coulomb_kJ_mol": -171.5252563510888,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.187016312267019,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.1850351127527237
+      },
+      {
+        "distance_Angstrom": 8.2,
+        "polar_kJ_mol": -747.1636913613016,
+        "vacuum_Coulomb_kJ_mol": -169.43348493217314,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.1599816064597235,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.1583883430850084
+      },
+      {
+        "distance_Angstrom": 8.3,
+        "polar_kJ_mol": -749.1787397216187,
+        "vacuum_Coulomb_kJ_mol": -167.3921176438337,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.133662678437304,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.1323836642526586
+      },
+      {
+        "distance_Angstrom": 8.4,
+        "polar_kJ_mol": -751.1458634058516,
+        "vacuum_Coulomb_kJ_mol": -165.39935433854995,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.1080230573865038,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.106998144440127
+      },
+      {
+        "distance_Angstrom": 8.5,
+        "polar_kJ_mol": -753.0667448553794,
+        "vacuum_Coulomb_kJ_mol": -163.45347958162586,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.0830297499901462,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.0822099309761257
+      },
+      {
+        "distance_Angstrom": 8.600000000000001,
+        "polar_kJ_mol": -754.942989730636,
+        "vacuum_Coulomb_kJ_mol": -161.55285772602554,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.0586527696464145,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.057998187592682
+      },
+      {
+        "distance_Angstrom": 8.7,
+        "polar_kJ_mol": -756.7761310965362,
+        "vacuum_Coulomb_kJ_mol": -159.69592832687584,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.034864736396912,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.0343430360111574
+      },
+      {
+        "distance_Angstrom": 8.8,
+        "polar_kJ_mol": -758.5676333553389,
+        "vacuum_Coulomb_kJ_mol": -157.88120186861588,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -2.0116405369396944,
+        "uniform_dielectric_Coulomb_kJ_mol": -2.01122550151103
+      },
+      {
+        "distance_Angstrom": 8.9,
+        "polar_kJ_mol": -760.3188959424613,
+        "vacuum_Coulomb_kJ_mol": -156.10725578020447,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.9889570356506283,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.9886274621682098
+      },
+      {
+        "distance_Angstrom": 9.0,
+        "polar_kJ_mol": -762.031256799885,
+        "vacuum_Coulomb_kJ_mol": -154.37273071597997,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.9667928288498615,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.9665316014774519
+      },
+      {
+        "distance_Angstrom": 9.100000000000001,
+        "polar_kJ_mol": -763.7059956409797,
+        "vacuum_Coulomb_kJ_mol": -152.6763270817384,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.9451280357029646,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.9449213640985785
+      },
+      {
+        "distance_Angstrom": 9.2,
+        "polar_kJ_mol": -765.3443370197641,
+        "vacuum_Coulomb_kJ_mol": -151.01680178737172,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.9239441201207228,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.9237809144888116
+      },
+      {
+        "distance_Angstrom": 9.3,
+        "polar_kJ_mol": -766.947453216872,
+        "vacuum_Coulomb_kJ_mol": -149.39296520901286,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.9032237388696558,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.9030950982039854
+      },
+      {
+        "distance_Angstrom": 9.4,
+        "polar_kJ_mol": -768.5164669537556,
+        "vacuum_Coulomb_kJ_mol": -147.8036783450872,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.8829506118277095,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.8828494056699008
+      },
+      {
+        "distance_Angstrom": 9.5,
+        "polar_kJ_mol": -770.0524539459698,
+        "vacuum_Coulomb_kJ_mol": -146.24785015198103,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.863109410935749,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.8630299382417965
+      },
+      {
+        "distance_Angstrom": 9.600000000000001,
+        "polar_kJ_mol": -771.556445305714,
+        "vacuum_Coulomb_kJ_mol": -144.7244350462312,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.8436856649300353,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.8436233763851109
+      },
+      {
+        "distance_Angstrom": 9.7,
+        "polar_kJ_mol": -773.0294298031853,
+        "vacuum_Coulomb_kJ_mol": -143.23243056121854,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.8246656773886798,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.82461694982444
+      },
+      {
+        "distance_Angstrom": 9.8,
+        "polar_kJ_mol": -774.4723559956959,
+        "vacuum_Coulomb_kJ_mol": -141.77087514732852,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.8060364560093376,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.8059984095201087
+      },
+      {
+        "distance_Angstrom": 9.9,
+        "polar_kJ_mol": -775.8861342329448,
+        "vacuum_Coulomb_kJ_mol": -140.33884610543632,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.7877856513659935,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.7877560013431377
+      },
+      {
+        "distance_Angstrom": 10.0,
+        "polar_kJ_mol": -777.2716385462996,
+        "vacuum_Coulomb_kJ_mol": -138.93545764438198,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.7699015036664605,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.7698784413297068
+      },
+      {
+        "distance_Angstrom": 10.1,
+        "polar_kJ_mol": -778.6297084294415,
+        "vacuum_Coulomb_kJ_mol": -137.55985905384355,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.752372796269924,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.7523548924056505
+      },
+      {
+        "distance_Angstrom": 10.200000000000001,
+        "polar_kJ_mol": -779.9611505172476,
+        "vacuum_Coulomb_kJ_mol": -136.2112329846882,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.7351888149206616,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.7351749424801044
+      },
+      {
+        "distance_Angstrom": 10.3,
+        "polar_kJ_mol": -781.2667401693413,
+        "vacuum_Coulomb_kJ_mol": -134.88879382949705,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.7183393118232289,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.718328583815249
+      },
+      {
+        "distance_Angstrom": 10.4,
+        "polar_kJ_mol": -782.5472229643221,
+        "vacuum_Coulomb_kJ_mol": -133.59178619652113,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.701814473828108,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.7018061935862563
+      },
+      {
+        "distance_Angstrom": 10.5,
+        "polar_kJ_mol": -783.8033161102826,
+        "vacuum_Coulomb_kJ_mol": -132.31948347083997,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.6856048941074278,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.6855985155521016
+      },
+      {
+        "distance_Angstrom": 10.6,
+        "polar_kJ_mol": -785.0357097768629,
+        "vacuum_Coulomb_kJ_mol": -131.07118645696414,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.6697015468118934,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.6696966427638744
+      },
+      {
+        "distance_Angstrom": 10.700000000000001,
+        "polar_kJ_mol": -786.2450683537369,
+        "vacuum_Coulomb_kJ_mol": -129.84622209755324,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.6540957642749845,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.6540920012427165
+      },
+      {
+        "distance_Angstrom": 10.8,
+        "polar_kJ_mol": -787.4320316401032,
+        "vacuum_Coulomb_kJ_mol": -128.64394226331663,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.6387792164047141,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.638776334564543
+      },
+      {
+        "distance_Angstrom": 10.9,
+        "polar_kJ_mol": -788.5972159694486,
+        "vacuum_Coulomb_kJ_mol": -127.46372260952474,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.62374389195827,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.6237416892933088
+      },
+      {
+        "distance_Angstrom": 11.0,
+        "polar_kJ_mol": -789.7412152735722,
+        "vacuum_Coulomb_kJ_mol": -126.30496149489271,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.608982081449767,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.6089804012088242
+      },
+      {
+        "distance_Angstrom": 11.1,
+        "polar_kJ_mol": -790.8646020895878,
+        "vacuum_Coulomb_kJ_mol": -125.16707895890268,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.5944863614754468,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.594485082279015
+      },
+      {
+        "distance_Angstrom": 11.200000000000001,
+        "polar_kJ_mol": -791.9679285133819,
+        "vacuum_Coulomb_kJ_mol": -124.04951575391246,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.5802495802793146,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.580248608330095
+      },
+      {
+        "distance_Angstrom": 11.3,
+        "polar_kJ_mol": -793.0517271027659,
+        "vacuum_Coulomb_kJ_mol": -122.9517324286566,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.5662648444073284,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.5662641073714216
+      },
+      {
+        "distance_Angstrom": 11.4,
+        "polar_kJ_mol": -794.1165117333558,
+        "vacuum_Coulomb_kJ_mol": -121.87320845998418,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.552525506324855,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.5525249485348305
+      },
+      {
+        "distance_Angstrom": 11.5,
+        "polar_kJ_mol": -795.1627784100054,
+        "vacuum_Coulomb_kJ_mol": -120.81344142989737,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.5390251528876888,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.5390247315910492
+      },
+      {
+        "distance_Angstrom": 11.600000000000001,
+        "polar_kJ_mol": -796.1910060364359,
+        "vacuum_Coulomb_kJ_mol": -119.77194624515685,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.5257575945776125,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.5257572770083676
+      },
+      {
+        "distance_Angstrom": 11.700000000000001,
+        "polar_kJ_mol": -797.2016571455312,
+        "vacuum_Coulomb_kJ_mol": -118.74825439690765,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.5127168554237187,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.5127166165211166
+      },
+      {
+        "distance_Angstrom": 11.8,
+        "polar_kJ_mol": -798.1951785926052,
+        "vacuum_Coulomb_kJ_mol": -117.74191325795081,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.4998971635409362,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.4998969841777174
+      },
+      {
+        "distance_Angstrom": 11.9,
+        "polar_kJ_mol": -799.1720022138004,
+        "vacuum_Coulomb_kJ_mol": -116.75248541544703,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.4872929422323296,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.4872928078400895
+      },
+      {
+        "distance_Angstrom": 12.0,
+        "polar_kJ_mol": -800.1325454516327,
+        "vacuum_Coulomb_kJ_mol": -115.77954803698498,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.4748988016026487,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.474898701108089
+      },
+      {
+        "distance_Angstrom": 12.100000000000001,
+        "polar_kJ_mol": -801.0772119495707,
+        "vacuum_Coulomb_kJ_mol": -114.82269226808427,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.4627095306398132,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.4627094556443856
+      },
+      {
+        "distance_Angstrom": 12.200000000000001,
+        "polar_kJ_mol": -802.0063921174162,
+        "vacuum_Coulomb_kJ_mol": -113.88152265932948,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.4507200897305665,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.4507200338768087
+      },
+      {
+        "distance_Angstrom": 12.3,
+        "polar_kJ_mol": -802.9204636691368,
+        "vacuum_Coulomb_kJ_mol": -112.95565662144875,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.4389256035703966,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.438925562056672
+      },
+      {
+        "distance_Angstrom": 12.4,
+        "polar_kJ_mol": -803.8197921347014,
+        "vacuum_Coulomb_kJ_mol": -112.04472390675966,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.427321354445894,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.4273213236529894
+      },
+      {
+        "distance_Angstrom": 12.5,
+        "polar_kJ_mol": -804.7047313473678,
+        "vacuum_Coulomb_kJ_mol": -111.14836611550558,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.4159027758582852,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.4159027530637653
+      },
+      {
+        "distance_Angstrom": 12.600000000000001,
+        "polar_kJ_mol": -805.5756239077814,
+        "vacuum_Coulomb_kJ_mol": -110.26623622569997,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.404665446466197,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.4046654296267511
+      },
+      {
+        "distance_Angstrom": 12.700000000000001,
+        "polar_kJ_mol": -806.4328016261605,
+        "vacuum_Coulomb_kJ_mol": -109.39799814518264,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.393605084328101,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.3936050719131547
+      },
+      {
+        "distance_Angstrom": 12.8,
+        "polar_kJ_mol": -807.2765859437648,
+        "vacuum_Coulomb_kJ_mol": -108.54332628467341,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.3827175414230624,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.3827175322888332
+      },
+      {
+        "distance_Angstrom": 12.9,
+        "polar_kJ_mol": -808.1072883347667,
+        "vacuum_Coulomb_kJ_mol": -107.7019051506837,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.3719987984353565,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.3719987917284548
+      },
+      {
+        "distance_Angstrom": 13.0,
+        "polar_kJ_mol": -808.9252106895817,
+        "vacuum_Coulomb_kJ_mol": -106.8734289572169,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.3614449597835119,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.361444954869005
+      },
+      {
+        "distance_Angstrom": 13.100000000000001,
+        "polar_kJ_mol": -809.7306456806452,
+        "vacuum_Coulomb_kJ_mol": -106.0576012552534,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.3510522488835477,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.3510522452898523
+      },
+      {
+        "distance_Angstrom": 13.200000000000001,
+        "polar_kJ_mol": -810.5238771115677,
+        "vacuum_Coulomb_kJ_mol": -105.25413457907725,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.3408170036298088,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.3408170010073535
+      },
+      {
+        "distance_Angstrom": 13.3,
+        "polar_kJ_mol": -811.3051802505398,
+        "vacuum_Coulomb_kJ_mol": -104.46275010855787,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.3307356720825965,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.3307356701727118
+      },
+      {
+        "distance_Angstrom": 13.4,
+        "polar_kJ_mol": -812.0748221488119,
+        "vacuum_Coulomb_kJ_mol": -103.6831773465537,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.3208048083505446,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.3208048069624676
+      },
+      {
+        "distance_Angstrom": 13.5,
+        "polar_kJ_mol": -812.8330619450202,
+        "vacuum_Coulomb_kJ_mol": -102.91515381065331,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.3110210686584196,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.3110210676516345
+      },
+      {
+        "distance_Angstrom": 13.600000000000001,
+        "polar_kJ_mol": -813.5801511560877,
+        "vacuum_Coulomb_kJ_mol": -102.15842473851615,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.3013812075887472,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.3013812068600783
+      },
+      {
+        "distance_Angstrom": 13.700000000000001,
+        "polar_kJ_mol": -814.3163339553864,
+        "vacuum_Coulomb_kJ_mol": -101.41274280611822,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.2918820744895356,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.2918820739632895
+      },
+      {
+        "distance_Angstrom": 13.8,
+        "polar_kJ_mol": -815.0418474388058,
+        "vacuum_Coulomb_kJ_mol": -100.67786785824781,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.2825206100385458,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.2825206096592077
+      },
+      {
+        "distance_Angstrom": 13.9,
+        "polar_kJ_mol": -815.7569218793367,
+        "vacuum_Coulomb_kJ_mol": -99.95356665063451,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.2732938429560363,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.2732938426832423
+      },
+      {
+        "distance_Angstrom": 14.0,
+        "polar_kJ_mol": -816.461780970745,
+        "vacuum_Coulomb_kJ_mol": -99.23961260312998,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.2641988868599583,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.2641988866640763
+      },
+      {
+        "distance_Angstrom": 14.100000000000001,
+        "polar_kJ_mol": -817.1566420608773,
+        "vacuum_Coulomb_kJ_mol": -98.53578556339146,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.255232937253595,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.2552329371132669
+      },
+      {
+        "distance_Angstrom": 14.200000000000001,
+        "polar_kJ_mol": -817.8417163751068,
+        "vacuum_Coulomb_kJ_mol": -97.84187158055067,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.2463932686423504,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.246393268542047
+      },
+      {
+        "distance_Angstrom": 14.3,
+        "polar_kJ_mol": -818.5172092304068,
+        "vacuum_Coulomb_kJ_mol": -97.15766268837899,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.2376772317707037,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.2376772316990954
+      },
+      {
+        "distance_Angstrom": 14.4,
+        "polar_kJ_mol": -819.1833202405019,
+        "vacuum_Coulomb_kJ_mol": -96.48295669748748,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.2290822509742156,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.2290822509234074
+      },
+      {
+        "distance_Angstrom": 14.5,
+        "polar_kJ_mol": -819.8402435125324,
+        "vacuum_Coulomb_kJ_mol": -95.8175569961255,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.2206058216428346,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.2206058216066944
+      },
+      {
+        "distance_Angstrom": 14.600000000000001,
+        "polar_kJ_mol": -820.4881678356351,
+        "vacuum_Coulomb_kJ_mol": -95.16127235916572,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.212245507785724,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.212245507760073
+      },
+      {
+        "distance_Angstrom": 14.700000000000001,
+        "polar_kJ_mol": -821.1272768618276,
+        "vacuum_Coulomb_kJ_mol": -94.51391676488569,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.203998939698181,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.2039989396800725
+      },
+      {
+        "distance_Angstrom": 14.8,
+        "polar_kJ_mol": -821.7577492795601,
+        "vacuum_Coulomb_kJ_mol": -93.875309219177,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.1958638117220062,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.195863811709261
+      },
+      {
+        "distance_Angstrom": 14.9,
+        "polar_kJ_mol": -822.3797589802776,
+        "vacuum_Coulomb_kJ_mol": -93.24527358683353,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.1878378800960263,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.1878378800870515
+      },
+      {
+        "distance_Angstrom": 15.0,
+        "polar_kJ_mol": -822.9934752183198,
+        "vacuum_Coulomb_kJ_mol": -92.62363842958798,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.1799189608926781,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.179918960886471
+      },
+      {
+        "distance_Angstrom": 15.100000000000001,
+        "polar_kJ_mol": -823.5990627644683,
+        "vacuum_Coulomb_kJ_mol": -92.01023685058408,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.1721049280372426,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.172104928032918
+      },
+      {
+        "distance_Angstrom": 15.200000000000001,
+        "polar_kJ_mol": -824.1966820534311,
+        "vacuum_Coulomb_kJ_mol": -91.40490634498813,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.1643937114041591,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.1643937114011227
+      },
+      {
+        "distance_Angstrom": 15.3,
+        "polar_kJ_mol": -824.7864893255452,
+        "vacuum_Coulomb_kJ_mol": -90.8074886564588,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.156783294988827,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.1567832949867363
+      },
+      {
+        "distance_Angstrom": 15.4,
+        "polar_kJ_mol": -825.3686367629566,
+        "vacuum_Coulomb_kJ_mol": -90.21782963920907,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.1492717151505758,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.14927171514916
+      },
+      {
+        "distance_Angstrom": 15.5,
+        "polar_kJ_mol": -825.9432726205307,
+        "vacuum_Coulomb_kJ_mol": -89.63577912540772,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.1418570589232786,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.1418570589223913
+      },
+      {
+        "distance_Angstrom": 15.600000000000001,
+        "polar_kJ_mol": -826.5105413517259,
+        "vacuum_Coulomb_kJ_mol": -89.06119079768074,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.1345374623915632,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.1345374623908375
+      },
+      {
+        "distance_Angstrom": 15.700000000000001,
+        "polar_kJ_mol": -827.0705837296574,
+        "vacuum_Coulomb_kJ_mol": -88.49392206648533,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.1273111091276178,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.1273111091272017
+      },
+      {
+        "distance_Angstrom": 15.8,
+        "polar_kJ_mol": -827.6235369635646,
+        "vacuum_Coulomb_kJ_mol": -87.93383395214049,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.1201762286899566,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.1201762286896877
+      },
+      {
+        "distance_Angstrom": 15.9,
+        "polar_kJ_mol": -828.1695348108817,
+        "vacuum_Coulomb_kJ_mol": -87.38079097130941,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.1131310951759588,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.1131310951759161
+      },
+      {
+        "distance_Angstrom": 16.0,
+        "polar_kJ_mol": -828.7087076851076,
+        "vacuum_Coulomb_kJ_mol": -86.83466102773873,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.1061740258312511,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.1061740258310666
+      },
+      {
+        "distance_Angstrom": 16.1,
+        "polar_kJ_mol": -829.2411827596535,
+        "vacuum_Coulomb_kJ_mol": -86.29531530706954,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.099303379707976,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.0993033797078924
+      },
+      {
+        "distance_Angstrom": 16.200000000000003,
+        "polar_kJ_mol": -829.7670840678471,
+        "vacuum_Coulomb_kJ_mol": -85.7626281755444,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.0925175563763787,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.0925175563763618
+      },
+      {
+        "distance_Angstrom": 16.3,
+        "polar_kJ_mol": -830.286532599253,
+        "vacuum_Coulomb_kJ_mol": -85.23647708244292,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.0858149946807316,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.0858149946808016
+      },
+      {
+        "distance_Angstrom": 16.4,
+        "polar_kJ_mol": -830.7996463924711,
+        "vacuum_Coulomb_kJ_mol": -84.71674246608657,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.0791941715425537,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.0791941715425042
+      },
+      {
+        "distance_Angstrom": 16.5,
+        "polar_kJ_mol": -831.3065406245593,
+        "vacuum_Coulomb_kJ_mol": -84.2033076632618,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.0726536008060066,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.0726536008058827
+      },
+      {
+        "distance_Angstrom": 16.6,
+        "polar_kJ_mol": -831.8073276972245,
+        "vacuum_Coulomb_kJ_mol": -83.69605882191685,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.0661918321262647,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.0661918321263293
+      },
+      {
+        "distance_Angstrom": 16.700000000000003,
+        "polar_kJ_mol": -832.3021173199179,
+        "vacuum_Coulomb_kJ_mol": -83.19488481699518,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.0598074498980168,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.0598074498980279
+      },
+      {
+        "distance_Angstrom": 16.8,
+        "polar_kJ_mol": -832.7910165899601,
+        "vacuum_Coulomb_kJ_mol": -82.69967716927498,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.0534990722200064,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.0534990722200634
+      },
+      {
+        "distance_Angstrom": 16.9,
+        "polar_kJ_mol": -833.2741300698244,
+        "vacuum_Coulomb_kJ_mol": -82.21032996708993,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.0472653498992486,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.0472653498992348
+      },
+      {
+        "distance_Angstrom": 17.0,
+        "polar_kJ_mol": -833.7515598616902,
+        "vacuum_Coulomb_kJ_mol": -81.72673979081293,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.0411049654881026,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.0411049654880629
+      },
+      {
+        "distance_Angstrom": 17.1,
+        "polar_kJ_mol": -834.2234056793822,
+        "vacuum_Coulomb_kJ_mol": -81.24880563998946,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.0350166323564736,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.0350166323565535
+      },
+      {
+        "distance_Angstrom": 17.200000000000003,
+        "polar_kJ_mol": -834.6897649177986,
+        "vacuum_Coulomb_kJ_mol": -80.77642886301277,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.0289990937963012,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.028999093796341
+      },
+      {
+        "distance_Angstrom": 17.3,
+        "polar_kJ_mol": -835.1507327199329,
+        "vacuum_Coulomb_kJ_mol": -80.30951308923814,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.0230511221559482,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.0230511221558998
+      },
+      {
+        "distance_Angstrom": 17.4,
+        "polar_kJ_mol": -835.6064020415827,
+        "vacuum_Coulomb_kJ_mol": -79.84796416343792,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.0171715180055116,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.0171715180055787
+      },
+      {
+        "distance_Angstrom": 17.5,
+        "polar_kJ_mol": -836.0568637138423,
+        "vacuum_Coulomb_kJ_mol": -79.39169008250398,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.0113591093311243,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.011359109331261
+      },
+      {
+        "distance_Angstrom": 17.6,
+        "polar_kJ_mol": -836.5022065034627,
+        "vacuum_Coulomb_kJ_mol": -78.94060093430794,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -1.0056127507555175,
+        "uniform_dielectric_Coulomb_kJ_mol": -1.005612750755515
+      },
+      {
+        "distance_Angstrom": 17.700000000000003,
+        "polar_kJ_mol": -836.9425171711663,
+        "vacuum_Coulomb_kJ_mol": -78.49460883863387,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.9999313227850735,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.9999313227851447
+      },
+      {
+        "distance_Angstrom": 17.8,
+        "polar_kJ_mol": -837.3778805279969,
+        "vacuum_Coulomb_kJ_mol": -78.05362789010223,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.9943137310840484,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.9943137310841049
+      },
+      {
+        "distance_Angstrom": 17.9,
+        "polar_kJ_mol": -837.8083794897791,
+        "vacuum_Coulomb_kJ_mol": -77.61757410300669,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.9887589057707373,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.9887589057707858
+      },
+      {
+        "distance_Angstrom": 18.0,
+        "polar_kJ_mol": -838.2340951297638,
+        "vacuum_Coulomb_kJ_mol": -77.18636535798998,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.9832658007386499,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.9832658007387259
+      },
+      {
+        "distance_Angstrom": 18.1,
+        "polar_kJ_mol": -838.6551067295277,
+        "vacuum_Coulomb_kJ_mol": -76.75992135048728,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.9778333929998553,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.9778333929998378
+      },
+      {
+        "distance_Angstrom": 18.2,
+        "polar_kJ_mol": -839.0714918281951,
+        "vacuum_Coulomb_kJ_mol": -76.33816354086922,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.9724606820492454,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.9724606820492894
+      },
+      {
+        "distance_Angstrom": 18.3,
+        "polar_kJ_mol": -839.4833262700466,
+        "vacuum_Coulomb_kJ_mol": -75.92101510621966,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.9671466892511944,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.9671466892512058
+      },
+      {
+        "distance_Angstrom": 18.400000000000002,
+        "polar_kJ_mol": -839.8906842505736,
+        "vacuum_Coulomb_kJ_mol": -75.50840089368585,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.9618904572442943,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.9618904572444057
+      },
+      {
+        "distance_Angstrom": 18.5,
+        "polar_kJ_mol": -840.2936383610408,
+        "vacuum_Coulomb_kJ_mol": -75.10024737534161,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.9566910493673504,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.956691049367409
+      },
+      {
+        "distance_Angstrom": 18.6,
+        "polar_kJ_mol": -840.6922596316107,
+        "vacuum_Coulomb_kJ_mol": -74.69648260450643,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.9515475491019743,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.9515475491019927
+      },
+      {
+        "distance_Angstrom": 18.7,
+        "polar_kJ_mol": -841.0866175730833,
+        "vacuum_Coulomb_kJ_mol": -74.2970361734663,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.9464590595345044,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.9464590595346025
+      },
+      {
+        "distance_Angstrom": 18.8,
+        "polar_kJ_mol": -841.4767802173063,
+        "vacuum_Coulomb_kJ_mol": -73.9018391725436,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.9414247028348655,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.9414247028349504
+      },
+      {
+        "distance_Angstrom": 18.900000000000002,
+        "polar_kJ_mol": -841.8628141562996,
+        "vacuum_Coulomb_kJ_mol": -73.51082415046665,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.9364436197511168,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.9364436197511675
+      },
+      {
+        "distance_Angstrom": 19.0,
+        "polar_kJ_mol": -842.2447845801454,
+        "vacuum_Coulomb_kJ_mol": -73.12392507599051,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.9315149691208262,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.9315149691208983
+      },
+      {
+        "distance_Angstrom": 19.1,
+        "polar_kJ_mol": -842.6227553136894,
+        "vacuum_Coulomb_kJ_mol": -72.74107730072355,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.9266379273977918,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.9266379273977522
+      },
+      {
+        "distance_Angstrom": 19.2,
+        "polar_kJ_mol": -842.996788852092,
+        "vacuum_Coulomb_kJ_mol": -72.36221752311562,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.9218116881925198,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.9218116881925557
+      },
+      {
+        "distance_Angstrom": 19.3,
+        "polar_kJ_mol": -843.3669463952782,
+        "vacuum_Coulomb_kJ_mol": -71.98728375356579,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.9170354618288457,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.9170354618288635
+      },
+      {
+        "distance_Angstrom": 19.400000000000002,
+        "polar_kJ_mol": -843.733287881318,
+        "vacuum_Coulomb_kJ_mol": -71.61621528060925,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.9123084749121517,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.9123084749122198
+      },
+      {
+        "distance_Angstrom": 19.5,
+        "polar_kJ_mol": -844.0958720187831,
+        "vacuum_Coulomb_kJ_mol": -71.2489526381446,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.9076299699125912,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.9076299699126701
+      },
+      {
+        "distance_Angstrom": 19.6,
+        "polar_kJ_mol": -844.4547563181109,
+        "vacuum_Coulomb_kJ_mol": -70.88543757366426,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.9029992047600217,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.9029992047600544
+      },
+      {
+        "distance_Angstrom": 19.7,
+        "polar_kJ_mol": -844.8099971220139,
+        "vacuum_Coulomb_kJ_mol": -70.52561301745278,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.8984154524515588,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.8984154524516278
+      },
+      {
+        "distance_Angstrom": 19.8,
+        "polar_kJ_mol": -845.1616496349685,
+        "vacuum_Coulomb_kJ_mol": -70.16942305271816,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.8938780006715206,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.8938780006715689
+      },
+      {
+        "distance_Angstrom": 19.900000000000002,
+        "polar_kJ_mol": -845.5097679518129,
+        "vacuum_Coulomb_kJ_mol": -69.8168128866241,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.8893861514219452,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.8893861514219631
+      },
+      {
+        "distance_Angstrom": 20.0,
+        "polar_kJ_mol": -845.8544050854889,
+        "vacuum_Coulomb_kJ_mol": -69.46772882219099,
+        "GB_interaction_relative_to_fixed_isolated_self_kJ_mol": -0.884939220664819,
+        "uniform_dielectric_Coulomb_kJ_mol": -0.8849392206648534
+      }
+    ]
+  }
+}

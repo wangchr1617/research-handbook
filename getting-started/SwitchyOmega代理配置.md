@@ -11,12 +11,9 @@
 
 ## 下载安装
 
-SwitchyOmega 插件可以在 Chrome 应用商店在线安装。
-如果无法在线安装，访问 [SwitchyOmega 官网](https://github.com/FelisCatus/SwitchyOmega/releases) 下载版本号后标记为 Latest 的版本。
-然后在 Chrome 地址栏输入 `chrome://extensions` 打开扩展程序，拖动下载的 `.crx` 安装文件到扩展程序中进行离线安装。
+原作者于 2025-01-12 声明项目停止维护，原扩展因未迁移到 Manifest V3 而被 Chrome 禁用并从商店移除，见[作者说明](https://github.com/FelisCatus/SwitchyOmega/issues/2513)。下文保留旧版界面，用于理解代理情景模式；实际安装先核对浏览器版本与扩展维护状态，不把拖入旧 `.crx` 当成通用安装方法。
 
-目前 SwitchyOmega 支持 Chrome 和 Firefox 浏览器，插件只帮助管理代理 IP，不提供代理 IP 服务器，所以需要配合节点才可以使用，节点即插件中的代理服务器。
-代理客户端一般默认的代理服务器地址就是 `127.0.0.1` 并且相关代理协议及端口如下，少数的代理客户端生成的代理协议的代理端口可能不一样。
+旧安装包可在 [SwitchyOmega Releases](https://github.com/FelisCatus/SwitchyOmega/releases) 查看。代理服务由本机客户端提供，扩展只管理浏览器规则。配置前先从客户端读取监听地址、协议与端口；下列是历史示例值，不是通用默认值：
 
 - HTTP: 1080
 - HTTPS: 443

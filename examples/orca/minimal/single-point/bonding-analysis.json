@@ -1,0 +1,208 @@
+{
+  "system": "H2O isolated, neutral, restricted closed shell; supplied single-point geometry",
+  "electronic_structure": {
+    "program": "ORCA 6.1.1",
+    "method": "PBE0",
+    "basis": "def2-SVP",
+    "scf": "TightSCF",
+    "geometry_A": [
+      [
+        "O",
+        0,
+        0,
+        0
+      ],
+      [
+        "H",
+        0.8,
+        0,
+        0.6
+      ],
+      [
+        "H",
+        -0.8,
+        0,
+        0.6
+      ]
+    ]
+  },
+  "analysis_program": "Multiwfn 2026.7.15",
+  "input_sha256": "83498dcbcd6847bf363db853a206cf8cfcfd75b485a8eae36b38d07c021372c0",
+  "original_molden_sha256": "561795b51febe2e12c0379813174f509a6c8195e823d6c7ce0301071b4bfae12",
+  "atom_order": [
+    "O",
+    "H",
+    "H"
+  ],
+  "mayer_bond_orders": [
+    {
+      "atom_pair": [
+        1,
+        2
+      ],
+      "value": 0.992013943247256
+    },
+    {
+      "atom_pair": [
+        1,
+        3
+      ],
+      "value": 0.9920139473807245
+    },
+    {
+      "atom_pair": [
+        2,
+        3
+      ],
+      "value": 0.00693982154031884
+    }
+  ],
+  "localized_orbital_analysis": {
+    "localization": "Pipek-Mezey/Mulliken, occupied space, including core",
+    "convergence_delta": 0.0001,
+    "assignment_partition": "Hirshfeld",
+    "mLOBA_oxidation_states": [
+      -2,
+      1,
+      1
+    ],
+    "LOBA_50percent_oxidation_states": [
+      -2,
+      1,
+      1
+    ]
+  },
+  "nado": {
+    "atom_pair": [
+      1,
+      2
+    ],
+    "partition": "Hirshfeld with built-in radial reference densities (Hirshfeld*)",
+    "aom_grid": "automatic 45 radial x 170 angular points per atomic grid",
+    "aom_sum_minus_identity_frobenius_norm": 0.0002627439837560654,
+    "weights": [
+      0.8136201,
+      0.19054165,
+      0.12780993,
+      0.0531882,
+      0.0048251
+    ],
+    "fuzzy_bond_order": 1.189984973829688,
+    "energy_expectations_evaluated": false
+  },
+  "density_topology": {
+    "coordinate_unit": "Bohr",
+    "unique_critical_points": [
+      {
+        "index": 1,
+        "type": "(3,-3)",
+        "position_Bohr": [
+          -1.436369016405,
+          6.2e-11,
+          1.082860872052
+        ],
+        "density_e_Bohr3": 0.3504591413,
+        "laplacian_e_Bohr5": -10.23430582,
+        "hessian_eigenvalues_e_Bohr5": [
+          -3.839004507,
+          -3.819153767,
+          -2.576147551
+        ],
+        "gradient_norm_e_Bohr4": 2.393163283e-14
+      },
+      {
+        "index": 2,
+        "type": "(3,-3)",
+        "position_Bohr": [
+          1.436369015745,
+          1e-11,
+          1.082860871838
+        ],
+        "density_e_Bohr3": 0.3504591388,
+        "laplacian_e_Bohr5": -10.23430568,
+        "hessian_eigenvalues_e_Bohr5": [
+          -3.839004457,
+          -3.819153718,
+          -2.5761475
+        ],
+        "gradient_norm_e_Bohr4": 2.390487331e-14
+      },
+      {
+        "index": 3,
+        "type": "(3,-3)",
+        "position_Bohr": [
+          -0.0,
+          0.0,
+          2.1852087e-05
+        ],
+        "density_e_Bohr3": 278.669112,
+        "laplacian_e_Bohr5": -1161721.326,
+        "hessian_eigenvalues_e_Bohr5": [
+          -387255.773,
+          -387242.0538,
+          -387223.4992
+        ],
+        "gradient_norm_e_Bohr4": 1.924057503e-15
+      },
+      {
+        "index": 4,
+        "type": "(3,-1)",
+        "position_Bohr": [
+          -1.210166354869,
+          1.54e-10,
+          0.921079334019
+        ],
+        "density_e_Bohr3": 0.3237222889,
+        "laplacian_e_Bohr5": -1.755505987,
+        "hessian_eigenvalues_e_Bohr5": [
+          -1.559925944,
+          -1.519440813,
+          1.32386077
+        ],
+        "gradient_norm_e_Bohr4": 1.743466654e-16
+      },
+      {
+        "index": 5,
+        "type": "(3,-1)",
+        "position_Bohr": [
+          1.210166356431,
+          9e-11,
+          0.921079336746
+        ],
+        "density_e_Bohr3": 0.3237222874,
+        "laplacian_e_Bohr5": -1.755505991,
+        "hessian_eigenvalues_e_Bohr5": [
+          -1.559925943,
+          -1.519440814,
+          1.323860765
+        ],
+        "gradient_norm_e_Bohr4": 7.724184468e-17
+      }
+    ],
+    "counts": {
+      "attractors": 3,
+      "BCP": 2,
+      "RCP": 0,
+      "CCP": 0
+    },
+    "isolated_index_sum": 1,
+    "path_endpoints_cp_indices": [
+      [
+        4,
+        1
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        5,
+        2
+      ],
+      [
+        5,
+        3
+      ]
+    ]
+  }
+}

@@ -131,7 +131,7 @@ def test_collect_and_prepare_structures(tmp_path, atoms):
 
 
 def test_training_frame_virial_and_energy_roundtrip(tmp_path, atoms):
-    m = module("structure/vasp2xyz.py")
+    m = module("structure/vasp_to_xyz.py")
     result = m.training_frame(atoms, "test", "free", True, energy_shift=0.5)
     assert result.get_potential_energy() == pytest.approx(-4.2)
     expected = -atoms.get_stress(voigt=False) * atoms.get_volume()
@@ -147,7 +147,7 @@ def test_training_frame_virial_and_energy_roundtrip(tmp_path, atoms):
 
 
 def test_convergence_alignment(tmp_path):
-    m = module("structure/vasp2xyz.py")
+    m = module("structure/vasp_to_xyz.py")
     (tmp_path / "OUTCAR").write_text(" NELM = 60\n")
     (tmp_path / "OSZICAR").write_text(
         "DAV: 3 0\n 1 F= 0 E0= 0\nRMM: 60 0\n 2 F= 0 E0= 0\n"
@@ -166,7 +166,7 @@ def test_vasp_outcar_real_fixture(tmp_path):
     directory = tmp_path / "calculation"
     directory.mkdir()
     (directory / "OUTCAR").write_bytes(fixture.read_bytes())
-    m = module("structure/vasp2xyz.py")
+    m = module("structure/vasp_to_xyz.py")
     output = tmp_path / "train.xyz"
     assert m.convert(tmp_path, output, frames="all") > 0
     reference = read(directory / "OUTCAR", index=":", format="vasp-out")
@@ -183,7 +183,7 @@ def test_training_output_is_atomic_on_failure(tmp_path):
     (tmp_path / "OUTCAR").write_text("invalid OUTCAR")
     output = tmp_path / "train.xyz"
     with pytest.raises(Exception):
-        module("structure/vasp2xyz.py").convert(tmp_path, output)
+        module("structure/vasp_to_xyz.py").convert(tmp_path, output)
     assert not output.exists()
     assert not list(tmp_path.glob("tmp*.xyz"))
 
@@ -226,12 +226,12 @@ def test_unwrap_preserves_first_frame(tmp_path):
 def test_grouping_keeps_properties(tmp_path, atoms):
     source, output = tmp_path / "model.xyz", tmp_path / "grouped.xyz"
     write(source, [atoms, atoms])
-    run("structure/xyz_grouped.py", source, output, "--species", "Ge=0", "Te=1")
+    run("structure/group_xyz.py", source, output, "--species", "Ge=0", "Te=1")
     images = read(output, index=":")
     assert len(images) == 2
     np.testing.assert_array_equal(images[0].arrays["group"], [0, 1])
     np.testing.assert_allclose(images[0].get_forces(), atoms.get_forces())
-    m = module("structure/xyz_grouped.py")
+    m = module("structure/group_xyz.py")
     with pytest.raises(ValueError, match="未分组"):
         m.assign_groups(atoms.copy(), ranges="0:0.5:0")
 
@@ -262,7 +262,7 @@ CP2K = """&GLOBAL
 
 
 def test_cp2k_nested_blocks_and_velocity(tmp_path):
-    m = module("cp2k/cp2k_restart.py")
+    m = module("cp2k/apply_cp2k_restart.py")
     restart = CP2K.replace("ABC 4 4 4", "ABC 5 5 5").replace("STEPS 2", "STEPS 9")
     restart = restart.replace(
         " &END SUBSYS", " &VELOCITY\n Ge 1 2 3\n &END VELOCITY\n &END SUBSYS"
@@ -274,13 +274,15 @@ def test_cp2k_nested_blocks_and_velocity(tmp_path):
     source, target = tmp_path / "restart.inp", tmp_path / "input.inp"
     source.write_text(restart)
     target.write_text(CP2K)
-    run("cp2k/cp2k_restart.py", source, target, "--in-place")
+    target.chmod(0o640)
+    run("cp2k/apply_cp2k_restart.py", source, target, "--in-place")
     assert target.with_name("input.inp.bak").read_text() == CP2K
     assert "ABC 5 5 5" in target.read_text()
+    assert target.stat().st_mode & 0o777 == 0o640
 
 
 def test_cp2k_rejects_ambiguous_force_eval():
-    m = module("cp2k/cp2k_restart.py")
+    m = module("cp2k/apply_cp2k_restart.py")
     with pytest.raises(ValueError):
         m.apply_restart(CP2K + CP2K, CP2K)
 
@@ -296,7 +298,7 @@ def test_gpumd_count_and_truncated_frame(tmp_path):
 
 
 def test_deviation_reads_header_not_temperature_duplicates(tmp_path):
-    m = module("deepmd/dpgen_max_devi_f_distribution.py")
+    m = module("deepmd/collect_dpgen_deviations.py")
     path = tmp_path / "model_devi.out"
     path.write_text(
         "# step max_devi_e min_devi_e avg_devi_e max_devi_f\n0 1 2 3 0.5\n10 1 2 3 0.8\n"
@@ -334,7 +336,7 @@ def test_random_displacement_seed_and_elements(tmp_path, atoms):
 
 
 def test_segmented_interpolation_endpoints(atoms):
-    m = module("structure/gen_dimer.py")
+    m = module("structure/generate_dimer_scan.py")
     final = atoms.copy()
     final.positions[1] += [1, 0, 0]
     result = m.interpolate(atoms, final, 3)
@@ -385,17 +387,17 @@ def test_relax_ions_with_ase_calculator(tmp_path, monkeypatch):
         "vasp/collect_structures.py",
         "vasp/run_elastic.py",
         "structure/convert_structure.py",
-        "structure/vasp2xyz.py",
-        "structure/xdatcar_slice.py",
-        "structure/xyz_grouped.py",
+        "structure/vasp_to_xyz.py",
+        "structure/slice_xdatcar.py",
+        "structure/group_xyz.py",
         "structure/mcsqs_convert.py",
-        "structure/gen_dimer.py",
+        "structure/generate_dimer_scan.py",
         "structure/random_displacement.py",
-        "structure/cp2k2files.py",
-        "cp2k/cp2k_restart.py",
-        "cp2k/diag2ot_geo2cell2md.py",
+        "structure/convert_cp2k_structure.py",
+        "cp2k/apply_cp2k_restart.py",
+        "cp2k/convert_cp2k_run_type.py",
         "gpumd/check_gpumd.py",
-        "deepmd/dpgen_max_devi_f_distribution.py",
+        "deepmd/collect_dpgen_deviations.py",
         "plotting/plot_msd.py",
         "gpumd/calorine/calorine_relax.py",
     ],
@@ -458,7 +460,15 @@ def test_multiwfn_scf_external_contract(tmp_path):
         + ")\n",
     )
     output = tmp_path / "ot.inp"
-    run("cp2k/diag2ot_geo2cell2md.py", source, "ot", "-o", output, "--executable", fake)
+    run(
+        "cp2k/convert_cp2k_run_type.py",
+        source,
+        "ot",
+        "-o",
+        output,
+        "--executable",
+        fake,
+    )
     assert "1e-6" in output.read_text()
     assert "1e-5" in source.read_text()
 
@@ -473,7 +483,7 @@ def test_multiwfn_geometry_external_contract(tmp_path):
     )
     output = tmp_path / "converted"
     run(
-        "structure/cp2k2files.py",
+        "structure/convert_cp2k_structure.py",
         source,
         "--format",
         "cif",
@@ -515,7 +525,8 @@ def test_vasp_invalid_xml_falls_back_to_outcar(tmp_path):
     (tmp_path / "OUTCAR").write_bytes(fixture.read_bytes())
     (tmp_path / "vasprun.xml").write_text("<broken>")
     assert (
-        module("structure/vasp2xyz.py").convert(tmp_path, tmp_path / "train.xyz") == 1
+        module("structure/vasp_to_xyz.py").convert(tmp_path, tmp_path / "train.xyz")
+        == 1
     )
 
 
@@ -536,7 +547,7 @@ def test_deepmd_to_ase_database_portable(tmp_path, atoms):
     }
     dpdata.LabeledSystem(data=data).to_deepmd_npy(str(source))
     output = tmp_path / "atoms.db"
-    run("structure/dp2ase.py", source, "Ge", "Te", "-o", output)
+    run("structure/deepmd_to_ase.py", source, "Ge", "Te", "-o", output)
     result = read(output)
     assert result.get_potential_energy() == -3
     np.testing.assert_allclose(result.get_forces(), atoms.get_forces())
@@ -581,5 +592,5 @@ def test_export_rejects_machine_learning_labels(tmp_path, header):
     (tmp_path / "OUTCAR").write_text(header)
     output = tmp_path / "train.xyz"
     with pytest.raises(ValueError, match="MLFF"):
-        module("structure/vasp2xyz.py").convert(tmp_path, output)
+        module("structure/vasp_to_xyz.py").convert(tmp_path, output)
     assert not output.exists()

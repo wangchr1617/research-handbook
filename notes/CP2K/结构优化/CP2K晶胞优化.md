@@ -39,6 +39,8 @@
 
 CP2K 2026.2 已不接受旧输入中的 `CELL_OPT/TYPE`，晶胞优化采用直接优化方案，不应照抄旧版 `TYPE GEO_OPT`。晶胞向量约定及约束含义见 [CELL_OPT 手册](https://manual.cp2k.org/trunk/CP2K_INPUT/MOTION/CELL_OPT.html)。
 
+查看过程时保留每一帧对应的晶胞。普通 XYZ 轨迹不含晶胞，不能用最终晶胞或查看器生成的包围盒解释全部优化步骤；可按[可视化教程](../基础与准备/CP2K结果文件与可视化.md#变胞与动力学要保留逐帧晶胞)选择携带晶胞的格式。
+
 ![八原子硅晶胞优化的实际能量评估轨迹。Γ 点小算例用于检查流程，晶格参数仍需基组、网格与 k 点收敛测试。](../assets/si-cell-energy.png)
 
-八原子硅晶胞优化的实际能量评估轨迹。Γ 点小算例用于检查流程，晶格参数仍需基组、网格与 k 点收敛测试。 由配套 [plot.py](../../../examples/cp2k/minimal/cell-optimization/plot.py)读取实际输出生成，结果检查后自动绘图；需安装 [requirements.txt](../../../examples/cp2k/minimal/cell-optimization/requirements.txt) 中依赖。
+图中为八原子硅的实际能量评估轨迹。它展示 Γ 点小算例的优化过程，定量晶格参数仍需基组、网格与 k 点收敛测试。配套 [plot.py](../../../examples/cp2k/minimal/cell-optimization/plot.py)读取实际输出生成，结果检查后自动绘图；需安装 [requirements.txt](../../../examples/cp2k/minimal/cell-optimization/requirements.txt) 中依赖。

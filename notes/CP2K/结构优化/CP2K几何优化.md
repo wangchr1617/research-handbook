@@ -36,4 +36,4 @@ qsub job.pbs
 
 ![水分子优化中的实际能量评估轨迹，以第一次评估为零点；线搜索可能包含同一优化步内的多次能量评估。](../assets/water-geometry-energy.png)
 
-水分子优化中的实际能量评估轨迹，以第一次评估为零点；线搜索可能包含同一优化步内的多次能量评估。 由配套 [plot.py](../../../examples/cp2k/minimal/geometry-optimization/plot.py)读取实际输出生成，结果检查后自动绘图；需安装 [requirements.txt](../../../examples/cp2k/minimal/geometry-optimization/requirements.txt) 中依赖。
+图中能量以第一次评估为零点；线搜索可能在同一优化步内进行多次能量评估，因此曲线上的点与优化步数未必一一对应。配套 [plot.py](../../../examples/cp2k/minimal/geometry-optimization/plot.py)读取实际输出生成，结果检查后自动绘图；需安装 [requirements.txt](../../../examples/cp2k/minimal/geometry-optimization/requirements.txt) 中依赖。

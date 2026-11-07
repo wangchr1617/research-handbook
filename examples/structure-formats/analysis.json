@@ -1,0 +1,210 @@
+{
+  "software": {
+    "ase": "3.29.0"
+  },
+  "source_sha256": {
+    "examples/orca/minimal/solvation-parameters/analysis.json": "0807119b3ce89d25973630d029fc1c89d9c342a4d443612ea16f12f5358d0a0f"
+  },
+  "geometry_level": "ORCA B3LYP/G (VWN3) / def2-TZVP, gas-phase optimized H2O",
+  "coordinate_unit": "angstrom",
+  "CM5_definition": "Multiwfn CM5, spherical free-atom densities, native electron-population normalization, not 1.2*CM5",
+  "format_example": {
+    "cell_vectors_rows_A": [
+      [
+        7.0,
+        0.0,
+        0.0
+      ],
+      [
+        1.5,
+        8.0,
+        0.0
+      ],
+      [
+        0.7,
+        1.2,
+        9.0
+      ]
+    ],
+    "cell_volume_A3": 503.9999999999996,
+    "pbc": [
+      true,
+      false,
+      true
+    ],
+    "scope": "Artificial cell; no water crystal or periodic electronic structure calculation.",
+    "extxyz_columns_reordered_correctly_read": true,
+    "plain_xyz_loses": [
+      "cell",
+      "pbc",
+      "charges",
+      "atom_id",
+      "energy"
+    ],
+    "extxyz_energy_eV": -2080.667859703044,
+    "mol2_crysin_scope": "Full periodic cell metadata; not the partial pbc of the extxyz example; no symmetry expansion inferred."
+  },
+  "mol2": {
+    "atoms": [
+      {
+        "id": 1,
+        "name": "O1",
+        "element": "O",
+        "xyz_A": [
+          -1.069e-09,
+          0.0,
+          0.010435273517
+        ],
+        "type": "O.3",
+        "charge_e": -0.6389055132
+      },
+      {
+        "id": 2,
+        "name": "H2",
+        "element": "H",
+        "xyz_A": [
+          0.76501959005,
+          0.0,
+          0.594782363657
+        ],
+        "type": "H",
+        "charge_e": 0.3194527564
+      },
+      {
+        "id": 3,
+        "name": "H3",
+        "element": "H",
+        "xyz_A": [
+          -0.765019588981,
+          0.0,
+          0.594782362827
+        ],
+        "type": "H",
+        "charge_e": 0.3194527568
+      }
+    ],
+    "bonds": [
+      {
+        "id": 1,
+        "a": 1,
+        "b": 2,
+        "type": "1"
+      },
+      {
+        "id": 2,
+        "a": 1,
+        "b": 3,
+        "type": "1"
+      }
+    ],
+    "charge_type": "USER_CHARGES",
+    "charge_sum_e": 0.0,
+    "sequential_ids_from_one": true,
+    "cell_volume_A3": null
+  },
+  "mol2_with_cell": {
+    "atoms": [
+      {
+        "id": 1,
+        "name": "O1",
+        "element": "O",
+        "xyz_A": [
+          -1.069e-09,
+          0.0,
+          0.010435273517
+        ],
+        "type": "O.3",
+        "charge_e": -0.6389055132
+      },
+      {
+        "id": 2,
+        "name": "H2",
+        "element": "H",
+        "xyz_A": [
+          0.76501959005,
+          0.0,
+          0.594782363657
+        ],
+        "type": "H",
+        "charge_e": 0.3194527564
+      },
+      {
+        "id": 3,
+        "name": "H3",
+        "element": "H",
+        "xyz_A": [
+          -0.765019588981,
+          0.0,
+          0.594782362827
+        ],
+        "type": "H",
+        "charge_e": 0.3194527568
+      }
+    ],
+    "bonds": [
+      {
+        "id": 1,
+        "a": 1,
+        "b": 2,
+        "type": "1"
+      },
+      {
+        "id": 2,
+        "a": 1,
+        "b": 3,
+        "type": "1"
+      }
+    ],
+    "charge_type": "USER_CHARGES",
+    "charge_sum_e": 0.0,
+    "sequential_ids_from_one": true,
+    "cell_volume_A3": 504.00000000003365
+  },
+  "rigid_rotor_same_geometry": {
+    "H2O_masses_u": [
+      15.99491461957,
+      1.00782503223,
+      1.00782503223
+    ],
+    "D2O_masses_u": [
+      15.99491461957,
+      2.01410177812,
+      2.01410177812
+    ],
+    "H2O": {
+      "principal_moments_u_A2": [
+        0.6112396302762437,
+        1.1796692227277776,
+        1.7909088530040216
+      ],
+      "ABC_MHz": [
+        826809.9504722094,
+        428407.3863237294,
+        282191.36199346144
+      ],
+      "ABC_cm-1": [
+        27.57941130300914,
+        14.290132219528,
+        9.412890633608315
+      ]
+    },
+    "D2O": {
+      "principal_moments_u_A2": [
+        1.0987614024091497,
+        2.3575261608973657,
+        3.456287563306515
+      ],
+      "ABC_MHz": [
+        459953.3686997525,
+        214368.35646523043,
+        146220.185438469
+      ],
+      "ABC_cm-1": [
+        15.342392926367497,
+        7.150558686343952,
+        4.877380385548892
+      ]
+    },
+    "scope": "Same equilibrium electronic geometry, rigid rotor only; no vibrational averaging, experimental fit, or isotope geometry correction."
+  }
+}

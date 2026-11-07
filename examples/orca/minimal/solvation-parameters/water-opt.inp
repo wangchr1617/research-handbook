@@ -1,0 +1,4 @@
+! B3LYP/G def2-TZVP VeryTightSCF TightOpt Opt Freq DEFGRID3
+%pal nprocs 1 end
+%maxcore 256
+* xyzfile 0 1 structure.xyz

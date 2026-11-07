@@ -65,6 +65,8 @@ VASP 检查正常结束标记、所有离子步的电子迭代数和所需的结
 | 物理量 | 数值 |
 | --- | --- |
 | trans 相对 gauche 的电子能 | 9.839 meV/molecule |
-| trans 相对 gauche 的 RRHO 自由能 | 6.746 meV/molecule |
+| trans 相对 gauche 的准 RRHO 自由能 | 6.746 meV/molecule |
+
+热化学条件为 298.15 K、1 atm，原始 ORCA 输出启用了 Grimme 准 RRHO 熵处理；数值表列出的每项只对应一个优化结构。统计平均还需按目标集合单独计入简并度。
 
 返回[材料案例](../README.md)。

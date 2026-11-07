@@ -27,7 +27,7 @@ assert x.grad.item() == 14.0
 
 每次反向传播会累加梯度。训练时通常每个 batch 先执行 `optimizer.zero_grad(set_to_none=True)`，再前向计算、反向传播和更新。只有明确进行梯度累积时，才有意跨 batch 保留梯度。
 
-推理时既不需要梯度，也不需要保留训练计算图，可使用 `torch.inference_mode()`；模型仍需执行 `model.eval()` 切换 Dropout、BatchNorm 等层的行为。这是两个不同操作。
+推理时可用 `torch.inference_mode()` 关闭梯度记录、减少计算图开销。还需执行 `model.eval()` 切换 Dropout、BatchNorm 等层的行为：前者控制自动微分，后者控制模型的训练/推理模式。
 
 ## 三、能量对坐标的导数
 

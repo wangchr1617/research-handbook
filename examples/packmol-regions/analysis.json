@@ -1,0 +1,55 @@
+{
+  "software": "Packmol 21.2.3",
+  "kind": "Geometric initial configurations only; no force field or equilibrium density",
+  "cases": {
+    "periodic": {
+      "water_molecules": 32,
+      "direct_minimum_Angstrom": 2.178335714910354,
+      "minimum_image_Angstrom": 2.178335714910354,
+      "rigid_geometry_error_Angstrom": 9.011233915723338e-07,
+      "atom_coordinate_min_Angstrom": [
+        0.054205,
+        0.002469,
+        0.261546
+      ],
+      "atom_coordinate_max_Angstrom": [
+        11.968348,
+        11.959642,
+        11.91349
+      ],
+      "nonzero_image_atom_pairs_unique": 2558,
+      "nonzero_image_pair_minimum_Angstrom": 2.198614235533146
+    },
+    "oriented-layer": {
+      "water_molecules": 16,
+      "direct_minimum_Angstrom": 1.9999995004974374,
+      "minimum_image_Angstrom": null,
+      "rigid_geometry_error_Angstrom": 9.284403428289068e-07,
+      "atom_coordinate_min_Angstrom": [
+        0.070714,
+        0.133314,
+        2.0
+      ],
+      "atom_coordinate_max_Angstrom": [
+        11.999377,
+        11.999916,
+        3.000894
+      ],
+      "oxygen_z_range_Angstrom": [
+        2.0,
+        2.2
+      ],
+      "hydrogen_z_min_Angstrom": 2.5
+    }
+  },
+  "source_sha256": {
+    "periodic/packmol.inp": "681247ed98e184f198493352b8e602e3ae5b14af9e5566a7ffa3d8135fb29f9b",
+    "periodic/water.xyz": "7ee7b6ee623198de14154e413d6a8a85ec10a90c60498a0f7008bc56d57327e2",
+    "periodic/packed.xyz": "23a81aff474c329cb0ed7d2cded324deffa0a6d08397fc7aa7eccab0a918e894",
+    "periodic/packmol.out": "c6b5d05145fda6e9260fc482dffecced0b55f922037c504d0cd9750fdd2201f0",
+    "oriented-layer/packmol.inp": "97c3357503a5c5a9216dec4cd4a2303baf0b1ba3cd0cf3677cc5d98879935e6c",
+    "oriented-layer/water.xyz": "7ee7b6ee623198de14154e413d6a8a85ec10a90c60498a0f7008bc56d57327e2",
+    "oriented-layer/packed.xyz": "b0efd622f13539766a8a792329364d5576b83f53103389ee5d4fc43cd97ca923",
+    "oriented-layer/packmol.out": "8cd9c7ffa8eb0791dff4baeab1abef73ebdaf579ccc87f7b05624afd9b94cd19"
+  }
+}

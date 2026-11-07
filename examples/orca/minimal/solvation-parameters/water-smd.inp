@@ -1,0 +1,4 @@
+! B3LYP/G def2-TZVP VeryTightSCF DEFGRID3 SMD(water)
+%pal nprocs 1 end
+%maxcore 256
+* xyzfile 0 1 structure.xyz

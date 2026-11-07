@@ -27,6 +27,6 @@ EB_K = 78.4
 
 本例真空与溶剂侧总能分别为 −14.21166、−14.52149 eV，差值约 −0.30982 eV；最终 `Ediel_sol` 约为 −1.48299 eV。
 
-总能差取 `E(solvent) − E(vacuum)`。它是本例固定构型和所选连续介质模型下的能量差，不能直接当作包含构象、振动及标准态修正的实验溶剂化自由能；`Ediel_sol` 也不等于完整总能差。
+这里比较的是 `E(solvent) − E(vacuum)`，反映固定构型在所选连续介质模型下的能量变化。`Ediel_sol` 是其中一个输出项，与完整总能差不同。若要与实验溶剂化自由能比较，还需考虑构象、振动和标准态等贡献。
 
 参考：[VASPsol 使用说明](https://github.com/henniggroup/VASPsol/blob/master/docs/USAGE.md)。

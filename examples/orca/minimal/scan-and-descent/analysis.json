@@ -1,0 +1,892 @@
+{
+  "software": "ORCA 6.1.1",
+  "protocol": {
+    "method": "RHF",
+    "basis": "def2-SVP",
+    "angles_degree": [
+      85.0,
+      95.0,
+      105.0,
+      115.0,
+      125.0
+    ],
+    "initial_OH_angstrom": 1.0,
+    "charge": 0,
+    "multiplicity": 1,
+    "processes": 1,
+    "maxcore_mb_per_process": 256
+  },
+  "source_sha256": {
+    "a85/rigid/calc.inp": "442101dbb7317b0369ef67d9f118eb09b981ebf1f5c1d2b5f7f6d6b154dd6707",
+    "a85/rigid/structure.xyz": "b6bdbea17e7784b3b35fb8fb3e1673375d80077c063ea77628a61ccc7b691772",
+    "a85/rigid/calc.out": "2988988ff95590f636b377420611349410711e3df118bc7a5e763398ecf0c715",
+    "a85/relaxed/calc.inp": "92d6ad08d44f0c1a3cd149049402708ab88e019ef0109dbc7f3ffc6c5898a152",
+    "a85/relaxed/structure.xyz": "b6bdbea17e7784b3b35fb8fb3e1673375d80077c063ea77628a61ccc7b691772",
+    "a85/relaxed/calc.out": "167c365512519f1e91627c79a36a0d94119dfa7ad18c3f90aab1a9a47ad38d93",
+    "a85/relaxed/calc.xyz": "5208cbf0bb13e01c349c777f282c2c28b5fa426b22a369b336caf25b25267c14",
+    "a85/relaxed/calc.engrad": "2ff739de584457e8bdcb0655928e3b7f1856f827780b4195365703769e4895b7",
+    "a85/relaxed/calc_trj.xyz": "5a510b664a2eaba2b71f460e8da843faffa707e8a895640607ea7f435568a8b8",
+    "a95/rigid/calc.inp": "442101dbb7317b0369ef67d9f118eb09b981ebf1f5c1d2b5f7f6d6b154dd6707",
+    "a95/rigid/structure.xyz": "ce4a5c1e79faa77e64e62b70b17dbd5639f960d1a5d065eed1981ebeac89507e",
+    "a95/rigid/calc.out": "490f7fe77edea22ed618be3d3258ee5b10a37b57643bea2496cb3b90076b9581",
+    "a95/relaxed/calc.inp": "92d6ad08d44f0c1a3cd149049402708ab88e019ef0109dbc7f3ffc6c5898a152",
+    "a95/relaxed/structure.xyz": "ce4a5c1e79faa77e64e62b70b17dbd5639f960d1a5d065eed1981ebeac89507e",
+    "a95/relaxed/calc.out": "0cfdfe6092335a4ea7bb42e9c074c3423187a6d7dfaa86eb18ac4a370f9d6129",
+    "a95/relaxed/calc.xyz": "b5e6c46b16f5d7a0dd6a3411a0f993ee56fbf3546dc8c1a5c3936c18d5587079",
+    "a95/relaxed/calc.engrad": "ea2ca8e477df4b7d0945f2745b199967cb3d1610bf9b065caa5288331a0213ca",
+    "a95/relaxed/calc_trj.xyz": "0f852facbd48bb6e38767bbb63af150d95d34adfd01e0b68364b4772ff144221",
+    "a105/rigid/calc.inp": "442101dbb7317b0369ef67d9f118eb09b981ebf1f5c1d2b5f7f6d6b154dd6707",
+    "a105/rigid/structure.xyz": "e58d65d11bf25a6a146dd0c47a59b096af37db917e3b0698a0420a9b334905df",
+    "a105/rigid/calc.out": "57cb59abef85c0dcbb52a1823c6a88a527d0c0936ea90a20349af7ba2af78dca",
+    "a105/relaxed/calc.inp": "92d6ad08d44f0c1a3cd149049402708ab88e019ef0109dbc7f3ffc6c5898a152",
+    "a105/relaxed/structure.xyz": "e58d65d11bf25a6a146dd0c47a59b096af37db917e3b0698a0420a9b334905df",
+    "a105/relaxed/calc.out": "9975f1723dbee616c18089ba0e3af349542bf8c0707c44559b7e74a22c0b18b3",
+    "a105/relaxed/calc.xyz": "0b5cedd8c60224e2851eae7e51684f8b9406afdb950b52cc643017801eba2ee1",
+    "a105/relaxed/calc.engrad": "2f3104d6b2c11903d002dc20627fc535be85e4f20dc8816e632457fe152b12f7",
+    "a105/relaxed/calc_trj.xyz": "31a6221775bd6c78f39cbf4d63c0d146fc02ba1b046e878aa866afefba5305f1",
+    "a115/rigid/calc.inp": "442101dbb7317b0369ef67d9f118eb09b981ebf1f5c1d2b5f7f6d6b154dd6707",
+    "a115/rigid/structure.xyz": "43f1f528834819fa3dc4bb25259529fcc72910e0b0ce4935b5a11ac3795c9458",
+    "a115/rigid/calc.out": "63eaca9000dc648e34d6a7ccf6c5764a13a5adb203186c80fb973b80f38c4026",
+    "a115/relaxed/calc.inp": "92d6ad08d44f0c1a3cd149049402708ab88e019ef0109dbc7f3ffc6c5898a152",
+    "a115/relaxed/structure.xyz": "43f1f528834819fa3dc4bb25259529fcc72910e0b0ce4935b5a11ac3795c9458",
+    "a115/relaxed/calc.out": "fa5f3dc4c772cc6ab0f0d06f3e192121203ce914db28c2ddfca77fb66ad62402",
+    "a115/relaxed/calc.xyz": "e5da863b3d70e5b89c2531e7cafd572bd5d5a29a9634714232b9ecf7218b13c6",
+    "a115/relaxed/calc.engrad": "00b362e3750af3e658a50df304246e8fc84cdd4cd5f73ea71f0e4eebdf4455e2",
+    "a115/relaxed/calc_trj.xyz": "9ca0c83d1919107dfe57590416660ea9ed453f55740a9dc0214e090c82a110b3",
+    "a125/rigid/calc.inp": "442101dbb7317b0369ef67d9f118eb09b981ebf1f5c1d2b5f7f6d6b154dd6707",
+    "a125/rigid/structure.xyz": "d5b7a4d4634c70373c837891fc18d5755fb81f397f57bc4925eb3f443b201804",
+    "a125/rigid/calc.out": "9cc8763aeed9050399cf3dee705f6d3fa1ba45fa7122ef79ac37fdac3da684b0",
+    "a125/relaxed/calc.inp": "92d6ad08d44f0c1a3cd149049402708ab88e019ef0109dbc7f3ffc6c5898a152",
+    "a125/relaxed/structure.xyz": "d5b7a4d4634c70373c837891fc18d5755fb81f397f57bc4925eb3f443b201804",
+    "a125/relaxed/calc.out": "aa1bc0ea6f377932b63f34b329c768c20636326637973c6f09494e951410bbcb",
+    "a125/relaxed/calc.xyz": "5d08ab0f7e41ad672285ba70ed7e8e53d91d58e8fd92eb78e77cc7b59f39407f",
+    "a125/relaxed/calc.engrad": "889fc15b7d43c6fec871d5049d9ba15340819a5bbd81261fd34afd0fa4bd01aa",
+    "a125/relaxed/calc_trj.xyz": "ef968edc8a31c680a90b1e0bba4367453547602a26b7e1bd47843b9774224a91",
+    "free/calc.inp": "59b6a847f0d90ce18f305694179dfd16d2cf6a71b55fd83fe4b9a285e80d7b14",
+    "free/structure.xyz": "b6bdbea17e7784b3b35fb8fb3e1673375d80077c063ea77628a61ccc7b691772",
+    "free/calc.out": "b887383af0a4bae65a96c4dee6110c173f65f4f91d0a207154f5ac7971910ae4",
+    "free/calc.xyz": "4934141494dec4d85755b782dcecec71f80a1517b64e98e2ac57b740be70daa1",
+    "free/calc.engrad": "4673678ad7717564a96c80e8ce1b9e2d2b24269371cc8243a915d92845fefeaa",
+    "free/calc_trj.xyz": "68be919cacb6f0945cf010b430759c2be19a93aef5d841e0486fe23cabcba777",
+    "free/calc.hess": "cae1f1b83c88f0d9b33b119c87e3c792eb5871d93e3fa4d1f093cfe88c1aa2b9",
+    "downhill/calc.inp": "0a47d058bcc0f17c22e4fee598626ac1765ee483e6c3ea3ec7a06b45b2ff2736",
+    "downhill/structure.xyz": "b6bdbea17e7784b3b35fb8fb3e1673375d80077c063ea77628a61ccc7b691772",
+    "downhill/calc.out": "945a12c1f12fdd234ceec4a5f2e96628f454cb40bfdc26424ea5ac54c044c308",
+    "downhill/calc_IRC_D.xyz": "7c4f38cfa5f86871ad4bc0ab0698e81dad8471a3c75187c40ff13f3fd0628916",
+    "downhill/calc_IRC_D_trj.xyz": "fdc3c25def0266b89f684bbd5ea6f209e237d8b8d8e6978e46d37dce08b91082",
+    "down-end/calc.inp": "59b6a847f0d90ce18f305694179dfd16d2cf6a71b55fd83fe4b9a285e80d7b14",
+    "down-end/structure.xyz": "7c4f38cfa5f86871ad4bc0ab0698e81dad8471a3c75187c40ff13f3fd0628916",
+    "down-end/calc.out": "e8a4c42f2c84ec67988a00f5b7290812b4ceb83d417255e5c61c0b047f46797d",
+    "down-end/calc.xyz": "9fd8deb7260b978692500e2e8d6720dbb03556be829de57cce62ee255ffd0180",
+    "down-end/calc.engrad": "3dad75fc060eddf665616e2b8ff1d085b4cd3c90e9c7bcb3bef1199175281269",
+    "down-end/calc_trj.xyz": "c4464d6ef678eb57fa05db5378f0b353daec494cb53bbe1d8165f3749884164b",
+    "down-end/calc.hess": "ce53c620bc625d22ded1eccbb4aee00ae27f0fdf77d573ee2c348119a7e7a552"
+  },
+  "scan": [
+    {
+      "angle_degree": 85.0,
+      "rigid_energy_Ha": -75.945735440492,
+      "relaxed_energy_Ha": -75.949475625819,
+      "relaxation_lowering_eV": 0.10177562756468392,
+      "OH_lengths_angstrom": [
+        0.9560531424957968,
+        0.9560531424958102
+      ],
+      "HOH_angle_degree": 85.00000000003833,
+      "unprojected_gradient_norm_Ha_per_Bohr": 0.07631345222156749,
+      "allowed_gradient_norm_Ha_per_Bohr": 3.353271232161048e-05,
+      "constraint_multiplier_Ha_per_radian": -0.07048994323301143
+    },
+    {
+      "angle_degree": 95.0,
+      "rigid_energy_Ha": -75.95350571809,
+      "relaxed_energy_Ha": -75.958475091441,
+      "relaxation_lowering_eV": 0.13522353765465034,
+      "OH_lengths_angstrom": [
+        0.9497775762251001,
+        0.9497775762251074
+      ],
+      "HOH_angle_degree": 94.99999999996177,
+      "unprojected_gradient_norm_Ha_per_Bohr": 0.03788323449464602,
+      "allowed_gradient_norm_Ha_per_Bohr": 5.470556946492267e-05,
+      "constraint_multiplier_Ha_per_radian": -0.0332793590666531
+    },
+    {
+      "angle_degree": 105.0,
+      "rigid_energy_Ha": -75.955332536506,
+      "relaxed_energy_Ha": -75.961338037645,
+      "relaxation_lowering_eV": 0.16341801109406504,
+      "OH_lengths_angstrom": [
+        0.9450140605714452,
+        0.9450140605714452
+      ],
+      "HOH_angle_degree": 104.99999999995823,
+      "unprojected_gradient_norm_Ha_per_Bohr": 0.0005118447574170866,
+      "allowed_gradient_norm_Ha_per_Bohr": 6.985892317724015e-05,
+      "constraint_multiplier_Ha_per_radian": -0.0004260263741518724
+    },
+    {
+      "angle_degree": 115.0,
+      "rigid_energy_Ha": -75.952080865147,
+      "relaxed_energy_Ha": -75.95894746434,
+      "relaxation_lowering_eV": 0.18684968283720102,
+      "OH_lengths_angstrom": [
+        0.9413016258059923,
+        0.9413016258059923
+      ],
+      "HOH_angle_degree": 114.99999999998964,
+      "unprojected_gradient_norm_Ha_per_Bohr": 0.03304312996156506,
+      "allowed_gradient_norm_Ha_per_Bohr": 7.792958055116338e-05,
+      "constraint_multiplier_Ha_per_radian": 0.02670239151906179
+    },
+    {
+      "angle_degree": 125.0,
+      "rigid_energy_Ha": -75.944761021185,
+      "relaxed_energy_Ha": -75.952409782296,
+      "relaxation_lowering_eV": 0.20813339289470398,
+      "OH_lengths_angstrom": [
+        0.9381675714544362,
+        0.9381675714544273
+      ],
+      "HOH_angle_degree": 124.99999999999223,
+      "unprojected_gradient_norm_Ha_per_Bohr": 0.06001597833510219,
+      "allowed_gradient_norm_Ha_per_Bohr": 8.538143697028816e-05,
+      "constraint_multiplier_Ha_per_radian": 0.046898852072499844
+    }
+  ],
+  "path_parameter": "Native Cartesian gradient following; frame index and geometric descriptors are not time",
+  "coordinate_precision": "Native trajectory has six decimal places in angstrom; no extra geometry precision inferred",
+  "free_energy_Ha": -75.961338493687,
+  "downhill_endpoint_energy_Ha": -75.96133849342,
+  "free_geometry": {
+    "OH_lengths_angstrom": [
+      0.9449595641889528,
+      0.9449595641889406
+    ],
+    "HOH_angle_degree": 105.1316513261957
+  },
+  "downhill_endpoint_geometry": {
+    "OH_lengths_angstrom": [
+      0.9449642919355477,
+      0.9449642919355434
+    ],
+    "HOH_angle_degree": 105.12861468365935
+  },
+  "free_internal_frequencies_cm-1": [
+    1750.3568745192067,
+    4148.603753062661,
+    4244.694449134178
+  ],
+  "down-end_internal_frequencies_cm-1": [
+    1750.4120179131553,
+    4148.5497021941255,
+    4244.614694555796
+  ],
+  "downhill_final_max_gradient_Ha_per_Bohr": 2.1e-05,
+  "downhill_final_rms_gradient_Ha_per_Bohr": 1e-05,
+  "downhill_frames": [
+    {
+      "frame_1based": 1,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.67559,
+          0.0,
+          0.737277
+        ],
+        [
+          -0.67559,
+          0.0,
+          0.737277
+        ]
+      ],
+      "energy_Ha": -75.945735440496,
+      "source_comment": "Coordinates from ORCA-job calc_IRC_D E -75.945735440496",
+      "geometry_sha256": "1188d1513c215da3663a2034f378fcdc5a78f99c507008c6f6f345822be64e87"
+    },
+    {
+      "frame_1based": 2,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          0.0,
+          -0.0,
+          0.021579
+        ],
+        [
+          0.674706,
+          0.0,
+          0.726488
+        ],
+        [
+          -0.674706,
+          0.0,
+          0.726488
+        ]
+      ],
+      "energy_Ha": -75.951386623876,
+      "source_comment": "Coordinates from ORCA-job calc_IRC_D E -75.951386623876",
+      "geometry_sha256": "9e95ac2569d8a76fa4bc8dc2d8836fae9bbfe942dcb9ac0b3efb66a3ff950d96"
+    },
+    {
+      "frame_1based": 3,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          0.0,
+          -0.0,
+          0.04307
+        ],
+        [
+          0.676617,
+          0.0,
+          0.715742
+        ],
+        [
+          -0.676617,
+          0.0,
+          0.715742
+        ]
+      ],
+      "energy_Ha": -75.955079327422,
+      "source_comment": "Coordinates from ORCA-job calc_IRC_D E -75.955079327422",
+      "geometry_sha256": "9f58942d49a3539eb58575c7e25ac85da97a4358e1ce292341d64aba57534962"
+    },
+    {
+      "frame_1based": 4,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          -0.0,
+          -0.0,
+          0.062376
+        ],
+        [
+          0.685014,
+          0.0,
+          0.70609
+        ],
+        [
+          -0.685014,
+          0.0,
+          0.70609
+        ]
+      ],
+      "energy_Ha": -75.957324547742,
+      "source_comment": "Coordinates from ORCA-job calc_IRC_D E -75.957324547742",
+      "geometry_sha256": "45af7c5a0cf964f31067f0d8a177d8f104be8a02b2e5e875a84407d8bc6c6d60"
+    },
+    {
+      "frame_1based": 5,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          -0.0,
+          -0.0,
+          0.072616
+        ],
+        [
+          0.701488,
+          0.0,
+          0.700969
+        ],
+        [
+          -0.701488,
+          0.0,
+          0.700969
+        ]
+      ],
+      "energy_Ha": -75.959055173939,
+      "source_comment": "Coordinates from ORCA-job calc_IRC_D E -75.959055173939",
+      "geometry_sha256": "952d2ebcceb8ccdb89caad78e2d39c518c2c6de054e35bfe95dd65aedf2f6bc9"
+    },
+    {
+      "frame_1based": 6,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          -0.0,
+          -0.0,
+          0.084317
+        ],
+        [
+          0.717215,
+          -0.0,
+          0.695119
+        ],
+        [
+          -0.717215,
+          0.0,
+          0.695119
+        ]
+      ],
+      "energy_Ha": -75.960297082281,
+      "source_comment": "Coordinates from ORCA-job calc_IRC_D E -75.960297082281",
+      "geometry_sha256": "c1713a7d2ec0acfea2b693803b0453a01ba39bbf27c6ce59e362ec11408f195c"
+    },
+    {
+      "frame_1based": 7,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          0.0,
+          -0.0,
+          0.095089
+        ],
+        [
+          0.733433,
+          -0.0,
+          0.689733
+        ],
+        [
+          -0.733433,
+          0.0,
+          0.689733
+        ]
+      ],
+      "energy_Ha": -75.961053632254,
+      "source_comment": "Coordinates from ORCA-job calc_IRC_D E -75.961053632254",
+      "geometry_sha256": "ff3465773d4761a7cab69b36bd3a8a075d0fe72c71fed166b9b4dc7a0b77794a"
+    },
+    {
+      "frame_1based": 8,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          -0.0,
+          -0.0,
+          0.106957
+        ],
+        [
+          0.74686,
+          0.0,
+          0.683799
+        ],
+        [
+          -0.74686,
+          0.0,
+          0.683799
+        ]
+      ],
+      "energy_Ha": -75.961327145983,
+      "source_comment": "Coordinates from ORCA-job calc_IRC_D E -75.961327145983",
+      "geometry_sha256": "40d76f831fb3f8134aaf385438b82a6c96cf6d09ce60c7afc2ca4f502ca0e4b3"
+    },
+    {
+      "frame_1based": 9,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          0.0,
+          -0.0,
+          0.107086
+        ],
+        [
+          0.74771,
+          0.0,
+          0.683734
+        ],
+        [
+          -0.74771,
+          0.0,
+          0.683734
+        ]
+      ],
+      "energy_Ha": -75.961332241311,
+      "source_comment": "Coordinates from ORCA-job calc_IRC_D E -75.961332241311",
+      "geometry_sha256": "04502602b1e2210dbf935257ed0e8cddcebe721d878f7bc4152aac156bc609dd"
+    },
+    {
+      "frame_1based": 10,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          0.0,
+          -0.0,
+          0.107497
+        ],
+        [
+          0.748537,
+          0.0,
+          0.683529
+        ],
+        [
+          -0.748537,
+          0.0,
+          0.683529
+        ]
+      ],
+      "energy_Ha": -75.961335552907,
+      "source_comment": "Coordinates from ORCA-job calc_IRC_D E -75.961335552907",
+      "geometry_sha256": "3bfe540d240300628a6a8874ebdac3a732953a5afeef48d75ed441105ed192ee"
+    },
+    {
+      "frame_1based": 11,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          0.0,
+          -0.0,
+          0.107897
+        ],
+        [
+          0.749167,
+          0.0,
+          0.683329
+        ],
+        [
+          -0.749167,
+          -0.0,
+          0.683329
+        ]
+      ],
+      "energy_Ha": -75.961337244441,
+      "source_comment": "Coordinates from ORCA-job calc_IRC_D E -75.961337244441",
+      "geometry_sha256": "72af059796cbe2a78edca7d33c826da7c6b510717b45946d25b2e6c0236bb053"
+    },
+    {
+      "frame_1based": 12,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          0.0,
+          -0.0,
+          0.108114
+        ],
+        [
+          0.749562,
+          0.0,
+          0.683221
+        ],
+        [
+          -0.749562,
+          0.0,
+          0.683221
+        ]
+      ],
+      "energy_Ha": -75.961337940209,
+      "source_comment": "Coordinates from ORCA-job calc_IRC_D E -75.961337940209",
+      "geometry_sha256": "e23d11bf3245a11b1b701940870859c2f20659b7ae6e4979f77aecbb32251948"
+    },
+    {
+      "frame_1based": 13,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          0.0,
+          -0.0,
+          0.108282
+        ],
+        [
+          0.749846,
+          0.0,
+          0.683136
+        ],
+        [
+          -0.749846,
+          0.0,
+          0.683136
+        ]
+      ],
+      "energy_Ha": -75.961338268431,
+      "source_comment": "Coordinates from ORCA-job calc_IRC_D E -75.961338268431",
+      "geometry_sha256": "cfeb2cbd2437e9a33ef415a33a7240a6f3e75bb35aed5ddacc3075627c66defa"
+    },
+    {
+      "frame_1based": 14,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          0.0,
+          -0.0,
+          0.108402
+        ],
+        [
+          0.750026,
+          0.0,
+          0.683076
+        ],
+        [
+          -0.750026,
+          0.0,
+          0.683076
+        ]
+      ],
+      "energy_Ha": -75.961338401077,
+      "source_comment": "Coordinates from ORCA-job calc_IRC_D E -75.961338401077",
+      "geometry_sha256": "52667b14855b17fe371a8a630fe23632e7b4f30ecf4dd9974765e896cf49099f"
+    },
+    {
+      "frame_1based": 15,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          0.0,
+          -0.0,
+          0.108459
+        ],
+        [
+          0.75013,
+          -0.0,
+          0.683048
+        ],
+        [
+          -0.75013,
+          0.0,
+          0.683048
+        ]
+      ],
+      "energy_Ha": -75.961338451402,
+      "source_comment": "Coordinates from ORCA-job calc_IRC_D E -75.961338451402",
+      "geometry_sha256": "ab7222a0ae3dbbfbedb82ead0f760e805fb6f198f3f0f3491eb6ac84cc04e382"
+    },
+    {
+      "frame_1based": 16,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          0.0,
+          -0.0,
+          0.108505
+        ],
+        [
+          0.750204,
+          -0.0,
+          0.683025
+        ],
+        [
+          -0.750204,
+          0.0,
+          0.683025
+        ]
+      ],
+      "energy_Ha": -75.961338475286,
+      "source_comment": "Coordinates from ORCA-job calc_IRC_D E -75.961338475286",
+      "geometry_sha256": "58797fdf5395fe113af437dc08b408c75d788d3be2d37886b3dd4bc59f20b6d2"
+    },
+    {
+      "frame_1based": 17,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          0.0,
+          0.0,
+          0.108532
+        ],
+        [
+          0.75025,
+          -0.0,
+          0.683011
+        ],
+        [
+          -0.75025,
+          0.0,
+          0.683011
+        ]
+      ],
+      "energy_Ha": -75.961338485309,
+      "source_comment": "Coordinates from ORCA-job calc_IRC_D E -75.961338485309",
+      "geometry_sha256": "5098d6d44031bbe58b2205fcdaae870901303583d35804dcb92cdb667e8f6038"
+    },
+    {
+      "frame_1based": 18,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          0.0,
+          0.0,
+          0.108551
+        ],
+        [
+          0.750283,
+          -0.0,
+          0.683002
+        ],
+        [
+          -0.750283,
+          0.0,
+          0.683002
+        ]
+      ],
+      "energy_Ha": -75.961338489972,
+      "source_comment": "Coordinates from ORCA-job calc_IRC_D E -75.961338489972",
+      "geometry_sha256": "8215b2ed614d01811a66847d30ebc755b2fe1b0ffe195aca2e23635b194b47fd"
+    },
+    {
+      "frame_1based": 19,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          0.0,
+          -0.0,
+          0.108564
+        ],
+        [
+          0.750304,
+          -0.0,
+          0.682996
+        ],
+        [
+          -0.750304,
+          0.0,
+          0.682996
+        ]
+      ],
+      "energy_Ha": -75.961338491993,
+      "source_comment": "Coordinates from ORCA-job calc_IRC_D E -75.961338491993",
+      "geometry_sha256": "49acfec6bb2c09d8475f172ef54f19bd325d3ac0a6430d7115fb16ede12f5b81"
+    }
+  ],
+  "optimization_frames": [
+    {
+      "frame_1based": 1,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.67559,
+          0.0,
+          0.737277
+        ],
+        [
+          -0.67559,
+          0.0,
+          0.737277
+        ]
+      ],
+      "energy_Ha": -75.945735440492,
+      "source_comment": "Coordinates from ORCA-job calc E -75.945735440492",
+      "geometry_sha256": "1188d1513c215da3663a2034f378fcdc5a78f99c507008c6f6f345822be64e87"
+    },
+    {
+      "frame_1based": 2,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          -0.0,
+          0.0,
+          0.067169
+        ],
+        [
+          0.707337,
+          0.0,
+          0.703693
+        ],
+        [
+          -0.707337,
+          0.0,
+          0.703693
+        ]
+      ],
+      "energy_Ha": -75.959029714424,
+      "source_comment": "Coordinates from ORCA-job calc E -75.959029714424",
+      "geometry_sha256": "f27182ff3202be9fd679fae1c4e7771ddca488d4532dbee86e854598b87dd9c2"
+    },
+    {
+      "frame_1based": 3,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          0.0,
+          0.0,
+          0.10552
+        ],
+        [
+          0.745702,
+          0.0,
+          0.684517
+        ],
+        [
+          -0.745702,
+          0.0,
+          0.684517
+        ]
+      ],
+      "energy_Ha": -75.961318920065,
+      "source_comment": "Coordinates from ORCA-job calc E -75.961318920065",
+      "geometry_sha256": "634f37e8d89d677aabfa540f2279bf3433e7ce6a66c17621a6dd70eca33b75bf"
+    },
+    {
+      "frame_1based": 4,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          -0.0,
+          0.0,
+          0.108227
+        ],
+        [
+          0.750355,
+          0.0,
+          0.683164
+        ],
+        [
+          -0.750355,
+          0.0,
+          0.683164
+        ]
+      ],
+      "energy_Ha": -75.961338200352,
+      "source_comment": "Coordinates from ORCA-job calc E -75.961338200352",
+      "geometry_sha256": "edb3ffb1b039038a05ceacc80aa2b318fc75246de365a2b4f13914735ba523e7"
+    },
+    {
+      "frame_1based": 5,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          0.0,
+          0.0,
+          0.108642
+        ],
+        [
+          0.750347,
+          0.0,
+          0.682956
+        ],
+        [
+          -0.750347,
+          0.0,
+          0.682956
+        ]
+      ],
+      "energy_Ha": -75.96133848766,
+      "source_comment": "Coordinates from ORCA-job calc E -75.961338487660",
+      "geometry_sha256": "d84424153c3ad91bdb0a24d135bef1165d4c18bee864dc39fcd2ec78384109f0"
+    },
+    {
+      "frame_1based": 6,
+      "symbols": [
+        "O",
+        "H",
+        "H"
+      ],
+      "xyz_angstrom": [
+        [
+          0.0,
+          0.0,
+          0.108589
+        ],
+        [
+          0.750347,
+          0.0,
+          0.682983
+        ],
+        [
+          -0.750347,
+          0.0,
+          0.682983
+        ]
+      ],
+      "energy_Ha": -75.961338493687,
+      "source_comment": "Coordinates from ORCA-job calc E -75.961338493687",
+      "geometry_sha256": "2ee8282088d799ea0c6ce95e32306efa71a68082b9044009437c688048116e1a"
+    }
+  ],
+  "downhill_last_optimization_lowering_Ha": 1.4269971870817244e-09
+}

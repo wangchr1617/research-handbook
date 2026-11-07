@@ -35,7 +35,7 @@ Claude Code 安装后仍需模型账号。官方路线从 [Claude](https://claud
 
 WSL 2 的安装详见 [WSL 及 Docker 安装](WSL与Docker安装使用（Windows）.md)，此处仅列关键步骤：
 
-1. 控制面板 → 启用或关闭 Windows 功能 → 勾选 **Hyper-V**、**适用于 Linux 的 Windows 子系统**、**虚拟机平台**
+1. 按所链接的 WSL 安装说明核对系统与虚拟化条件；正常安装由 `wsl --install` 启用所需组件，不要求先手动勾选完整 Hyper-V。
 2. 管理员 PowerShell：`wsl --update` → `wsl --install`
 3. 重启电脑，WSL 终端中设置用户名和密码
 
@@ -51,7 +51,7 @@ C:\Users\xxx> wsl -l -v
 
 ## 二、Windows 中 Clash 的代理设置
 
-WSL 中的很多操作（如 npm 安装、git clone）需要科学上网。本节说明 Windows 端 Clash 的配置要点。
+WSL 中的 npm 安装、git clone 等操作是否需要代理，取决于目标服务的连通性。本节保留 Windows 端 Clash 的配置示例。
 
 ### 1. 开启 Clash 并允许局域网
 
@@ -109,7 +109,7 @@ proxy_off   # 关闭代理（日常使用、连接集群时）
 
 在 VSCode 扩展商店（`Ctrl+Shift+X`）搜索并安装：
 
-**基础必备：**
+**界面与远程开发：**
 
 | 插件 | 用途 |
 |---|---|
@@ -153,7 +153,7 @@ proxy_off   # 关闭代理（日常使用、连接集群时）
 
 ## 五、WSL 中安装开发工具
 
-> 以下操作均在 WSL 终端中执行。如果安装过程中卡住，先执行 `proxy_on` 开启代理。
+> 以下操作均在 WSL 终端中执行。安装卡住时先查看日志，再检查网络与代理；需要本节代理时执行 `proxy_on`。
 
 ### 1. 安装 nvm 和 Node.js
 

@@ -18,11 +18,11 @@ Born 有效电荷是原子位移引起的极化响应，不是 Bader 或 Mullike
 
 [INCAR.minus](../../../examples/vasp/minimal/berry-polarization/INCAR.minus)、[INCAR.plus](../../../examples/vasp/minimal/berry-polarization/INCAR.plus)、[INCAR.zero](../../../examples/vasp/minimal/berry-polarization/INCAR.zero)、[KPOINTS](../../../examples/vasp/minimal/berry-polarization/KPOINTS)、[POSCAR](../../../examples/vasp/minimal/berry-polarization/POSCAR)、[POTCAR.spec](../../../examples/vasp/minimal/berry-polarization/POTCAR.spec)、[stages.json](../../../examples/vasp/minimal/berry-polarization/stages.json)。
 
-结构写在坐标文件或各输入的原子/晶胞段；`stages.json` 列出计算阶段。配套 [run.py](../../../examples/vasp/minimal/berry-polarization/run.py) 顺序组织任务，[job.pbs](../../../examples/vasp/minimal/berry-polarization/job.pbs) 提交作业，[postprocess.py](../../../examples/vasp/minimal/berry-polarization/postprocess.py) 检查结果并绘图。
+`POSCAR` 提供参考结构，`stages.json` 列出正、负及零位移阶段。配套 [run.py](../../../examples/vasp/minimal/berry-polarization/run.py) 顺序组织任务，[job.pbs](../../../examples/vasp/minimal/berry-polarization/job.pbs) 提交作业，[postprocess.py](../../../examples/vasp/minimal/berry-polarization/postprocess.py) 检查结果并绘图。
 
 ## 参数与提交
 
-从授权安装中按 `POTCAR.spec` 准备 `POTCAR`，元素顺序与 POSCAR 一致。`VASP_EXEC` 指定程序；磁各向异性使用 `vasp_ncl`，Berry 相示例使用 `vasp_std`。数据文件不随案例分发。
+从授权安装中按 `POTCAR.spec` 准备 `POTCAR`，元素顺序与 POSCAR 一致。`VASP_EXEC` 在本例中指定 `vasp_std`；授权势文件不随案例分发。
 
 | 设置 | 检查点 |
 | --- | --- |
@@ -31,7 +31,7 @@ Born 有效电荷是原子位移引起的极化响应，不是 Bader 或 Mullike
 | 小位移中心差分 | 减少单边截断误差；仍需改变位移幅度测试 |
 | 绝缘路径 | 金属占据或带隙闭合时不能沿用此简单分析 |
 
-run.py 用 ASE 明确修改笛卡尔位移，避免斜原胞分数坐标误读。
+`run.py` 用 ASE 明确修改笛卡尔位移，避免斜原胞分数坐标误读。
 
 在干净案例目录安装[Python 依赖](../../../examples/vasp/minimal/berry-polarization/requirements.txt)并提交：
 

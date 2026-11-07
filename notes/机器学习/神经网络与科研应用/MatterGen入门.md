@@ -2,15 +2,19 @@
 
 **适用环境：Windows + WSL（镜像准备）、Linux 集群（运行）。**
 
+下面记录从 WSL 中准备 Docker 镜像、再转换为集群 Apptainer 镜像的流程。示例中的镜像 ID、容器名和路径对应原记录的环境，使用时替换为自己的实际值。
+
 ## 安装与使用
 
-首先在 WSL 中启动 Ubuntu 容器：
+### 在 WSL 中准备容器
+
+在 WSL 中启动 Ubuntu 容器：
 
 ```bash
 docker run -it --user root --name mattergen-1.0.0 c42dedf797ba /bin/bash
 ```
 
-并安装相关依赖：
+进入容器后安装依赖：
 
 ```bash
 apt update
@@ -44,21 +48,23 @@ uv pip install -e .
 git lfs pull -I checkpoints/
 ```
 
-最后将固化全局环境变量：
+将容器内的环境路径写入启动配置：
 
 ```bash
 echo 'export PATH="/opt/mattergen/.venv/bin:$PATH"' >> /etc/bash.bashrc
 echo 'export VIRTUAL_ENV="/opt/mattergen/.venv"' >> /etc/bash.bashrc
 ```
 
-然后生成镜像：
+### 在宿主机保存镜像并传到集群
+
+回到管理该容器的 Docker 宿主机，生成镜像：
 
 ```bash
 docker commit mattergen-1.0.0 mattergen:v1.0.0
 docker save -o mattergen-1.0.0.tar mattergen:v1.0.0
 ```
 
-上传 `mattergen-1.0.0.tar` 文件到集群，并修改权限：
+将 `mattergen-1.0.0.tar` 上传至集群。原记录使用以下权限命令，实际共享权限应按使用范围设置：
 
 ```text
 chmod 777 mattergen-1.0.0.tar

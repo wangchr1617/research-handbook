@@ -1,0 +1,4 @@
+! M062X def2-TZVPD VeryTightSCF DEFGRID3 SMD(acetonitrile) SMD18
+%pal nprocs 1 end
+%maxcore 256
+* xyzfile -1 1 structure.xyz

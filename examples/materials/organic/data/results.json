@@ -15,5 +15,7 @@
   },
   "method": "PBE0 D3BJ/def2-SVP",
   "G_temperature_K": 298.15,
-  "interpretation": "气相刚性转子谐振子构象比较；低频扭转及构象简并度未修正"
+  "interpretation": "气相准 RRHO 构象自由能比较；未另做受阻转子或构象简并度修正",
+  "G_pressure_atm": 1.0,
+  "G_low_frequency_model": "ORCA Grimme quasi-RRHO entropy"
 }

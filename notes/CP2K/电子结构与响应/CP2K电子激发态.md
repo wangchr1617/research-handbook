@@ -19,6 +19,8 @@
 
 `NSTATES` 指定求解的激发态数；`CONVERGENCE` 默认单位为 Hartree；`KERNEL FULL` 保留此实现的完整响应核，并非只取独立轨道能量差。闭壳层默认计算单重态，三重态需另设 `RKS_TRIPLETS`，不应把两者的光学强度混用。
 
+CP2K 的这条 TDDFPT 路线采用 TDA；`FULL` 指核的选择，不代表恢复激发—退激发耦合。周期模型的虚轨道空间、幅度打印阈值、NTO 及谱线归一化见[周期激发分析](CP2K周期激发、跃迁系数与NTO.md)。
+
 安装 [依赖](../../../examples/cp2k/minimal/tddfpt/requirements.txt)，加载 CP2K 并配置基组、赝势数据路径后执行：
 
 ```bash

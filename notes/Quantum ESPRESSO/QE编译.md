@@ -4,7 +4,7 @@
 
 ## 集群 3 编译 QE 7.3.1
 
-编译前需要 `ssh cu02` 切换到编译节点（cu02），并加载编译环境如下：
+下面保留集群 3 的 QE 7.3.1 编译记录，编译器版本、路径和节点名对应当时环境；在其他集群使用时需相应替换。先用 `ssh cu02` 进入编译节点，再加载编译环境：
 
 ```bash
 module load intel/2020.1.217
@@ -21,7 +21,7 @@ mpirun --version
 echo $MKLROOT
 ```
 
-输出以下信息即可：
+核对编译器、MPI 版本与 MKL 路径，原环境的输出示例如下：
 
 <div align="left">
 <img alt="QE 编译示例图" src="assets/编译-001.png" width="50%" />
@@ -50,9 +50,7 @@ FFT_LIBS = -L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_
 MPI_LIBS = -L/opt/intel2020/impi/2019.7.217/intel64/lib
 ```
 
-正常结束的话，`qe-7.3.1/bin` 目录里有各种 `.x` 结尾的可执行程序，代表安装成功。
-
-编译完成后记得使用命令 `logout` 退出编译节点。
+编译完成后，检查 `qe-7.3.1/bin` 中是否生成所需的 `.x` 可执行程序。完成操作后，用 `logout` 退出编译节点。
 
 ## QE 提交脚本
 
@@ -84,5 +82,4 @@ mpirun -machinefile $PBS_NODEFILE -np $NP $EXEC -pd .true. < pw.inp > output
 ## 赝势下载
 
 [QE 官网](https://www.quantum-espresso.org/pseudopotentials/) 给出了 SSSP 赝势的下载链接，赝势文件可以直接下载。
-以 SSSP_1.3.0_PBE_efficiency.tar.gz 为例，下载后拖入集群解压（最好是把赝势都放在一个文件夹下）。
-在输入文件中指定赝势路径即可。
+以 `SSSP_1.3.0_PBE_efficiency.tar.gz` 为例，下载后上传到集群，解压到统一的赝势目录，并在输入中指定该路径。

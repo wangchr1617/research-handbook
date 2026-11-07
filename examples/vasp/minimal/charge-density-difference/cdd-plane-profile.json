@@ -1,0 +1,35 @@
+{
+  "plane_normal": [
+    0.5773502691896257,
+    0.5773502691896257,
+    -0.5773502691896257
+  ],
+  "plane_area_A2": 13.7741072667225,
+  "normal_height_A": 3.2562728260572222,
+  "layer_step_A": 0.033919508604762734,
+  "integral_e": 3.697245209536926e-09,
+  "volume_integral_e": 3.6972451406967132e-09,
+  "input_file": "cdd.cub",
+  "input_sha256": "6449f99a72cc705b69e6067e2429cf2f627067741062619728c86f962bc51777",
+  "script_sha256": "42aefd3a5cb431f359a66f1e67de38f76a733f2cd0c6e1eb0729f533a38429cf",
+  "grid_shape": [
+    96,
+    96,
+    96
+  ],
+  "grid_axis": 3,
+  "density_input_unit": "e/bohr3",
+  "origin_A": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "coordinate": "u measured from cube origin along the positive selected plane normal",
+  "columns": [
+    "sample_u_A",
+    "plane_average_e_A3",
+    "plane_integral_e_A",
+    "upper_u_A",
+    "cumulative_e"
+  ]
+}

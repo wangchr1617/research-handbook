@@ -1,0 +1,101 @@
+{
+  "Zn": {
+    "model": "Isolated neutral Zn, PBE/def2-SVP, closed shell; D-subspace moment check, not surface catalysis",
+    "D_basis_functions": 10,
+    "HOMO_Ha": -0.202574721746761,
+    "moments": {
+      "zn-dos-narrow": {
+        "window_Ha": [
+          -1,
+          0.8
+        ],
+        "FWHM_Ha": 0.02,
+        "native_rectangle_centre_Ha": -0.34695,
+        "continuous_centre_Ha": -0.3469501271680396,
+        "window_projected_mass": 5.000000002162505
+      },
+      "zn-dos-wide": {
+        "window_Ha": [
+          -1,
+          0.8
+        ],
+        "FWHM_Ha": 0.1,
+        "native_rectangle_centre_Ha": -0.34695,
+        "continuous_centre_Ha": -0.3469501271680396,
+        "window_projected_mass": 5.000000002162505
+      },
+      "zn-dos-short-narrow": {
+        "window_Ha": [
+          -0.4,
+          -0.3
+        ],
+        "FWHM_Ha": 0.02,
+        "native_rectangle_centre_Ha": -0.34695,
+        "continuous_centre_Ha": -0.346950127940641,
+        "window_projected_mass": 4.9999999201144725
+      },
+      "zn-dos-short": {
+        "window_Ha": [
+          -0.4,
+          -0.3
+        ],
+        "FWHM_Ha": 0.1,
+        "native_rectangle_centre_Ha": -0.348832,
+        "continuous_centre_Ha": -0.3488330906868491,
+        "window_projected_mass": 3.7987877562742893
+      }
+    },
+    "finite_window_FWHM_shift_Ha": -0.0018819999999999948
+  },
+  "NOCV": {
+    "model": "Fixed water dimer and neutral singlet fragments PBE0/def2-SVP",
+    "reference": "Loewdin-orthogonalized occupied fragment orbitals",
+    "positive_eigenvalues": [
+      0.13833358,
+      0.02995934,
+      0.02000993,
+      0.01915578,
+      0.01240035,
+      0.01108265,
+      0.0087215,
+      0.00351658,
+      0.00206486,
+      0.00063881
+    ],
+    "pair_energies_kcal_mol": [
+      -3.973092513320434,
+      -0.20289211175777824,
+      -0.14816431201016958,
+      -0.09040068758189615,
+      -0.07134275476487038,
+      -0.060827956159076844,
+      -0.05793611238938798,
+      -0.011157191851149254,
+      -0.02615997186153787,
+      -0.00266004234008497
+    ],
+    "approximate_energy_sum_kcal_mol": -4.644633654036385,
+    "trace_energy_kcal_mol": -4.644617349008635,
+    "energy_trace_reconstruction_bound_kcal_mol": 0.0004176780264350649,
+    "energy_operator": "Final-state Fock/KS expectation; not ETS midpoint operator or full EDA energy",
+    "density_matrix_reconstruction_max_error": 5.106640837623799e-09,
+    "trace_deltaP_S": -1.6324097854708564e-09,
+    "smallest_fragment_occupied_gram_eigenvalue": 0.9118092263343761,
+    "metric_spectrum_max_difference": 5.433320574271122e-09,
+    "cube_sum_max_residual": 4.999999999970306e-08,
+    "all_pair_orbital_cube_max_difference": 0.0,
+    "z_slice_A": 0.06379125441993477,
+    "grid_shape": [
+      46,
+      27,
+      27
+    ]
+  },
+  "software": "ORCA6.1.1, Multiwfn2026.7.15",
+  "source_sha256": {
+    "zn/orca.molden.input": "aca908f30b848c7b7cd75f282b3c8ccb66c5f06eb98db3c4aa09eb4e2efc1cdd",
+    "complex.molden.input": "5029d632f77741c77c55017e14aa8fa222543ff2316a9e4d0da09deb54828f46",
+    "fragment-1.molden.input": "e0a02bca07b884323b48fb84c69a35c1d8d353dcc5948b6baaff6df968d0d8d0",
+    "fragment-2.molden.input": "043a3660480c3005cdb1580263e766b050a8ebabdc70343aa975f7b711fed4af"
+  }
+}

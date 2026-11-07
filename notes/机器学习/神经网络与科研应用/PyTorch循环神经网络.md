@@ -29,7 +29,9 @@ assert hidden.shape == (1, 4, 16)
 assert prediction.shape == target.shape
 ```
 
-`batch_first=True` 对应输入 `[4,20,3]`：四条序列，每条 20 个时间步，每步三个特征。最后一层隐藏状态 `hidden[-1]` 用来做整条序列的回归；逐时间步预测则使用 `output`。
+`batch_first=True` 对应输入 `[4,20,3]`：四条序列，每条 20 个时间步，每步三个特征。
+
+本例将最后一层隐藏状态 `hidden[-1]` 送入回归头，预测整条序列对应的标量；若要逐时间步预测，则使用 `output`。
 
 ## 时间序列如何划分
 

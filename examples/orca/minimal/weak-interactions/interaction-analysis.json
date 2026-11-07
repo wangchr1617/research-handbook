@@ -1,0 +1,190 @@
+{
+  "system": "Planar water dimer teaching geometry; O-O 2.9 Angstrom; no geometry optimization",
+  "electronic_structure": {
+    "program": "ORCA 6.1.1",
+    "method": "PBE0",
+    "basis": "def2-SVP",
+    "charge": 0,
+    "multiplicity": 1,
+    "SCF": "TightSCF",
+    "energy_Ha": -152.563648280526
+  },
+  "analyzer": "Multiwfn 2026.7.15",
+  "fragments": [
+    [
+      1,
+      2,
+      3
+    ],
+    [
+      4,
+      5,
+      6
+    ]
+  ],
+  "grid": {
+    "shape": [
+      73,
+      54,
+      38
+    ],
+    "origin_Bohr": [
+      -4.232962,
+      -5.211865,
+      -3.779452
+    ],
+    "vectors_Bohr": [
+      [
+        0.2,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.2,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.2
+      ]
+    ],
+    "IGMvdwscl": 2.0,
+    "delta_g_inter_integral_e_Bohr": 0.08462306682993691,
+    "integral_domain": "finite exported box; prescreened points are zero when IGMvdwscl is nonzero",
+    "boundary_delta_g_inter_max_e_Bohr4": 1.02636e-05
+  },
+  "surface": {
+    "isovalue_e_Bohr4": 0.006,
+    "colour": "sign(lambda2)rho, e/Bohr^3",
+    "colour_range": [
+      -0.04,
+      0.04
+    ],
+    "vertices": 484,
+    "triangles": 964,
+    "boundary_below_isovalue": true
+  },
+  "slice": {
+    "z_A": 0.010873533329634966,
+    "interpolation": "nearest actual z grid layer; no interpolation of slice"
+  },
+  "atomic_pair_quadrature": {
+    "radial": 75,
+    "angular": 434,
+    "index_unit": "e/Bohr",
+    "pairs": [
+      {
+        "atoms": [
+          2,
+          4
+        ],
+        "index_e_Bohr": 0.073409,
+        "percent": 47.21
+      },
+      {
+        "atoms": [
+          1,
+          4
+        ],
+        "index_e_Bohr": 0.029836,
+        "percent": 19.19
+      },
+      {
+        "atoms": [
+          2,
+          5
+        ],
+        "index_e_Bohr": 0.01507,
+        "percent": 9.69
+      },
+      {
+        "atoms": [
+          2,
+          6
+        ],
+        "index_e_Bohr": 0.015048,
+        "percent": 9.68
+      },
+      {
+        "atoms": [
+          3,
+          4
+        ],
+        "index_e_Bohr": 0.007749,
+        "percent": 4.98
+      },
+      {
+        "atoms": [
+          1,
+          6
+        ],
+        "index_e_Bohr": 0.005247,
+        "percent": 3.37
+      },
+      {
+        "atoms": [
+          1,
+          5
+        ],
+        "index_e_Bohr": 0.005191,
+        "percent": 3.34
+      },
+      {
+        "atoms": [
+          3,
+          5
+        ],
+        "index_e_Bohr": 0.002421,
+        "percent": 1.56
+      },
+      {
+        "atoms": [
+          3,
+          6
+        ],
+        "index_e_Bohr": 0.001529,
+        "percent": 0.98
+      }
+    ],
+    "atoms": [
+      {
+        "atom": 2,
+        "index_e_Bohr": 0.103526,
+        "percent_in_own_fragment": 66.58
+      },
+      {
+        "atom": 1,
+        "index_e_Bohr": 0.040274,
+        "percent_in_own_fragment": 25.9
+      },
+      {
+        "atom": 3,
+        "index_e_Bohr": 0.011699,
+        "percent_in_own_fragment": 7.52
+      },
+      {
+        "atom": 4,
+        "index_e_Bohr": 0.110994,
+        "percent_in_own_fragment": 71.38
+      },
+      {
+        "atom": 5,
+        "index_e_Bohr": 0.022682,
+        "percent_in_own_fragment": 14.59
+      },
+      {
+        "atom": 6,
+        "index_e_Bohr": 0.021823,
+        "percent_in_own_fragment": 14.03
+      }
+    ],
+    "pair_sum_e_Bohr": 0.155499
+  },
+  "sha256": {
+    "dg_inter_cube": "747ca8c22c8052d9d9941a27354acfddaf48f359c06a76f6dc839c9dcccc13ac",
+    "sl2r_cube": "e99073c61dc375380da10f6b4a77e43571d6023bfea1f5e0e98fd4b49597dd48",
+    "molden": "5029d632f77741c77c55017e14aa8fa222543ff2316a9e4d0da09deb54828f46"
+  }
+}

@@ -2,7 +2,7 @@
 
 **适用环境：Linux 集群。**
 
-磁性材料计算可依次使用 OpenMX、TB2J 和 Vampire。下面说明三者的安装方法及分工：
+从电子结构走向磁性统计模拟时，可以依次使用 OpenMX、TB2J 和 Vampire。三者承担不同任务：
 
 - OpenMX：第一性原理电子结构计算
 - TB2J：磁交换参数计算
@@ -10,21 +10,11 @@
 
 ## OpenMX 安装
 
-OpenMX（Open source package for Material eXplorer）是一款开源的第一性原理计算软件包，具有以下特点：
-
-- 基于局域轨道基组的密度泛函理论实现
-- 支持结构优化和分子动力学
-- 支持自旋极化计算和非共线磁矩
-- 高效并行计算
-- 可与 TB2J 等磁性计算软件对接
+OpenMX（Open source package for Material eXplorer）基于局域轨道 DFT，支持结构优化、分子动力学、自旋极化与非共线磁性，也可将结果交给 TB2J 等工具分析。下面保留 OpenMX 3.9 的集群安装步骤；精简命令版见[编译笔记](OpenMX编译.md)。
 
 ### 下载
 
-访问 OpenMX 官网：https://www.openmx-square.org/download.html
-
-下载 OpenMX 3.9 版本的源代码包
-
-下载对应的补丁文件 patch3.9.9
+从[OpenMX 官网](https://www.openmx-square.org/download.html)下载 OpenMX 3.9 源码与对应补丁 patch3.9.9。下面的节点名和 Intel 模块对应原集群环境：
 
 ```bash
 ssh cu02                                    # 登录计算节点
@@ -68,14 +58,7 @@ make install
 
 ## TB2J 安装
 
-TB2J 是一个用于计算磁交换参数的 Python 包，支持多种第一性原理计算软件输出：
-
-- Wannier90
-- SIESTA
-- OpenMX
-- ABACUS
-
-官网：https://tb2j.readthedocs.io/en/latest/
+TB2J 是计算磁交换参数的 Python 包，可以处理 Wannier90、SIESTA、OpenMX 和 ABACUS 等软件的输出。接口与使用方式见[官方文档](https://tb2j.readthedocs.io/en/latest/)。
 
 集群联网后执行 `pip install TB2J-OpenMX`。
 
@@ -89,9 +72,7 @@ Vampire 是一个原子尺度的磁性模拟软件，支持：
 - 热辅助记录模拟
 - GPU 加速（5.0+ 版本）
 
-官网：https://vampire.york.ac.uk/
-
-我使用的是 Vampire 4.0，运行比较稳定。
+程序与资料见[Vampire 官网](https://vampire.york.ac.uk/)。以下保留作者使用 Vampire 4.0 的安装记录，该版本在作者的使用中运行较稳定。
 
 ```bash
 tar xvf vampire-4.0-linux.tar.gz
@@ -99,4 +80,4 @@ tar xvf vampire-4.0-linux.tar.gz
 
 解压后生成可执行文件 `./linux/vampire`。
 
-Vampire 新版本添加了并行计算功能，可以按需要尝试。
+需要并行功能时，可按所用版本的说明选择相应构建。

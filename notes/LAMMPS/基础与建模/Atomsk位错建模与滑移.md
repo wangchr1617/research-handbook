@@ -2,10 +2,11 @@
 
 **适用环境：Linux（Atomsk 命令与 LAMMPS 计算）。**
 
-## 刃位错
+以 Al 的 `1/2<110>{111}` 滑移系为例，先按滑移方向、滑移面法向和位错线方向确定模型坐标，再构建刃位错。
 
-首先应该根据要研究位错所在的滑移系，构建对应的晶体结构，比如要研究 Al 中最有利的滑移系 `1/2<110>{111}`。
-那么模型的坐标轴应该设置为：
+## 确定刃位错的方向
+
+本例选择：
 
 ```text
 X = [110]
@@ -37,13 +38,7 @@ atomsk Al_unitcell.xsf -duplicate 60 20 1 Al_supercell.xsf
 atomsk Al_supercell.xsf -dislocation 0.51*box 0.51*box edge Z Y 2.860954 0.33 -wrap Al_edge.cfg
 ```
 
-其中，`-dislocation` 关键字后面为位错在 XY 面中的位置；
-然后为关键字 `edge`；
-位错线方向 `Z`；
-滑移面的法线方向 `Y`；
-Burgers 矢量的长度；
-材料的泊松比；
-`-wrap` 将超出 box 的原子带回 box 内。
+`-dislocation` 后依次指定 XY 面内的位错位置、类型 `edge`、位错线方向 `Z`、滑移面法向 `Y`、Burgers 矢量长度和泊松比。`-wrap` 将盒外原子卷回盒内。
 
 在模型的右边会产生一个台阶。
 
@@ -94,13 +89,11 @@ atomsk Al_unitcell.xsf -duplicate 41 10 1 -deform X -0.012195122 0.0 top.xsf
 atomsk --merge Y 2 bottom.xsf top.xsf Al_edge_bicrystal.cfg
 ```
 
-生成的结构是不包含刃位错的，只是沿着 X 方向有晶格失配。
-**在之后的 minimize 过程中会弛豫为一个刃位错**。
-该方法的优势是沿着 X 方向是周期性的，然而 Y 方向仍是非周期性的。
+合并后的初始结构沿 X 方向存在晶格失配，随后通过 `minimize` 弛豫形成刃位错。这一构造在 X 方向保留周期性，Y 方向仍为非周期。
 
 ### 同时构建多个位错
 
 ```text
-atomssk Al_supercell.xsf -dislocation 0.251*box 0.251*box edge_add Z Y 2.860954 0.33 \
+atomsk Al_supercell.xsf -dislocation 0.251*box 0.251*box edge_add Z Y 2.860954 0.33 \
 -dislocation 0.751*box 0.751*box edge_add Z Y -2.860954 0.33 Al_edge_dipole.cfg
 ```

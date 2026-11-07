@@ -4,7 +4,7 @@
 
 ## Git 的安装
 
-Git 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的分布式版本控制系统。
+Git 是开源的分布式版本控制系统，最初由 Linus Torvalds 为管理 Linux 内核开发而创建。
 访问 [Git 官网](https://git-scm.com/) 或者 [Git Windows 客户端](https://git-scm.com/downloads/win) 下载 Git 安装包。
 
 以 Windows 系统为例，运行 .exe 安装程序进入安装界面，按安装器实际要求处理权限。Mac 可按 [新生入门](../新生入门（Mac）.md)安装 Git；Linux 使用发行版或集群已有的 Git。
@@ -34,7 +34,7 @@ git help config
 
 目前 GitHub 和 Gitee 支持使用 HTTPS 协议和 SSH 协议进行代码的推送/拉取。
 
-使用 https 协议对初学者来说会比较方便，复制 https url 然后到 git Bash 里面直接用 clone 命令克隆到本地就好了，公开仓库的读取通常不需登录，推送私有或受保护仓库时需要平台支持的令牌、凭据管理器或浏览器授权，GitHub 不使用账号密码直接认证 Git HTTPS 操作。
+使用 HTTPS 时，复制仓库 URL，在 Git Bash 中用 clone 命令克隆到本地。公开仓库通常无需登录即可读取；推送私有或受保护仓库时，需要平台支持的令牌、凭据管理器或浏览器授权。GitHub 不使用账号密码直接认证 Git HTTPS 操作。
 
 GitHub 和 Gitee 均提供了基于 SSH 协议的 Git 服务，在使用 SSH 协议访问仓库之前，需要先配置好账户/仓库的 SSH 公钥。
 首先，使用 `git config --global --list` 查看全局设置。
@@ -176,7 +176,7 @@ git push origin master # 将本地的 Git 仓库信息推送上传到服务器�
 git log # 查看 Git 提交的日志
 ```
 
-撰写提交说明时，如果一行不够，可以只执行 `git commit`，就会跳出文本编译器，编写多行提交说明。
+撰写提交说明时，如果一行不够，可以只执行 `git commit`，就会跳出文本编辑器，编写多行提交说明。
 
 **方法 2、本地初始化一个仓库，设置远程仓库地址后再做 push**
 
@@ -231,9 +231,7 @@ git merge dev
 
 ## 更新命令
 
-`git fetch` 是 Git 中用于从远程仓库获取更新的命令。
-它不会对当前的工作目录做任何更改，而是将远程仓库的更改（如新提交、新分支、变更的引用等）下载到本地。
-这使得 `git fetch` 成为一个安全的获取更新的方式，因为它不会直接将远程的更改合并到当前分支，而只是更新本地对远程仓库的引用（如 origin/main）。
+`git fetch` 下载远程提交并更新本地的远程跟踪引用（如 origin/main），不会直接合并到当前分支，也不改动工作区文件。
 
 `git fetch` 与 `git pull` 的区别在于：
 `git pull` 会直接将远程的更改合并到当前分支，
