@@ -1,0 +1,8 @@
+{
+  "model": "1D diatomic chain, nearest-neighbor springs",
+  "m1": 1.0,
+  "m2": 2.0,
+  "K_eV_per_A2": 1.0,
+  "gap_lower_edge_model_units": 1.0,
+  "gap_upper_edge_model_units": 1.4142
+}

@@ -1,0 +1,6 @@
+{
+  "stages": [
+    {"name": "equilibration", "steps": 20000, "ensemble": "NVT", "temperature": 1.0},
+    {"name": "production", "steps": 100000, "ensemble": "NVE", "sample_every": 1000}
+  ]
+}

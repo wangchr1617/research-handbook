@@ -10,6 +10,7 @@
 | 2 | [配位数与径向分布函数](配位数与径向分布函数.md) | 图形界面 / Python；cutoff、RDF 与周期边界 |
 | 3 | [OVITO Python 批量分析](OVITOPython批量分析.md) | 本机小例子 / Linux 集群；逐帧统计与导出 |
 | 4 | [Wigner-Seitz 缺陷分析](Wigner-Seitz缺陷分析.md) | OVITO Python；参考格点、空位与过量原子 |
-| 5 | [Docker 与 Apptainer 环境](OVITO容器环境配置.md) | Linux；系统依赖受限时的部署补充 |
+| 5 | [OVITO 位错识别与 Burgers 矢量](OVITO位错识别与Burgers矢量.md) | 图形界面；DXA、线长度与位错密度 |
+| 6 | [Docker 与 Apptainer 环境](OVITO容器环境配置.md) | Linux；系统依赖受限时的部署补充 |
 
 每次分析保留输入来源、长度单位、周期边界和修改器顺序。粒子类型名称、颜色与渲染参数只是显示设置，不能代替数值分析与物理判断。

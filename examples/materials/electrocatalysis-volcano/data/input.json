@@ -1,0 +1,9 @@
+{
+  "dG_OH_range_eV": [
+    0.2,
+    2.6
+  ],
+  "dG_OOH_offset_eV": 3.2,
+  "note": "Scaling-relation illustration; not a real DFT dataset.",
+  "dG_O_ratio": 2.0
+}

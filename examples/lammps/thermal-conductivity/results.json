@@ -1,0 +1,44 @@
+{
+  "state_point": {
+    "density_reduced": 0.6,
+    "temperature_reduced": 1.35,
+    "cutoff_reduced": 2.5
+  },
+  "emd": {
+    "atoms": 4000,
+    "production_steps": 100000,
+    "production_time_reduced": 500.0,
+    "correlation_time_reduced": 9.950000000000001,
+    "temperature_reduced": 1.3490886,
+    "volume_reduced": 6666.666667,
+    "kappa_reduced": 3.502313,
+    "kappa_components_reduced": [
+      4.769605,
+      3.0474332,
+      2.689902
+    ],
+    "kappa_from_profile_reduced": 3.507045450126997
+  },
+  "nemd": {
+    "atoms": 8000,
+    "production_steps": 40000,
+    "production_time_reduced": 200.0,
+    "energy_delta_reduced": 30322.921998,
+    "temperature_difference_reduced": 1.175919,
+    "area_reduced": 354.219538959841,
+    "length_z_reduced": 37.641441,
+    "kappa_reduced": 3.425291,
+    "kappa_from_global_flux_reduced": 3.4252902755873214,
+    "center_excess_reduced": 1.1531005,
+    "profile_step": 65000
+  },
+  "reference": {
+    "kappa_reduced": 3.4,
+    "source": "Evans, Phys. Rev. A 34, 1449 (1986); LAMMPS examples/KAPPA/README"
+  },
+  "difference": {
+    "emd_vs_reference_percent": 3.009205882352939,
+    "nemd_vs_reference_percent": 0.7438529411764705,
+    "emd_vs_nemd_percent": 2.24862646706514
+  }
+}

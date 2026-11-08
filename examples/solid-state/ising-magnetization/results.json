@@ -1,0 +1,69 @@
+{
+  "model": "2D Ising, square lattice, periodic boundaries",
+  "L": 32,
+  "J": 1.0,
+  "Tc_exact_J_over_kB": 2.2692,
+  "Tc_from_chi_peak": 2.35,
+  "points": [
+    {
+      "T": 1.6,
+      "magnetization": 0.979556640625,
+      "susceptibility": 0.041952907714858156,
+      "energy_per_spin": -1.928056640625
+    },
+    {
+      "T": 1.8,
+      "magnetization": 0.956765625,
+      "susceptibility": 0.11563477430559033,
+      "energy_per_spin": -1.859763671875
+    },
+    {
+      "T": 2.0,
+      "magnetization": 0.91130078125,
+      "susceptibility": 0.38271797656244644,
+      "energy_per_spin": -1.747365234375
+    },
+    {
+      "T": 2.1,
+      "magnetization": 0.870232421875,
+      "susceptibility": 0.8033231380208576,
+      "energy_per_spin": -1.663521484375
+    },
+    {
+      "T": 2.2,
+      "magnetization": 0.79301953125,
+      "susceptibility": 3.0412985156249874,
+      "energy_per_spin": -1.55082421875
+    },
+    {
+      "T": 2.269,
+      "magnetization": 0.6493564453125,
+      "susceptibility": 11.329960420597558,
+      "energy_per_spin": -1.43040234375
+    },
+    {
+      "T": 2.35,
+      "magnetization": 0.3666787109375,
+      "susceptibility": 20.534642020861035,
+      "energy_per_spin": -1.269240234375
+    },
+    {
+      "T": 2.5,
+      "magnetization": 0.2204501953125,
+      "susceptibility": 9.375774577734372,
+      "energy_per_spin": -1.1114765625
+    },
+    {
+      "T": 2.7,
+      "magnetization": 0.1172099609375,
+      "susceptibility": 3.1509438190827543,
+      "energy_per_spin": -0.96108984375
+    },
+    {
+      "T": 3.0,
+      "magnetization": 0.08469140625,
+      "susceptibility": 1.365539005208333,
+      "energy_per_spin": -0.8153046875
+    }
+  ]
+}

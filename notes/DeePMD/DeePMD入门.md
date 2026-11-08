@@ -4,6 +4,8 @@
 
 本文从已有 VASP 数据出发，介绍数据转换、DeePMD-kit 训练、模型检查和 LAMMPS 调用。训练部分使用 GeTe 数据，最后的分子动力学输入则是独立的 Sb 示例，使用时需分别准备对应体系的模型。
 
+复用旧训练输入时，先识别 DeePMD-kit 版本和后端。2.0.3 手册对应当时的 TensorFlow 流程，冻结模型、训练配置和 LAMMPS 插件需要版本相容。迁移旧输入时先用同一小批结构对照每帧能量、力、virial 与元素顺序，再扩展到动力学。旧版语法见 [DeePMD-kit 2.0.3 手册](https://docs.deepmodeling.com/projects/deepmd/en/v2.0.3/)。
+
 ## 将计算数据整理为 DP 训练集
 
 数据可以经 `.xyz` 在不同训练格式之间转换：`vasp_to_xyz.py` 读取 VASP 数据，`xyz_to_deepmd.py` 写出 `.npy` 格式的 DP 训练集，`deepmd_to_xyz.py` 则将 DP 数据转回 NEP 使用的 `.xyz` 格式。各脚本的参数见下文。

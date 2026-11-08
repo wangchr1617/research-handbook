@@ -1,0 +1,12 @@
+{
+  "interfaces": [
+    {"name": "Li|Li2CO3", "E_slab_a_eV": -500.0, "E_slab_b_eV": -480.0, "E_interface_eV": -985.0, "area_A2": 100.0},
+    {"name": "Li2CO3|electrolyte", "E_slab_a_eV": -480.0, "E_slab_b_eV": -300.0, "E_interface_eV": -791.0, "area_A2": 100.0},
+    {"name": "Li|electrolyte", "E_slab_a_eV": -500.0, "E_slab_b_eV": -300.0, "E_interface_eV": -804.0, "area_A2": 100.0}
+  ],
+  "tunneling": {
+    "barrier_eV": 3.0,
+    "effective_mass_m_e": 1.0,
+    "thickness_nm": [0.5, 1.0, 1.5, 2.0, 3.0, 5.0]
+  }
+}

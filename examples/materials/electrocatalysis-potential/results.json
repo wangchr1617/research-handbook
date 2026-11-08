@@ -1,0 +1,16 @@
+{
+  "note": "Synthetic quadratic E(Q); not a real DFT dataset.",
+  "model": "E(Q)=E0+aQ+0.5*Q^2/C; Omega(U)=min_Q[E(Q)-QU]",
+  "curves": {
+    "vacuum": {
+      "capacitance_e_per_V": 0.05,
+      "omega_at_U_1V_eV": -1.0123,
+      "charge_at_U_1V_e": 0.035
+    },
+    "water": {
+      "capacitance_e_per_V": 0.2,
+      "omega_at_U_1V_eV": -1.049,
+      "charge_at_U_1V_e": 0.14
+    }
+  }
+}

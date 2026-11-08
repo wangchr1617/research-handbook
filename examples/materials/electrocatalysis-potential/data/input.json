@@ -1,0 +1,13 @@
+{
+  "E0_eV": -1.0,
+  "a_eV_per_e": 0.3,
+  "capacitance_e_per_V": {
+    "vacuum": 0.05,
+    "water": 0.2
+  },
+  "U_range_V": [
+    -0.5,
+    1.5
+  ],
+  "note": "Synthetic quadratic energy; not a real DFT dataset."
+}

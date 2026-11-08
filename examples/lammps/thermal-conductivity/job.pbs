@@ -1,0 +1,8 @@
+#!/bin/bash
+#PBS -N lj-thermal-conductivity
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=00:20:00
+#PBS -j oe
+cd "$PBS_O_WORKDIR"
+python3 run.py
+python3 postprocess.py

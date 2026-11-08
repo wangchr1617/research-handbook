@@ -1,0 +1,68 @@
+{
+  "note": "Synthetic test energies; not a real material.",
+  "fermi_level_eV": 0.2394,
+  "equilibrium_fermi_eV": 0.2394,
+  "transition_levels_eV": [
+    {
+      "defect": "V_O",
+      "q1": 2,
+      "q2": 1,
+      "fermi_eV": 0.8
+    },
+    {
+      "defect": "V_O",
+      "q1": 2,
+      "q2": 0,
+      "fermi_eV": 0.9
+    },
+    {
+      "defect": "V_Li",
+      "q1": 0,
+      "q2": -1,
+      "fermi_eV": 1.0
+    },
+    {
+      "defect": "V_O",
+      "q1": 1,
+      "q2": 0,
+      "fermi_eV": 1.0
+    }
+  ],
+  "formation_energies_eV": [
+    {
+      "defect": "V_Li",
+      "charge": 0,
+      "formation_eV": 0.5
+    },
+    {
+      "defect": "V_Li",
+      "charge": -1,
+      "formation_eV": 1.2606
+    },
+    {
+      "defect": "Li_i",
+      "charge": 1,
+      "formation_eV": 1.4394
+    },
+    {
+      "defect": "V_O",
+      "charge": 2,
+      "formation_eV": 1.2788
+    },
+    {
+      "defect": "V_O",
+      "charge": 1,
+      "formation_eV": 1.8394
+    },
+    {
+      "defect": "V_O",
+      "charge": 0,
+      "formation_eV": 2.6
+    },
+    {
+      "defect": "Li_Fe",
+      "charge": -1,
+      "formation_eV": 2.5606
+    }
+  ]
+}

@@ -15,6 +15,7 @@
 | [晶胞优化](VASP晶胞优化.md) | 输入与分析通用；Linux + PBS |
 | [固定晶格优化](VASP固定晶格优化.md) | 专用补丁；Linux + PBS |
 | [选择性原子优化](VASP选择性结构优化.md) | 输入与绘图通用；Linux + PBS |
+| [VASP 二维材料的真空与收敛](VASP二维材料的真空与收敛.md) | 真空、面内采样与电势对照 |
 | [VASP 拟合 E-V 曲线](VASP能量体积曲线拟合.md) | Linux（VASP 计算与批量脚本） |
 | [隐式溶剂计算](VASP隐式溶剂计算.md) | VASPsol；Linux + PBS |
 

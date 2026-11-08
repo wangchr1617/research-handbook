@@ -1,0 +1,38 @@
+{
+  "note": "Minimal 2D kMC; barriers are illustrative inputs.",
+  "barriers_eV": {
+    "x": 0.35,
+    "y": 0.55
+  },
+  "arrhenius_fit": {
+    "activation_eV": 0.3618,
+    "prefactor_m2_s": 3.058911579437299e-07
+  },
+  "runs": [
+    {
+      "temperature_K": 400,
+      "diffusivity_m2_s": 1.0563951040636732e-11,
+      "diffusivity_std_m2_s": 2.4375054671124688e-11
+    },
+    {
+      "temperature_K": 500,
+      "diffusivity_m2_s": 5.3653594728864636e-11,
+      "diffusivity_std_m2_s": 8.086555355641687e-11
+    },
+    {
+      "temperature_K": 600,
+      "diffusivity_m2_s": 2.2105841515099177e-10,
+      "diffusivity_std_m2_s": 6.126077856990471e-10
+    },
+    {
+      "temperature_K": 700,
+      "diffusivity_m2_s": 7.987751135481974e-10,
+      "diffusivity_std_m2_s": 1.222286312752957e-09
+    },
+    {
+      "temperature_K": 800,
+      "diffusivity_m2_s": 1.9940981386350936e-09,
+      "diffusivity_std_m2_s": 3.7034862307536136e-09
+    }
+  ]
+}

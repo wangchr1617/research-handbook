@@ -60,6 +60,10 @@ RI 是积分拟合类近似，COSX 用于交换计算的近似处理，DLPNO 是
 | ECP | 以有效芯势替代选定芯电子，需与轨道基组相容 |
 | 全电子相对论基组 | 与 DKH/ZORA 等具体哈密顿量配套使用 |
 
+ORCA 6.1 将辅助基组分到不同槽位。Coulomb 拟合用 `AuxJ`，RI-JK 用 `AuxJK`，相关能拟合如 RI-MP2 用 `AuxC`。读到 `RI-MP2 needs an AuxC basis` 时，先核对当前轨道基组和各元素是否有配套的 `/C`，再决定是否用自动生成的辅助基组。若只缺相关拟合基组，可在 `%basis` 中指定 `AuxC "AutoAux"`。简单输入行的 `! AutoAux` 会同时填充上述三个槽位。
+
+计算后核对输出中的轨道基组和实际用于拟合的辅助基组。含弥散函数的轨道基组可能使自动生成的辅助基组近线性相关，表现为 Coulomb 度量的 Cholesky 分解失败。先检查报错对应的槽位，必要时用 `! PrintBasis` 查看基组并按手册处理冗余。具体设置见 [ORCA 6.1 基组说明](https://www.faccts.de/docs/orca/6.1/manual/contents/essentialelements/basisset.html)。
+
 常用基组/ECP 通常通过名称从程序数据库选择，也可自定义；不需要像平面波软件那样为每个分子拼接 `POTCAR`。几何、频率和能量比较应统一方法，弥散态、阴离子与弱相互作用尤其要检查基组和 BSSE。
 
 ## 一个可读懂的水分子优化输入

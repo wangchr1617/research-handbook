@@ -1,0 +1,10 @@
+{
+  "model": "two harmonic parabolas with Huang-Rhys factor S",
+  "E0_eV": 2.5,
+  "S": 3.0,
+  "hbar_omega_eV": 0.05,
+  "Q0_A": 0.5477,
+  "absorption_eV": 2.65,
+  "emission_eV": 2.35,
+  "Stokes_shift_eV": 0.3
+}

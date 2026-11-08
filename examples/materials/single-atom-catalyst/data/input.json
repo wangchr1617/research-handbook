@@ -1,0 +1,9 @@
+{
+  "E_support_eV": -500.0,
+  "E_single_atom_eV": -506.0,
+  "E_dimer_eV": -511.0,
+  "E_bulk_per_atom_eV": -5.0,
+  "mu_min_eV": -6.0,
+  "mu_max_eV": -4.5,
+  "interaction_note": "Synthetic energies; not a real catalyst."
+}

@@ -1,0 +1,15 @@
+{
+  "system": "Li_xM（示意输入，不是真实材料数据）",
+  "reference_state": "Li metal (subtracted as x_Li * mu_Li)",
+  "points": [
+    {"x_Li": 0.0, "energy_eV_per_host": -4.0},
+    {"x_Li": 0.25, "energy_eV_per_host": -4.04},
+    {"x_Li": 0.33, "energy_eV_per_host": -4.12},
+    {"x_Li": 0.5, "energy_eV_per_host": -4.2},
+    {"x_Li": 0.6, "energy_eV_per_host": -4.21},
+    {"x_Li": 0.66, "energy_eV_per_host": -4.22},
+    {"x_Li": 0.75, "energy_eV_per_host": -4.28},
+    {"x_Li": 0.9, "energy_eV_per_host": -4.29},
+    {"x_Li": 1.0, "energy_eV_per_host": -4.3}
+  ]
+}
