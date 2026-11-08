@@ -1,0 +1,7 @@
+{
+  "model": "dimerized 1D chain, two sites per cell",
+  "t1_eV": 1.0,
+  "t2_eV": 0.6,
+  "gap_at_zone_boundary_eV": 0.8,
+  "bandwidth_eV": 3.2
+}

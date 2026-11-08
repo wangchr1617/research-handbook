@@ -21,6 +21,9 @@
 | CP2K 最小计算案例 | [结构、输入与 PBS 流程](cp2k/minimal/) |
 | Fe3GaTe2 的 CP2K 计算 | [结构、输入、作业脚本与输出示例](cp2k/fe3gate2/) |
 | LAMMPS 最小计算案例 | [输入、分析与 PBS 流程](lammps/minimal/) |
+| LAMMPS 热导率 EMD/NEMD | [LJ 液体两套输入、后处理与温度剖面](lammps/thermal-conductivity/README.md) |
+| LAMMPS 表面张力 | [LJ 液膜压力张量与分块平均](lammps/surface-tension/README.md) |
+| 固体物理最小模型 | [能带、声子、Ising、铁电与缺陷光学](solid-state/README.md) |
 | OpenMX 最小计算案例 | [结构、输入与 PBS 流程](openmx/minimal/) |
 | ORCA 最小计算案例 | [结构、输入与 PBS 流程](orca/minimal/) |
 | Multiwfn 结构与空隙分析 | [坐标变换、跨边界分子与几何自由体积](multiwfn/geometry-voids/README.md) |

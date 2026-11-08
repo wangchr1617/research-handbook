@@ -1,0 +1,81 @@
+{
+  "config": {
+    "case": "lj-thermal-conductivity",
+    "schema_version": 1,
+    "density_reduced": 0.6,
+    "temperature_reduced": 1.35,
+    "cutoff_reduced": 2.5,
+    "emd_atoms": 4000,
+    "nemd_atoms": 8000
+  },
+  "tasks": {
+    "emd": {
+      "command": [
+        "lmp",
+        "-in",
+        "in.emd",
+        "-log",
+        "log.emd"
+      ],
+      "seconds": 116.0,
+      "input_sha256": {
+        "in.emd": "8a92d6f111e6d9f27b435072c433fc1112e19827475541097c7a0844ed948682",
+        "in.nemd": "132a6f8db2028ca15dce0fa4fb2bfab8ffe34b25519899ec9bdb0753c5ac9f7d",
+        "run.py": "3802cc607fb0321f71f6b020a0ae51fee6b99be7d20a875abfbb2694ba516cc0",
+        "postprocess.py": "122eba6457ba3d3b73825cf4ee1181ace8ab7de87c7cb508c1c643d44bf51836",
+        "job.pbs": "9cb8f71eb196474fb272a22c9d72339de5e417ab6847815fc103082de62cdfd3",
+        "requirements.txt": "6d4cdf924e8b6fe2cf827f647ca740148e2e8b4c44ea31578dbea46cbd403417",
+        "stages.json": "a4da99b1edc8ffbcfa74c7038ca133453ee392c81c89a79465006bb5fbfeb82d"
+      },
+      "output_sha256": {
+        "log.emd": "c716631ba07781276be71e392cdfc62455d8e4b0ef44be7726f42fd01a8815b1",
+        "log.nemd": "2c13cbb16b206da3ee3e2575a4dac27e4c9820b849c46775b1203c10694dd972",
+        "stdout.emd": "c7201461e66e48eb2e16562f02068631431b62e31cd40e8bb33a05ebd93a64ec",
+        "stdout.nemd": "4af9a93586700619028dc26361ea6598d77e6663e83987929d94a15a228aa1d6",
+        "profile.heatflux": "a7a9c12646e522403beb585db908a4cd3d17cc5ae819b7da78db76fb34970874",
+        "profile.nemd": "f2e970e18d39390e36d954d7fa0381c206fb34bb64e4d6e1242c110efa10fde5",
+        "results.json": "397741b3644109ad52463794f1a582d893f5f580e235c3d1b1ab00f6104f5dca",
+        "result.png": "74fd8f07d91c8941f5884d7a060ea8f2cfca63eb605d46dd51f8cbbcbd08079c"
+      }
+    },
+    "nemd": {
+      "command": [
+        "lmp",
+        "-in",
+        "in.nemd",
+        "-log",
+        "log.nemd"
+      ],
+      "seconds": 157.0,
+      "input_sha256": {
+        "in.emd": "8a92d6f111e6d9f27b435072c433fc1112e19827475541097c7a0844ed948682",
+        "in.nemd": "132a6f8db2028ca15dce0fa4fb2bfab8ffe34b25519899ec9bdb0753c5ac9f7d",
+        "run.py": "3802cc607fb0321f71f6b020a0ae51fee6b99be7d20a875abfbb2694ba516cc0",
+        "postprocess.py": "122eba6457ba3d3b73825cf4ee1181ace8ab7de87c7cb508c1c643d44bf51836",
+        "job.pbs": "9cb8f71eb196474fb272a22c9d72339de5e417ab6847815fc103082de62cdfd3",
+        "requirements.txt": "6d4cdf924e8b6fe2cf827f647ca740148e2e8b4c44ea31578dbea46cbd403417",
+        "stages.json": "a4da99b1edc8ffbcfa74c7038ca133453ee392c81c89a79465006bb5fbfeb82d"
+      },
+      "output_sha256": {
+        "log.emd": "c716631ba07781276be71e392cdfc62455d8e4b0ef44be7726f42fd01a8815b1",
+        "log.nemd": "2c13cbb16b206da3ee3e2575a4dac27e4c9820b849c46775b1203c10694dd972",
+        "stdout.emd": "c7201461e66e48eb2e16562f02068631431b62e31cd40e8bb33a05ebd93a64ec",
+        "stdout.nemd": "4af9a93586700619028dc26361ea6598d77e6663e83987929d94a15a228aa1d6",
+        "profile.heatflux": "a7a9c12646e522403beb585db908a4cd3d17cc5ae819b7da78db76fb34970874",
+        "profile.nemd": "f2e970e18d39390e36d954d7fa0381c206fb34bb64e4d6e1242c110efa10fde5",
+        "results.json": "397741b3644109ad52463794f1a582d893f5f580e235c3d1b1ab00f6104f5dca",
+        "result.png": "74fd8f07d91c8941f5884d7a060ea8f2cfca63eb605d46dd51f8cbbcbd08079c"
+      }
+    }
+  },
+  "environment": {
+    "lammps": "",
+    "python": "3.13.5",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "machine": "arm64"
+  },
+  "derived_sha256": {
+    "results.json": "397741b3644109ad52463794f1a582d893f5f580e235c3d1b1ab00f6104f5dca",
+    "result.png": "74fd8f07d91c8941f5884d7a060ea8f2cfca63eb605d46dd51f8cbbcbd08079c"
+  }
+}

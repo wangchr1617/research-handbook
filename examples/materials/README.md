@@ -15,6 +15,8 @@
 | 热电 | [Si 的BoltzTraP2输运](thermoelectric/README.md) |
 | 相变存储 | [GeTe 的熔融—淬火—退火轨迹](phase-change/README.md) |
 | 锂离子电池 | [石墨—LiC6端点电压与容量](battery/README.md) |
+| 锂离子电池（进阶） | [缺陷化学](battery-defects/README.md)、[相图与电压](battery-phase-diagram/README.md)、[界面与 SEI](battery-interface/README.md)、[多尺度 kMC](battery-multiscale/README.md) |
 | 电催化 | [Pt(111)吸氢、振动修正与HER台阶图](electrocatalysis/README.md) |
+| 电催化（进阶） | [OER 台阶](electrocatalysis-oer/README.md)、[单原子稳定性](single-atom-catalyst/README.md)、[恒电位](electrocatalysis-potential/README.md)、[火山图](electrocatalysis-volcano/README.md) |
 
 所有结果均需与该例的模型、单位和收敛条件一起读取。完整原始输出在本地运行目录，公开资料保留可复用输入、数值表、必要图和指纹。

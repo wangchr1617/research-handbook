@@ -1,0 +1,51 @@
+{
+  "note": "Synthetic test energies; not a real interface.",
+  "interfaces": [
+    {
+      "interface": "Li|Li2CO3",
+      "work_of_adhesion_eV_per_A2": 0.05,
+      "work_of_adhesion_J_per_m2": 0.801
+    },
+    {
+      "interface": "Li2CO3|electrolyte",
+      "work_of_adhesion_eV_per_A2": 0.11,
+      "work_of_adhesion_J_per_m2": 1.762
+    },
+    {
+      "interface": "Li|electrolyte",
+      "work_of_adhesion_eV_per_A2": 0.04,
+      "work_of_adhesion_J_per_m2": 0.641
+    }
+  ],
+  "tunneling": {
+    "barrier_eV": 3.0,
+    "kappa_per_nm": 8.8736,
+    "decay_length_nm": 0.0563,
+    "transmission": [
+      {
+        "thickness_nm": 0.5,
+        "transmission": 0.00014003951494323167
+      },
+      {
+        "thickness_nm": 1.0,
+        "transmission": 1.961106574553561e-08
+      },
+      {
+        "thickness_nm": 1.5,
+        "transmission": 2.746324134524623e-12
+      },
+      {
+        "thickness_nm": 2.0,
+        "transmission": 3.8459389967572013e-16
+      },
+      {
+        "thickness_nm": 3.0,
+        "transmission": 7.542296251872421e-24
+      },
+      {
+        "thickness_nm": 5.0,
+        "transmission": 2.9007211280172022e-39
+      }
+    ]
+  }
+}

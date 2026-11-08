@@ -1,0 +1,17 @@
+{
+  "lattice_constant_A": 3.0,
+  "attempt_frequency_s": 10000000000000.0,
+  "barrier_x_eV": 0.35,
+  "barrier_y_eV": 0.55,
+  "temperatures_K": [
+    400,
+    500,
+    600,
+    700,
+    800
+  ],
+  "steps": 120000,
+  "samples": 40,
+  "seed": 7,
+  "tracers": 24
+}

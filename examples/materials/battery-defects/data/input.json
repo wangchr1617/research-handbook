@@ -1,0 +1,87 @@
+{
+  "host": {
+    "name": "LiFePO4（示意输入，不是真实 DFT 总能量）",
+    "E_total_eV": -100.0,
+    "atoms": {
+      "Li": 4,
+      "Fe": 4,
+      "P": 4,
+      "O": 16
+    }
+  },
+  "band_gap_eV": 3.5,
+  "vbm_eV": 0.0,
+  "temperature_K": 300.0,
+  "chemical_potentials_eV": {
+    "Li": -1.9,
+    "Fe": -7.0,
+    "P": -5.0,
+    "O": -4.5
+  },
+  "defects": [
+    {
+      "name": "V_Li",
+      "charge": 0,
+      "E_total_eV": -97.6,
+      "delta_atoms": {
+        "Li": -1
+      },
+      "correction_eV": 0.0
+    },
+    {
+      "name": "V_Li",
+      "charge": -1,
+      "E_total_eV": -96.8,
+      "delta_atoms": {
+        "Li": -1
+      },
+      "correction_eV": 0.2
+    },
+    {
+      "name": "Li_i",
+      "charge": 1,
+      "E_total_eV": -100.9,
+      "delta_atoms": {
+        "Li": 1
+      },
+      "correction_eV": 0.2
+    },
+    {
+      "name": "V_O",
+      "charge": 2,
+      "E_total_eV": -95.1,
+      "delta_atoms": {
+        "O": -1
+      },
+      "correction_eV": 0.4
+    },
+    {
+      "name": "V_O",
+      "charge": 1,
+      "E_total_eV": -94.2,
+      "delta_atoms": {
+        "O": -1
+      },
+      "correction_eV": 0.3
+    },
+    {
+      "name": "V_O",
+      "charge": 0,
+      "E_total_eV": -93.3,
+      "delta_atoms": {
+        "O": -1
+      },
+      "correction_eV": 0.4
+    },
+    {
+      "name": "Li_Fe",
+      "charge": -1,
+      "E_total_eV": -92.3,
+      "delta_atoms": {
+        "Li": 1,
+        "Fe": -1
+      },
+      "correction_eV": 0.2
+    }
+  ]
+}

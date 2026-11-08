@@ -1,0 +1,10 @@
+{
+  "note": "Synthetic energies; not a real catalyst.",
+  "formation_energy_single_at_mu_bulk_eV": -1.0,
+  "dimerization_energy_eV": 1.0,
+  "stable_mu_range_eV": [
+    -6.0,
+    -5.005
+  ],
+  "single_atom_stable_at_mu_bulk": true
+}

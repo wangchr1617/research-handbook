@@ -11,11 +11,13 @@
 | 笔记 | 内容或适用环境 |
 | --- | --- |
 | [第一性原理分子动力学](CP2K分子动力学.md) | 输入通用；Linux + PBS |
+| [CP2K 偶极轨迹与红外光谱](CP2K偶极轨迹与红外光谱.md) | 等间隔采样、Wannier 中心与频谱 |
 | [振动 Molden 与 MfakeG 显示转换](CP2K振动Molden与MfakeG显示转换.md) | 坐标单位、模式对应与可选强度的显示检查。 |
 | [NEB 初始插点与路径检查](CP2K的NEB初始插点与路径检查.md) | 锚点序号、分段插值与周期路径检查。 |
 | [分子振动频率](CP2K振动频率.md) | 输入通用；Linux + PBS |
 | [NEB 过渡态搜索](CP2K过渡态搜索.md) | 输入通用；Linux + PBS |
 | [约束分子动力学](CP2K约束分子动力学.md) | 输入与绘图通用；Linux + PBS |
+| [CP2K 自由能窗口与 PMF 重建](CP2K自由能窗口与PMF重建.md) | 约束平均力、伞形窗口与重叠 |
 | [Metadynamics 元动力学](CP2K元动力学.md) | 输入与绘图通用；Linux + PBS |
 
 返回[专题首页](../README.md)。

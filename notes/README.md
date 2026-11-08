@@ -16,8 +16,11 @@
 | 材料数据库 | [结构、性质、谱学、反应、文献与 AI 数据入口及 API](材料数据库专题/README.md) |
 | 材料应用 | [材料体系、功能性质与应用方向](材料应用/README.md) |
 | 材料计算共通方法 | [方法复查、赝势、数值精度、振动与电荷分析](计算化学/README.md) |
-| 电子结构与第一性原理 | [VASP](VASP)、[CP2K](CP2K)、[Quantum ESPRESSO](Quantum%20ESPRESSO)、[OpenMX](OpenMX)、[ORCA](ORCA) |
+| 固体物理基础 | [能带、声子、磁性、铁电与缺陷光学的最小模型](固体物理基础/README.md) |
+| 电子结构与第一性原理 | [VASP](VASP)、[CP2K](CP2K)、[Quantum ESPRESSO](Quantum%20ESPRESSO)、[OpenMX](OpenMX)、[ORCA](ORCA)、[CASTEP](CASTEP/README.md) |
 | 分子动力学与结构处理 | [LAMMPS](LAMMPS)、[GROMACS](GROMACS)、[GPUMD](GPUMD)、[Packmol](Packmol)、[OVITO](OVITO) |
+| 非绝热载流子与缺陷事件动力学 | [Hefei-NAMD](Hefei-NAMD/README.md)、[MMonCa](MMonCa/README.md) |
+| 连续介质与有限元 | [ANSYS](ANSYS/README.md) |
 | 编程与数据处理 | [Python](Python/README.md) |
 | 知识工程 | [MinerU、RAG、知识图谱、Neo4j 与 GraphRAG](知识工程/README.md) |
 | 数据库与全文检索 | [MySQL、Elasticsearch、索引同步与科研应用选型](后端工程/数据库与检索/README.md) |

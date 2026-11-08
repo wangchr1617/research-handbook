@@ -10,3 +10,4 @@
 | [QE 编译](QE编译.md) | Linux 集群 |
 | [QE 声子谱计算](QE声子谱计算.md) | Linux（Quantum ESPRESSO） |
 | [QE 结构优化](QE结构优化.md) | Linux（Quantum ESPRESSO） |
+| [Quantum ESPRESSO 能带与态密度](QE能带与态密度.md) | Si 能带、均匀网格 DOS 与后处理 |

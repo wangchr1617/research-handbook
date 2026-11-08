@@ -1,0 +1,8 @@
+{
+  "model": "Landau-Devonshire F = alpha/2 P^2 + beta/4 P^4 - E P",
+  "Tc": 1.0,
+  "a0": 1.0,
+  "beta": 1.0,
+  "Ps_at_lowest_T": 0.7746,
+  "coercive_field_estimate": 0.0974
+}

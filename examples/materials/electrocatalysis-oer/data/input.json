@@ -1,0 +1,9 @@
+{
+  "catalysts": [
+    {"name": "A", "dG_OH_eV": 1.0, "dG_O_eV": 2.2, "dG_OOH_eV": 3.5},
+    {"name": "B", "dG_OH_eV": 1.5, "dG_O_eV": 3.2, "dG_OOH_eV": 4.2},
+    {"name": "C", "dG_OH_eV": 0.6, "dG_O_eV": 1.2, "dG_OOH_eV": 3.8}
+  ],
+  "temperature_K": 298.15,
+  "potential_V": 1.23
+}

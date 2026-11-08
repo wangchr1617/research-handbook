@@ -1,0 +1,21 @@
+{
+  "note": "LJ liquid-vapor surface tension from the global pressure tensor; two interfaces.",
+  "gamma": 0.324708,
+  "mean_temperature": 0.839542,
+  "mean_pxx": 0.004085,
+  "mean_pyy": 0.004336,
+  "mean_pzz": 0.019526,
+  "block_means": [
+    0.274855,
+    0.379634,
+    0.285141,
+    0.306046,
+    0.373598,
+    0.307571,
+    0.21257,
+    0.35591,
+    0.425326,
+    0.222116
+  ],
+  "n_thermo_rows": 10001
+}

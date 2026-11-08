@@ -37,4 +37,6 @@ qsub job.pbs
 
 可用 OVITO 查看展开轨迹及是否仍有晶格结构；扩散拟合应以数值时间轴和实际单位为准。
 
+扩散也可用速度自相关的 Green–Kubo 积分交叉检查。在三维各向同性体系中，若速度已去除质心漂移，$D=\tfrac13\int_0^\infty\langle\mathbf v(t)\cdot\mathbf v(0)\rangle\,\mathrm dt$。MSD 看长时斜率，速度法要求输出间隔能解析短时衰减并检查积分平台。两种估计都应使用相同的粒子组、维度、状态点和时间单位。
+
 参考：单斌、陈征征、陈蓉《计算材料学》配套仓库[第七章 7.3—7.4](https://github.com/stanfordbshan/CompMatBook/tree/main/edition-1-2023/Chapter07)；[LAMMPS compute msd](https://docs.lammps.org/compute_msd.html)。本例采用重新编写的三维液体模型。

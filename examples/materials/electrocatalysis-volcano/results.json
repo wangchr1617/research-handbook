@@ -1,0 +1,7 @@
+{
+  "note": "Synthetic scaling-relation illustration; not a real DFT dataset.",
+  "one_dimensional_scaling": "dG_O = ratio * dG_OH; dG_OOH = dG_OH + offset",
+  "ratio": 2.0,
+  "min_overpotential_V": 0.3715,
+  "optimal_dG_OH_eV": 1.6015
+}

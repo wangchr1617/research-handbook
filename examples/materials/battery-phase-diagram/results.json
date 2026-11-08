@@ -1,0 +1,71 @@
+{
+  "note": "Synthetic test energies; not a real phase diagram.",
+  "reference_state": "Li metal (subtracted as x_Li * mu_Li)",
+  "stable_phases_x_Li": [
+    0.0,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "stable_phases_energy_eV_per_host": [
+    -4.0,
+    -4.2,
+    -4.28,
+    -4.3
+  ],
+  "voltage_steps": [
+    {
+      "x_start": 0.0,
+      "x_end": 0.5,
+      "voltage_V": 0.4
+    },
+    {
+      "x_start": 0.5,
+      "x_end": 0.75,
+      "voltage_V": 0.32
+    },
+    {
+      "x_start": 0.75,
+      "x_end": 1.0,
+      "voltage_V": 0.08
+    }
+  ],
+  "formation_energy_eV_per_host": [
+    {
+      "x_Li": 0.0,
+      "formation_eV_per_host": 0.0
+    },
+    {
+      "x_Li": 0.25,
+      "formation_eV_per_host": 0.035
+    },
+    {
+      "x_Li": 0.33,
+      "formation_eV_per_host": -0.021
+    },
+    {
+      "x_Li": 0.5,
+      "formation_eV_per_host": -0.05
+    },
+    {
+      "x_Li": 0.6,
+      "formation_eV_per_host": -0.03
+    },
+    {
+      "x_Li": 0.66,
+      "formation_eV_per_host": -0.022
+    },
+    {
+      "x_Li": 0.75,
+      "formation_eV_per_host": -0.055
+    },
+    {
+      "x_Li": 0.9,
+      "formation_eV_per_host": -0.02
+    },
+    {
+      "x_Li": 1.0,
+      "formation_eV_per_host": 0.0
+    }
+  ]
+}
