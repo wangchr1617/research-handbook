@@ -88,6 +88,10 @@ F_i=-\nabla V+2\left(\nabla V \cdot T^{\prime}\right) T^{\prime}+F_{\perp}
 $$
 然后进行弛豫过程。
 
+![普通副本去掉物理力切向分量，爬坡副本反转该分量](../../../examples/formula-figures/assets/neb_force_projection.png)
+
+图中黑箭头表示物理力经过切向投影后的结果，橙、绿箭头分别为切向和垂直分量。只看物理力项时，普通副本去掉切向分量，爬坡副本反转切向分量。弹簧和附加防扭折项未画出。
+
 ## 注意事项
 
 1. 必须用 [atom_modify map](https://docs.lammps.org/atom_modify.html) 命令定义原子映射，因为对于 `atom_style atomic` 原子类型映射不是默认的。

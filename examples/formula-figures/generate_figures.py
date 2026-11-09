@@ -327,6 +327,127 @@ def unit_vector_geometry():
     save(fig, "unit_vector_geometry")
 
 
+def neb_force_projection():
+    fig, axes = chart(width=8.2, height=2.8, columns=3)
+    for ax, title, tangent_force in zip(
+        axes, ["Physical force", "Ordinary NEB", "Climbing image"], [1.0, 0.0, -1.0]
+    ):
+        ax.axhline(0, color=MUTED, linestyle=":", linewidth=1)
+        ax.annotate(r"$\hat{\tau}$", (1.05, 0), (0.75, 0),
+                    arrowprops={"arrowstyle": "->", "color": MUTED}, color=MUTED)
+        ax.annotate("", (0, 0.72), (0, 0), arrowprops={"arrowstyle": "->", "color": TEAL, "lw": 2})
+        if tangent_force:
+            ax.annotate("", (tangent_force, 0), (0, 0),
+                        arrowprops={"arrowstyle": "->", "color": ORANGE, "lw": 2})
+        ax.annotate("", (tangent_force, 0.72), (0, 0),
+                    arrowprops={"arrowstyle": "->", "color": INK, "lw": 2})
+        ax.set(xlim=(-1.25, 1.25), ylim=(-0.24, 1.0), aspect="equal", title=title)
+        ax.set_axis_off()
+    save(fig, "neb_force_projection")
+
+
+def rotated_vector():
+    fig, ax = chart(width=5.1, height=3.5)
+    ax.add_patch(Circle((0, 0), 1, fill=False, linestyle=":", edgecolor=MUTED))
+    for vector, color, label in [((1, 0), TEAL, r"$v=(1,0)$"), ((0, 1), ORANGE, r"$Qv=(0,1)$")]:
+        ax.annotate("", vector, (0, 0), arrowprops={"arrowstyle": "->", "lw": 2.6, "color": color})
+        ax.annotate(label, vector, xytext=(6, 6), textcoords="offset points", color=color)
+    ax.add_patch(Arc((0, 0), 0.64, 0.64, theta1=0, theta2=90, color=PURPLE))
+    ax.text(0.28, 0.28, r"$90^\circ$", color=PURPLE)
+    ax.text(-0.9, -0.64, r"$\|v\|=\|Qv\|=1$", color=MUTED)
+    ax.set(xlim=(-1.12, 1.65), ylim=(-1.1, 1.2), aspect="equal", xlabel=r"$x$", ylabel=r"$y$")
+    axis_grid(ax)
+    save(fig, "rotated_vector")
+
+
+def gaussian_exponents():
+    fig, ax = chart()
+    radius = np.linspace(0, 5, 251)
+    for exponent, color, line in [(2, ORANGE, "--"), (0.6, PURPLE, "-."), (0.15, TEAL, "-")]:
+        ax.plot(radius, np.exp(-exponent * radius ** 2), line, color=color,
+                label=rf"$\alpha={exponent:g}$ bohr$^{{-2}}$")
+    ax.set(xlabel=r"Distance $r$ (bohr)", ylabel=r"Relative amplitude $\chi(r)/\chi(0)$")
+    ax.legend()
+    axis_grid(ax)
+    save(fig, "gaussian_exponents")
+
+
+def ring_probe():
+    fig, ax = chart(width=6.5, height=4.3)
+    for center in [(-3, 0), (3, 0)]:
+        ax.add_patch(Circle(center, 1.7, facecolor="#edf0f2", edgecolor=MUTED))
+    for height, color, label in [(0, TEAL, "In plane: 1.30 Å"), (2, ORANGE, "Above plane: 1.91 Å")]:
+        radius = np.hypot(3, height) - 1.7
+        ax.add_patch(Circle((0, height), radius, fill=False, edgecolor=color,
+                            linestyle="-" if height else "--", linewidth=2))
+        ax.plot(0, height, ".", color=color, label=label)
+    ax.axhline(0, color=MUTED, linestyle=":", linewidth=1)
+    ax.set(xlim=(-5, 5), ylim=(-1.9, 4.3), aspect="equal",
+           xlabel="In-plane coordinate (Å)", ylabel="Height above ring (Å)")
+    ax.legend(loc="upper left")
+    save(fig, "ring_probe")
+
+
+def bcp_curvature():
+    fig, axes = chart(width=8.1, height=2.9, columns=3)
+    coordinate = np.linspace(-1, 1, 161)
+    for ax, name, eigenvalue in zip(axes, ["Transverse 1", "Transverse 2", "Along bond path"], [-2, -1, 4]):
+        ax.plot(coordinate, eigenvalue * coordinate ** 2 / 2, color=TEAL if eigenvalue < 0 else ORANGE)
+        ax.scatter([0], [0], color=PURPLE, zorder=3)
+        ax.set(title=rf"{name}: $\lambda={eigenvalue}$", ylim=(-1.2, 2.2),
+               xlabel="Local displacement (a.u.)")
+        axis_grid(ax)
+    axes[0].set_ylabel(r"Density change $\Delta\rho$ (a.u.)")
+    save(fig, "bcp_curvature")
+
+
+def soap_density_slice():
+    fig, axes = chart(width=8.2, height=3.5, columns=2)
+    coordinate = np.linspace(-2.4, 2.4, 201)
+    x, y = np.meshgrid(coordinate, coordinate)
+    neighbors = np.array([[-0.8, 0.3], [0.15, 1.1], [0.95, -0.5]])
+    for ax, sigma in zip(axes, [0.2, 0.55]):
+        density = sum(np.exp(-((x-a)**2+(y-b)**2)/(2*sigma**2)) for a, b in neighbors)
+        mesh = ax.pcolormesh(x, y, density, cmap="cividis", vmin=0, vmax=1.2, shading="auto")
+        ax.scatter(*neighbors.T, s=19, facecolors="none", edgecolors="white")
+        ax.set(aspect="equal", title=rf"$\sigma={sigma}$ Å", xlabel=r"$x$ (Å)")
+    axes[0].set_ylabel(r"$y$ (Å)")
+    fig.colorbar(mesh, ax=axes, label="Model density (a.u.)")
+    save(fig, "soap_density_slice")
+
+
+def matrix_error_projection():
+    fig, ax = chart()
+    state = np.linspace(0, 90, 181)
+    angle = np.deg2rad(state)
+    ax.plot(state, 0.04*np.cos(angle)**2, color=TEAL,
+            label=r"$\delta H=\mathrm{diag}(0.04,0)$ eV")
+    ax.plot(state, 0.04*np.sin(angle)**2, "--", color=ORANGE,
+            label=r"$\delta H=\mathrm{diag}(0,0.04)$ eV")
+    ax.set(xlabel=r"Reference state angle $\theta$ (degrees)", ylabel=r"First-order shift $\delta\epsilon$ (eV)",
+           xticks=[0, 30, 60, 90], ylim=(-0.002, 0.048))
+    ax.legend(loc="upper center")
+    axis_grid(ax)
+    save(fig, "matrix_error_projection")
+
+
+def solvation_cycle():
+    fig, ax = chart(height=3.1)
+    for x, y, label in [(0, 1, "Gas\n1 atm"), (1, 1, "Gas\n1 mol/L"),
+                        (1, 0, "Solution\n1 mol/L")]:
+        ax.scatter(x, y, color=TEAL, zorder=3)
+        ax.text(x, y + (0.10 if y else -0.12), label, ha="center", va="bottom" if y else "top")
+    for start, stop, label, position, align in [
+        ((0, 1), (1, 1), r"$\Delta G_{\rm std}$", (0.5, 1.07), "center"),
+        ((1, 1), (1, 0), r"$\Delta G_{\rm solv}^{c\to c}$", (1.08, 0.52), "left"),
+    ]:
+        ax.annotate("", stop, start, arrowprops={"arrowstyle": "->", "color": PURPLE, "lw": 2})
+        ax.text(*position, label, ha=align, color=PURPLE)
+    ax.set(xlim=(-0.27, 1.55), ylim=(-0.43, 1.48))
+    ax.set_axis_off()
+    save(fig, "solvation_cycle")
+
+
 if __name__ == "__main__":
     ASSETS.mkdir(exist_ok=True)
     periodic_image()
@@ -342,3 +463,11 @@ if __name__ == "__main__":
     binary_hull()
     graphite_capacity()
     unit_vector_geometry()
+    neb_force_projection()
+    rotated_vector()
+    gaussian_exponents()
+    ring_probe()
+    bcp_curvature()
+    soap_density_slice()
+    matrix_error_projection()
+    solvation_cycle()

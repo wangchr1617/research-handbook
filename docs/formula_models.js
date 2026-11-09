@@ -212,4 +212,114 @@ const experiments = [
       };
     },
   },
+  {
+    id: "spring-force",
+    title: "压缩和拉伸时，两个原子往哪边受力？",
+    short: "键长与受力",
+    note: "机器学习势函数/基础与比较/势函数的学习对象与数学基础.md",
+    formula: "E(r) = k(r − r₀)²/2　·　F₁ = k(r − r₀)　·　F₂ = −F₁",
+    prompt: "把键长从平衡位置向两侧拖，观察两原子的力怎样换向。再增大刚度，比较同一伸长量下的受力。",
+    detail: "一维谐振模型，平衡键长 r₀ = 2 Å。原子 1 在左，原子 2 在右，正力指向右。模型用于比较平衡位置附近的位移。",
+    sliders: [
+      ["distance", "键长 r", 1.6, 2.4, 0.02, 2.2, "Å"],
+      ["spring", "刚度 k", 1, 8, 0.5, 3, "eV/Å²"],
+    ],
+    presets: [["压缩", { distance: 1.8 }], ["平衡", { distance: 2 }], ["拉伸", { distance: 2.2 }]],
+    compute({ distance, spring }) {
+      const force = r => spring * (r - 2);
+      const xs = labRange(1.6, 2.4);
+      return {
+        x: [1.6, 2.4, "键长 r（Å）"], y: [-3.4, 3.4, "受力（eV/Å）"],
+        lines: [curve(xs, force, "原子 1"), curve(xs, r => -force(r), "原子 2", 1, "6 3")],
+        dots: [marker(distance, force(distance), 0), marker(distance, -force(distance), 1)],
+        readings: [["原子 1", displayNumber(force(distance)) + " eV/Å"],
+          ["原子 2", displayNumber(-force(distance)) + " eV/Å"],
+          ["弹性能", displayNumber(spring * (distance - 2) ** 2 / 2, 3) + " eV"]],
+      };
+    },
+  },
+  {
+    id: "nonorthogonal-band",
+    title: "基重叠怎样改变一维能带？",
+    short: "非正交能带",
+    note: "机器学习紧束缚模型/基础与比较/从双原子到紧束缚能带.md",
+    formula: "E(k) = [a + 2t cos(kd)]/[1 + 2s cos(kd)]",
+    prompt: "从 s = 0 向正值拖，比较带顶和带底的变化。试试负重叠，找出哪一端受到更强的放大。",
+    detail: "固定在位能 a = 0、最近邻跃迁 t = −1 eV。重叠 s 无量纲，限制在 |s| ≤ 0.4，使整个布里渊区的分母为正。",
+    sliders: [["overlap", "最近邻重叠 s", -0.4, 0.4, 0.02, 0.2, ""]],
+    presets: [["正交基", { overlap: 0 }], ["正重叠", { overlap: 0.4 }], ["负重叠", { overlap: -0.4 }]],
+    compute({ overlap }) {
+      const xs = labRange(-1, 1);
+      const energy = x => {
+        const cosine = Math.cos(Math.PI * x);
+        return -2 * cosine / (1 + 2 * overlap * cosine);
+      };
+      return {
+        x: [-1, 1, "kd/π"], y: [-10.5, 10.5, "能量 E（eV）"],
+        lines: [curve(xs, energy, "当前色散"), curve(xs, x => -2 * Math.cos(Math.PI * x), "正交基参考", 1, "6 3")],
+        readings: [["带底", displayNumber(energy(0)) + " eV"], ["带顶", displayNumber(energy(1)) + " eV"],
+          ["最小重叠本征值", displayNumber(1 - 2 * Math.abs(overlap))]],
+      };
+    },
+  },
+  {
+    id: "vibrational-entropy",
+    title: "低频模式为何对自由能特别敏感？",
+    short: "低频振动热修正",
+    note: "计算化学/低频振动与虚频的处理.md",
+    formula: "x = hcν̃/(k<sub>B</sub>T)　·　S/R = x/(eˣ−1) − ln(1−e⁻ˣ)",
+    prompt: "把波数拖向低频端，比较零点能、升温内能和熵项。提高温度后，观察 −TS 的变化。",
+    detail: "实频单模的谐振子模型。波数最小取 5 cm⁻¹。图中三个量均为每摩尔贡献，−TS 按自由能中的符号绘制。",
+    sliders: [
+      ["frequency", "波数 ν̃", 5, 500, 5, 50, "cm⁻¹"],
+      ["temperature", "温度 T", 100, 600, 10, 300, "K"],
+    ],
+    presets: [["低频", { frequency: 5 }], ["较高频", { frequency: 300 }]],
+    compute({ frequency, temperature }) {
+      const rt = 0.008314462618 * temperature;
+      const scaled = nu => 1.438776877 * nu / temperature;
+      const zpe = nu => rt * scaled(nu) / 2;
+      const thermal = nu => rt * scaled(nu) / Math.expm1(scaled(nu));
+      const entropy = nu => -thermal(nu) + rt * Math.log(-Math.expm1(-scaled(nu)));
+      const xs = labRange(5, 500);
+      return {
+        x: [5, 500, "波数 ν̃（cm⁻¹）"], y: [-28, 6, "每摩尔能量贡献（kJ/mol）"],
+        lines: [curve(xs, zpe, "零点能"), curve(xs, thermal, "升温内能", 1, "6 3"),
+          curve(xs, entropy, "−TS", 2)],
+        dots: [marker(frequency, zpe(frequency), 0), marker(frequency, thermal(frequency), 1),
+          marker(frequency, entropy(frequency), 2)],
+        readings: [["零点能", displayNumber(zpe(frequency)) + " kJ/mol"],
+          ["升温内能", displayNumber(thermal(frequency)) + " kJ/mol"],
+          ["−TS", displayNumber(entropy(frequency)) + " kJ/mol"]],
+      };
+    },
+  },
+  {
+    id: "conformer-population",
+    title: "自由能较高的构象能占多数吗？",
+    short: "构象平衡布居",
+    note: "计算化学/分子热力学量与标准态.md",
+    formula: "p<sub>B</sub> = g<sub>B</sub>exp(−ΔG/RT)/[1 + g<sub>B</sub>exp(−ΔG/RT)]",
+    prompt: "让 B 的每个势阱都比 A 高，再提高 B 的等价势阱数。观察哪种条件下 B 的总布居超过一半。",
+    detail: "A 有一个势阱，B 有 gB 个等价势阱，ΔG 为 B 单个势阱相对 A 的自由能差。扫描温度时固定示意 ΔG，用于单独观察玻尔兹曼权重。",
+    sliders: [
+      ["gap", "自由能差 ΔG", -8, 8, 0.2, 3, "kJ/mol"],
+      ["degeneracy", "B 的等价势阱数", 1, 8, 1, 3, ""],
+      ["temperature", "温度 T", 150, 650, 10, 300, "K"],
+    ],
+    presets: [["等自由能", { gap: 0, degeneracy: 1 }], ["B 势阱更多", { gap: 3, degeneracy: 6 }]],
+    compute({ gap, degeneracy, temperature }) {
+      const rt = 0.008314462618 * temperature;
+      const fraction = g => 1 / (1 + Math.exp(g / rt) / degeneracy);
+      const xs = labRange(-8, 8);
+      return {
+        x: [-8, 8, "每势阱自由能差 ΔG（kJ/mol）"], y: [0, 100, "构象布居（%）"],
+        lines: [curve(xs, g => 100 * (1 - fraction(g)), "A"), curve(xs, g => 100 * fraction(g), "B", 1, "6 3")],
+        dots: [marker(gap, 100 * (1 - fraction(gap)), 0), marker(gap, 100 * fraction(gap), 1)],
+        readings: [["A 的布居", displayNumber(100 * (1 - fraction(gap)), 1) + "%"],
+          ["B 的总布居", displayNumber(100 * fraction(gap), 1) + "%"],
+          ["两组各占一半时的 ΔG", displayNumber(rt * Math.log(degeneracy)) + " kJ/mol"]],
+      };
+    },
+  },
 ];
