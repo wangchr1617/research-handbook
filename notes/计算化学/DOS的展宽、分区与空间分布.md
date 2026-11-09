@@ -17,6 +17,8 @@ $$
 
 Gaussian 的半高全宽满足 \(\Gamma=2\sqrt{2\ln2}\,\sigma\)；Lorentzian 用半宽 \(\Gamma/2\)；Pseudo-Voigt 是两种核的加权组合。展宽越大，邻近能级越容易合并，峰高下降，尾部还可填入原本没有能级的间隙。不能从平滑后曲线接近零的位置重新定义分子的 HOMO–LUMO 间隙。
 
+[交互演示](https://wangchr1617.github.io/research-handbook/#dos)。改变 Gaussian 展宽，比较峰形、图内积分与全能量积分。
+
 有限绘图窗口通常漏掉核心态、高能空态和核函数尾部，因此窗口内积分不必等于全部轨道数。应分别检查轨道列表是否完整、能量范围是否覆盖目标、核是否归一和积分步长是否充分。若进一步计算一阶矩，见 [d 带中心的能窗与参考](d带中心的能窗、参考与比较.md)。
 
 周期体系的 DOS 还包含能带、布里渊区与 k 点权重：\(D(E)=\sum_{n\mathbf k}w_\mathbf k\delta(E-\epsilon_{n\mathbf k})\)。分子展宽不能替代 k 点收敛；周期超胞的 Γ 点结果是否足够取决于体系。VASP 的原子球/投影子 PDOS 也不必严格加和为总 DOS，应查具体投影定义，而不是照搬分子完备分区的恒等式。输出单位和投影列可查 [VASP DOSCAR 说明](https://vasp.at/wiki/DOSCAR)。

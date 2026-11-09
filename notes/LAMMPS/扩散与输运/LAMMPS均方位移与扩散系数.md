@@ -8,6 +8,8 @@ $$D=\frac16\frac{\mathrm d}{\mathrm dt}\left\langle|\mathbf r(t)-\mathbf r(0)|^2
 
 二维的分母则为 4；若只分析一个笛卡尔分量，分母为 2。
 
+[交互演示](https://wangchr1617.github.io/research-handbook/#msd)。在示意曲线上移动拟合窗口，比较弹道区与扩散区给出的斜率。
+
 ## 小型 LJ 液体
 
 [最小案例](../../../examples/lammps/minimal/lj-diffusion)的 [in.lammps](../../../examples/lammps/minimal/lj-diffusion/in.lammps)使用 256 个 LJ 粒子，约化密度 0.75，先在目标温度 1.2 下 NVT 平衡 5000 步，再用 NVE 采样 10000 步。步长为 0.005，生产阶段共 50 个约化时间单位。
