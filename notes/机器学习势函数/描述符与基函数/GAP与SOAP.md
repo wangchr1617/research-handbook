@@ -17,6 +17,10 @@ $$
 \exp\!\left[-\frac{|\mathbf r-\mathbf r_{ij}|^2}{2\sigma^2}\right].
 $$
 
+![同一组邻居在两种 Gaussian 宽度下的密度切片](../../../examples/formula-figures/assets/soap_density_slice.png)
+
+两幅图取相同的三个邻居位置、相同色标和单位截断权重。增大 $\sigma$ 后，邻居之间的云团重叠增多。这里画的是输入密度切片，后续才对密度展开并构造功率谱。
+
 $\sigma$ 是云团宽度。小幅移动原子只会平滑改变密度，避免硬直方图跨格时的跳变。再用径向函数和球谐函数展开密度，得到系数 $c_{nlm}$；把角分量成对相乘并求和，得到功率谱：
 
 $$
