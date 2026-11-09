@@ -2,6 +2,8 @@
 
 | 内容 | 资料 |
 | --- | --- |
+| 公式实验台 | [打开交互演示](https://wangchr1617.github.io/research-handbook/) · [页面源码与离线用法](../docs/README.md) |
+| 笔记公式配图 | [公式配图与对应笔记](formula-figures/README.md) |
 | 材料应用 | [十类材料问题的输入、运行与后处理](materials/README.md) |
 | RMSE 数据分析入门 | [数据、脚本与预期输出](rmse/README.md) |
 | 显式溶剂壳层与 GB 模型 | [甲烷水球、完整分子提取与双电荷核函数](solvent-shell/README.md) |

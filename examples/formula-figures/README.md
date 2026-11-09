@@ -1,0 +1,29 @@
+# 笔记公式配图
+
+每张图都接在对应笔记的公式或定义旁，便于对照变量、几何关系和极限。图中使用示意模型参数。另有可拖动参数的[公式实验台](https://wangchr1617.github.io/research-handbook/)。
+
+| 读图主题 | 对应笔记 |
+| --- | --- |
+| 最小镜像距离 | [空间分区、周期边界与拓扑对应](../../notes/Packmol/空间分区、周期边界与拓扑对应.md) |
+| NEB 分段插点 | [CP2K 的 NEB 初始插点与路径检查](../../notes/CP2K/动力学与反应/CP2K的NEB初始插点与路径检查.md) |
+| 密度差与累计积分 | [CP2K 密度差与平面曲线](../../notes/CP2K/电子结构与响应/CP2K密度差与平面曲线.md) |
+| 界面温度跃变 | [LAMMPS 界面热导与温度跃变](../../notes/LAMMPS/扩散与输运/LAMMPS界面热导与温度跃变.md) |
+| 中心差分步长与误差 | [VASP 有限差分振动频率](../../notes/VASP/振动与热力学/VASP有限差分振动频率.md) |
+| 径向 ACSF | [BP 与原子中心对称函数](../../notes/机器学习势函数/描述符与基函数/BP与原子中心对称函数.md) |
+| 固定与弛豫的曲率 | [Hessian、正常模式与频率复核](../../notes/计算化学/Hessian、正常模式与频率复核.md) |
+| 完备基组外推 | [基组收敛与完备基组外推](../../notes/计算化学/基组收敛与完备基组外推.md) |
+| BSSE 与 counterpoise | [相互作用能与 BSSE 校正](../../notes/计算化学/相互作用能与BSSE校正.md) |
+| ALTBC 有序计数 | [ALTBC 计算](../../notes/材料应用/相变存储/ALTBC计算.md) |
+| 形成能与凸包距离 | [晶体结构评价：从匹配率到 SUN 与 mSUN](../../notes/晶体结构预测专题/评价指标与专业术语.md) |
+| 石墨容量的质量口径 | [电池容量与能量密度的质量口径](../../notes/材料应用/锂离子电池/电池容量与能量密度的质量口径.md) |
+| 余弦相似度与欧氏距离 | [RAG 检索、生成与评估](../../notes/知识工程/RAG检索生成与评估.md) |
+
+## 重绘
+
+在安装了 NumPy 和 Matplotlib 的 Python 环境中，从仓库根目录运行：
+
+```bash
+python3 examples/formula-figures/generate_figures.py
+```
+
+参数定义在[绘图脚本](generate_figures.py)中。脚本将 PNG 写入 `examples/formula-figures/assets/`，便于在 GitHub 笔记正文中直接查看。
