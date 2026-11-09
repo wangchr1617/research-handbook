@@ -1,41 +1,22 @@
+<p align="center">
+  <img src="docs/assets/research_handbook_logo.webp" alt="Research Handbook 标志" width="680">
+</p>
 
 # Research Handbook
 
-本仓库旨在记录学习与科研过程中常用的入门资源，并为团队提供一个共享、合作与提升科研水平的平台，方便成员查阅与贡献。
+ALKEMIE 课题组共建的科研学习手册。从配置环境、提交第一份计算，到查阅材料模拟方法、复现案例和开发科研工具。
 
-## 🤝 Preface
-
-入学两年来，我深感自学的挑战与不易。真诚感谢刘晗煜师兄的启发，让我萌生了创建这个仓库的想法。希望它能成为后来的师弟师妹们学习路上的一份助力。
-
-也真心期待大家积极参与，共同完善内容、补充资源，并提出宝贵的改进建议。无论是分享学习笔记、科研心得，还是记录遇到的困难和思考，每一份贡献都是团队宝贵的财富。
-
-愿这个仓库不仅是知识的汇聚之地，更成为我们交流想法、携手进步的共同平台。
+[开始学习](#从哪里开始) · [最新笔记](#最近新增的十篇笔记) · [目录导航](#目录导航) · [参与贡献](#参与贡献) · [致谢](#致谢)
 
 ## 从哪里开始
 
-完整阅读顺序见[入门阅读目录](getting-started/阅读目录.md)与[专题阅读目录](notes/阅读目录.md)。
-
-第一次访问，建议从[入门路线](getting-started/README.md)开始；想先动手，可以运行 [RMSE 小案例](examples/rmse/README.md)。希望分享学习与计算经验，可阅读[贡献指南](CONTRIBUTING.md)。
-
-想动手理解公式，可以从[公式实验台](https://wangchr1617.github.io/research-handbook/)开始，拖动参数观察带隙、声子色散、态密度与扩散拟合等关系。[公式配图索引](examples/formula-figures/README.md)汇集可直接在笔记里查看的示意图。
-
-开发科研 Agent 应用，可阅读[后端工程专题](notes/后端工程/README.md)，并运行包含登录、文件上传、历史会话与后台任务的 [Agent Demo](examples/backend/agent-demo/README.md)。
-
-构建文献检索与科研知识库，可阅读[知识工程专题](notes/知识工程/README.md)，学习 MinerU 文档解析、RAG、知识图谱与 Neo4j，并对照 Archeos、Alkemie 的源码实例。
-
-查找结构、性质、谱学、反应和 AI 训练数据，可阅读[材料数据库专题](notes/材料数据库专题/README.md)，了解数据内容、官网入口与 API 调用方法。
-
-研究未知晶体结构，可先读[晶体结构预测专题](notes/晶体结构预测专题/README.md)了解任务、生成模型、数据与评价，再读[晶体结构搜索专题](notes/晶体结构搜索专题/README.md)学习全局优化算法、软件工作流与结果验证。
-
-材料计算可从[材料应用专题](notes/材料应用/README.md)按材料体系、功能性质或应用目标选择教程与[实际案例](examples/materials/README.md)。
-
-认识毕业后的产业与学术方向，可阅读[企业专题](notes/企业专题/README.md)和[高校与研究院专题](notes/高校与研究院专题/README.md)，按领域对照产品、研究方法、工具平台与岗位能力。
-
-搭建自己的计算环境，可阅读[算力硬件与集群搭建专题](notes/算力硬件与集群搭建专题/README.md)，从需求分析、CPU/GPU 与存储选型走到网络、Slurm 部署和基本运维。
+- **刚入组**　从[入门阅读目录](getting-started/阅读目录.md)开始，按自己的系统准备环境，练习使用 Linux 集群和 Git。
+- **想先动手**　运行 [RMSE 小案例](examples/rmse/README.md)，或打开[公式实验台](https://wangchr1617.github.io/research-handbook/)，拖动参数观察带隙、声子色散、态密度和扩散拟合的变化。静态示意图见[公式配图索引](examples/formula-figures/README.md)。
+- **已有研究方向**　用[专题阅读目录](notes/阅读目录.md)选取学习顺序，或在下方按研究任务找资料。
 
 ## 最近新增的十篇笔记
 
-展示 `notes/` 与 `getting-started/` 最近新增的十篇正文笔记，新增笔记时同步更新。按新增日期及加入先后倒序排列，无法区分先后时按路径排序；历史日期依据 Git 新增记录，更新或重命名已有笔记不计入新增。维护规则见 [AGENTS.md](AGENTS.md#阅读目录与最近新增笔记)。
+[列表维护规则](AGENTS.md#阅读目录与最近新增笔记)
 
 | 新增日期 | 笔记 | 主题 |
 | --- | --- | --- |
@@ -61,28 +42,39 @@
 | [examples](examples/README.md) | 科研案例、Notebook 与配套数据 |
 | [templates](templates/README.md) | 学习与计算记录模板 |
 
-机器学习原子模型可按任务进入：[势函数](notes/机器学习势函数/README.md)用于原子能量与动力学，[哈密顿量](notes/机器学习哈密顿量/README.md)用于电子矩阵与能谱，[紧束缚模型](notes/机器学习紧束缚模型/README.md)用于有效轨道空间与参数学习。
+### 按研究任务找资料
 
-项目协作约定见 [AGENTS.md](AGENTS.md)，供成员与不同 AI 助手参考。
+| 想做什么 | 阅读入口 |
+| --- | --- |
+| 按材料体系或性质做计算 | [材料应用专题](notes/材料应用/README.md)和[配套案例](examples/materials/README.md) |
+| 预测未知晶体结构 | 先读[晶体结构预测](notes/晶体结构预测专题/README.md)了解生成模型、数据与评价，再读[晶体结构搜索](notes/晶体结构搜索专题/README.md)学习全局优化、软件工作流与结果验证 |
+| 选机器学习原子模型 | 用[势函数](notes/机器学习势函数/README.md)研究原子能量与动力学，用[哈密顿量](notes/机器学习哈密顿量/README.md)研究电子矩阵与能谱，用[紧束缚模型](notes/机器学习紧束缚模型/README.md)学习有效轨道空间与参数 |
+| 查找材料数据 | 在[材料数据库专题](notes/材料数据库专题/README.md)查结构、性质、谱学、反应与 AI 训练数据及 API |
+| 开发科研 Agent | 阅读[后端工程专题](notes/后端工程/README.md)，运行带登录、文件上传、历史会话和后台任务的 [Agent Demo](examples/backend/agent-demo/README.md) |
+| 搭建科研知识库 | 在[知识工程专题](notes/知识工程/README.md)学习 MinerU、RAG 和 Neo4j，并对照 Archeos、Alkemie 的源码实例 |
+| 搭建自己的计算环境 | 在[算力硬件与集群搭建专题](notes/算力硬件与集群搭建专题/README.md)查 CPU/GPU、存储、网络选型及 Slurm 部署与运维 |
+| 了解毕业去向 | 在[企业专题](notes/企业专题/README.md)和[高校与研究院专题](notes/高校与研究院专题/README.md)了解产品、研究方向、工具平台与岗位能力 |
 
-## 🛠️ Usage
+## 参与贡献
 
-1. 如何下载？
+欢迎补充笔记、修正错误或分享可复现的计算案例。可以通过 [Issue](https://github.com/wangchr1617/research-handbook/issues) 提出问题，或按[贡献指南](CONTRIBUTING.md)提交 Pull Request。初次使用 GitHub，可先读 [Git 入门](getting-started/git/Git入门.md)和 [Markdown 入门](getting-started/git/Markdown入门.md)。
+
+克隆仓库到本地：
 
 ```bash
 git clone https://github.com/wangchr1617/research-handbook.git
 ```
 
-2. 如何贡献？
+目录维护和笔记写作约定见 [AGENTS.md](AGENTS.md)。
 
-欢迎通过 Issue 提出问题，或通过 Pull Request 补充资料。具体步骤见[贡献指南](CONTRIBUTING.md)。
+## 致谢
 
-## 📄 License
+感谢刘晗煜师兄启发我创建这本手册，也感谢分享笔记、复核计算案例、纠正错误和反馈问题的同学。手册标志沿用了 ALKEMIE 的深蓝底与蓝紫轨道配色。
 
-此仓库采用 MIT 许可证授权。详情请参见 [LICENSE](LICENSE)。
+[![Research Handbook 的 GitHub 贡献者头像](https://contrib.rocks/image?repo=wangchr1617/research-handbook)](https://github.com/wangchr1617/research-handbook/graphs/contributors)
 
-## 💬 Contact
+头像由 [contrib.rocks](https://contrib.rocks/) 根据 GitHub 的公开提交记录自动更新。[查看 GitHub 贡献者](https://github.com/wangchr1617/research-handbook/graphs/contributors)
 
-Markdown 和 Git 相关问题请首先参阅 [Markdown 入门](getting-started/git/Markdown入门.md) 和 [Git 入门](getting-started/git/Git入门.md)。
+## 许可
 
-如果有任何问题或建议，请随时提交 Issue 或联系仓库所有者。
+手册原创内容采用 [MIT 许可证](LICENSE)。引用的第三方资料遵循各自的许可。
