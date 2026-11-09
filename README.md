@@ -17,6 +17,8 @@
 
 第一次访问，建议从[入门路线](getting-started/README.md)开始；想先动手，可以运行 [RMSE 小案例](examples/rmse/README.md)。希望分享学习与计算经验，可阅读[贡献指南](CONTRIBUTING.md)。
 
+想动手理解公式，可以从[公式实验台](https://wangchr1617.github.io/research-handbook/)开始，拖动参数观察带隙、声子色散、态密度与扩散拟合等关系。
+
 开发科研 Agent 应用，可阅读[后端工程专题](notes/后端工程/README.md)，并运行包含登录、文件上传、历史会话与后台任务的 [Agent Demo](examples/backend/agent-demo/README.md)。
 
 构建文献检索与科研知识库，可阅读[知识工程专题](notes/知识工程/README.md)，学习 MinerU 文档解析、RAG、知识图谱与 Neo4j，并对照 Archeos、Alkemie 的源码实例。

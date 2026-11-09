@@ -1,0 +1,17 @@
+# 公式实验台
+
+[打开 GitHub Pages](https://wangchr1617.github.io/research-handbook/)。每个实验可用鼠标、触屏或键盘调节参数，图与数值同步更新。预设用于检查公式的极限，“重置”可恢复默认参数。
+
+离线使用时，下载或克隆仓库，用浏览器打开 [index.html](index.html)。页面使用随仓库分发的 CSS 和 JavaScript。
+
+| 实验 | 配套笔记 |
+| --- | --- |
+| 紧束缚带隙 | [能带结构与紧束缚模型](../notes/固体物理基础/能带结构与紧束缚模型.md) |
+| 双原子链声子 | [晶格振动与声子谱](../notes/固体物理基础/晶格振动与声子谱.md) |
+| 铁电双势阱 | [铁电性与软模](../notes/固体物理基础/铁电性与软模.md) |
+| 缺陷光学跃迁 | [点缺陷与光学跃迁](../notes/固体物理基础/点缺陷与光学跃迁.md) |
+| DOS 展宽 | [DOS 的展宽、分区与空间分布](../notes/计算化学/DOS的展宽、分区与空间分布.md) |
+| MSD 拟合窗口 | [LAMMPS 均方位移与扩散系数](../notes/LAMMPS/扩散与输运/LAMMPS均方位移与扩散系数.md) |
+| OER 过电位 | [电催化描述符与火山图](../notes/材料应用/电催化/电催化描述符与火山图.md) |
+
+实验的公式、参数范围和数据在 [formula_models.js](formula_models.js)，绘图与控件在 [formula_lab.js](formula_lab.js)。GitHub Pages 从 `main` 的 `/docs` 发布。
