@@ -12,13 +12,21 @@
 <body>
   <header class="hero">
     <div class="wrap">
-      <a class="home" href="https://github.com/wangchr1617/research-handbook#从哪里开始">Research Handbook ↗</a>
+      <a class="home" href="https://github.com/wangchr1617/research-handbook#从哪里开始">返回 Research Handbook</a>
       <h1>公式实验台</h1>
       <p>先预测曲线会怎么变，再拖动参数检验。每个实验都附原笔记，可回去对照推导与计算条件。</p>
-      <nav id="experiments" aria-label="实验目录"></nav>
     </div>
   </header>
-  <main class="wrap" id="lab">
+  <main class="wrap workspace">
+    <nav class="experiment-nav" aria-label="实验目录" hidden>
+      <h2>实验目录</h2>
+      <ul id="experiments"></ul>
+    </nav>
+    <label class="experiment-picker" hidden>
+      切换实验
+      <select id="experiment-select"></select>
+    </label>
+    <div id="lab"></div>
     <noscript><p>请启用 JavaScript 使用公式实验台。也可以回到 <a href="https://github.com/wangchr1617/research-handbook/tree/main/notes">GitHub 专题笔记</a>查看公式与静态图。</p></noscript>
   </main>
   <footer class="wrap">ALKEMIE 课题组 · <a href="https://github.com/wangchr1617/research-handbook/tree/main/docs">查看页面源码</a></footer>

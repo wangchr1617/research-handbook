@@ -15,7 +15,6 @@ const segment = (x, y0, y1, color = 2, arrow = false) => ({
 const experiments = [
   {
     id: "tight-binding",
-    topic: "固体物理 · 01",
     title: "二聚化怎样打开带隙？",
     short: "紧束缚带隙",
     note: "固体物理基础/能带结构与紧束缚模型.md",
@@ -43,7 +42,6 @@ const experiments = [
   },
   {
     id: "phonon",
-    topic: "固体物理 · 02",
     title: "质量差怎样改变声子色散？",
     short: "双原子链声子",
     note: "固体物理基础/晶格振动与声子谱.md",
@@ -76,7 +74,6 @@ const experiments = [
   },
   {
     id: "landau",
-    topic: "固体物理 · 03",
     title: "极化双势阱如何合并？",
     short: "铁电双势阱",
     note: "固体物理基础/铁电性与软模.md",
@@ -102,7 +99,6 @@ const experiments = [
   },
   {
     id: "defect-optical",
-    topic: "固体物理 · 04",
     title: "吸收和发射的能量差从哪来？",
     short: "缺陷光学跃迁",
     note: "固体物理基础/点缺陷与光学跃迁.md",
@@ -130,7 +126,6 @@ const experiments = [
   },
   {
     id: "dos",
-    topic: "电子结构分析 · 05",
     title: "DOS 的峰变矮了，态数去哪了？",
     short: "DOS 展宽",
     note: "计算化学/DOS的展宽、分区与空间分布.md",
@@ -157,7 +152,6 @@ const experiments = [
   },
   {
     id: "msd",
-    topic: "分子动力学 · 06",
     title: "从哪一段 MSD 拟合扩散系数？",
     short: "MSD 拟合窗口",
     note: "LAMMPS/扩散与输运/LAMMPS均方位移与扩散系数.md",
@@ -191,7 +185,6 @@ const experiments = [
   },
   {
     id: "oer",
-    topic: "材料应用 · 07",
     title: "OER 的限制步在哪里切换？",
     short: "OER 过电位",
     note: "材料应用/电催化/电催化描述符与火山图.md",

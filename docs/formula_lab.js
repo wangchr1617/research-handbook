@@ -24,7 +24,7 @@ function ticks(min, max) {
 }
 
 function drawChart(chart, model, width, id) {
-  const height = width < 420 ? 240 : 285;
+  const height = Math.max(205, Math.min(310, Math.round(width / 2)));
   const left = 43;
   const right = width - 17;
   const top = 31;
@@ -87,31 +87,39 @@ function drawChart(chart, model, width, id) {
 }
 
 function buildExperiment(experiment) {
-  const { id, topic, title, prompt, detail, formula, note, sliders, presets, compute } = experiment;
+  const { id, title, prompt, detail, formula, note, sliders, presets, compute } = experiment;
   const section = html("section");
   section.id = id;
+  section.hidden = true;
   section.setAttribute("aria-labelledby", id + "-title");
   const heading = html("h2", "", title);
   heading.id = id + "-title";
+  heading.tabIndex = -1;
   const expression = html("p", "formula");
   expression.innerHTML = formula; // Markup from the experiment definitions only.
-  section.append(html("div", "topic", topic), heading, html("p", "", prompt), expression);
+  section.append(heading, html("p", "prompt", prompt), expression);
 
   const chart = svg("svg", { class: "chart", role: "img", "aria-label": title + "的曲线" });
   const legend = html("figcaption", "legend");
   const figure = html("figure");
   figure.append(chart, legend);
   const controls = html("div", "controls");
+  const controlHeader = html("div", "control-header");
+  const reset = html("button", "reset", "重置");
+  reset.type = "button";
+  controlHeader.append(html("h3", "", "参数"), reset);
+  controls.append(controlHeader);
   const grid = html("div", "lab-grid");
   grid.append(figure, controls);
 
   const readings = html("dl", "results");
+  grid.append(readings);
   const source = html("p", "source");
-  const noteLink = html("a", "", "回到原笔记 ↗");
+  const noteLink = html("a", "", "读原笔记");
   noteLink.href = "https://github.com/wangchr1617/research-handbook/blob/main/notes/"
     + note.split("/").map(encodeURIComponent).join("/");
   source.append(noteLink);
-  section.append(grid, readings, html("p", "note", detail), source);
+  section.append(grid, html("p", "note", detail), source);
 
   const inputs = sliders.map(([key, name, min, max, step, initial, unit]) => {
     const input = html("input");
@@ -123,7 +131,9 @@ function buildExperiment(experiment) {
     nameNode.id = input.id + "-label";
     const valueNode = html("output");
     valueNode.setAttribute("for", input.id);
-    label.append(nameNode, valueNode, input);
+    const labelRow = html("span", "control-name");
+    labelRow.append(nameNode, valueNode);
+    label.append(labelRow, input);
     controls.append(label);
     return { key, input, valueNode, unit, initial };
   });
@@ -159,15 +169,17 @@ function buildExperiment(experiment) {
 
   const buttons = html("div", "presets");
   const defaults = Object.fromEntries(inputs.map(({ key, initial }) => [key, initial]));
-  for (const [label, values] of [...presets, ["重置", defaults]]) {
+  function setValues(values) {
+    for (const { key, input } of inputs) {
+      if (Object.hasOwn(values, key)) input.value = values[key];
+    }
+    update();
+  }
+  reset.addEventListener("click", () => setValues(defaults));
+  for (const [label, values] of presets) {
     const button = html("button", "", label);
     button.type = "button";
-    button.addEventListener("click", () => {
-      for (const { key, input } of inputs) {
-        if (Object.hasOwn(values, key)) input.value = values[key];
-      }
-      update();
-    });
+    button.addEventListener("click", () => setValues(values));
     buttons.append(button);
   }
   controls.append(buttons);
@@ -176,13 +188,49 @@ function buildExperiment(experiment) {
   document.querySelector("#lab").append(section);
   update();
   new ResizeObserver(redraw).observe(figure);
+  return section;
 }
 
 const navigation = document.querySelector("#experiments");
-for (const experiment of experiments) {
+const picker = document.querySelector("#experiment-select");
+const panels = experiments.map(experiment => {
   const link = html("a", "", experiment.short);
   link.href = "#" + experiment.id;
-  navigation.append(link);
-  buildExperiment(experiment);
+  const entry = html("li");
+  entry.append(link);
+  navigation.append(entry);
+  picker.add(new Option(experiment.short, experiment.id));
+  return { link, section: buildExperiment(experiment) };
+});
+
+function showExperiment(id) {
+  const current = panels.find(({ section }) => section.id === id) ?? panels[0];
+  for (const panel of panels) {
+    panel.section.hidden = panel !== current;
+    if (panel === current) panel.link.setAttribute("aria-current", "true");
+    else panel.link.removeAttribute("aria-current");
+  }
+  picker.value = current.section.id;
+  return current.section;
 }
-if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
+
+function navigate(id, focusTitle) {
+  const hash = "#" + id;
+  if (location.hash !== hash) history.pushState(null, "", hash);
+  const section = showExperiment(id);
+  if (focusTitle) section.querySelector("h2").focus({ preventScroll: true });
+}
+
+for (const { link, section } of panels) {
+  link.addEventListener("click", event => {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    navigate(section.id, true);
+  });
+}
+picker.addEventListener("change", () => navigate(picker.value, false));
+window.addEventListener("hashchange", () => showExperiment(location.hash.slice(1)));
+
+showExperiment(location.hash.slice(1));
+navigation.closest("nav").hidden = false;
+picker.closest("label").hidden = false;
