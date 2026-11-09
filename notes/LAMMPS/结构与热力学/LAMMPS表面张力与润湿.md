@@ -89,6 +89,8 @@ $$
 
 $\theta$ 是接触角。$\theta<90^\circ$ 为亲液（铺展），$\theta>90^\circ$ 为疏液（成珠）；$\theta\to0$ 完全润湿，$\theta\to180^\circ$ 完全不润湿。
 
+[交互演示](https://wangchr1617.github.io/research-handbook/#young-angle)。调节界面能差与液–气表面张力，观察接触角何时跨过 90°，以及有限角解的边界。
+
 真实表面还有粗糙度和化学不均匀性：
 
 - **Wenzel 态**：液体填满粗糙结构，表观接触角满足 $\cos\theta^*=r\cos\theta$，$r$ 是粗糙度因子；亲液更亲、疏液更疏。

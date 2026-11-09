@@ -21,6 +21,8 @@ $$
 \left\langle \mathbf{J}_{\rm ext}(0)\cdot \mathbf{J}_{\rm ext}(t)\right\rangle {\rm d}t
 $$
 
+[交互演示](https://wangchr1617.github.io/research-handbook/#green-kubo-integral)。拖动积分上限并改变相关尾部的示意偏差，观察累计积分何时出现平台、何时继续漂移。
+
 把热流的自相关积分换成 κ。这里 $\mathbf{J}_{\rm ext}$ 是广延热流（能量·速度），不是已经除以体积的通量；若用 $\mathbf{j}=\mathbf{J}_{\rm ext}/V$，前因子改为 $V/(3k_BT^2)$。两种写法差一个 $V^2$，抄脚本时最容易在这里出错。
 
 NEMD 反过来：在冷热区之间持续输运能量，等温度剖面稳定后，用

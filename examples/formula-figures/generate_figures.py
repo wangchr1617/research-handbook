@@ -448,6 +448,130 @@ def solvation_cycle():
     save(fig, "solvation_cycle")
 
 
+def qha_minimization():
+    fig, ax = chart()
+    volume = np.linspace(36, 47, 240)
+    for minimum, offset, color, style, label in [
+        (40, 0, MUTED, ":", "Static energy"),
+        (41, 0.12, TEAL, "-", "0 K, including zero-point energy"),
+        (42.5, -0.17, ORANGE, "--", "Higher T"),
+    ]:
+        ax.plot(volume, offset + 0.014 * (volume - minimum)**2, style, color=color, label=label)
+        ax.plot(minimum, offset, "o", color=color)
+        ax.vlines(minimum, -0.25, offset, color=color, linestyle=":", linewidth=1.2)
+    ax.set(xlabel=r"Cell volume $V$ (Å$^3$)", ylabel="Model energy or free energy (eV/cell)",
+           ylim=(-0.25, 0.84))
+    ax.legend(loc="upper center")
+    axis_grid(ax)
+    save(fig, "qha_minimization")
+
+
+def eos_curvature():
+    fig, (energy, pressure) = chart(width=8.1, height=3.4, columns=2)
+    v0 = 20
+    volume = np.linspace(18.5, 21.5, 180)
+    for bulk, color, line in [(60, TEAL, "-"), (120, ORANGE, "--")]:
+        slope = bulk / v0
+        energy.plot(volume, 0.5 * slope / 160.21766208 * (volume-v0)**2, line,
+                    color=color, label=rf"$B_0={bulk}$ GPa")
+        pressure.plot(volume, -slope * (volume-v0), line, color=color)
+    energy.set(xlabel=r"Volume (Å$^3$/atom)", ylabel="Relative energy (eV/atom)")
+    pressure.set(xlabel=r"Volume (Å$^3$/atom)", ylabel="Pressure (GPa)")
+    energy.legend()
+    for ax in (energy, pressure):
+        ax.axvline(v0, color=MUTED, linestyle=":", linewidth=1.2)
+        axis_grid(ax)
+    save(fig, "eos_curvature")
+
+
+def adsorption_increment():
+    fig, ax = chart()
+    total = [0, 0.2387, 2 * 0.3150]
+    ax.plot([0, 1, 2], total, "o-", color=TEAL, label="Total adsorption energy")
+    ax.plot([0, 2], [0, total[-1]], "--", color=ORANGE, label="Average slope from 0 to 2 H")
+    ax.annotate("Second H: 0.3913 eV", xy=(1.5, (total[1]+total[2])/2), xytext=(0.66, 0.58),
+                arrowprops={"arrowstyle":"->", "color":TEAL}, color=TEAL, ha="center")
+    ax.set(xlabel="Adsorbed H atoms per cell", ylabel="Adsorption energy (eV/cell)",
+           xticks=[0, 1, 2], ylim=(-0.02, 0.78))
+    ax.legend(loc="upper left", fontsize=9)
+    axis_grid(ax)
+    save(fig, "adsorption_increment")
+
+
+def che_reference():
+    fig, ax = chart()
+    ph = np.linspace(0, 14, 141)
+    shift = 0.059 * ph
+    ax.plot(ph, 1.23 + np.zeros_like(ph), color=TEAL, label="vs RHE")
+    ax.plot(ph, 1.23 - shift, "--", color=ORANGE, label="vs SHE")
+    ax.vlines(7, 1.23-shift[70], 1.23, color=PURPLE, linestyle=":", linewidth=2)
+    ax.text(7.25, 1.03, "0.413 V at pH 7", color=PURPLE)
+    ax.set(xlabel="pH", ylabel="OER equilibrium potential (V)", ylim=(0.31, 1.38))
+    ax.legend(loc="lower left")
+    axis_grid(ax)
+    save(fig, "che_reference")
+
+
+def probability_to_free_energy():
+    fig, (sample, free) = chart(width=8.1, height=3.35, columns=2)
+    x = np.arange(7)
+    counts = np.array([4, 16, 8, 0, 4, 12, 2])
+    observed = counts > 0
+    sample.bar(x, counts, color=TEAL)
+    free.scatter(x[observed], -np.log(counts[observed]/counts.max()), color=PURPLE)
+    for ax in (sample, free):
+        ax.axvspan(2.5, 3.5, color=GRID, alpha=0.6, zorder=0)
+        ax.set(xlabel="Equal-width bin", xticks=x)
+        axis_grid(ax)
+    sample.set_ylabel("Sample count")
+    free.set_ylabel(r"$[F-F_{\min}]/k_BT$")
+    free.text(3, 1.6, "No samples", color=MUTED, ha="center", rotation=90)
+    save(fig, "probability_to_free_energy")
+
+
+def sun_denominator():
+    fig, ax = chart()
+    stages = ["Attempts", "Stable", "Stable + unique", "Stable + unique + novel"]
+    counts = [100, 40, 30, 12]
+    bars = ax.barh(stages, counts, color=[MUTED, TEAL, TEAL, PURPLE])
+    ax.bar_label(bars, labels=["100", "40", "30", "12"], padding=5)
+    ax.invert_yaxis()
+    ax.text(37, 3, r"SUN = $12/100$ = 12%", color=PURPLE, va="center")
+    ax.set(xlim=(0, 112), xlabel="Number of candidates")
+    ax.grid(axis="x", color=GRID)
+    save(fig, "sun_denominator")
+
+
+def outer_product_decomposition():
+    fig, axes = chart(width=8.6, height=2.7, columns=4)
+    matrix = np.outer([1, 0, 0], [1, 1, 0])
+    scalar = np.trace(matrix) * np.eye(3) / 3
+    antisymmetric = (matrix-matrix.T)/2
+    symmetric_traceless = (matrix+matrix.T)/2 - scalar
+    for ax, title, part in zip(axes, ["Outer product", "Scalar part", "Antisymmetric", "Symmetric traceless"],
+                               [matrix, scalar, antisymmetric, symmetric_traceless]):
+        ax.imshow(part, cmap="PuOr", vmin=-1, vmax=1)
+        for (i, j), value in np.ndenumerate(part):
+            ax.text(j, i, f"{value:.2g}", ha="center", va="center",
+                    color="white" if abs(value) >= 0.65 else INK)
+        ax.set(title=title, xticks=[], yticks=[])
+    save(fig, "outer_product_decomposition")
+
+
+def adhesion_references():
+    fig, ax = chart(height=3.1)
+    levels = [(0, "Bulk references", MUTED), (2, "Joined slabs", TEAL), (5, "Separated slabs", ORANGE)]
+    for level, label, color in levels:
+        ax.hlines(level, 0.08, 0.88, color=color, lw=2)
+        ax.text(0.09, level + 0.18, label, color=color)
+    for x, bottom, top, label in [(0.32, 0, 2, r"$A\gamma=2$"), (0.65, 2, 5, r"$AW_{\rm ad}=3$")]:
+        ax.annotate("", (x, top), (x, bottom), arrowprops={"arrowstyle":"->", "color":PURPLE, "lw":2})
+        ax.text(x+0.035, (bottom+top)/2, label, color=PURPLE, va="center")
+    ax.set(xlim=(0, 1), ylim=(-0.3, 5.7), xticks=[], yticks=[0,2,5], ylabel="Model relative energy (eV)")
+    ax.spines["bottom"].set_visible(False)
+    save(fig, "adhesion_references")
+
+
 if __name__ == "__main__":
     ASSETS.mkdir(exist_ok=True)
     periodic_image()
@@ -471,3 +595,11 @@ if __name__ == "__main__":
     soap_density_slice()
     matrix_error_projection()
     solvation_cycle()
+    qha_minimization()
+    eos_curvature()
+    adsorption_increment()
+    che_reference()
+    probability_to_free_energy()
+    sun_denominator()
+    outer_product_decomposition()
+    adhesion_references()

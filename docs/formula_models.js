@@ -322,4 +322,87 @@ const experiments = [
       };
     },
   },
+  {
+    id: "young-angle",
+    title: "什么决定液滴接触角跨过 90°？",
+    short: "Young 接触角",
+    note: "LAMMPS/结构与热力学/LAMMPS表面张力与润湿.md",
+    formula: "cos θ = (γ<sub>sv</sub> − γ<sub>sl</sub>)/γ<sub>lv</sub>",
+    prompt: "先把固–气与固–液界面能之差调到零。再改变液–气表面张力，看哪些组合还能给出有限接触角。",
+    detail: "理想平滑均匀表面，角度从液体内部量取。比值达到 ±1 时到达 θ = 0° 或 180° 的极限。超出区间时，Young 方程没有有限接触角解。",
+    sliders: [
+      ["difference", "固–气减固–液 γsv − γsl", -60, 60, 1, 20, "mN/m"],
+      ["liquid", "液–气张力 γlv", 20, 75, 1, 50, "mN/m"],
+    ],
+    presets: [["直角", { difference: 0 }], ["达到铺展极限", { difference: 40, liquid: 40 }]],
+    compute({ difference, liquid }) {
+      const ratio = difference / liquid;
+      const angle = x => Math.acos(x) * 180 / Math.PI;
+      const within = Math.abs(ratio) <= 1;
+      return {
+        x: [-3, 3, "(γsv − γsl)/γlv"], y: [0, 180, "接触角 θ（°）"],
+        shade: [-1, 1],
+        lines: [curve(labRange(-1, 1), angle, "Young 方程可解区间")],
+        dots: within ? [marker(ratio, angle(ratio))] : [],
+        readings: [["界面能比值", displayNumber(ratio)], ["接触角",
+          within ? displayNumber(angle(ratio), 1) + "°" : "超出有限角解"]],
+      };
+    },
+  },
+  {
+    id: "green-kubo-integral",
+    title: "Green–Kubo 积分为什么要看平台？",
+    short: "Green–Kubo 积分",
+    note: "LAMMPS/扩散与输运/LAMMPS热导率的EMD与NEMD计算.md",
+    formula: "C(x)/C(0) = (1 − b)e⁻ˣ + b　·　I(x) = (1 − b)(1 − e⁻ˣ) + bx",
+    prompt: "先把尾部偏差设为零，逐渐延长积分上限。再加入小偏差，比较相关函数和累计积分各自变了多少。",
+    detail: "示意模型中 x = t/τ，τ 是衰减时间。累计积分以 C(0)τ 为单位，暂去掉与体积和温度有关的前因子。常量 b 只用于演示相关尾部的系统偏差。",
+    sliders: [
+      ["limit", "积分上限 t/τ", 0, 12, 0.2, 5, ""],
+      ["bias", "尾部偏差 b", -0.06, 0.06, 0.01, 0, ""],
+    ],
+    presets: [["干净尾部", { bias: 0, limit: 8 }], ["正尾偏差", { bias: 0.04, limit: 8 }]],
+    compute({ limit, bias }) {
+      const xs = labRange(0, 12);
+      const correlation = x => (1 - bias) * Math.exp(-x) + bias;
+      const integral = x => -(1 - bias) * Math.expm1(-x) + bias * x;
+      return {
+        x: [0, 12, "无量纲滞后时间 t/τ"], y: [-0.1, 1.75, "归一化相关与积分"],
+        shade: [0, limit],
+        lines: [curve(xs, correlation, "热流自相关", 0, "6 3"), curve(xs, integral, "累计积分", 1)],
+        dots: [marker(limit, correlation(limit), 0), marker(limit, integral(limit), 1)],
+        readings: [["上限处的相关", displayNumber(correlation(limit), 4)],
+          ["累计积分 I", displayNumber(integral(limit), 4)]],
+      };
+    },
+  },
+  {
+    id: "kmc-event",
+    title: "两条跃迁路径怎样竞争下一次事件？",
+    short: "kMC 事件与时钟",
+    note: "材料应用/锂离子电池/锂电池多尺度计算方法.md",
+    formula: "kᵢ = ν exp(−Eₐ,ᵢ/k<sub>B</sub>T)　·　pᵢ = kᵢ/Σkᵢ　·　⟨Δt⟩ = 1/Σkᵢ",
+    prompt: "给两条路径设相同势垒，再把第二条抬高 0.1 eV。升温后观察事件选择变了多少，平均等待时间又变了多少。",
+    detail: "两事件有相同尝试频率 10¹³ s⁻¹，第一条势垒固定为 0.35 eV。读数是指数等待时间的均值，单次 kMC 步仍需抽取随机数。",
+    sliders: [
+      ["gap", "第二条减第一条势垒", -0.2, 0.2, 0.01, 0.1, "eV"],
+      ["temperature", "温度 T", 250, 800, 10, 350, "K"],
+    ],
+    presets: [["等势垒", { gap: 0 }], ["第二条高 0.1 eV", { gap: 0.1 }]],
+    compute({ gap, temperature }) {
+      const kt = 8.617333262e-5 * temperature;
+      const rate = barrier => 1e13 * Math.exp(-barrier / kt);
+      const probability = delta => 100 / (1 + Math.exp(delta / kt));
+      const xs = labRange(-0.2, 0.2);
+      const timeNs = 1e9 / (rate(0.35) + rate(0.35 + gap));
+      return {
+        x: [-0.2, 0.2, "第二条减第一条势垒（eV）"], y: [0, 100, "下一事件概率（%）"],
+        lines: [curve(xs, x => 100 - probability(x), "第一条"), curve(xs, probability, "第二条", 1, "6 3")],
+        dots: [marker(gap, 100 - probability(gap), 0), marker(gap, probability(gap), 1)],
+        readings: [["第一条事件概率", displayNumber(100 - probability(gap), 1) + "%"],
+          ["第二条事件概率", displayNumber(probability(gap), 1) + "%"],
+          ["平均等待时间", timeNs.toPrecision(3) + " ns"]],
+      };
+    },
+  },
 ];
