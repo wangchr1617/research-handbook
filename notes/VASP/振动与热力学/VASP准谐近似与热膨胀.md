@@ -10,6 +10,10 @@ $$G(T,p)=\min_V\left[E_{\mathrm{static}}(V)+F_{\mathrm{vib}}(T,V)+pV\right].$$
 
 这里各体积下仍采用简谐近似，振动自由能含零点能。因此 QHA 的 0 K 平衡体积也不必等于纯静态能量曲线的最低点。[Phonopy 官方说明](https://phonopy.github.io/phonopy/qha.html)介绍了拟合与归一化要求。
 
+![静态能和两个温度的自由能各有一个极小点](../../../examples/formula-figures/assets/qha_minimization.png)
+
+示意图取零外压。静态能量、含零点能的 0 K 自由能和较高温度的自由能各有一个极小点。读平衡体积时取各自极小点的横坐标，再比较这些体积怎样随温度改变。
+
 ## 五体积最小案例
 
 [配套目录](../../../examples/vasp/minimal/quasi-harmonic)采用两原子硅原胞，以 `0.96、0.98、1.00、1.02、1.04` 为体积比。晶格向量乘体积比的立方根，而不是直接乘体积比。每个体积扩成 `2 × 2 × 2` 的 16 原子超胞，计算一次静态能量和两组正负位移受力。

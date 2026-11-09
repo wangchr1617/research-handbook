@@ -1,5 +1,8 @@
 <p align="center">
-  <img src="docs/assets/research_handbook_logo.webp" alt="Research Handbook 标志" width="680">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/research_handbook_logo.webp">
+    <img src="docs/assets/research_handbook_logo_light.webp" alt="Research Handbook 标志" width="680">
+  </picture>
 </p>
 
 # Research Handbook
@@ -69,11 +72,11 @@ git clone https://github.com/wangchr1617/research-handbook.git
 
 ## 致谢
 
-感谢刘晗煜师兄启发我创建这本手册，也感谢分享笔记、复核计算案例、纠正错误和反馈问题的同学。手册标志沿用了 ALKEMIE 的深蓝底与蓝紫轨道配色。
+感谢刘晗煜师兄启发我创建这本手册，也感谢分享笔记、复核计算案例、纠正错误和反馈问题的同学。手册标志沿用了 ALKEMIE 的蓝紫轨道配色。
 
 [![Research Handbook 的 GitHub 贡献者头像](https://contrib.rocks/image?repo=wangchr1617/research-handbook)](https://github.com/wangchr1617/research-handbook/graphs/contributors)
 
-头像由 [contrib.rocks](https://contrib.rocks/) 根据 GitHub 的公开提交记录自动更新。[查看 GitHub 贡献者](https://github.com/wangchr1617/research-handbook/graphs/contributors)
+[查看 GitHub 贡献者](https://github.com/wangchr1617/research-handbook/graphs/contributors)
 
 ## 许可
 

@@ -17,5 +17,8 @@
 | 非正交能带 | [从双原子到紧束缚能带](../notes/机器学习紧束缚模型/基础与比较/从双原子到紧束缚能带.md) |
 | 低频振动热修正 | [低频振动与虚频的处理](../notes/计算化学/低频振动与虚频的处理.md) |
 | 构象平衡布居 | [分子热力学量与标准态](../notes/计算化学/分子热力学量与标准态.md) |
+| Young 接触角 | [LAMMPS 表面张力与润湿](../notes/LAMMPS/结构与热力学/LAMMPS表面张力与润湿.md) |
+| Green–Kubo 积分 | [LAMMPS 热导率的 EMD 与 NEMD 计算](../notes/LAMMPS/扩散与输运/LAMMPS热导率的EMD与NEMD计算.md) |
+| kMC 事件与时钟 | [锂电池多尺度计算方法](../notes/材料应用/锂离子电池/锂电池多尺度计算方法.md) |
 
 实验的公式、参数范围和数据在 [formula_models.js](formula_models.js)，绘图与控件在 [formula_lab.js](formula_lab.js)。GitHub Pages 从 `main` 的 `/docs` 发布。
