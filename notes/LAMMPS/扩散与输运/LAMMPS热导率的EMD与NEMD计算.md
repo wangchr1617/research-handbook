@@ -106,6 +106,8 @@ variable kappa equal (v_k11+v_k22+v_k33)/3.0
 
 判断 EMD 是否可信，先看相关函数是否衰减到零、积分是否出现平台，再看分块平均的涨落。单看最后一个数，很容易把噪声当成收敛值。需要更高精度时，应延长生产段、用多个独立初态（不同随机种子）重复，并对 blocks 做误差估计。
 
+Alkemie 的「Green–Kubo 晶格热导率」组件沿用 NVE 生产段，使用 `compute heat/flux` 的广延量。`correlation.dat` 保存三个方向的自相关，`transport-state.dat` 保存步长、体积及平均温度。选择已验证逐原子能量和维里定义的势函数，结合相关函数和累计积分检查平台。`metal` 单位下的系数输出为 W/(m·K)，`lj` 输出为 $k_B/(\tau\sigma)$。[LAMMPS compute heat/flux](https://docs.lammps.org/compute_heat_flux.html)
+
 ## NEMD：冷热层速度交换
 
 NEMD 输入先用 NVT 平衡，再切到 NVE，并在生产段重新定义 `fix thermal/conductivity`，使累积能量从零开始：

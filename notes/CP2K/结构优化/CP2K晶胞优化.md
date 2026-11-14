@@ -39,6 +39,8 @@
 
 CP2K 2026.2 已不接受旧输入中的 `CELL_OPT/TYPE`，晶胞优化采用直接优化方案，不应照抄旧版 `TYPE GEO_OPT`。晶胞向量约定及约束含义见 [CELL_OPT 手册](https://manual.cp2k.org/trunk/CP2K_INPUT/MOTION/CELL_OPT.html)。
 
+在 Alkemie 中，用「晶胞优化」组件设置三维 Monkhorst–Pack 网格。下游组件可按自身任务设置网格。若接单点能检查交接，可核对 `optimized.restart` 来自上游的 `alkemie-1.restart`，并确认下游输入在 `EXT_RESTART` 中同时启用 `RESTART_CELL TRUE` 和 `RESTART_POS TRUE`。这样后续计算使用优化后的晶格和坐标。
+
 查看过程时保留每一帧对应的晶胞。普通 XYZ 轨迹不含晶胞，不能用最终晶胞或查看器生成的包围盒解释全部优化步骤；可按[可视化教程](../基础与准备/CP2K结果文件与可视化.md#变胞与动力学要保留逐帧晶胞)选择携带晶胞的格式。
 
 ![八原子硅晶胞优化的实际能量评估轨迹。Γ 点小算例用于检查流程，晶格参数仍需基组、网格与 k 点收敛测试。](../assets/si-cell-energy.png)
