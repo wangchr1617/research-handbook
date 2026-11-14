@@ -41,4 +41,12 @@ qsub job.pbs
 
 扩散也可用速度自相关的 Green–Kubo 积分交叉检查。在三维各向同性体系中，若速度已去除质心漂移，$D=\tfrac13\int_0^\infty\langle\mathbf v(t)\cdot\mathbf v(0)\rangle\,\mathrm dt$。MSD 看长时斜率，速度法要求输出间隔能解析短时衰减并检查积分平台。两种估计都应使用相同的粒子组、维度、状态点和时间单位。
 
+## 在 Alkemie 中采样速度自相关
+
+「最小化 → 平衡 → NVE 速度自相关」沿用平衡末态的坐标、晶胞和速度。平衡阶段的初始速度可用 `velocity all create ... mom yes` 去除质心运动。生产段从零重新计时，用 `compute vacf` 记录以生产起点为参考的三维速度点积平均。`vacf.dat` 依次保存步号、生产时间、总 VACF 和体系总能，结果页同时显示 VACF、梯形积分除以 3 和相对首帧的总能变化。
+
+短作业可先检查首帧 VACF 为正、采样时刻等间距、总能漂移足够小。要估计扩散系数，再用更长的液体轨迹和多个时间起点检查积分平台。使用 `metal` 时，积分除以 3 的单位为 Å²/ps。使用 `lj` 时，单位为 σ²/τ。参见 [LAMMPS compute vacf](https://docs.lammps.org/compute_vacf.html)。
+
+「自扩散系数」组件在 NVE 段采样去除质心漂移的固定时间原点 MSD。拟合区间用生产时长的比例指定。结果同时给出斜率、$R^2$ 与实际拟合起止时间，三维扩散系数取斜率除以 6。先查看曲线选择长时线性区，再比较多个拟合窗口和独立轨迹。`metal` 的扩散系数输出为 m²/s，`lj` 输出为 σ²/τ。
+
 参考：单斌、陈征征、陈蓉《计算材料学》配套仓库[第七章 7.3—7.4](https://github.com/stanfordbshan/CompMatBook/tree/main/edition-1-2023/Chapter07)；[LAMMPS compute msd](https://docs.lammps.org/compute_msd.html)。本例采用重新编写的三维液体模型。

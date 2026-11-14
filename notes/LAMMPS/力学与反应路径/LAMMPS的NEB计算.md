@@ -114,6 +114,12 @@ $$
 
 力的定义与两阶段流程见[LAMMPS fix neb 手册](https://docs.lammps.org/fix_neb.html)，文件选项见[neb 手册](https://docs.lammps.org/neb.html)。
 
+## 在 Alkemie 中串行计算缺陷迁移
+
+「最小化 → 缺陷迁移能垒（CI-NEB）」使用固定三维周期晶胞和 `metal` 单位。导入含初态缺陷的 LAMMPS 原子数据文件，按文件中的原子 ID 输入终态位移，每行四列为 ID、Δx、Δy、Δz，位移以 Å 为单位。例如，空位跳跃可让近邻原子移动到空位，端点优化再弛豫其余原子。
+
+计算节点的 Python 需要能导入 ASE。ASE 负责端点、图像和爬坡优化，单个 LAMMPS 进程依次给出各图像的势能和力。结果提供正反向能垒、相对于初态的能量路径、最大 NEB 力及 `migration-path.traj`。判断路径时，应在轨迹中核对实际发生的跳跃，并检查图像数、力阈值和超胞尺寸。对称等价的端点可用末态相对能量接近零来交叉检查。
+
 ## Python 脚本
 
 `neb_combine.py`：从各 replica 的 dump 文件中提取 NEB 原子，再与第一个 replica 的非 NEB 原子合并为一个 dump 文件。

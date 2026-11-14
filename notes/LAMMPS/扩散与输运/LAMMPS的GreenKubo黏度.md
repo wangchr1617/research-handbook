@@ -53,4 +53,8 @@ PBS 中的资源语法和软件加载方式按集群调整。计算结束后自�
 
 延长采样、比较相关窗口、采用多个独立初态并做分块分析，检查尺寸效应和 NVE 能量漂移。使用 metal/real 单位时重新推导压力、体积、时间与 kB 的换算；不要把约化单位前因子直接代入 SI。
 
+在 Alkemie 的「Green–Kubo 剪切黏度」组件中，延迟点数包含零延迟。最长延迟是采样间隔乘以延迟点数减一，再乘积分步长。`correlation.dat` 保存三个剪切压力通道的自相关及各延迟的样本对数，`transport-state.dat` 保存积分步长、体积和生产段平均温度。结果页的累计积分便于选择平台，`metal` 的黏度以 Pa·s 输出。
+
+离子电导率组件沿用相同采样方式，相关信号改为电荷流 $\mathbf I=\sum_i q_i\mathbf v_i$。在 `metal` 单位下导入电中性的 `atom_style charge` 数据文件，核对电荷和势函数。三个方向的自相关积分平均后除以 $Vk_BT$，输出 S/m。电荷流先对粒子求和再求相关，因此包含不同离子运动之间的交叉项。
+
 参考：[LAMMPS 黏度与 Green–Kubo](https://docs.lammps.org/Howto_viscosity.html)。

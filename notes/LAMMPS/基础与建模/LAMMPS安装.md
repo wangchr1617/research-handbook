@@ -82,6 +82,16 @@ module load intel/2020.1.217
 
 > CMake 和 make 安装方式不能混用，如果用 CMake 安装 LAMMPS，后续安装扩展包时不能用 make 安装。
 
+### 启用 GCMC 所需的 MC 包
+
+`fix gcmc` 由可选的 `MC` 包提供。先用将提交给调度器的那个可执行文件检查：
+
+```bash
+lmp -help | grep -w gcmc
+```
+
+若帮助中没有 `gcmc`，使用 CMake 构建时加入 `-DPKG_MC=ON`，并保留原来需要的势函数和加速包。Alkemie 的软件环境可用 `LAMMPS_EXECUTABLE` 指向包含 `MC` 的可执行文件。提交一个短的单原子 `metal` 算例后，检查 `gcmc.dat` 的交换尝试和接受数。原子数不变时也可能发生接受的交换，需同时看插入与删除两列。参考 [LAMMPS fix gcmc](https://docs.lammps.org/fix_gcmc.html)。
+
 ### 检查并准备安装环境
 
 首先检查 CMake，至少需要 3.10 及以上版本。
