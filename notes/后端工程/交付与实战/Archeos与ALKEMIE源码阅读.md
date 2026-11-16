@@ -119,3 +119,5 @@ def agent_stream_scope(project_id: str, user_id: str | None) -> str:
 | 外部工具 I/O | HTTP 工具服务和并发客户端 | `tools-normal/partial/deadline.json` |
 
 这些映射用于迁移工程思路，不表示字段名、认证方案和任务协议相同。阅读时记录“函数输入、校验条件、副作用、持久化点、失败分支、清理动作”六项，再尝试用输入文件触发每个分支，才能从看懂名称走到理解行为。
+
+要沿工作台请求继续追踪引擎中的模型、工具和计算任务，可读[DeerFlow 智能体框架与 Archeos](DeerFlow智能体框架与Archeos.md)。

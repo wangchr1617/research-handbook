@@ -27,7 +27,9 @@
 | 6 | [后台任务、队列与恢复](并发与任务/后台任务队列与恢复.md) | Celery worker、重试、幂等、补投与超时收敛 |
 | 7 | [流式响应与前端基础](交付与实战/流式响应与前端基础.md) | SSE、断线重放、浏览器读取、React 基本概念 |
 | 8 | [Docker 与 Linux 运维](交付与实战/Docker与Linux运维.md) | 镜像、容器、Compose、日志、端口与健康检查 |
-| 9 | [Archeos 与 ALKEMIE 源码阅读](交付与实战/Archeos与ALKEMIE源码阅读.md) | 从实际模块定位上述职责，再迁移到自己的应用 |
+| 9 | [Docker 与 Kubernetes 企业迁移部署](交付与实战/Docker与Kubernetes企业迁移部署.md) | 选运行平台，部署应用并迁移数据，验证切流和回滚 |
+| 10 | [Archeos 与 ALKEMIE 源码阅读](交付与实战/Archeos与ALKEMIE源码阅读.md) | 从实际模块定位上述职责，再迁移到自己的应用 |
+| 11 | [DeerFlow 智能体框架与 Archeos](交付与实战/DeerFlow智能体框架与Archeos.md) | 追踪模型与工具循环、会话恢复、科研计算与验收 |
 | 实践 | [完整 Agent 教学 Demo](../../examples/backend/agent-demo/README.md) | 登录、上传、历史会话、后台执行、流式输出与故障练习 |
 | 逐步实操 | [请求、数据与恢复实操](../../examples/backend/agent-demo/请求与恢复实操.md) | 固定请求文件、实际输出、SQL、SSE 与故障注入 |
 
