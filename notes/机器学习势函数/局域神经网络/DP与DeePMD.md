@@ -2,9 +2,11 @@
 
 **适用环境：通用（原理）；训练实践见 Linux 集群的 DeePMD 笔记。**
 
+如果水数据的数组形状都对，训练却把 O 和 H 的标签读反，模型仍可能完成训练。下面从官方水例的 `type_map` 和邻居设置出发，沿训练、冻结、单帧推理逐步核对。
+
 DP（Deep Potential）是学习势能面的模型路线，DeePMD-kit 是训练和部署相关模型的软件，DP-GEN 是组织探索、标注和训练的平台。这三个名称对应方法、实现和数据生产流程，阅读时应分别理解。
 
-## 一、历史与开发团队
+## 一、先区分模型、训练程序和标注流程
 
 2018 年 Linfeng Zhang、Jiequn Han、Han Wang、Roberto Car 和 Weinan E 发表 DPMD，合作来自 Princeton、北京大学及中国工程物理研究院相关团队。同年的 DeepPot-SE（Smooth Edition）加入 Wissam A. Saidi 等合作者，改进对称表示与平滑性。后续 DeepModeling 社区扩展了软件后端、描述符和训练方法，不能把当前所有 DeePMD 模型都概括为最初的局域坐标版本。[^dp][^se]
 
@@ -30,7 +32,7 @@ DP（Deep Potential）是学习势能面的模型路线，DeePMD-kit 是训练�
 
 DP-GEN 不会把短程模型变成长程模型，也不保证所有反应都已采样。需要显式电荷、极化或长程模块时，应单独核对模型设计。
 
-## 四、适用特点与实践检查
+## 四、用水例检查数据、训练和推理
 
 DP 的优势是成熟的数据、训练、MD 接口和主动学习生态，适合围绕目标体系持续补数据。与 [NEP](NEP与GPUMD.md)相比，二者都可采用局域能量，但表示方式、优化器与实现不同；速度要用同硬件、同精度、同邻居规模实测。
 
@@ -38,7 +40,7 @@ DP 的优势是成熟的数据、训练、MD 接口和主动学习生态，适�
 
 操作见 [DeePMD 入门](../../DeePMD/DeePMD入门.md)、[安装](../../DeePMD/DeePMD安装.md)和 [DPGEN](../../DeePMD/DPGEN入门.md)。
 
-## 实践：用官方水数据理解完整输入
+### 先确认数据路径和原子类型
 
 配套[水的完整输入](../../../inputs/machine-learning/deepmd-water.json)使用 `type_map=["O","H"]`、`se_e2_a`、6 Å 截断和三层拟合网络。将它放到官方 `examples/water/se_e2_a` 工作目录，数据路径相对于当前工作目录解析，不能把输入复制到任意目录后仍假定 `../data` 有效。
 
@@ -52,13 +54,13 @@ dp test -m model.pth -s ../data/data_3 -n 3
 
 以一帧含 $N$ 个原子的周期结构说明实际数据：`coord.npy` 每帧有 $3N$ 个坐标数，`box.npy` 有 9 个晶胞分量，`energy.npy` 是结构总能，`force.npy` 有 $3N$ 个力分量。`type.raw` 长度为 $N$，这里 0 代表 O、1 代表 H。把训练数据类型 0 误认成 H 不一定触发形状错误，却会改变全部化学含义。
 
-## 对照网络参数与张量维度
+### 把训练参数对回环境矩阵
 
 `sel=[46,92]` 为不同元素的邻居容量，不能解释成水分子的 O/H 化学计量。`neuron=[25,50,100]` 属于描述符嵌入网络，`axis_neuron=16` 控制其中保留的轴通道；拟合网络另有 `[240,240,240]`。`rcut_smth=0.5` 是平滑区间的起点，不是“平滑宽度为 0.5 Å”。
 
 以经典 SE 描述符的一种维度记法，环境矩阵为 `[N_neigh,4]`，嵌入为 `[N_neigh,M1]`，截取轴通道为 `[N_neigh,M2]`，组合后得到 `[M1,M2]` 不变量。这个维度说明了为什么 `axis_neuron` 必须与嵌入通道相容。
 
-## 真实模型的 Python 推理接口
+### 在同一帧对照冻结模型和参考标签
 
 ```python
 import numpy as np
@@ -71,9 +73,9 @@ energy, forces, virial = potential.eval(coords, cells, types)
 print(energy.shape, forces.shape, virial.shape)
 ```
 
-核对 `potential.get_type_map()` 与数据类型表；`virial` 是能量单位的张量，转应力需按软件约定除以体积并处理符号。以上接口与导出流程分别见[官方推理](https://docs.deepmodeling.com/projects/deepmd/en/v3.0.0/_modules/deepmd/infer/deep_pot.html)和[冻结文档](https://docs.deepmodeling.com/projects/deepmd/en/latest/freeze/freeze.html)。
+先打印 `potential.get_type_map()` 并对照数据类型表，再将预测与同一帧的 `energy.npy`、`force.npy` 比较。形状正确只能证明读入和输出布局相容。报告差值时明确总能还是每原子能，并按原子顺序对照力。`virial` 是能量单位的张量，转应力需按软件约定除以体积并处理符号。以上接口与导出流程分别见[官方推理](https://docs.deepmodeling.com/projects/deepmd/en/v3.0.0/_modules/deepmd/infer/deep_pot.html)和[冻结文档](https://docs.deepmodeling.com/projects/deepmd/en/latest/freeze/freeze.html)。
 
-## 参考资料
+### 参考资料
 
 [^dp]: L. Zhang et al. Deep Potential Molecular Dynamics. *Physical Review Letters* **120**, 143001 (2018). [原始论文](https://doi.org/10.1103/PhysRevLett.120.143001)。
 [^se]: L. Zhang et al. End-to-end Symmetry Preserving Inter-atomic Potential Energy Model for Finite and Extended Systems (2018). [DeepPot-SE](https://arxiv.org/abs/1805.09003)。

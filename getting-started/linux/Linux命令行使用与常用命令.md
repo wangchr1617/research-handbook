@@ -2,9 +2,9 @@
 
 **适用环境：Linux（Bash）；macOS 终端中多数基础命令也适用，GNU / BSD 参数存在差异。**
 
-先弄清“我在哪台机器、哪个目录、对哪些文件操作”，再执行命令。SSH 登录后看到的目录属于集群，不是本机。
+从集群取回计算结果后，怎么确认眼前这份输出属于哪次运行？先用 `hostname` 区分本机和远端，再用 `pwd` 和 `ls` 核对目录和文件名。以仓库的 [MgO 状态方程案例](../../examples/materials/inorganic/README.md)为例，`curve.csv` 用来看采样点，`results.json` 用来看拟合结果。遇到同名文件，先用 `provenance.json` 核对来源。
 
-## 开始前
+**开始前**
 
 先选一种可以练习的环境：
 

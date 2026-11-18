@@ -2,9 +2,19 @@
 
 **适用环境：Linux 集群。**
 
-本例记录集群 3 上 ORCA 6.1.0 的安装过程：先编译 OpenMPI 4.1.8，再解压 ORCA 安装包并配置执行路径。下面的模块名与个人目录对应原环境，使用时按实际位置替换。
+ORCA 驱动能找到，并不代表它已能在作业中启动并行模块。验收可以分两步：先用一个进程跑通水分子单点，再用同一个输入验证目标 MPI 配置。下文保留集群 3 上 ORCA 6.1.0 与 OpenMPI 4.1.8 的安装记录。实际版本应以下载包的配套说明和目标节点为准。
 
-## 编译 OpenMPI
+## 一、先验收串行，再核对并行
+
+将[单点案例](../../../examples/orca/minimal/single-point/README.md)的 `orca.inp` 和 `structure.xyz` 复制到独立目录。将下面的驱动路径换成自己的绝对路径：
+
+```bash
+/path/to/orca orca.inp > orca.out 2>&1
+```
+
+保留输入中的单进程设置，检查日志是否正常结束、写出了 GBW，并得到约 −76.27350518 Hartree。串行验证通过后，可在另一个独立目录把 `%pal nprocs 1 end` 改成作业允许的进程数，用完整路径启动 ORCA 驱动，由它调用并行模块。若仅在并行时报错，先检查作业环境中解析到的 `mpiexec` 和 MPI 库是否与 ORCA 安装包兼容。参见 [ORCA 并行运行说明](https://www.faccts.de/docs/orca/6.1/manual/contents/essentialelements/parallel.html)。
+
+## 二、准备旧版案例所用的 OpenMPI
 
 加载编译环境：
 
@@ -33,7 +43,7 @@ export LD_LIBRARY_PATH=/home/your-user/Software/openmpi-4.1.8/lib:$LD_LIBRARY_PA
 mpiexec -V
 ```
 
-## 安装 ORCA
+## 三、安装 ORCA 后用实际作业环境验收
 
 加载编译环境：
 

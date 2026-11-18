@@ -2,9 +2,9 @@
 
 **适用环境：Linux + PBS（VASP）；Windows / macOS / Linux 可绘图。**
 
-分子或薄膜的静电场可用 `EFIELD` 配合偶极修正描述。它与周期体相的有限电场/Berry 相位方法不同，不能把同一套真空盒输入直接用于任意三维晶体。
+对没有永久偶极的 H₂，把小电场反向后，诱导偶极应近似反号，而两次能量应近似相同。用这个对称性可以先检查输入场与输出偶极是否对应。分子或薄膜的静电场可用 `EFIELD` 配合偶极修正描述。它与周期体相的有限电场/Berry 相位方法不同，不能把同一套真空盒输入直接用于任意三维晶体。
 
-## H₂ 的正负场对照
+## 一、固定 H₂ 构型，分别施加正负场
 
 [最小案例](../../../examples/vasp/minimal/electric-field)将 H₂ 沿 z 放置，在相同结构上分别施加 `−0.02`、`0`、`+0.02` 的 `EFIELD`。输入为 [POSCAR](../../../examples/vasp/minimal/electric-field/POSCAR)、[KPOINTS](../../../examples/vasp/minimal/electric-field/KPOINTS)及 [负场](../../../examples/vasp/minimal/electric-field/INCAR.minus)、[零场](../../../examples/vasp/minimal/electric-field/INCAR.zero)、[正场](../../../examples/vasp/minimal/electric-field/INCAR.plus)参数。
 
@@ -23,11 +23,13 @@ EFIELD = 0.02
 qsub job.pbs
 ```
 
+## 二、用能量与偶极检查场反向
+
 [run.py](../../../examples/vasp/minimal/electric-field/run.py)完成三次自洽计算。[后处理](../../../examples/vasp/minimal/electric-field/postprocess.py)核对实际场强和偶极输出；对于无永久偶极的 H₂，检查正负场能量近似相同、诱导偶极近似反号，再由 [plot.py](../../../examples/vasp/minimal/electric-field/plot.py)绘图。
 
 ![H₂ 的外场响应](../assets/h2-field.png)
 
-图使用 8 Å 周期盒、450 eV、Γ 点，保持几何不变。正负场下 VASP 输出的 z 偶极约为 ±0.001397 eÅ。三个点用于检验弱场响应与对称性，不能代替场强、真空尺寸和采样收敛，也没有包含离子弛豫贡献。
+图使用 8 Å 周期盒、450 eV、Γ 点，保持几何不变。正负场下 VASP 输出的 z 偶极约为 ±0.001397 eÅ。按偶极幅度和场参数的绝对值相除，可得到约 0.06985 的斜率幅度，单位为 eÅ/(eV/Å)。若要报告带符号的物理极化率，还需按该输出的偶极定义和物理场约定换算。三个点用于检验弱场响应与对称性，不能代替场强、真空尺寸和采样收敛，也没有包含离子弛豫贡献。
 
 对表面，应保证真空区和势的不连续位置远离电子密度；强场可能造成电子溢出。需要极化率时，应使用更多弱场点，统一物理场、偶极与体积的单位和定义。
 

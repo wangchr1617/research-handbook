@@ -4,7 +4,9 @@
 
 DeePTB-SK 保留 Slater–Koster 紧束缚结构，用神经网络学习局域环境对在位与跃迁参数的影响。它的典型监督来自参考能谱，因此无需把参考 DFT 的整套原子轨道矩阵直接作为目标。
 
-## 一、历史与开发团队
+如果基础 SK 已能拟合平衡硅，环境修正还需要通过什么测试？仓库保留了同一轨道空间的两份官方配置，可用来区分基础拟合和环境修正，再到留出的应变结构上比较。
+
+## 一、从基础 SK 走向环境相关模型
 
 Qiangqiang Gu、Zhanghao Zhouyin、Shishir Kumar Pandey、Peng Zhang、Linfeng Zhang 与 Weinan E 在 2023 年公开预印本，2024 年发表于 *Nature Communications*。原论文合作单位包括北京大学、AI for Science Institute、天津大学、DP Technology 等。实现位于 DeepModeling 项目的 DeePTB。[^paper][^code]
 
@@ -36,13 +38,13 @@ $$
 
 DeePTB 是共享软件名，不能把两条路线的配置、训练损失和适用边界混成一套。与 Deep Potential 联用时，原子轨迹和电子性质由相应模型分别承担；TB 模型不会自动成为势能模型。
 
-## 五、结果检查与实践入口
+## 五、沿硅例区分基础拟合与环境修正
 
 先用硅等官方小体系学习轨道、键和能窗设置；重建参考能带后训练，再在独立应变、位移和一般 $k$ 点上测试。高温或缺陷应用还需要对应构型覆盖，不能只拟合平衡晶体的高对称路径。
 
 官方文档包含 SK 与 E3 的独立教程，命令和配置随版本核对：[DeePTB 文档](https://deeptb.readthedocs.io/en/latest/)。
 
-## 实践：Si 的基础 SK 与环境修正分两步
+### 核对两份输入的轨道与标签
 
 配套[基础 SK 输入](../../../inputs/machine-learning/deeptb-si-sk.json)取自官方 `input_2.json`，[环境相关输入](../../../inputs/machine-learning/deeptb-si-environment.json)取自 `input_3.json`。二者共享 `Si: ["3s","3p","d*"]` 的轨道空间，但学习的自由度不同。
 
@@ -58,7 +60,7 @@ DeePTB 是共享软件名，不能把两条路线的配置、训练损失和适�
 
 `3s+3p+d*` 对应一组 s、一组 p 和一组 d 有效轨道，共九个空间轨道；`d*` 是有效极化/扩展通道约定，不是宣称占据了某个 d 壳层。数据中 `get_eigenvalues=true`、`get_Hamiltonian=false` 明确采用能谱监督。
 
-## 输入路径、checkpoint 与后处理
+### 明确第二步从哪份权重起跑
 
 在匹配的官方 silicon tutorial 目录中放置数据与输入，然后运行：
 
@@ -71,9 +73,11 @@ dptb train input_3.json -o ./env_train
 
 [能带后处理输入](../../../inputs/machine-learning/deeptb-si-band.json)规定 $k$ 路径、标签、电子数与显示能窗。示例的 `E_fermi=-4.722` 来自该示例参考口径，不能照抄到另一份 Si 计算，更不能用于任意材料。
 
+拿到两份权重后，先在同一平衡结构上复原能带，再留出一组应变测试。初期比较只换模型，统一参考能谱、轨道空间、能窗和零点。若修正只改善训练结构，先检查训练覆盖再考虑增加模型容量。 [应变能带验证](环境依赖SK的应变能带验证.md)
+
 从数学上看，网络参数影响跃迁，跃迁影响 $H(k)$，本征值进入损失；可先运行[SSH 能谱拟合](../../../examples/machine-learning/atomistic-models/fit_ssh.py)，观察整条链如何实际优化。
 
-## 参考资料
+### 参考资料
 
 [^paper]: Q. Gu et al. Deep learning tight-binding approach for large-scale electronic simulations at finite temperatures with ab initio accuracy. *Nature Communications* **15**, 6772 (2024). [正式论文](https://doi.org/10.1038/s41467-024-51006-4)、[预印本](https://arxiv.org/abs/2307.04638)。
 [^code]: DeepModeling. [DeePTB 官方仓库](https://github.com/deepmodeling/DeePTB)。

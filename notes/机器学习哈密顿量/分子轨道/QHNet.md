@@ -4,7 +4,9 @@
 
 QHNet（Quantum Hamiltonian Network）在保持 SE(3) 等变性的同时，重新组织张量运算和通道，提高哈密顿量矩阵预测的效率。
 
-## 一、历史与开发团队
+水分子的三个原子在仓库 RHF/STO-3G 算例中有七个基函数。读 QHNet 的矩阵输出时，也要先从轨道布局推导块尺寸，再讨论删掉哪些张量耦合能省计算。
+
+## 一、在等变约束下减少哪些运算
 
 Haiyang Yu、Zhao Xu、Xiaofeng Qian、Xiaoning Qian 和 Shuiwang Ji 在 ICML 2023 发表 QHNet，来自 Texas A&M 相关机器学习与材料研究合作。代码发布在 DIVELab 的 AIRS 库中。[^paper][^code]
 
@@ -20,13 +22,13 @@ Haiyang Yu、Zhao Xu、Xiaofeng Qian、Xiaoning Qian 和 Shuiwang Ji 在 ICML 20
 
 与 [PhiSNet](PhiSNet.md)的比较要固定基组、标签、数据划分和实际总耗时。减少张量运算并不保证端到端电子性质计算获得相同比例加速，因为本征求解可能成为瓶颈。
 
-## 四、结果检查
+## 四、先验证矩阵装配，再比较模型耗时
 
 先重现一个固定分子、固定基组的数据流程，验证轨道掩码、矩阵对称性和旋转等变，再比较矩阵误差及占据/未占据能级误差。原论文在若干 MD17 分子上验证，不应直接解释成对任意周期材料的成熟通用模型。
 
 向晶体迁移还需要晶格位移、周期矩阵块、$k$ 空间装配和相应训练数据，见[周期体系导航](../周期体系/README.md)。
 
-## 实践：读原始训练命令与网络版本
+### 复现前核对训练标签和配置
 
 官方 AIRS 中的工作目录是 `OpenDFT/QHNet`。准备相应带矩阵标签的 MD17 数据后，原始单分子训练入口为：
 
@@ -38,7 +40,7 @@ python train_wH.py dataset=water model=QHNet_w_bias model.version=QHNet_w_bias
 
 作者分别保留带/不带标量 bias 的模型版本；主论文与后续补充实验的浮点精度和训练计划也不同。复现时把这三项一起记录：模型实现文件、`float32/float64` 与调度计划，不能只保留一个随机种子。
 
-## 源码怎样筛选允许的耦合路径
+### 用一个张量积核对通道筛选
 
 其 `get_feasible_irrep` 逻辑可以概括为以下真实接口组合：
 
@@ -54,9 +56,9 @@ print(allowed)  # 0e、1e、2e
 
 原函数遍历各输入表示，筛掉目标表示集合不允许的通道，再给张量积构造指令和归一化系数。源代码见[`ori_QHNet_with_bias.py`](https://github.com/divelab/AIRS/blob/main/OpenDFT/QHNet/models/ori_QHNet_with_bias.py)。路径筛选降低不必要运算，但不改变输出必须覆盖对应轨道块的要求。
 
-下游先以[水分子矩阵案例](../../../examples/machine-learning/atomistic-models/molecular_matrix.py)验证本征求解和电子数，再接真实 QHNet 输出，能把网络误差与矩阵后处理错误分开定位。
+例如用 RHF/STO-3G 的水分子做装配检查时，O 的在位块为 5 × 5，两个 H 各为 1 × 1，O–H 块为 5 × 1。反向块需按共轭转置还原。这个尺寸由教学基组决定，接入 QHNet 数据时应按其实际基配置重算。先以[水分子矩阵案例](../../../examples/machine-learning/atomistic-models/molecular_matrix.py)验证本征求解和电子数，再接真实 QHNet 输出，能把网络误差与矩阵后处理错误分开定位。测耗时时分别记录前向、矩阵装配与本征求解。
 
-## 参考资料
+### 参考资料
 
 [^paper]: H. Yu et al. Efficient and Equivariant Graph Networks for Predicting Quantum Hamiltonian. *ICML*, PMLR **202**, 40412–40424 (2023). [会议论文](https://proceedings.mlr.press/v202/yu23i.html)。
 [^code]: DIVELab. [AIRS 官方代码库](https://github.com/divelab/AIRS)。

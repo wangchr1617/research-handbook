@@ -2,9 +2,9 @@
 
 **适用环境：Windows、macOS、Linux（查看和准备输入）；Linux + PBS（提交计算）。**
 
-几何优化在固定晶胞内调整原子位置，使体系到达局部能量极小值。以水分子为例，先完成电子自洽，再由原子受力驱动结构变化。
+水分子单点已经给出三个原子的受力，接下来可以在同一个非周期计算盒中移动原子，寻找附近的驻点。教程只改变几何任务和优化判据。先用末态受力确认优化是否完成，再决定要不要接频率计算。
 
-## 准备与提交
+## 一、给固定晶胞的水分子加上几何优化
 
 用 Multiwfn 的 `cp2k` 功能选择结构优化任务，或使用案例中的 [cp2k.inp](../../../examples/cp2k/minimal/geometry-optimization/cp2k.inp) 与 [structure.xyz](../../../examples/cp2k/minimal/geometry-optimization/structure.xyz)。将 [job.pbs](../../../examples/cp2k/minimal/geometry-optimization/job.pbs) 和[检查脚本](../../../examples/cp2k/minimal/geometry-optimization/postprocess.py) 一并放入工作目录，加载集群 CP2K 环境后提交：
 
@@ -26,7 +26,7 @@ qsub job.pbs
 
 `MAX_FORCE` 的默认单位为 Hartree/Bohr，`4.5E-4` 约合 0.023 eV/Å。优化还同时检查位移和均方根受力等条件，不能只看能量是否下降。大体系可考虑 LBFGS；算法选择应结合体系规模和收敛表现。
 
-## 查看优化结果
+## 二、按末态和停止条件验收
 
 检查 `cp2k.out` 是否出现 `GEOMETRY OPTIMIZATION COMPLETED`，并核对最后一步受力与电子收敛。`PROGRAM ENDED` 只能证明程序结束，不能替代优化收敛判断。
 
@@ -36,4 +36,4 @@ qsub job.pbs
 
 ![水分子优化中的实际能量评估轨迹，以第一次评估为零点；线搜索可能包含同一优化步内的多次能量评估。](../assets/water-geometry-energy.png)
 
-图中能量以第一次评估为零点；线搜索可能在同一优化步内进行多次能量评估，因此曲线上的点与优化步数未必一一对应。配套 [plot.py](../../../examples/cp2k/minimal/geometry-optimization/plot.py)读取实际输出生成，结果检查后自动绘图；需安装 [requirements.txt](../../../examples/cp2k/minimal/geometry-optimization/requirements.txt) 中依赖。
+若要取最终几何和能量，先找最后一个确认收敛的优化步，再把坐标、能量和受力对应起来。不要把图上的能量评估序号直接用作 XYZ 帧号。图中能量以第一次评估为零点；线搜索可能在同一优化步内进行多次能量评估，因此曲线上的点与优化步数未必一一对应。配套 [plot.py](../../../examples/cp2k/minimal/geometry-optimization/plot.py)读取实际输出生成，结果检查后自动绘图；需安装 [requirements.txt](../../../examples/cp2k/minimal/geometry-optimization/requirements.txt) 中依赖。

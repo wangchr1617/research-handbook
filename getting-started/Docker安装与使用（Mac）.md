@@ -2,9 +2,9 @@
 
 **适用环境：macOS（Apple Silicon / Intel），Docker Desktop 运行 Linux 容器。**
 
-Docker 适合固定软件依赖和复现运行环境。Mac 上的 Linux 容器实际运行在 Docker Desktop 管理的 Linux 虚拟机中，不能把容器里的路径直接当作 Mac 路径。
+如果想在 Mac 上试跑同事提供的 Linux 镜像，Docker Desktop 可以直接提供容器环境。只需要在本机跑几个 Python 脚本时，先看 [Python 虚拟环境](pip与uv安装与使用.md)。下面从运行现成镜像开始，再把本机目录交给容器里的 Python，并练习在终端查看和停止一个临时服务。
 
-## 开始前
+**开始前**
 
 先在苹果菜单 → 关于本机查看芯片和 macOS 版本，再打开“终端”（`Cmd+空格` 搜索“终端”）。本篇使用图形安装包，不要求预先安装 Homebrew、Python、WSL 或 Linux。
 
@@ -31,12 +31,12 @@ docker run --rm hello-world
 ```bash
 docker pull python:3.12-slim
 docker run --rm python:3.12-slim python --version
-docker images
+docker image ls python:3.12-slim
 docker ps
 docker ps -a
 ```
 
-`--rm` 在容器退出后删除该容器，不删除镜像。Apple Silicon 优先使用支持 `linux/arm64` 的镜像；仅有 x86 版本时可尝试 `--platform linux/amd64`，但模拟运行可能更慢，也可能不兼容。Mac Docker Desktop 不能提供 NVIDIA CUDA GPU 运行环境，GPU 计算应放到对应的 Linux GPU 主机。
+运行 Python 后，`docker image ls` 仍能看到镜像，`docker ps -a` 中找不到刚才的容器，因为 `--rm` 会在容器退出时删除它。Apple Silicon 优先使用支持 `linux/arm64` 的镜像；仅有 x86 版本时可尝试 `--platform linux/amd64`，但模拟运行可能更慢，也可能不兼容。Mac Docker Desktop 不能提供 NVIDIA CUDA GPU 运行环境，GPU 计算应放到对应的 Linux GPU 主机。
 
 ## 三、挂载工作目录
 
@@ -93,7 +93,7 @@ docker stop handbook-web
 docker rm handbook-web
 ```
 
-`8080:80` 把本机端口映射到容器端口；指定 `127.0.0.1` 只供本机访问。名称已存在时先 `docker ps -a` 检查，不直接删掉同名容器。
+`8080:80` 把本机端口映射到容器端口；指定 `127.0.0.1` 只供本机访问。名称已存在时先用 `docker ps -a` 核对它是哪一次启动留下的。若已有服务在运行，用 `docker logs --tail 30 handbook-web` 看启动日志，用 `curl -I` 验证映射端口能否收到 HTTP 响应。接手现有 Compose 服务时，按 [Docker 与 Linux 运维](../notes/后端工程/交付与实战/Docker与Linux运维.md)查实际使用的镜像、配置和挂载。
 
 ## 六、代理与资源
 

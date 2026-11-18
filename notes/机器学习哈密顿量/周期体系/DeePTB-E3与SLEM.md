@@ -4,7 +4,9 @@
 
 DeePTB 不只有 Slater–Koster 参数路线。DeePTB-E3 使用等变表示学习轨道算符矩阵，SLEM 是其中重要的严格局域架构。它与 [DeePTB-SK](../../机器学习紧束缚模型/环境依赖SK/DeePTB-SK.md)适合放在两个相邻专题中对照阅读。
 
-## 一、历史与开发团队
+同一个 Si64 结构，选择 E3 教程时要准备哈密顿量和重叠标签。换成能谱监督时，训练目标和所需文件都会变。下面用已有 Si64 配置说明怎样从基和标签追到实际输出。
+
+## 一、从紧束缚参数到局域算符模型
 
 Zhanghao Zhouyin、Zixi Gan、MingKang Liu、Shishir Kumar Pandey、Linfeng Zhang 和 Qiangqiang Gu 在 2024 年发布 SLEM 预印本，于 ICLR 2025 发表。实现进入 DeepModeling 的 DeePTB 项目，与 Gu 等人的紧束缚模型路线相衔接。[^paper][^docs]
 
@@ -29,11 +31,11 @@ SLEM 在固定局域邻域内构造节点与原子对特征，通过多体耦合
 
 二者共享软件生态，但标签、配置与评估不能直接互换。E3 也不是“SK 只要多开一个参数”就能得到的模型。
 
-## 五、结果检查
+## 五、用 Si64 核对标签和周期装配
 
 先用官方小体系教程核对解析与装配，然后检查 $H,S$、旋转等变、能带及目标算符性质。大规模应用分别报告模型推理、装配与谱求解成本，避免把矩阵预测速度当成整个电子结构流程的速度。
 
-## 实践：Si 的 SLEM 完整输入与文件布局
+### 从四个轨道推导 Si64 的矩阵尺寸
 
 配套[Si E3 输入](../../../inputs/machine-learning/deeptb-si-e3.json)采用官方 CPU 例子。关键配置如下：
 
@@ -51,6 +53,8 @@ SLEM 在固定局域邻域内构造节点与原子对特征，通过多体耦合
 
 此处只是完整输入的模型部分，训练还需要 `train_options` 与 `data_options`。`1s1p` 表示一组 s 与一组 p 空间轨道，共四轨道，不是 Si 的完整物理电子壳层写法。64 个 Si 的全矩阵若显式稠密存储为 `256×256`，训练则常按局域块稀疏组织。
 
+256 × 256 是每个 k 点的完整空间轨道矩阵尺寸。实空间标签还要区分原子对与跨胞位移，训练输入中的四轨道块不能直接按文件顺序铺成稠密矩阵。先在参考标签上检查反向块与非 Γ 点装配，再套用到预测结果。 [周期块装配示例](DeepH.md)
+
 数据选项设定 `root=./data`、`prefix=Si64`、`get_Hamiltonian=true` 和 `get_overlap=true`，要求相应的结构、轨道矩阵和重叠数据，而非仅有能带标签。
 
 ```bash
@@ -60,13 +64,15 @@ dptb run band.json -i ./training/checkpoint/实际检查点.pth -o ./band_output
 
 检查点文件名以实际训练输出为准，不把上面的说明性名称复制后当成已有文件。完整命令与数据格式见[官方 E3 教程](https://deeptb.readthedocs.io/en/latest/quick_start/hands_on/tutorial4_E3_si.html)。
 
-## 为什么输出头与损失要配套
+### 检查模型输出是否和损失配套
 
 该例 `prediction.method=e3tb` 配合 `loss_options.train.method=hamil_abs`；SK 能谱学习使用 `eigvals`，二者标签含义不同。更换输出头却沿用另一条路线的数据标志，可能在读取阶段报错，也可能训练到与目标不一致的量。
 
+验证时用同一组 k 点和能量零点比较参考谱与预测谱，并记录矩阵装配和本征求解耗时。若矩阵误差小却有明显带边偏差，回查参与该能窗的轨道块以及重叠矩阵。 [矩阵误差与能谱误差](../基础与比较/训练数据与评估.md)
+
 中间表示维数为 $32+32\times3+16\times5=208$，三层表示更新仍遵循严格局域设计，不应按 `3×7.4 Å` 简单解释为多跳半径。结合边/节点更新源码再判断物理依赖范围。
 
-## 参考资料
+### 参考资料
 
 [^paper]: Z. Zhouyin et al. Learning local equivariant representations for quantum operators. *ICLR* (2025). [预印本及版本](https://arxiv.org/abs/2407.06053)。
 [^docs]: DeePTB. [E3 官方教程与算符表示说明](https://deeptb.readthedocs.io/en/latest/quick_start/hands_on/tutorial4_E3_si.html)、[官方实现](https://github.com/deepmodeling/DeePTB)。

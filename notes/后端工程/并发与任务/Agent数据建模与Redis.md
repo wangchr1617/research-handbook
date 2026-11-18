@@ -2,13 +2,15 @@
 
 **适用环境：通用；示例使用 SQLAlchemy 2，空库练习使用 SQLite，Compose 使用 PostgreSQL 17。**
 
-## 数据库怎样选
+Redis 停止时，教学 Demo 仍可接收一次任务提交。恢复后要沿原来的 `run_id` 查状态，不能看到队列短暂为空就重新提交。这里从这个现象倒推：哪些数据必须一起落库，哪些可以暂存在 Redis，页面重开后该读哪一份。 [请求与恢复实操](../../../examples/backend/agent-demo/请求与恢复实操.md)
+
+## 一、状态与历史先落在哪
 
 关系数据库适合用户、团队、权限、会话和任务，因为这些数据之间有明确关系，常需要事务与约束。SQLite 安装简单，适合单机学习；PostgreSQL、MySQL 更适合多个服务并发访问。文档数据库适合结构变化较大的文档，但仍需考虑引用一致性、索引和授权。向量数据库解决相似度检索，不能替代用户权限和任务状态的事务存储。
 
 ORM 把表映射到 Python 对象，SQLAlchemy 同时提供 ORM 和 SQL 表达式。它减少重复查询代码，但数据库约束、事务和索引仍需要自己设计。迁移工具 Alembic 记录结构变化；更改 Python 类并不等于线上表已经升级。
 
-## 最小 Agent 数据结构
+## 二、一次任务跨了哪些表
 
 以 Archeos 的用户、登录会话、科研任务持久化思路为参照，教学 Demo 使用以下表。这里的 `conversation` 是聊天会话，`login` 是认证会话，二者用途不同。
 
@@ -36,7 +38,7 @@ erDiagram
 
 多团队版本需加入 `teams`、`memberships`，把资源绑定到团队和成员；不能只凭前端传来的 `team_id` 查询。真实 Agent 可增加 `tool_calls`、`run_attempts`、模型用量与对象存储引用，将每次重试的起止时间、输入摘要、错误类别单独记录。
 
-## 从 Python 字段看真实表定义
+### 把业务 ID 对应到实际字段
 
 [demo/db.py::Message](../../../examples/backend/agent-demo/demo/db.py) 完整类定义如下：
 
@@ -62,7 +64,7 @@ class Message(Base):
 
 SQLite 的字符串长度声明也不等于 PostgreSQL 的 VARCHAR 长度行为；HTTP 的 Pydantic 长度约束与数据库 CHECK 各自承担不同入口的约束。后台脚本直接写库时不会自动经过 HTTP 输入类。
 
-## 约束、索引与事务
+### 用约束保护并发提交
 
 外键保证引用对象存在，唯一约束防止重复，CHECK 约束限制状态和值域。必要索引包括 `(run_id, event_id)`、`(conversation_id, message_id)`、`(status, next_at)` 和用户下的会话排序键。索引增加写入与存储成本，应结合查询计划选择。[PostgreSQL 约束文档](https://www.postgresql.org/docs/current/ddl-constraints.html)解释了外键、唯一性和 CHECK 的边界。
 
@@ -85,7 +87,7 @@ with session() as db:
 
 SQLite 练习启用外键、WAL 和 busy timeout；它仍只有有限的写并发能力。生产并发竞争、隔离级别、`SELECT FOR UPDATE` 与死锁应在 PostgreSQL 实例中验证，不能仅凭 SQLite 测试推断。
 
-## 一次提交为什么要同时写三种记录
+## 三、为什么提交时要一起写任务、消息和事件
 
 [Demo submit](../../../examples/backend/agent-demo/demo/main.py) 的关键事务为：
 
@@ -107,7 +109,7 @@ with session() as db:
 
 `with session() as db` 负责关闭 Session，本身不表示自动提交；如果改用 `with Session.begin()` 等上下文，需要明确正常退出与异常退出的提交／回滚语义。详见 [SQLAlchemy 事务基础](https://docs.sqlalchemy.org/en/20/orm/session_basics.html)。
 
-## 查询历史与保存执行状态
+## 四、刷新页面后按 run 找状态和历史
 
 下面是使用绑定参数的查询形状，参数由 SQLAlchemy 传入：
 
@@ -126,7 +128,7 @@ LIMIT :page_size;
 
 历史消息是完成后的对话记录，事件是执行过程。失败任务可能已经输出部分 delta，但不能把这些片段伪装成完整成功回复。前端用 `run_id` 关联输入、事件与最终状态；恢复页面时先查询 run，再决定读历史还是重放事件。
 
-## 在自己的练习库中检查数据
+### 在练习库里对照三类记录
 
 先按[请求与恢复实操](../../../examples/backend/agent-demo/请求与恢复实操.md)生成 `/tmp/agent-backend-lab/demo.db`。SQLite 命令在本机执行：
 
@@ -150,7 +152,9 @@ ORDER BY id LIMIT 100;
 
 在 SQLite 练习中观察是否使用 `ix_event_run_cursor` 等索引；PostgreSQL 用 EXPLAIN，性能诊断时按需要使用 `EXPLAIN (ANALYZE, BUFFERS)`。ANALYZE 会实际执行语句，对写操作尤其要谨慎，不在真实业务上随意试验。
 
-## Redis 在哪里起作用
+## 五、Redis 恢复后，为什么可以补投
+
+在开头的故障场景中，run、用户消息和 queued 事件已经提交。找回 broker 后，由 dispatcher 扫描数据库中的待执行任务，以原 `run_id` 补投。判断恢复是否成功时，查原 run 的终态和消息记录。 [队列恢复流程](后台任务队列与恢复.md)
 
 Redis 提供内存数据结构和可配置持久化，常承担缓存、短期会话、计数限流、协调和队列等角色。它是否能作为某类数据的持久存储，取决于部署、持久化、复制与恢复策略；本专题让关系数据库作为会话与执行状态的事实来源。
 
@@ -177,13 +181,13 @@ redis-cli DEL demo:hello
 
 Streams 的消费组和待确认列表见 [Redis Streams 官方说明](https://redis.io/docs/latest/develop/data-types/streams/)。它与 Pub/Sub 的语义不同；也不意味着启用 Streams 就自动拥有端到端“恰好一次”执行。
 
-## 缓存、队列与结果不要混在一起
+### broker 和缓存为何需要不同的淘汰策略
 
 缓存可以配置淘汰；任务队列被淘汰可能直接丢消息。生产通常把 broker 与可淘汰缓存分实例管理，设置容量、ACL、网络边界和监控。Demo 的 Redis 只做 Celery broker，使用 AOF 和 `noeviction`；内存满会导致写入失败，应报警并扩容，数据库补投意图仍需保留。
 
 备份要包含关系数据库、对象存储和恢复所需密钥，并实际演练恢复。把 Redis `PING` 成功当成“数据安全”或“任务一定执行成功”都不足够。
 
-## Redis 的两个具体实现练习
+## 六、用练习键验证限流和锁的边界
 
 以下只在自己的练习 Redis 中执行；Compose 用户可先 `docker compose exec redis redis-cli`，键统一使用 `handbook:practice:` 前缀。
 
@@ -197,7 +201,7 @@ end
 return current
 ```
 
-保存到[固定窗口限流.lua](../../../inputs/backend/固定窗口限流.lua)，本机 Redis CLI 执行：
+使用已有的[固定窗口限流脚本](../../../inputs/backend/固定窗口限流.lua)，在仓库根目录用本机 Redis CLI 执行：
 
 ```bash
 redis-cli --eval inputs/backend/固定窗口限流.lua handbook:practice:rate:user-demo , 60
@@ -215,9 +219,9 @@ end
 return 0
 ```
 
-[按持有者释放锁.lua](../../../inputs/backend/按持有者释放锁.lua) 与 `SET key random-owner NX PX 5000` 配合。如果持有者 A 工作超过 TTL，B 取得同名锁，A 直接 DEL 就会删掉 B 的锁；比较 owner 可以防止误删。但 A 的旧计算本身仍可能继续，因此数据库写回还需要 run 的领取凭据校验。Redis 事务和原子脚本的基础见[官方事务说明](https://redis.io/docs/latest/develop/using-commands/transactions/)。
+[按持有者释放锁脚本](../../../inputs/backend/按持有者释放锁.lua) 与 `SET key random-owner NX PX 5000` 配合。如果持有者 A 工作超过 TTL，B 取得同名锁，A 直接 DEL 就会删掉 B 的锁；比较 owner 可以防止误删。但 A 的旧计算本身仍可能继续，因此数据库写回还需要 run 的领取凭据校验。Redis 事务和原子脚本的基础见[官方事务说明](https://redis.io/docs/latest/develop/using-commands/transactions/)。
 
-用自己的练习键验证释放行为，可以连续执行：
+在仓库根目录用自己的练习键验证释放行为，可以连续执行：
 
 ```bash
 lock_owner=$(python -c 'import secrets; print(secrets.token_hex(16))')

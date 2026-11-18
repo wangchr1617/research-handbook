@@ -2,9 +2,9 @@
 
 **适用环境：Linux + PBS（支持 GW 的 VASP）；Windows / macOS / Linux 可绘图。**
 
-GW 用近似自能修正单粒子能级。它回答的是准粒子加减电子激发能问题，与包含电子—空穴相互作用的光学激发不同；后者可继续使用 [BSE](../响应与输运/VASPBSE光学响应.md)。
+如果已经得到硅的 PBE 本征值，想进一步估算加、减电子的能量，可以用 GW 的自能修正得到准粒子能级。这里用同一张输出表比较修正前后的带边。若关心电子与空穴相互作用后的光学激发，可继续使用 [BSE](../响应与输运/VASPBSE光学响应.md)。
 
-## 硅的三阶段小案例
+## 一、从自洽轨道准备响应空间
 
 [最小案例](../../../examples/vasp/minimal/gw-quasiparticles)提供 [POSCAR](../../../examples/vasp/minimal/gw-quasiparticles/POSCAR)、[KPOINTS](../../../examples/vasp/minimal/gw-quasiparticles/KPOINTS)，以及 [PBE 自洽](../../../examples/vasp/minimal/gw-quasiparticles/INCAR.scf)、[空带对角化](../../../examples/vasp/minimal/gw-quasiparticles/INCAR.exact)、[GW 参数](../../../examples/vasp/minimal/gw-quasiparticles/INCAR.gw)。准备授权 `Si_GW` POTCAR，安装 [依赖](../../../examples/vasp/minimal/gw-quasiparticles/requirements.txt)，加载 VASP 后提交 [job.pbs](../../../examples/vasp/minimal/gw-quasiparticles/job.pbs)：
 
@@ -28,11 +28,11 @@ LSPECTRAL = .TRUE.
 
 **每个阶段都要出现 SCF 收敛标记吗？** 固定密度的精确对角化不进行新的 SCF 循环。应先确认原始 PBE 已收敛，再检查后续阶段是否正常结束、是否输出了预期的 QP 表。[结果检查](../../../examples/vasp/minimal/gw-quasiparticles/postprocess.py)还核对本征值、占据和重整化因子 Z，并由 [plot.py](../../../examples/vasp/minimal/gw-quasiparticles/plot.py)绘图。
 
-## 能级与采样能带
+## 二、在同一组采样点上比较带边
 
 ![硅的粗网格 GW 准粒子结果](../assets/si-gw-levels.png)
 
-本例在 `3×3×3` 网格的四个不可约点上得到 32 条目标能级，采样 PBE/G₀W₀ 带隙约为 0.6895/1.0255 eV，Z 约 0.662—0.723。图中离散点来自实际计算，不是插值后的连续高对称路径。
+本例在 `3×3×3` 网格的四个不可约点上得到 32 条目标能级，采样 PBE/G₀W₀ 带隙约为 0.6895/1.0255 eV，Z 约 0.662—0.723。脚本在同一输出表中分别读 KS 列和 QP 列，两列各自用最低空态减最高占据态。本例的差距约增加 0.3360 eV。图中离散点来自实际计算，不是插值后的连续高对称路径。
 
 300 eV 平面波截断、24 条能带、80 eV 响应截断和 16 个频率点仅用于低成本流程验证，不能作为收敛的硅 GW 带隙。正式计算需逐项测试空带、响应截断、频率和 k 点；绘制连续准粒子能带还需更密采样及经过检查的 Wannier/其他插值方案。
 

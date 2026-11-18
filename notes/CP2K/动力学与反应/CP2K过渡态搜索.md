@@ -2,9 +2,9 @@
 
 **适用环境：Windows、macOS、Linux（准备结构与绘图）；Linux + PBS（CP2K）。**
 
-CP2K 的 `RUN_TYPE BAND` 可计算 NEB 路径。这里固定六个硅背景原子，让一个原子在两个局部能谷之间迁移，用小模型演示端点优化、周期路径处理和 CI-NEB。
+两个端点的能量差能说明哪个构型更低，却给不出从一个构型到另一个构型要翻过多高的能垒。CI-NEB 用一串副本搜索路径，让爬坡副本向路径上的鞍点靠近。本例固定六个硅背景原子，只放松迁移原子。这个设置能把端点、周期映像和能量曲线的关系看清楚。
 
-## 输入与提交
+## 一、把五个副本和 MPI 资源配起来
 
 案例提供 [initial.xyz](../../../examples/cp2k/minimal/neb/initial.xyz)、[final.xyz](../../../examples/cp2k/minimal/neb/final.xyz)、[endpoint.inp](../../../examples/cp2k/minimal/neb/endpoint.inp)、[cp2k.inp](../../../examples/cp2k/minimal/neb/cp2k.inp)、[run.py](../../../examples/cp2k/minimal/neb/run.py)、[job.pbs](../../../examples/cp2k/minimal/neb/job.pbs) 和[后处理脚本](../../../examples/cp2k/minimal/neb/postprocess.py)。Python 依赖见 [requirements.txt](../../../examples/cp2k/minimal/neb/requirements.txt)。
 
@@ -18,15 +18,17 @@ qsub job.pbs
 
 本例使用五个 MPI 进程和 `NPROC_REP=1`，每个副本一个进程。CP2K 的 `NUMBER_OF_REPLICA=5` **包含两个端点**，与 VASP `IMAGES=3` 只计中间点的含义不同。更多并行资源应与副本分组一起调整。
 
-## 端点和周期路径
+## 二、先确认两个端点和迁移方向
 
 `run.py` 先用 `GEO_OPT` 分别优化两个端点，固定原子为 `MOTION/CONSTRAINT/FIXED_ATOMS` 中的 `2..7`。确认优化收敛后，脚本读取最终结构，借助 ASE 的最小映像处理将末态放到与初态相邻的周期映像，写出 `replica-00.xyz`、`replica-04.xyz`。
+
+有可用计算资源时，也可在同一工作目录先执行 `python3 run.py --stage endpoints`，检查两个端点优化后的结构和收敛，再以 `python3 run.py --stage neb` 启动路径优化。第二阶段读取第一阶段的末态，继续前应保持计算设置一致。
 
 同一周期构型可以有不同的坐标表示，若未先处理映像，直接插值就可能跨过更长的晶胞路径。本例用最小映像选择相邻表示；多原子协同迁移、绕行或原子交换等过程，还需根据目标通道判断路径是否合适。
 
 本例只在输入中列出两端的 `REPLICA`，CP2K 原生插值补齐其余副本。2026.2 补齐缺少的副本时，采用最大间隔迭代二分，不保证任意副本数都等距；需要指定中间锚点位置时，可显式提供全部副本，见[初始插点与路径检查](CP2K的NEB初始插点与路径检查.md)。完整初始路径和原子顺序仍需检查，尤其要避免插值造成原子重叠。
 
-## BAND 参数
+## 三、何时启用爬坡副本
 
 ```text
 &BAND
@@ -47,7 +49,7 @@ qsub job.pbs
 
 输入还设置了力和位移阈值，以及 `OPTIMIZE_END_POINTS FALSE`。不要只看程序正常结束，应确认 BAND 自身收敛及每个副本的电子计算状态。参数定义见 [BAND 手册](https://manual.cp2k.org/trunk/CP2K_INPUT/MOTION/BAND.html)。
 
-## 提取和查看结果
+## 四、从末步能量和坐标判断路径是否可用
 
 `neb-BAND1.out` 至 `neb-BAND5.out` 保存各副本的电子计算，`neb-pos-Replica_nr_*-1.xyz` 保存路径结构。后处理检查 BAND 收敛、各副本 SCF 以及六个固定原子是否保持不动。
 
@@ -55,7 +57,7 @@ qsub job.pbs
 
 ![CP2K 受约束硅原子迁移的 CI-NEB 能量路径](../assets/si-neb-cp2k.png)
 
-曲线来自本例五个副本，按初态能量置零。该小胞和固定背景用于学习受约束路径，真实材料势垒还需测试超胞、采样、基组、网格和周围原子弛豫。
+横轴从初态起累加副本间距离。纵轴给出各副本相对初态的能量，因此最高副本的纵坐标是这个模型的正向势垒估计。若讨论反向迁移，要用最高副本能量减去末态能量。该小胞和固定背景用于学习受约束路径，真实材料势垒还需测试超胞、采样、基组、网格和周围原子弛豫。
 
 已有结果时执行 `python3 postprocess.py` 可重新检查与绘图，无需重算电子结构；`python3 plot.py` 只重画图。识别完整过渡态还需检查最高点构型及振动模式，不能把任意一条路径的最高点自动当作目标反应的过渡态。
 

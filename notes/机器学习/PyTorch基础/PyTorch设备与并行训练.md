@@ -2,6 +2,8 @@
 
 **适用环境：CPU / Apple Silicon Mac（MPS）/ Linux NVIDIA GPU；多卡示例仅用于已有 GPU 资源分配的 Linux 节点。**
 
+仓库的二维分类练习用 CPU 就能跑通。把类似训练迁到 GPU 时，先拿同一批输入、同一份权重和接近的数值精度比一轮前向与反向，再考虑增大批量或加卡。 [CPU 训练与保存](PyTorch模型训练与保存.md)
+
 先在 CPU 或单卡上核对训练流程，再做混合精度和多卡。GPU 数量增加，不会自动解决数据划分、损失定义或单位错误。
 
 ## 一、把模型和数据放在同一设备
@@ -28,7 +30,7 @@ assert torch.isfinite(loss)
 
 `.to(device)` 返回迁移后的张量，写成 `x = x.to(device)`，不只调用后丢弃返回值。Mac 的 MPS 和 NVIDIA CUDA 是不同后端，不能将 CUDA 专用参数照搬到 MPS。
 
-## 二、单卡先看显存和批大小
+## 二、单卡先跑通，再调整显存与精度
 
 在已获准的 Linux GPU 节点用 `nvidia-smi` 查看分配给自己的卡和使用情况，再运行训练。脚本读取 `torch.cuda.is_available()` 确认当前环境确实能调用 CUDA。
 
@@ -36,7 +38,7 @@ assert torch.isfinite(loss)
 
 CUDA 混合精度通常使用 `torch.autocast` 和 `torch.amp.GradScaler`。是否启用、采用 float16 还是 bfloat16，要结合硬件与数值稳定性判断；先比较同一数据上的损失和梯度，参考 [官方 AMP 示例](https://docs.pytorch.org/docs/stable/notes/amp_examples.html)。
 
-## 三、多卡 DDP 需要准备什么
+## 三、多卡先核对样本和全局指标
 
 PyTorch 的 DistributedDataParallel（DDP）通常采用每张 GPU 一个进程。每个进程有自己的模型副本，通过通信同步梯度。
 
@@ -49,11 +51,13 @@ PyTorch 的 DistributedDataParallel（DDP）通常采用每张 GPU 一个进程�
 | 保存 | 通常只让 rank 0 保存模型，避免并发覆盖 |
 | 指标 | 聚合各进程的统计量，不能只看某张卡的局部结果 |
 
-DDP 不会替你自动拆分输入数据。同一个 batch 被所有进程重复训练时，即使 GPU 都在忙，也不代表数据并行配置正确。先用 [官方 DDP 教程](https://docs.pytorch.org/tutorials/beginner/ddp_series_theory.html)的小例子核对，再接入自己的模型。
+以每进程 32 个样本、两进程、无梯度累积为例，各进程都取满 batch 时，一次更新处理 64 个样本位置。若拿单卡 32 样本的结果直接对照，两边每次更新的数据量已经不同。做等批量对照时，可先用两进程各 16 个样本。
+
+DDP 不会替你自动拆分输入数据。同一个 batch 被所有进程重复训练时，即使 GPU 都在忙，也不代表数据并行配置正确。验收时可以先打印各 rank 第一批样本 ID，核对实际分片。验证准确率时聚合正确数和有效样本总数，再相除；若采样器为对齐进程长度补了重复样本，统计时按样本 ID 去重或使用无重复的评估划分。先用 [官方 DDP 教程](https://docs.pytorch.org/tutorials/beginner/ddp_series_theory.html)的小例子核对，再接入自己的模型。
 
 PBS 集群必须先按 [PBS 笔记](../../../getting-started/PBS作业管理系统使用.md)与管理员说明申请 GPU，具体 GPU 资源语法以本站配置为准。不在登录节点试启动多卡，也不把队列名字里有 `gpu` 当作已分配到卡。
 
-## 四、记录可复现的条件
+## 四、记录单卡与多卡的对照条件
 
 ```bash
 python -m pip freeze > requirements.txt

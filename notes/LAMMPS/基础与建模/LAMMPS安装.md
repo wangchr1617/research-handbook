@@ -2,9 +2,20 @@
 
 **适用环境：Linux 集群。**
 
-本文保留原集群中 LAMMPS 29Sep2021、23Jun2022 等版本的构建记录。目录、编译器和扩展接口对应原环境；使用其他版本时，先核对其构建要求。
+遇到旧输入里的 `fix gcmc` 或某个外接势，先确认当前 `lmp` 是否包含对应功能。若只是跑手册的 [LJ 最小例](LAMMPS基础知识.md)，可以先用已有的可执行文件验证基本命令和输出。需要额外包时，再按目标版本的文档配置构建。下文保留 29Sep2021、23Jun2022 等版本的集群构建记录，示例目录和工具链需替换。
 
-## LAMMPS make 安装
+## 一、先验收实际运行的可执行文件
+
+在准备运行计算的环境中执行：
+
+```bash
+command -v lmp
+lmp -help
+```
+
+第一行用于确认调用路径。第二条可核对版本、已启用的包和命令风格。若登录环境与作业加载的模块不同，也在作业环境里做一次同样的检查。接着按基础篇跑 LJ 输入，检查能否创建 500 个原子并写出轨迹及重启文件。需要 GCMC、专用势或 GPU 时，再用包含目标命令的最小输入验证相应路径。这两种检查分别对应基础运行和目标功能。
+
+## 二、复查旧版 make 构建
 
 先准备 LAMMPS 源码、MPI 与 FFTW。原集群的 MPI 随 Intel 编译环境提供，可用 `which mpirun` 核对路径；FFTW 位于 `/opt/software/`。源码从[LAMMPS 官方下载页](https://www.lammps.org/download.html)获取。
 
@@ -78,7 +89,7 @@ module load intel/2020.1.217
 
 编译完成后该目录下会包含名为 `lmp_intel_cpu_intelmpi` 的可执行文件。
 
-## LAMMPS CMake 安装
+## 三、从干净源码配置 CMake 与扩展包
 
 > CMake 和 make 安装方式不能混用，如果用 CMake 安装 LAMMPS，后续安装扩展包时不能用 make 安装。
 
@@ -192,7 +203,7 @@ export PYTHONPATH=/home/zfli-ICME/software/lammps-23Jun2022/python:${PYTHONPATH}
 export LD_LIBRARY_PATH=/home/zfli-ICME/software/lammps-23Jun2022/build-python-1:${LD_LIBRARY_PATH}
 ```
 
-## GPU 版本 LAMMPS CMake 安装
+## 四、按目标设备选择 GPU 构建选项
 
 ```bash
 ssh gpu01

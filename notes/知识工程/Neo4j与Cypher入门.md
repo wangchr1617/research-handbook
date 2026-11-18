@@ -4,13 +4,13 @@
 
 Neo4j 保存属性图：节点表示文献、片段或材料，关系表示包含、引用和研究对象，属性保存标识、标题、页码等字段。Cypher 用图模式表达查询。想按多层关系寻找证据时，可直接写出需要匹配的路径。
 
-## 准备连接
+## 一、先在练习库确定要查的证据
 
 可通过 Neo4j Desktop 创建本机测试库，或使用已有测试服务。启动后记录 Bolt URI、数据库名和账号，使用 Neo4j Browser 执行下列 Cypher。服务准备见[官方入门](https://neo4j.com/docs/getting-started/)。Python 接入还需要在自己的虚拟环境安装 `neo4j` 包，并通过环境变量提供凭据。
 
-下面建立一个名为 `demo` 的教学项目及一篇文档、一个片段。`demo` 是节点属性中的项目编号，和 Neo4j 数据库名是两个概念。
+下面建立一个名为 `demo` 的教学项目及一份文档、一个片段。沿用建模篇的硅案例，从仓库笔记取一段证据。本例用 `Paper` 作为文档节点标签，`v1` 是教学版本。Markdown 的定位采用文件路径和标题。 [知识建模中的硅案例](知识图谱与科研知识建模.md)`demo` 是节点属性中的项目编号，和 Neo4j 数据库名是两个概念。
 
-## 先定义唯一标识，再导入
+## 二、让重复导入仍指向同一片段
 
 在测试库依次执行：
 
@@ -26,10 +26,11 @@ FOR (c:Chunk) REQUIRE (c.project_id, c.id) IS UNIQUE;
 
 ```cypher
 MERGE (p:Paper {project_id: 'demo', id: 'paper-001'})
-SET p.title = '教学文档', p.version = 'v1'
+SET p.title = '结构、性质与计算档案数据库', p.version = 'v1',
+    p.source = 'notes/材料数据库专题/结构与性质数据库.md'
 MERGE (c:Chunk {project_id: 'demo', id: 'paper-001:v1:1'})
-SET c.text = '教学片段：该段用于说明证据定位。',
-    c.page = 3, c.version = 'v1'
+SET c.text = '硅的 PBE 路径采样带隙为 0.6189 eV，等价常规胞边长 5.47 Å，自洽 k 网格为 9 × 9 × 9。',
+    c.locator = '三、已经算出硅的带隙，怎么找对照', c.version = 'v1'
 MERGE (p)-[:HAS_CHUNK]->(c);
 ```
 
@@ -40,12 +41,12 @@ MERGE (p)-[:HAS_CHUNK]->(c);
 ```cypher
 MATCH (p:Paper {project_id: 'demo', id: 'paper-001'})
       -[:HAS_CHUNK]->(c:Chunk {project_id: 'demo'})
-RETURN p.title AS title, c.id AS chunk_id, c.page AS page;
+RETURN p.title AS title, c.id AS chunk_id, p.source AS source, c.locator AS locator;
 ```
 
-预期 `chunk_id` 为 `paper-001:v1:1`，页码为 `3`。这验证了示例的重复导入行为；实际应用还要检查缺失字段、版本更新与事务失败后的重试。
+预期 `chunk_id` 为 `paper-001:v1:1`，定位应给出硅带隙对照小节。用行数和定位判断重复导入是否仍指向同一条证据；实际应用还要检查缺失字段、版本更新与事务失败后的重试。
 
-## Python 中使用参数
+## 三、把文档和项目编号传给驱动
 
 设置 `NEO4J_URI`、`NEO4J_USER`、`NEO4J_PASSWORD` 和 `NEO4J_DATABASE` 后运行。URI 使用服务实际给出的协议与地址。下面只读查询，不修改图数据：
 
@@ -61,7 +62,7 @@ with GraphDatabase.driver(
     records, summary, keys = driver.execute_query(
         "MATCH (p:Paper {project_id: $project, id: $paper})"
         "-[:HAS_CHUNK]->(c:Chunk {project_id: $project}) "
-        "RETURN c.id AS id, c.text AS text, c.page AS page LIMIT 20",
+        "RETURN c.id AS id, c.text AS text, p.source AS source, c.locator AS locator LIMIT 20",
         project='demo', paper='paper-001',
         database_=os.environ['NEO4J_DATABASE'],
     )
@@ -70,7 +71,7 @@ with GraphDatabase.driver(
 
 查询结构与参数值分开，便于复用执行计划，也避免把用户输入直接拼入查询。连接和驱动用法见 [Python Driver 手册](https://neo4j.com/docs/python-manual/current/query-simple/)。服务端应从登录上下文得到项目范围，再校验资源访问权；上面硬编码的 `demo` 仅供练习。
 
-## 图建好了以后查什么
+## 四、何时把证据定位扩展成图查询
 
 引入[知识建模笔记](知识图谱与科研知识建模.md)中的 Observation 后，可以查“某材料的结果来自哪篇文献、哪次计算”。控制路径类型和跳数，分别约束起点、终点及中间证据的访问范围。只限制返回条数无法限制前面的图遍历成本，复杂查询需查看执行计划并设置期限。
 

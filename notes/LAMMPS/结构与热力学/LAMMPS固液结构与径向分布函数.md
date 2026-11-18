@@ -2,9 +2,9 @@
 
 **适用环境：Linux + PBS（LAMMPS）；Windows / macOS / Linux 可绘图。**
 
-径向分布函数 $g(r)$ 描述距参考粒子为 $r$ 的位置上出现其他粒子的相对概率。晶体有明显的壳层峰，液体通常保留近邻峰而远处相关减弱；结合 MSD，能更清楚地区分局部振动和持续扩散。
+低温晶体和高温液体的 RDF 都能看到近邻峰。如果只看第一峰，可能把液体的短程有序当成晶体结构。下面保持 LJ 粒子数和密度一致，用远处壳层峰与同一采样段的 MSD 一起判断：粒子主要在原位振动，还是持续离开初始位置。
 
-## 同密度的两个温度
+## 一、固定密度，只比较两个温度
 
 [最小案例](../../../examples/lammps/minimal/solid-liquid-rdf)的 [in.lammps](../../../examples/lammps/minimal/solid-liquid-rdf/in.lammps)使用 256 个 LJ 粒子、约化密度 0.85，分别在 $T^*=0.2$、1.5 下独立初始化。每个温度先平衡 5000 步，再采样 5000 步，步长为 0.005。
 
@@ -14,7 +14,7 @@ compute radial all rdf 80 cutoff 3.0
 fix rdf_output all ave/time 10 50 500 c_radial[*] file rdf.solid.dat mode vector
 ```
 
-计算在 0—3σ 范围分 80 个距离区间，每 500 步形成一个平均块。势的截止半径为 2.5σ；RDF 范围更大时，需要把通信距离扩展到 RDF 截断加邻居表 skin。增加 RDF 范围不意味着延长势的作用范围。
+计算在 0—3σ 范围分 80 个距离区间，每 500 步形成一个平均块，5000 步生产段对应十块。MSD 每 100 步输出一次，使用生产段起点作为参考。步长为 0.005，因此 MSD 的相邻采样间隔为 0.5 个约化时间单位，整段为 25。势的截止半径为 2.5σ；RDF 范围更大时，需要把通信距离扩展到 RDF 截断加邻居表 skin。增加 RDF 范围不意味着延长势的作用范围。
 
 加载 LAMMPS，安装 [依赖](../../../examples/lammps/minimal/solid-liquid-rdf/requirements.txt)，提交 [PBS 作业](../../../examples/lammps/minimal/solid-liquid-rdf/job.pbs)：
 
@@ -36,13 +36,13 @@ qsub job.pbs
 
 升降温速率、晶胞体积和超胞大小都会影响转变温度。报告观察到的转变时写明这些条件，并用 RDF 或轨迹复核结构变化。确定平衡熔点需要考察固液共存或计算自由能。
 
-## 同时看结构与运动
+## 二、把 RDF 的壳层峰和 MSD 放在一起读
 
 [后处理](../../../examples/lammps/minimal/solid-liquid-rdf/postprocess.py)按实际行数解析 RDF 分块记录，平均十个采样块，并检查对应的 MSD 时间轴。[plot.py](../../../examples/lammps/minimal/solid-liquid-rdf/plot.py)绘图。
 
 ![低温与高温 LJ 体系的 RDF 和 MSD](../assets/solid-liquid-rdf.png)
 
-低温曲线有清晰壳层峰，MSD 停留在约 0.02σ² 的振动尺度；高温峰形更宽，25 个约化时间后 MSD 约为 12.69σ²，表明粒子发生持续重排。OVITO 可进一步直观看轨迹，必要时结合结构识别和配位数。
+低温曲线有清晰壳层峰，MSD 停留在约 0.02σ² 的振动尺度；高温峰形更宽，25 个约化时间后 MSD 约为 12.69σ²，表明粒子发生持续重排。若实际材料的两个状态有近似的第一峰，可以用 [OVITO 配位与 RDF 算例](../../OVITO/配位数与径向分布函数.md)先检查周期盒和壳层范围，再结合结构识别及 MSD 区分。
 
 这两个状态的比较不等于测出了熔点。连续加热可能出现过热，短时间内的晶体也可能仍被动力学困住；确定相变温度需更细温度采样、足够平衡和合适的共存或自由能方法。
 

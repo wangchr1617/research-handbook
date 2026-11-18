@@ -4,7 +4,9 @@
 
 GAP 是一种回归势能的方法，SOAP 是描述局域环境或定义环境相似度的方法。二者经常搭配，但 SOAP 并不专属于 GAP，早期 GAP 也不只使用 SOAP。
 
-## 一、历史与开发团队
+沿用 ACSF 篇的两组 OHH 邻域。SOAP 也要能区分夹角变化，并在整体旋转或同元素邻居交换后给出相同结果。建立相似度矩阵之后，还要用带标签的结构检验这个相似度能否支持能量和力的预测。 [ACSF 对照](BP与原子中心对称函数.md)
+
+## 一、从邻域相似度到回归
 
 Albert P. Bartók、Mike C. Payne、Risi Kondor 和 Gábor Csányi 在 2010 年发表 GAP，源于 Cambridge 相关合作。Bartók、Kondor 和 Csányi 在 2013 年发表 SOAP。GAP/QUIP 后续由社区持续开发。两项工作的顺序解释了为什么不能把“GAP”和“SOAP”当成同一个模型名。[^gap][^soap]
 
@@ -48,13 +50,15 @@ SOAP-GAP 的优势在于相似度清楚、核方法基础成熟，可作为中�
 
 与 [MTP](MTP与主动学习.md)、[ACE](ACE与多体展开.md)相比，SOAP-GAP 通过核组合表达非线性；与 BP 相比，差异主要在表示和回归器，不能简单归纳为“传统”对“深度”。
 
-## 五、结果检查与继续阅读
+## 五、用相同邻域检查 SOAP 和核
 
 检查描述符的旋转和置换不变性，扫描截断、平滑宽度和展开阶数，观察精度与成本。再按独立轨迹验证，避免只在高度相似的环境上得到乐观结果。仓库中已有 [SOAP 相似性核 Notebook](../../GPUMD/SOAP相似性核.ipynb)，其依赖与代码按 Notebook 准备。
 
-## 实践：从 SOAP 向量到核矩阵
+### 从 SOAP 向量算出核矩阵
 
-[描述符案例](../../../examples/machine-learning/atomistic-models/descriptor_demo.py)用 DScribe 直接计算 SOAP。对多元素、不压缩的功率谱，特征维数受元素通道、`n_max` 和 `l_max` 共同决定；`n_max` 是径向展开数量，`l_max` 是最高角阶，均不是网络深度。
+[描述符案例](../../../examples/machine-learning/atomistic-models/descriptor_demo.py)用 DScribe 直接计算 SOAP。在归档设置下，O 中心的 SOAP 向量有 63 维，改变夹角后差的范数约为 0.17392，旋转误差约为 1.11 × 10⁻¹⁶，同种邻居交换误差为零。对照 ACSF 时，向量维数和尺度都不同，两种范数的大小不宜拿来给模型精度排序。 [归档结果](../../../examples/machine-learning/atomistic-models/reference/cpu-results.json)
+
+对多元素、不压缩的功率谱，特征维数受元素通道、`n_max` 和 `l_max` 共同决定；`n_max` 是径向展开数量，`l_max` 是最高角阶，均不是网络深度。
 
 ```python
 import numpy as np
@@ -73,7 +77,7 @@ print(kernel.shape)
 
 这里有三个原子中心，核矩阵为 `3×3`，元素 $K_{ij}$ 是两个原子环境的相似度，不是三个分子的能量。中心元素处理、核归一化和多元素通道需要与训练方案一致。对归一化前零向量的处理也要明确。
 
-## GAP 的输入与训练命令
+## 六、从核矩阵走到带标签的 GAP 拟合
 
 已有 Si 的带能量、力标签的 `train.xyz`，且 `energy` / `force` 字段名与 GAP 读取设置一致时，可以从如下小型 SOAP 模型开始：
 
@@ -86,9 +90,9 @@ gap_fit at_file=train.xyz \
 
 命令应在已安装 QUIP/GAP 的环境运行，`n_sparse=200` 只是小规模起点，还要求数据中有足够代表环境。`default_sigma` 依次控制能量、力、virial 和 Hessian 的正则/噪声尺度，不是四项随意相加的损失权重；绝对量、每原子量及配置级覆盖值按所用 GAP 版本解释。输出不仅有 XML，还可能包含稀疏点的外部文件，部署时需一起保留。
 
-此命令遵循[官方 gap_fit 输入语法](https://libatoms.github.io/GAP/gap_fit.html)。上面的 DScribe 代码只检查表示和核，不能被称为完成了 GAP 的能量–力联合训练。
+此命令遵循[官方 gap_fit 输入语法](https://libatoms.github.io/GAP/gap_fit.html)。拟合完成后，应在独立结构上检查能量差与力，再看核设置是否需要调整。上面的 DScribe 代码可以先单独用来核对表示与核矩阵。
 
-## 参考资料
+### 参考资料
 
 [^gap]: A. P. Bartók et al. Gaussian Approximation Potentials: The Accuracy of Quantum Mechanics, without the Electrons. *Physical Review Letters* **104**, 136403 (2010). [论文](https://arxiv.org/abs/0910.1019)。
 [^soap]: A. P. Bartók, R. Kondor, G. Csányi. On representing chemical environments. *Physical Review B* **87**, 184115 (2013). [论文](https://arxiv.org/abs/1209.3140)。

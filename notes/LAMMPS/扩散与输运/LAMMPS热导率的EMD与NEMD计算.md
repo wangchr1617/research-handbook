@@ -2,11 +2,11 @@
 
 **适用环境：Linux + PBS（LAMMPS 30 Sep 2026）；Windows / macOS / Linux 可后处理与绘图。**
 
-热导率不能像温度那样从一帧轨迹直接读出。平衡态方法（EMD）从热流涨落的自相关积分得到 κ；非平衡方法（NEMD）人为建立温度梯度，再由 Fourier 定律求 κ。两条路线的误差来源不同，在同一状态点上互相核对，比只看一个数字可靠。
+同一个 LJ 状态点，用平衡热流涨落和非平衡温度梯度求热导率，结果接近时，能不能据此认为已经收敛？两条路线要检查的地方不同：EMD 要看累计积分的窗口和各方向的分散，NEMD 则要看温度剖面有没有稳定的线性段。下面用已有输出逐项对照。
 
 本文用 LJ 液体跑通两条路线：EMD 得 3.502，NEMD 得 3.425，参考值约 3.4（约化单位 ε/(τσ)）。配套案例在 [thermal-conductivity](../../../examples/lammps/thermal-conductivity/README.md)，包含两套输入、运行脚本、后处理与本次输出。
 
-## 两条路线在算什么
+## 一、两条路线在算什么
 
 用热通量密度 $\mathbf j$ 写 Fourier 定律
 
@@ -42,7 +42,7 @@ $$
 | 主要误差 | 相关长尾、统计噪声 | 稳态、非线性、有限尺寸 |
 | 有限尺寸问题 | 盒子与相关时间 | 横向面积、梯度大小 |
 
-## 参考体系与输入
+## 二、参考体系与输入
 
 两套输入都取 LJ 液体：约化密度 $\rho^*=0.6$、温度 $T^*=1.35$、截断 $r_c=2.5\sigma$。这个状态点与 Evans 1986 的 LJ 结果以及 LAMMPS `examples/KAPPA` 的对照值一致，便于检查。
 
@@ -70,7 +70,7 @@ lmp -in in.nemd -log log.nemd
 
 在配套案例目录执行。配套 `run.py` 会依次执行并检查日志是否正常结束，`postprocess.py` 负责解析与绘图。
 
-## EMD：采样热流自相关
+## 三、EMD：采样热流自相关
 
 本例用 NVT 准备平衡初态，再在 NVE 生产段采样，避免控温器直接改变热流的动力学相关。
 
@@ -108,7 +108,7 @@ variable kappa equal (v_k11+v_k22+v_k33)/3.0
 
 Alkemie 的「Green–Kubo 晶格热导率」组件沿用 NVE 生产段，使用 `compute heat/flux` 的广延量。`correlation.dat` 保存三个方向的自相关，`transport-state.dat` 保存步长、体积及平均温度。选择已验证逐原子能量和维里定义的势函数，结合相关函数和累计积分检查平台。`metal` 单位下的系数输出为 W/(m·K)，`lj` 输出为 $k_B/(\tau\sigma)$。[LAMMPS compute heat/flux](https://docs.lammps.org/compute_heat_flux.html)
 
-## NEMD：冷热层速度交换
+## 四、NEMD：冷热层速度交换
 
 NEMD 输入先用 NVT 平衡，再切到 NVE，并在生产段重新定义 `fix thermal/conductivity`，使累积能量从零开始：
 
@@ -142,7 +142,7 @@ variable kappa equal (f_3/(time-${start_time})/(lx*ly)/2.0)*(lz/2.0)/f_ave
 
 要得到可发表的 NEMD 值，至少做三件事：减小扰动（降低交换频率或能量速率）、增大横向面积以降低梯度、把 $L_z$ 加到足够长并检查中心区是否线性；然后对温差和热流做时间平均，报告有限尺寸外推与统计误差。LAMMPS 自带示例也明确说明这些脚本只作演示，不保证完全平衡或高精度。
 
-## 两种方法怎样互相对照
+## 五、两种方法怎样互相对照
 
 | 方法 | κ（ε/(τσ)） | 与 3.4 的偏差 |
 | --- | --- | --- |
@@ -152,7 +152,9 @@ variable kappa equal (f_3/(time-${start_time})/(lx*ly)/2.0)*(lz/2.0)/f_ave
 
 对照参考值时，需统一势函数、截断、体系尺寸与状态点。报告热导率时同时给出统计不确定度与尺寸依赖。
 
-## 常见错误与检查
+复算 [归档结果](../../../examples/lammps/thermal-conductivity/results.json)时，可先用 NEMD 生产段的交换能 30322.922、时间 200、面积 354.220 求 $j$，再用温差 1.175919 除以半盒长估计梯度，得到约 3.4253。EMD 的平衡热流积分平均为 3.5023，三个方向约为 4.770、3.047、2.690。两个平均值相近，但还需分别确认 EMD 的方向波动，以及 NEMD 两侧温度剖面在远离交换层时是否线性。若线性区斜率与全局温差法不符，应报告拟合区间和两种结果。
+
+## 六、常见错误与检查
 
 - **把 `compute heat/flux` 当成通量。** 它返回广延量，积分后还要除以体积；若先除了体积，Green–Kubo 前因子会差 $V^2$。
 - **忘记 `trap` 的时间步长。** `trap` 对数组下标积分，必须乘采样间隔 `10*dt`，否则 κ 会差一个常数因子。
@@ -164,7 +166,7 @@ variable kappa equal (f_3/(time-${start_time})/(lx*ly)/2.0)*(lz/2.0)/f_ave
 
 EMD 的检查顺序：NVE 能量漂移 → 相关函数衰减 → 积分平台 → 分块/分方向误差。NEMD 的检查顺序：温度剖面是否线性 → 温差是否稳定 → 能量收支是否闭合 → 尺寸与扰动是否足够小。对照两种方法时，结合统计不确定度、尺寸和扰动依赖来解释差值。发现偏差时，先查单位和体积，再查稳态与有限尺寸。
 
-## 复现与扩展
+## 七、复现与扩展
 
 案例目录提供 `run.py`、`postprocess.py`、`job.pbs` 与 `requirements.txt`：
 
@@ -178,7 +180,7 @@ python3 postprocess.py
 
 想把这套流程用到实际材料，先替换势函数与结构，再重新检查平衡、相关时间和温度梯度；金属、氧化物与聚合物的热输运机制不同，LJ 的数值不能直接外推。声子主导的晶体可参考 [VASP 晶格热导率计算](../../VASP/振动与热力学/VASP晶格热导率计算.md)，机器学习势的 HNEMD 路线可参考 [GPUMD 热导率案例](../../../examples/gpumd/thermal-conductivity/HNEMD热导率计算.ipynb)。黏度的 Green–Kubo 实现与本文结构相近，可对照 [LAMMPS 的 GreenKubo 黏度](LAMMPS的GreenKubo黏度.md)。
 
-## 参考
+## 八、参考
 
 - LAMMPS 文档：[Howto kappa](https://docs.lammps.org/Howto_kappa.html)、[compute heat/flux](https://docs.lammps.org/compute_heat_flux.html)、[fix thermal/conductivity](https://docs.lammps.org/fix_thermal_conductivity.html)、[fix ave/correlate](https://docs.lammps.org/fix_ave_correlate.html)。
 - D. J. Evans, *Thermal conductivity of the Lennard-Jones fluid*, Phys. Rev. A **34**, 1449 (1986). [doi:10.1103/PhysRevA.34.1449](https://doi.org/10.1103/PhysRevA.34.1449)

@@ -1,141 +1,30 @@
 # GPUMD 编译指南
 
-**适用环境：Linux 集群。**
+用 NEP 做分子动力学时运行 `gpumd`，用已有标注训练势时运行 `nep`。两者都由 GPUMD 源码构建。这里以 Linux 上的 NVIDIA CUDA 构建为例。若已有 LAMMPS 工作流，要把 NEP 接进去，可按[NEP-LAMMPS 编译](LAMMPS的NEP插件编译.md)准备 CPU 接口并验证同构型的能量与力。
 
-本文保留原集群中 GPUMD 与带 NEP 接口的 LAMMPS 编译记录，并分别给出 PBS 脚本。目录、编译器和队列按实际环境替换。
+## 一、先对齐 GPU、CUDA 与宿主编译器
 
-## 下载和编译 GPUMD
-
-1. 访问 [GPUMD GitHub 页面](https://github.com/brucefan1983/) 并下载 `.tar.gz` 安装包。
-2. 将安装包上传到集群并解压：
-
-    ```bash
-    tar -xzvf <package_name>.tar.gz
-    ```
-
-3. 进入 `src` 目录并编译：
-
-    ```bash
-    cd <package_name>/src/
-    make
-    ```
-
-4. 编译完成后，将产生两个可执行文件：`gpumd` 和 `nep`。
-
-### 检查编译环境
-
-编译失败时，可检查 `~/.bashrc` 中 Intel、GCC 相关的环境变量是否与当前编译器一致。下面保留作者原环境的配置，排查时结合实际报错使用：
+从 [GPUMD 发布页](https://github.com/brucefan1983/GPUMD/releases)选择版本，解压后进入源码树的 `src/`。编译前用 `nvcc --version` 和 `g++ --version` 检查实际调用的工具，在目标 GPU 节点核对型号及驱动。上游 Make 构建用 `CUDA_ARCH` 选择目标算力。下面的命令只适用于所用工具链支持的 8.9 算力 GPU。换 GPU 或工具链后，先清理旧构建产物再编译。 [GPUMD 构建说明](https://github.com/brucefan1983/GPUMD#compile)
 
 ```bash
-#### ---------------- Intel ------------------- ####
-export INTEL_MPI_HOME=/opt/intel2020/compilers_and_libraries_2020.1.217/linux/mpi
-export PATH=$INTEL_MPI_HOME/intel64/bin:$PATH
-export MANPATH=$INTEL_MPI_HOME/man:$MANPATH
-export LD_LIBRARY_PATH=$INTEL_MPI_HOME/intel64/lib:$LD_LIBRARY_PATH
-# source /opt/intel2020/compilers_and_libraries_2020.1.217/linux/bin/compilervars.sh intel64
-# source /opt/intel2020/mkl/bin/mklvars.sh intel64
-# source /opt/intel2020/intelpython3/bin/mpivars.sh
-###----------------------------------------------
-
-#### ----------------- GCC -------------------- ####
-export PATH=/opt/gcc/gcc-9.3.0/bin:${PATH}
-export LIBRARY_PATH=/opt/gcc/gcc-9.3.0/lib:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=/opt/gcc/gcc-9.3.0/lib64:$LD_LIBRARY_PATH
-export C_INCLUDE_PATH=/opt/gcc/gcc-9.3.0/include:$C_INCLUDE_PATH
-export CPLUS_INCLUDE_PATH=/opt/gcc/gcc-9.3.0/inclde:$CPLUS_INCLUDE_PATH
-###----------------------------------------------
+make CUDA_ARCH="-arch=sm_89"
+test -x gpumd && test -x nep
 ```
 
-## GPUMD 提交脚本
+如果 `nvcc` 报不支持宿主编译器，先查 CUDA 版本支持的 GCC 范围。如果提示 GPU 架构不受支持，核对算力和 Toolkit 版本。例如上游说明 CUDA 13 已移除对 `sm_60` 的离线编译支持。旧节点上的 Intel MPI、GCC 路径应按本机模块配置选取，混用多个工具链的库路径会增加排查难度。
 
-以下是一个示例的 GPUMD 提交脚本：
+## 二、在 GPU 作业里跑通最小输入
+
+编译产物可执行之后，在获分配 GPU 的计算环境中跑一份小输入。上游的 `examples/gpumd_dynamic/` 带 `run.in` 和 `model.xyz`，保持例子目录结构才能找到相对路径指向的势。若用自己的体系，按[两段短跑](GPUMD首个动力学与续算.md)检查热力学输出和重启文件。
+
+PBS 脚本需按站点填写队列、GPU 资源和墙钟时间。下面是得到资源后执行的脚本主体。路径换成已验证的二进制，GPU 可见性沿用调度器分配。
 
 ```bash
-#PBS -N gpumd
-#PBS -l nodes=1:ppn=32
-#PBS -l walltime=144:00:00
-#PBS -q gpu
-#PBS -S /bin/bash
-#PBS -V
-
-NP=`cat $PBS_NODEFILE | wc -l`
-NN=`cat $PBS_NODEFILE | sort | uniq | tee /tmp/nodes.$$ | wc -l`
-cat $PBS_NODEFILE > /tmp/nodefile.$$
-
-cd $PBS_O_WORKDIR
-ulimit -s unlimited
-export CUDA_VISIBLE_DEVICES=0,1 # 指定 CUDA 程序可以访问的 GPU 设备
-
-EXEC_gpumd=/home/your-user/Software/GPUMD-3.9.1/src/gpumd
-EXEC_nep=/home/your-user/Software/GPUMD-3.9.1/src/nep
-
-$EXEC_gpumd > output # 运行 GPUMD，训练时换成 $EXEC_nep 即可
+set -eu
+cd "${PBS_O_WORKDIR:?PBS_O_WORKDIR is unset}"
+gpumd_bin=/path/to/GPUMD/src/gpumd
+nvidia-smi -L
+"$gpumd_bin" > gpumd.log 2>&1
 ```
 
-## 编译带 NEP 插件的 LAMMPS
-
-### 加载编译器
-
-首先，加载需要的编译器模块：
-
-```bash
-ssh cu02
-module load intel/2020.1.217
-module load gcc/9.3
-```
-
-### 下载并解压安装包
-
-访问 [NEP_CPU GitHub 页面](https://github.com/brucefan1983/NEP_CPU) 下载 `.zip` 安装包。
-访问 [lammps GitHub 页面](https://github.com/lammps/lammps) 下载 `.tar.gz` 安装包，最好是 stable 版本。
-
-```bash
-unzip NEP_CPU-main.zip
-tar -xzvf lammps-stable.tar.gz
-```
-
-### 准备 NEP 插件
-
-```bash
-cp NEP_CPU-main/src/* NEP_CPU-main/interface/lammps/USER-NEP/
-cp NEP_CPU-main/interface/lammps/USER-NEP/ lammps-2Aug2023/src/
-cd lammps-2Aug2023/src
-make yes-USER-NEP
-```
-
-### 编译 LAMMPS
-
-```bash
-mkdir ../build
-cd ../build
-cmake -D PKG_BODY=ON -D PKG_FEP=ON -D PKG_EXTRA-COMPYTE=ON -D PKG_KSPACE=ON -D PKG_MISC=ON -D PKG_MOLECULE=ON -D PKG_OPT=ON -D PKG_REAXFF=ON -D PKG_REPLICA=ON -D PKG_RIGID=ON -D BUILD_SHARED_LIBS=yes ../cmake
-cmake --build . -j 4
-```
-
-编译完成后，使用 `logout` 命令退回到登录节点。
-
-## LAMMPS 提交脚本
-
-以下是一个示例的 LAMMPS 提交脚本：
-
-```bash
-#PBS -N lammps
-#PBS -l nodes=3:ppn=24
-#PBS -l walltime=600:00:00
-#PBS -q batch
-#PBS -V
-#PBS -S /bin/bash
-
-module load intel/2020.1.217
-
-NP=`cat $PBS_NODEFILE | wc -l`
-NN=`cat $PBS_NODEFILE | sort | uniq | tee /tmp/nodes.$$ | wc -l`
-cat $PBS_NODEFILE > /tmp/nodefile.$$
-
-cd $PBS_O_WORKDIR
-ulimit -s unlimited
-export OMP_NUM_THREADS=3
-
-EXEC=/home/your-user/Software/lammps_nep/build/lmp
-mpirun -machinefile $PBS_NODEFILE -np $NP $EXEC -in in* > output
-```
+若作业找不到 GPU，先核对请求的资源和计算节点上的设备可见性。若报缺少模型或输入，核对工作目录和 `run.in` 中的势路径。训练任务在备齐[训练输入](NEP训练.md)后改用同一构建产出的 `nep`。

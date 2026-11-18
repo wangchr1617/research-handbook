@@ -2,9 +2,9 @@
 
 **适用环境：Windows、macOS、Linux（准备输入与分析）；Linux + PBS（VASP）。**
 
-晶胞优化同时调整原子位置、晶胞形状和体积，用于寻找给定外压下的平衡结构。本例从稍放大的硅原胞出发，演示零外压下的优化过程。
+硅原子都在高对称位置，算出的原子力可能很小，但晶胞仍承受残余应力。这个案例把单点硅原胞的三条晶格向量各放大 2%，体积增加约 6.12%，再放开晶胞和原子坐标，观察零外压下结构怎样调整。
 
-## 输入与提交
+## 一、把放大的硅原胞交给变胞优化
 
 案例包含 [POSCAR](../../../examples/vasp/minimal/cell-relaxation/POSCAR)、[INCAR](../../../examples/vasp/minimal/cell-relaxation/INCAR)、[KPOINTS](../../../examples/vasp/minimal/cell-relaxation/KPOINTS)、[POTCAR.spec](../../../examples/vasp/minimal/cell-relaxation/POTCAR.spec)、[job.pbs](../../../examples/vasp/minimal/cell-relaxation/job.pbs) 和 [postprocess.py](../../../examples/vasp/minimal/cell-relaxation/postprocess.py)。
 
@@ -22,9 +22,9 @@ EDIFFG = -0.02
 
 晶胞变化使平面波基组与应力误差更敏感，应测试截断能和 k 网格。对真实材料，应力与平衡体积收敛后才能报告晶格参数；不能只看原子受力已很小。
 
-## 结果与图
+## 二、用应力和体积变化验收末态
 
-检查电子自洽、优化完成标记、最终应力和 `CONTCAR` 中的晶胞。
+在 `OUTCAR` 先核对电子收敛和优化停止原因，再找末步应力张量与外压条件比较。`CONTCAR` 给出对应的最后晶胞，可以用三个晶格向量的行列式绝对值复算体积。对一般材料，还应检查应力各分量，避免平均压力接近零时漏掉剪切或各向异性应力。
 
 为什么原子受力很小，晶胞还在变化？本例的 Si 原子保持高对称位置，受力可以接近零，但当前体积仍未达到平衡。因此，第二幅图跟踪体积变化，判断时还要看应力。
 

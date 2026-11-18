@@ -2,28 +2,21 @@
 
 **适用环境：Linux + PBS 运行计算；Windows / macOS / Linux 可准备结构与分析结果。**
 
-DOS 统计单位能量内的电子态数量，PDOS 进一步按选定原子或轨道投影。它们依赖布里渊区采样与积分/展宽，不能从一条高对称路径直接得到。
+已画出硅沿 L—Γ—X 的能带，如果想知道某个能量附近有多少态、哪些轨道贡献较多，就需要重新在布里渊区采样，计算 DOS 和 PDOS。对比两份硅案例的输入，结构和 SCF 参数相同，只把能带路径的设置换成 DOS 网格与能窗。
 
-## 在 Si 的收敛势上计算 DOS
+## 一、在 Si 的收敛势上计算 DOS
 
 沿用 Si 双原子原胞和 PBE 设置，先用 4×4×4 网格做 SCF，再通过 `Dos.Kgrid 6 6 6` 在收敛势上生成 DOS 数据。`Dos.Erange -15 10` 指定费米能附近的能量窗口。
 
 计算后使用官方 `DosMain` 做 Gaussian 总 DOS 和两原子 PDOS；Python 负责检查和绘图，不自行替代原生投影定义。将 `DosMain` 加入 PATH，或设置 `DOSMAIN_EXEC`。
 
-## 准备案例与 DosMain
+## 二、准备案例与 DosMain
 
-[最小案例](../../../examples/openmx/minimal/density-of-states)包含：
-
-- [system.dat](../../../examples/openmx/minimal/density-of-states/system.dat)
-- [structure.cif](../../../examples/openmx/minimal/density-of-states/structure.cif)
-- [run.py](../../../examples/openmx/minimal/density-of-states/run.py)：组织计算步骤。
-- [job.pbs](../../../examples/openmx/minimal/density-of-states/job.pbs)：单节点 PBS 作业。
-- [postprocess.py](../../../examples/openmx/minimal/density-of-states/postprocess.py)：检查并提取结果。
-- [requirements.txt](../../../examples/openmx/minimal/density-of-states/requirements.txt)：Python 分析依赖。
+在[案例目录](../../../examples/openmx/minimal/density-of-states/README.md)中，OpenMX 读取 [system.dat](../../../examples/openmx/minimal/density-of-states/system.dat)，[structure.cif](../../../examples/openmx/minimal/density-of-states/structure.cif) 供查看几何。
 
 在集群加载 OpenMX，并将 `OPENMX_DATA` 设为安装中的 `DFT_DATA19` 目录；其中应包含所选 PAO 和 VPS。势与基组由安装提供，案例不附带这些数据。`run.py` 将输入中的 `@DATA_PATH@` 替换为该目录，生成 `runtime.dat`；结构和电子参数均来自 `system.dat`。
 
-在案例目录安装 Python 依赖并提交：
+在案例目录安装 [Python 依赖](../../../examples/openmx/minimal/density-of-states/requirements.txt)并提交 [job.pbs](../../../examples/openmx/minimal/density-of-states/job.pbs)：
 
 ```bash
 python3 -m pip install -r requirements.txt
@@ -32,7 +25,7 @@ qsub job.pbs
 
 作业结束后会自动执行后处理。重新分析已有输出时，可单独运行 `python3 postprocess.py`。PBS 中的软件加载方式与资源语法按集群配置调整；此例不需要多节点。
 
-## 采样、展宽与投影选项
+## 三、采样、展宽与投影选项
 
 | 设置/交互 | 本例 | 选择依据 |
 | --- | --- | --- |
@@ -42,17 +35,15 @@ qsub job.pbs
 | 展宽 | 0.15 eV | 影响峰宽、细节与带边尾部 |
 | 内容 | `1`：总 DOS；`2`：PDOS，原子 `1 2` | 原子/轨道分量按工具输出解释 |
 
-## 总 DOS 与原子投影怎样对应
+## 四、总 DOS 与原子投影怎样对应
 
-后处理调用两次 `DosMain`，保留总 DOS 文件 `system.DOS.Gaussian` 与两原子的原生 PDOS 分量，并检查两原子 PDOS 之和是否与总 DOS 一致。图中叠加的是两个 Si 的 s/p/d 分量之和。
+[后处理脚本](../../../examples/openmx/minimal/density-of-states/postprocess.py)对同一对 `system.Dos.val` 和 `system.Dos.vec` 调用两次 `DosMain`，保留总 DOS 文件 `system.DOS.Gaussian` 与两原子的原生 PDOS 分量，并检查两原子 PDOS 之和是否与总 DOS 一致。图中每条 s、p 或 d 曲线都把两个 Si 上对应角动量的分量相加。若原子投影的总和对不上总 DOS，先核对原子选择、能量列以及是否使用了相同展宽。
 
 读取总 DOS 文件时，第一列是相对费米能的能量 E−EF（eV），第二列是 DOS，单位为 states/eV/cell，第三列是累计态数。非自旋极化输出已包含两种自旋，绘图时无需再乘 2。
 
 图展示有限 k 网格和有限展宽的谱形。费米能以下积分应结合占据和完整能窗检查；整个窗口上界的累计态数包括空态，不能当作价电子数。
 
 ![OpenMX态密度与投影态密度结果](../assets/density-of-states.png)
-
-图由案例的 `postprocess.py` 从计算输出生成。
 
 PDOS 依赖局域基组及投影约定，不能仅由某轨道峰高推断唯一原子电荷。正式分析应比较 k 网格、能量窗口和展宽，并按原子轨道字符核对分量；本例保存原生 PDOS 文件便于继续分析。
 

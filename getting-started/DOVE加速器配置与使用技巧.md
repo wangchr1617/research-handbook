@@ -96,7 +96,7 @@ ssh -N -T -o ExitOnForwardFailure=yes \
   -R 127.0.0.1:27897:127.0.0.1:17897 lab-cluster
 ```
 
-`lab-cluster` 是 SSH 别名，尚未配置时先按 [Mac SSH 教程](Codex连接科研集群（macOS）.md#配置-ssh)或 [Windows SSH 教程](Alkemie集群部署（Windows）.md#一准备-ssh-与源码)创建并验证登录。保持终端打开，另开终端登录集群，设置当前远端 shell：
+`lab-cluster` 是 SSH 别名，尚未配置时先按 [Mac SSH 教程](Codex连接科研集群（macOS）.md#一配置-ssh)或 [Windows SSH 教程](Alkemie集群部署（Windows）.md#一准备-ssh-与源码)创建并验证登录。保持终端打开，另开终端登录集群，设置当前远端 shell：
 
 ```bash
 export http_proxy=http://127.0.0.1:27897

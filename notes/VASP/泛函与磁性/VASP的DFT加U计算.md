@@ -2,13 +2,13 @@
 
 **适用环境：Linux + PBS（VASP、VASPKIT）；Windows / macOS / Linux 可绘图。**
 
-DFT+U 对选定原子的局域轨道子空间施加修正，常用于过渡金属 d 态或稀土 f 态。U 值依赖体系、泛函、PAW 投影及确定方法，不能把某个材料的参数普遍移用。
+想看 Ni 的 d 态加 U 后，自旋谱怎样变化，可以在同一个 NiO 原胞上做两次自洽计算。先保持结构、初始磁矩和投影定义一致，再只改 Ni 的有效 U。U 值依赖体系、泛函、PAW 投影及确定方法，不能把某个材料的参数普遍移用。
 
-## NiO 的参数对照
+## 一、只对 Ni 的 d 子空间改变有效 U
 
 [最小案例](../../../examples/vasp/minimal/dft-plus-u)比较两原子岩盐 NiO 中 `Ueff = 0` 与 `4 eV` 的自旋态密度。为减少计算量，此处采用铁磁小胞演示参数作用；NiO 的反铁磁基态需要相应磁超胞与磁态比较。
 
-输入：[POSCAR](../../../examples/vasp/minimal/dft-plus-u/POSCAR)、[KPOINTS](../../../examples/vasp/minimal/dft-plus-u/KPOINTS)、[U 为零](../../../examples/vasp/minimal/dft-plus-u/INCAR.u0)、[U 为 4 eV](../../../examples/vasp/minimal/dft-plus-u/INCAR.u4)。Ni、O 的顺序对应：
+输入：[POSCAR](../../../examples/vasp/minimal/dft-plus-u/POSCAR)、[KPOINTS](../../../examples/vasp/minimal/dft-plus-u/KPOINTS)、[U 为零](../../../examples/vasp/minimal/dft-plus-u/INCAR.u0)、[U 为 4 eV](../../../examples/vasp/minimal/dft-plus-u/INCAR.u4)。两份输入始终保留 `LDAU`，只将 `LDAUU` 的 Ni 项从 0 改为 4 eV。各条参数按 POSCAR 的 Ni、O 物种顺序对应：
 
 ```text
 ISPIN = 2
@@ -31,11 +31,11 @@ qsub job.pbs
 
 [run.py](../../../examples/vasp/minimal/dft-plus-u/run.py)分别自洽计算两组输入；[后处理](../../../examples/vasp/minimal/dft-plus-u/postprocess.py)检查实际 U、J、轨道选择与收敛，并调用 VASPKIT `111` 提取 `TDOS.dat`，最后由 [plot.py](../../../examples/vasp/minimal/dft-plus-u/plot.py)绘图。已有输出可单独运行 `python3 postprocess.py`。
 
-## 如何比较
+## 二、把两组自旋谱放到各自费米能参考下
 
 ![NiO 的 DFT+U 自旋态密度对照](../assets/nio-hubbard-dos.png)
 
-图采用 450 eV、`3×3×3` 网格与 0.05 eV 展宽，各自以费米能对齐，下自旋镜像显示。它演示 U 对电子谱的影响，不用于确定 NiO 的基态或最优 U。磁态、局域占据及初始条件可能产生不同自洽解，应作比较与检查。
+图采用 450 eV、`3×3×3` 网格与 0.05 eV 展宽，各自以费米能对齐，下自旋镜像显示，负纵轴仅表示绘图方向。用图比较峰相对于本态费米能的位置时，应保留这个对齐约定。它演示 U 对电子谱的影响，不用于确定 NiO 的基态或最优 U。磁态、局域占据及初始条件可能产生不同自洽解，应作比较与检查。
 
 不同 U 对应不同能量泛函，不将两组总能直接相减作为结构稳定性结论。研究能带时，保留一致的 U、J、磁态及合适的 `LMAXMIX`。
 

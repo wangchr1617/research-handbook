@@ -2,9 +2,11 @@
 
 适用环境：已运行的 MySQL 8.4，使用 InnoDB；命令在本机终端与 MySQL 客户端执行。MariaDB 与其他数据库需另行核对语法、驱动和行为。
 
+一份名为 VASP SCF convergence notes 的文档进库后，应用要回答它归谁、是不是同一份资料、处理到了哪一步。下文给它分配项目 1 和来源编号 `paper-001`。后续两篇仍用这条记录演示并发领取与备份恢复。
+
 科研应用常要同时保存“谁的资料、哪一版文件、现在处理到哪一步”。MySQL 用表表示这些对象，通过主键、唯一键和事务维持一致性。PDF 和大型轨迹一般存文件或对象存储，表中记录路径、内容哈希与版本；这样可以按权限查元数据，也能回到原文件。
 
-## 连接与准备练习库
+## 一、准备一个能重做的练习库
 
 先按[官方安装说明](https://dev.mysql.com/doc/refman/8.4/en/installing.html)准备服务，并取得可创建练习库的账号。数据库在本机时可这样连接，`-p` 会交互提示密码：
 
@@ -23,7 +25,7 @@ USE handbook_demo;
 
 以下首次建表练习使用新库。默认排序规则适合一般文本；文件哈希和内部 ID 若需区分大小写，应选择明确的二进制排序规则，不能让显示名称的比较规则决定标识符是否相同。
 
-## 让表结构表达数据边界
+## 二、给同一项目的文档确定唯一身份
 
 ```sql
 CREATE TABLE projects (
@@ -54,11 +56,11 @@ INSERT INTO documents (project_id, source_key, title)
 VALUES (1, 'paper-001', 'VASP SCF convergence notes');
 ```
 
-主键定位记录，外键防止引用不存在的项目，唯一键约束项目内的来源编号，CHECK 限制状态和值域。MySQL 8.4 执行 CHECK；不能用早期版本“接受语法”的经验推断约束已经生效，具体规则见[官方 CHECK 文档](https://dev.mysql.com/doc/refman/8.4/en/create-table-check-constraints.html)。
+用 `id` 定位库内的一行，用 `(project_id, source_key)` 约束同一项目中同一来源只能登记一次。另一个项目可以独立登记 `paper-001`。外键保证项目先存在，CHECK 限制状态与版本的取值。MySQL 8.4 执行 CHECK；不能用早期版本“接受语法”的经验推断约束已经生效，具体规则见[官方 CHECK 文档](https://dev.mysql.com/doc/refman/8.4/en/create-table-check-constraints.html)。
 
 表中的项目字段供查询定位，用户是否属于该项目仍由认证与授权逻辑校验。若后续片段表同时保存 `project_id` 和 `document_id`，需通过复合引用或业务校验保证它们指向同一项目。
 
-## 查询、更新与连接
+## 三、查项目文档，核对状态变化
 
 ```sql
 SELECT d.id, p.name, d.title, d.status
@@ -76,7 +78,7 @@ WHERE project_id = 1 AND source_key = 'paper-001';
 
 固定每页 20 条的首次查询可以按 `id DESC` 排序；下一页增加 `id < 上页最小ID`。这类游标分页避免深 OFFSET 扫描，适用于主键排序；若按更新时间排序，游标需同时包含时间和唯一 ID，处理相同时间及分页期间的更新。
 
-## 应用代码绑定参数
+## 四、从应用传入项目和状态
 
 下面是 PyMySQL 的完整只读片段，依赖已有的 `pymysql` 包。环境变量由自己的配置或凭据管理方式提供：
 
@@ -105,4 +107,4 @@ finally:
 
 `%s` 由驱动处理，不使用 Python 字符串格式化拼接用户输入。字段名和排序方向通过服务端白名单选择，不能把整段客户端 SQL 当参数执行。生产连接还应补上 TLS 与超时设置；驱动示例参见 [PyMySQL 官方用法](https://pymysql.readthedocs.io/en/latest/user/examples.html)。
 
-下一步阅读[事务、锁与索引](MySQL事务锁与索引.md)，理解同一条文档被两个 worker 同时修改时如何保持状态正确。
+此时文档处于 `ready`，用只读示例可查到这一行。接下来的领取练习会先把它重置为 `queued`，再观察两个连接怎样竞争。 [事务、锁与索引](MySQL事务锁与索引.md)

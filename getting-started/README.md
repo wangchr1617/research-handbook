@@ -55,7 +55,7 @@
 2. **使用集群**：学习 Linux、Module 和 PBS，先提交一个小测试。
 3. **记录与协作**：阅读 [Markdown 入门](git/Markdown入门.md)和 [Git 入门](git/Git入门.md)，尝试修改一篇笔记。
 4. **动手计算**：运行 [RMSE 小案例](../examples/rmse/README.md)，核对结果和单位；再查阅[专题笔记](../notes/README.md)、[输入模板](../inputs/README.md)、[脚本](../scripts/README.md)和[案例](../examples/README.md)。
-5. **记录学习与计算**：参考[记录模板](../templates/README.md)，记下输入、操作、计算条件和结果，方便以后查阅。
+5. **记录学习与计算**：用[计算记录模板](../templates/README.md)保存输入、操作、计算条件和结果；整理成笔记时，按[行文约定](../AGENTS.md#笔记行文与-markdown-约定)讲清问题、选择与案例，方便以后复用。
 
 ### 用一个材料问题串起理论与操作
 

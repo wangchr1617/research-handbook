@@ -2,9 +2,11 @@
 
 适用环境：已有 Elasticsearch 8.x／9.x 自建或 Elastic Stack 测试服务与 Kibana Dev Tools，非 Serverless 配置。以下 HTTP 块可在 Console 中逐条执行；它们不是直接粘贴到 Shell 的命令。认证与 TLS 使用实际部署配置。
 
+假设要在自己的项目里查 VASP 的 SCF 说明。检索要解决两件事：先限定到允许访问的项目，再从正文里挑出有用的片段。下面用 `demo1` 的一条教学片段做最小查询，从字段定义一路查到返回的页码和版本。
+
 Elasticsearch 基于 Lucene 提供全文检索与聚合。把文档切成片段后，索引记录“哪些词出现在哪些片段”，查询时召回候选并排序。关系数据库中的 B-tree 索引擅长 ID、范围与排序；倒排索引面向词项匹配，两者可共同服务文献库。
 
-## 索引、文档和 Mapping
+## 一、先决定哪些字段要精确匹配
 
 Elasticsearch 的 index 是一组搜索文档的逻辑集合，内部由分片承载；它与 MySQL 中“加一个索引”不是同一层概念。文档是 JSON 对象，`_id` 标识索引中的记录，Mapping 定义字段的搜索行为。
 
@@ -38,7 +40,7 @@ PUT handbook_chunks_v1
 
 `text` 经分析器处理，适合正文匹配；`keyword` 保留值，适合项目、软件名、精确过滤及聚合。`title.raw` 为标题提供另一种索引方式，超过 `ignore_above` 的值不进入该子字段索引。定义见官方 [text](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/text)与 [keyword](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/keyword)说明。
 
-## 写入片段并检查可见性
+## 二、写入一条能回到原文的片段
 
 ```http
 PUT handbook_chunks_v1/_doc/demo1-paper001-v1-c1?refresh=wait_for
@@ -57,7 +59,7 @@ PUT handbook_chunks_v1/_doc/demo1-paper001-v1-c1?refresh=wait_for
 
 这是教学文本，不作为 VASP 参数选择的科学依据。`_id` 包含项目与版本，避免不同项目使用相同片段编号时互相覆盖。`refresh=wait_for` 用于本例写完后马上搜索；普通持续写入的可见性与批处理见[索引同步](Elasticsearch索引同步与重建.md)。
 
-## 精确过滤与全文相关性分开
+## 三、只在指定项目里找 SCF 证据
 
 ```http
 GET handbook_chunks_v1/_search
@@ -78,13 +80,13 @@ GET handbook_chunks_v1/_search
 }
 ```
 
-从空索引依次执行，预期命中刚写入的片段。`match` 按字段分析器处理查询词，默认允许词项间 OR；要同时匹配词项，可配置 `operator: and`。`term` 用于已经明确的索引词项，项目编号应放在 `keyword` 字段。
+从空索引依次执行，预期命中 `paper-001:v1:1`，并返回页码 3 和来源版本 1。可以将项目过滤临时换成不存在的编号，确认同样的正文查询此时不会返回这条片段。若原查询没有结果，先还原过滤条件核对写入目标与 refresh，再看正文的实际词项。`match` 按字段分析器处理查询词，默认允许词项间 OR；要同时匹配词项，可配置 `operator: and`。`term` 用于已经明确的索引词项，项目编号应放在 `keyword` 字段。
 
 `filter` 限定候选且不贡献相关性分数，`must` 参与匹配与评分，具体语义见 [bool 查询](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-bool-query)。有 filter 或 must 时，should 默认可选；若期望至少命中一个 should，明确写 `minimum_should_match`。
 
 服务端从当前用户权限生成项目过滤，不能让浏览器自行决定可访问项目。高亮、聚合、补全与导出也需同样范围；`_source` 仅决定返回字段，不是权限控制。召回后再回源校验文档版本与权限，尤其要处理撤销访问后的索引延迟。
 
-## 聚合与分词怎样检查
+## 四、结果不符合预期，先看统计口径和词项
 
 按软件统计命中片段数量：
 
@@ -111,4 +113,4 @@ POST handbook_chunks_v1/_analyze
 
 标准分析器不等同于针对中文、化学式和错误码优化的分词器。用真实查询检查词项是否被拆散，再选择分析器、同义词或独立精确字段。可选插件需核对版本、安装条件和许可；不能通过更换名字就假定中文召回改善。
 
-对象数组若表示“性质、数值、单位”的对应组，普通 object 的展开可能打散组内关联；需要独立匹配数组元素时核对 [nested 建模](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/nested)。片段返回给 RAG 前，保留来源版本、页码及表格上下文，继续参考[RAG 评估](../../知识工程/RAG检索生成与评估.md)。
+对象数组若表示“性质、数值、单位”的对应组，普通 object 的展开可能打散组内关联；需要独立匹配数组元素时核对 [nested 建模](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/nested)。片段返回给 RAG 前，保留来源版本、页码及表格上下文。下一篇继续写入同一份文档的第二条片段，再讨论源版本变化后如何防止旧片段被搜到。 [索引同步与重建](Elasticsearch索引同步与重建.md) · [RAG 评估](../../知识工程/RAG检索生成与评估.md)

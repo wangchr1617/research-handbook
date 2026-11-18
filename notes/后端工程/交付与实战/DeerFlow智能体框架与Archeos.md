@@ -1,43 +1,87 @@
 # DeerFlow 智能体框架与 Archeos
 
-给模型一份预测结果，请它计算误差并交付一份可复核的报告。模型需要决定读哪个文件、调用什么工具、如何解释结果。DeerFlow 把模型的工具调用变成实际操作，管理对话状态和工作文件。Archeos 用它运行智能体，由自己的工作台和科研服务处理成员授权、计算执行、结果验收与交付。
+一份 CSV 的 RMSE 用几行 Python 就能算。可如果同学上传的是几份预测结果，得先弄清哪份是参考、单位是否一致。算完也得说清楚用了哪份文件，以及结果在哪一次运行里生成。DeerFlow 管理模型和工具之间的往返，Archeos 把工具调用接到团队授权的科研服务上。下面仍用那份三行 CSV，看这个过程最后会留下什么。
 
-本文讲 DeerFlow 2.x 的架构。DeerFlow 1.x 以 Deep Research 流程为主，2.0 重构为支持工具、技能、沙箱和子智能体的通用运行框架（agent harness）。Archeos 部分以本地检出的 `e412ba0` 为准。该提交的 `upstream.lock.json` 记录 DeerFlow 基线 `2a9e7255a7c9bb50b8d0bb5b5b5028095f2ad94d`（`2.3.0-dev`）和 Extension API `0.2.11`。阅读 Archeos 源码链接需要相应的仓库权限。[DeerFlow 2.0 发布说明](https://github.com/bytedance/deer-flow/discussions/3795) · [Archeos 引擎锁定清单](https://github.com/hfood02/Archeos/blob/e412ba03df7138ab2cc04dda91a8d198743a596b/upstream.lock.json)
+## 一、什么情况下需要智能体框架
 
-## DeerFlow 怎样跑一轮
+任务已经固定时，用脚本最省事。手册的 RMSE 小案例就是这样，输入列、计算公式、输出格式都固定，每次跑的步骤相同。需要模型从不同附件中选输入，发现单位不一致后向用户确认，或决定接着调用哪个工具时，才有必要让智能体组织过程。反复出现的数值计算仍可以封装成确定性的脚本或工具，供模型调用，也方便人工单独复核。 [手册的 RMSE 小案例](../../../examples/rmse/README.md)
 
-在上游项目中，Gateway 接收线程和运行请求，并提供 SSE 流式接口。后端的 `make_lead_agent()` 组装主智能体，使用 LangChain 接入模型、工具和中间件，使用 LangGraph 管理运行状态。模型收到消息和可用工具的描述，生成工具调用。框架执行允许的调用，把结果送回模型，模型再根据结果决定继续调用还是回答。中间件在模型或工具调用前后处理附件、上下文、预算等横切逻辑。[DeerFlow 系统架构](https://github.com/bytedance/deer-flow/blob/main/docs/ARCHITECTURE.md) · [DeerFlow 后端架构](https://github.com/bytedance/deer-flow/blob/main/backend/docs/ARCHITECTURE.md)
+## 二、DeerFlow 跑一轮，Archeos 接上哪几步
 
-| 组件 | 在一次任务中的职责 |
+以“读附件并交付结果”为例。模型拿到问题、附件引用和可调用工具的说明，主智能体发出调用，DeerFlow 执行获准的工具，再把工具结果交给模型。任务还需要继续时，模型根据实际结果决定下一步。技能适合写下会反复使用的步骤，比如先检查单位和行数。真正读文件、运行 Python 和写出文件，走各自的工具接口和执行环境。 [主智能体入口](https://github.com/hfood02/Archeos/blob/e412ba03df7138ab2cc04dda91a8d198743a596b/vendor/deer-flow/backend/packages/harness/deerflow/agents/lead_agent/agent.py)
+
+检查点保存线程中的运行状态，后续一轮可以带上已有的消息和附件引用。SSE 把当前一轮的输出和事件传给页面。计算产物则随计算记录保存，刷新浏览器时，还得用对应的回执找到结果文件。 [Archeos 的对话运行](https://github.com/hfood02/Archeos/blob/e412ba03df7138ab2cc04dda91a8d198743a596b/docs/conversation-runtime.md)
+
+在 Archeos 中，工作台代理先核对登录、团队成员和资源权限，再把请求送到团队的 DeerFlow 引擎。到了 Python 工具，计算适配器会把成员、线程和可读文件范围绑定到这次调用。读源码可顺着这两个入口走，先看请求是以什么身份进去的，再看计算能读到哪些文件。本文以 Archeos `e412ba0` 为准，锁定的 DeerFlow 基线为 `2.3.0-dev`。 [工作台代理](https://github.com/hfood02/Archeos/blob/e412ba03df7138ab2cc04dda91a8d198743a596b/backend/archeos/engine/workbench.py) · [计算适配器](https://github.com/hfood02/Archeos/blob/e412ba03df7138ab2cc04dda91a8d198743a596b/packages/scientific-compute/scientific_compute/adapters/deerflow.py) · [版本锁定清单](https://github.com/hfood02/Archeos/blob/e412ba03df7138ab2cc04dda91a8d198743a596b/upstream.lock.json)
+
+## 三、几种接入方式怎么选
+
+| 要解决的问题 | 从哪里开始 |
 | --- | --- |
-| 工具与 MCP | 工具是模型可请求的一次操作，如读取文件、查询或展示产物。MCP 是把外部服务的工具接入运行框架的一种协议。工具的可用范围和调用身份由运行时与服务端检查。 |
-| 技能（Skill） | 用 `SKILL.md` 描述某类任务的工作步骤、检查方法及配套资源。比如先核对两列数据的单位，再计算 RMSE。框架加载技能说明，实际读文件和运行计算仍由已授权的工具完成。 |
-| 子智能体 | 主智能体可以把相对独立的工作委派给子智能体，各自处理分配到的上下文，再汇总结果。例如两组文献各自查证，主智能体负责比较条件和引用。 |
-| 沙箱 | 为文件和命令工具提供执行环境。会话的上传、工作和输出目录各有用途。目录作用域、容器及网络隔离取决于实际启用的提供方和配置。 |
-| 检查点、摘要和记忆 | 检查点按线程记录图状态。摘要压缩送给模型的上下文。启用长期记忆时，选取的事实或偏好可用于后续对话。原始数据、计算结果和校验记录应保存在有独立标识的文件或业务记录中。 |
+| 固定流程要每天运行，或者要接进已有脚本 | 用确定性的 Python。需要隔离执行和数值回执时，可以用独立的 Scientific Compute CLI 或 SDK。 |
+| 想验证模型怎么用工具、多步流程怎么跑 | 从 DeerFlow 的运行框架入手，先接一个可独立验证的工具，观察工具调用和返回结果。外部服务已有 MCP 接口时，可按实际权限接入。 |
+| 课题组成员从工作台上传数据、调用计算、回看记录 | 走 Archeos。在团队范围配置模型、工具和分析环境。已有 Alkemie 项目里的建模和专业计算，沿用项目的执行与结果记录。 |
 
-读源码时可先找 `make_lead_agent()`，再看它怎样收集可用工具和加载技能。用“读取一份附件”追踪一轮，观察文件引用怎样进入模型上下文，工具返回的数据怎样进入下一次调用。长文档可让工具读取相关片段，原件继续保留在文件中。[DeerFlow 核心概念](https://github.com/bytedance/deer-flow/blob/main/frontend/src/content/en/introduction/core-concepts.mdx) · [LangGraph 检查点](https://docs.langchain.com/oss/python/langgraph/persistence)
+下面走工作台路线。可以在「设置 → 科研服务与计算环境」查看团队是否已配置 Python 分析环境。能看到配置后，还要确认当前成员可以使用工具并读取上传的文件。要单独验证执行器和验收逻辑，可以走 CLI 或 SDK。 [Scientific Compute 独立运行](https://github.com/hfood02/Archeos/blob/e412ba03df7138ab2cc04dda91a8d198743a596b/packages/scientific-compute/README.md) · [Archeos 的计算接入说明](https://github.com/hfood02/Archeos/blob/e412ba03df7138ab2cc04dda91a8d198743a596b/docs/compute-runs.md)
 
-## Archeos 怎样接入这一轮
+## 四、拿同一份 CSV 验收两次
 
-Archeos 在 `vendor/deer-flow/` 维护带锁定清单的 DeerFlow 后端，并为团队运行独立引擎实例。浏览器访问 Archeos 自己的工作台。平台校验登录会话、团队成员和对应业务资源的访问权限，再由服务端 HTTP 适配器把请求送给团队引擎，传递平台核定的成员身份。模型循环、消息和检查点由引擎管理。Archeos 的领域能力通过扩展契约、工具服务和业务 API 接入。例如 Scientific Compute 的 DeerFlow 适配器注册计算服务，并将授权的成员、线程和文件作用域绑定到计算工具上下文。[Archeos 开发说明](https://github.com/hfood02/Archeos/blob/e412ba03df7138ab2cc04dda91a8d198743a596b/docs/development.md) · [工作台代理](https://github.com/hfood02/Archeos/blob/e412ba03df7138ab2cc04dda91a8d198743a596b/backend/archeos/engine/workbench.py) · [DeerFlow HTTP 适配器](https://github.com/hfood02/Archeos/blob/e412ba03df7138ab2cc04dda91a8d198743a596b/backend/archeos/engine/deerflow.py) · [科学计算扩展](https://github.com/hfood02/Archeos/blob/e412ba03df7138ab2cc04dda91a8d198743a596b/packages/scientific-compute/scientific_compute/adapters/deerflow.py)
+先在手册根目录运行 `python3 examples/rmse/run.py`，用本地脚本确认基准。那份 CSV 有三行，误差是 `+1`、`−1`、`+1`。完整输入得到 **3 个样本，RMSE 1.000000 eV/atom**。把同一份 CSV 上传到配置了 Python 分析的 Archeos，可以用这个请求。 [三行 CSV](../../../examples/rmse/data.csv)
 
-| 想确认什么 | 查看哪里 |
-| --- | --- |
-| 这里调用的是哪条会话 | `thread_id` 定位线程，按当前身份核对线程和项目的访问授权。 |
-| 浏览器刷新后显示的是哪一轮 | `run_id` 定位已有引擎运行。重连用 GET 订阅同一轮的流，携带 `Last-Event-ID` 标明上次收到的事件。 |
-| 计算是否结束，结果是否已交付 | 查计算服务的作业标识、退出码、数值验收和文件回执。模型运行结束时，独立作业可能仍在等待或执行。 |
+> 附件的 `reference` 和 `prediction` 两列都以 `eV/atom` 为单位。用这两列计算 RMSE。请在计算请求中固定验收条件，样本数等于 3，RMSE 与 1 的绝对差不超过 `1e-6 eV/atom`，输出的单位字段为 `eV/atom`。保留原 CSV，交付带有 `samples`、`rmse` 和 `unit` 的 `values.json`，并给出该次计算回执。
 
-需要等待长作业时，Archeos 在启用自动续接且登记成功的场景下，可根据持久作业回执和完成事件派发后续一轮。派发前复查成员、线程授权和取消状态。此时新的引擎运行接手已有作业结果，与浏览器重连原运行是两条路径。已配置的聊天沙箱和科学计算执行环境也应分别核对，后者按部署的执行策略决定允许的计算位置。[Archeos 对话运行](https://github.com/hfood02/Archeos/blob/e412ba03df7138ab2cc04dda91a8d198743a596b/docs/conversation-runtime.md) · [计算任务与续接](https://github.com/hfood02/Archeos/blob/e412ba03df7138ab2cc04dda91a8d198743a596b/docs/compute-runs.md)
+为什么非得查样本数？删掉任意一行，剩下两行的平方误差仍然都是 1。下面这份文件完全可能由正常退出的脚本生成，只查 RMSE 就会漏过去。
 
-## 用 RMSE 小案例对照结果
+```json
+{"samples": 2, "rmse": 1.0, "unit": "eV/atom"}
+```
 
-可用手册的 [RMSE 小案例](../../../examples/rmse/README.md)做基准。数据是人工构造的三行样本，两列单位均为 `eV/atom`，误差为 `+1`、`-1`、`+1`，预期 RMSE 为 `1.000000 eV/atom`。本地可在手册根目录运行 `python3 examples/rmse/run.py` 核对。
+把正确和漏读的两份 JSON 分别交给 Archeos `e412ba0` 的数值验收器，得到下面两条结果。 [数值验收契约](https://github.com/hfood02/Archeos/blob/e412ba03df7138ab2cc04dda91a8d198743a596b/docs/compute-runs.md#独立数值有效性检查) · [验收器源码](https://github.com/hfood02/Archeos/blob/e412ba03df7138ab2cc04dda91a8d198743a596b/packages/scientific-compute/scientific_compute/numerical_checks.py)
 
-在已配置模型、Scientific Compute 和执行环境的 Archeos 中，可上传 [data.csv](../../../examples/rmse/data.csv)，用下面的请求观察一轮操作。
+```text
+samples=3, passed: sample_count=passed, rmse=passed
+samples=2, failed: sample_count=failed, rmse=passed
+```
 
-> 用附件的 `reference` 和 `prediction` 两列计算 RMSE，单位均为 `eV/atom`。先检查列名和样本数，保留原 CSV，生成包含样本数、RMSE 和单位的 `values.json`。使用已配置的 Python 分析工具，按样本数为 3、RMSE 与 1 的绝对差不超过 `1e-6 eV/atom` 验收，并交付结果文件。若工具或验收不可用，请说明发生在哪一步。
+在工作台复核时，先用 `compute_run_python` 返回的 `run_id` 查 `compute_status`。回执里的 `execution.process_status` 回答脚本是否跑完，`numerical_validation.status` 回答结果是否满足条件。最后打开同一次运行交付的 `values.json`。两个状态分别看，才能识别上面这种正常退出却漏读一行的结果。 [Python 执行回执字段](https://github.com/hfood02/Archeos/blob/e412ba03df7138ab2cc04dda91a8d198743a596b/packages/scientific-compute/scientific_compute/runtime.py)
 
-在这个练习里，DeerFlow 负责读入附件引用、运行模型与工具循环并返回流式事件。Archeos 的 Scientific Compute 可以用 `compute_run_python` 执行分析，把 `scientific_checks` 随任务固定下来，再从实际输出独立检查数值与单位。验收时查看三处记录：进程是否正常退出、JSON 中的字段是否满足已声明条件、交付文件能否对应到该次运行。若程序返回零退出码，且写出了样本数为 2 的 JSON，进程状态仍可正常，数值验收应失败。真实势模型的误差判据还需要参考集、数据划分和单位依据，本例的阈值只用于固定的教学数据。[Archeos 数值验收与交付](https://github.com/hfood02/Archeos/blob/e412ba03df7138ab2cc04dda91a8d198743a596b/docs/compute-runs.md)
+<details>
+<summary>展开本例用的验收配置</summary>
 
-授权与流式请求可对照[Archeos 与 ALKEMIE 源码阅读](Archeos与ALKEMIE源码阅读.md)。要追溯文献证据如何进入回答，可读[Archeos 与 Alkemie 的知识链路](../../知识工程/Archeos与Alkemie的知识链路.md)。
+```json
+{
+  "outputs": ["values.json"],
+  "scientific_checks": [
+    {
+      "name": "sample_count",
+      "file": "values.json",
+      "pointer": "/samples",
+      "kind": "range",
+      "min": 3,
+      "max": 3
+    },
+    {
+      "name": "rmse",
+      "file": "values.json",
+      "pointer": "/rmse",
+      "kind": "close",
+      "reference": 1,
+      "atol": 0.000001,
+      "unit": "eV/atom",
+      "unit_pointer": "/unit"
+    }
+  ]
+}
+```
+
+</details>
+
+## 五、结果说“通过”以后，还有什么要查
+
+**通过只覆盖事先声明的条件。** 这份 CSV 的列名本身没有单位，`eV/atom` 是用户在请求里提供的。验收器可以检查输出有没有写成这个单位，输入单位仍要回到数据来源查证。评估真实势函数时，参考集、划分和误差口径也要先说明，样本数对上只是其中一项。权限由运行环境检查，技能中的文字只描述操作步骤。 [数值检查的适用范围](https://github.com/hfood02/Archeos/blob/e412ba03df7138ab2cc04dda91a8d198743a596b/docs/compute-runs.md#独立数值有效性检查)
+
+**页面断线先找原来那一轮。** 用 `thread_id` 找到会话，再用响应 `Location` 中的 GET 地址恢复原引擎流。要确认 Python 是否已经结束，继续查计算回执里的 `run_id`。对于已登记自动续接的长作业，作业完成后还可能启动新一轮来读取结果。这样，页面没继续出字时，可以先查连接和已有任务，再决定是否重试。 [Archeos 的运行和重连](https://github.com/hfood02/Archeos/blob/e412ba03df7138ab2cc04dda91a8d198743a596b/docs/conversation-runtime.md) · [计算执行和续接](https://github.com/hfood02/Archeos/blob/e412ba03df7138ab2cc04dda91a8d198743a596b/docs/compute-runs.md)
+
+## 六、下一份分析从哪里开始
+
+先留下一份有已知答案的小输入，和一份应该失败的输出。将来换模型、改工具或加新的分析列时，先用这一对样本检查实际产物。再接入真实科研数据，把参考来源、单位和误差条件随任务保存。这样同学接过结果时，能沿着计算回执复核自己的问题。

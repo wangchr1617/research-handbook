@@ -1,38 +1,20 @@
 # DPGEN 入门
 
-**适用环境：Linux 集群。**
+已有一个 [GeTe 的起始训练集](DeePMD入门.md)，在 300 K 跑得平稳，换到更高温度或压缩后的晶胞是否仍可靠？DP-GEN 用多份势共同评估探索轨迹的力，把模型分歧较大的构型送去做第一性原理标注，再加入下一轮训练。如果标签已经覆盖目标构型，直接训练和独立验收就可以。若覆盖缺口尚不明确，迭代探索能帮助把有限的标注预算用到可疑区域。
 
-DPGEN 将势函数训练、构型探索和第一性原理标记组织成迭代流程。本文保留集群 3 上的安装和 GeTe 配置示例，重点区分“算什么”与“在哪里算”这两类设置。
+## 一、把探索条件和运行环境分开
 
-## DPGEN 在集群 3 的安装
-
-本例使用 DPGEN 0.10.6 离线安装包。上传到集群并赋予可执行权限后，运行 `./dpgen-0.10.6-Linux-x86_64.sh`，安装方式与 DeePMD-kit 类似。
-
-安装完成后，使用命令 `conda activate dpgen` 加载环境。
-如果找不到 `libffi.so.7`，`cd /home/your-user/Software/dpgen/lib` 目录，检查有没有 `libffi.so.7`。
-如果没有，使用命令 `ln -s libffi.so.6 libffi.so.7` 创建一个链接即可。
-注意，集群 3 由于 PBS 队列系统版本原因，需要 `vi dpgen/lib/python3.8/site-packages/dpdispatcher/pbs.py` 并修改下列变量为：
-
-```python
-pbs_script_header_dict['select_node_line'] = "#PBS -l nodes={number_node}:ppn={cpu_per_node}".format(number_node = resources.number_node, cpu_per_node = resources.cpu_per_node)
-status_word = stdout.read().decode('utf-8').split('<job_state>')[-1].split('</job_state>')[0]
-```
-
-## DPGEN 的基本任务流程
-
-常见任务有 `init_bulk`、`init_surf`、`run` 和 `test`。先用 `dpgen -h` 查看任务列表，再用 `dpgen run -h` 等命令查看具体用法。
-
-例如，`nohup dpgen init_bulk param.json machine.json 1>log 2>err &` 在后台执行 `init_bulk`，`nohup dpgen run param.json machine.json 1>log 2>err &` 则启动 `run`。记录返回的进程号，并用 `ps -ux` 查看运行情况。
+这里保留原 Linux 集群的 DP-GEN 0.10.6 与 DeePMD-kit 2.2.7 配置。复用前在同一环境核对 `dpgen run -h`、`dp`、`lmp` 和第一性原理程序。若旧版离线包缺少运行库，应安装兼容的运行库或换一个相容的环境。遇到 PBS 作业头或状态解析错误，先对照当前 DPDispatcher 版本与站点的提交和查询输出。
 
 ### 两个 JSON 文件分别管什么
 
-`param.json` 定义执行什么计算，例如体系、训练设置和探索条件；`machine.json` 定义运行环境、程序路径和资源。本例从存放 `machine.json` 的主目录启动任务。
+`param.json` 定义执行什么计算，例如体系、训练设置和探索条件；`machine.json` 定义运行环境、程序路径和资源。从任务根目录启动 `dpgen run param.json machine.json`，先检查相对数据路径是否存在，并用最小规模确认三类任务能提交、回收和解析。
 
 <div align="left">
 <img alt="DPGEN 入门示例图" src="assets/dp-002.png" width="50%" />
 </div>
 
-以常用的 `run` 为例，每次迭代涉及训练、探索和标记，对应 `machine.json` 中的 `train`、`model_devi` 和 `fp`。三个部分分别配置各自的程序与计算环境，因此训练和第一性原理标记可以使用不同资源。示例如下：
+以常用的 `run` 为例，每次迭代涉及训练、探索和标记，对应 `machine.json` 中的 `train`、`model_devi` 和 `fp`。三个部分分别配置程序与计算环境。原示例把训练和探索放在 GPU 队列，VASP 标注放在 CPU 队列。下方与仓库的 [machine.json](../../inputs/deepmd/machine.json) 都是配置样例，命令路径、队列、环境脚本和设备分配按目标站点设置。
 
 ```json
 {
@@ -125,7 +107,9 @@ status_word = stdout.read().decode('utf-8').split('<job_state>')[-1].split('</jo
 }
 ```
 
-下面的 `param.json` 与之配套，定义 GeTe 数据、模型和探索任务：
+## 二、用 GeTe 的三组初态检查探索范围
+
+这个 `param.json` 将扰动、缩小到 0.96 倍和扩大到 1.04 倍的三组初态分别编号为 0、1、2。`model_devi_jobs` 中的每项对应一轮探索。第 0 轮只取第 0 组，结合五个温度和两个压力，形成十组温压条件，再按实际匹配到的初态数生成任务。LAMMPS 步长 0.002 ps 时，1,000 步是 2 ps，每 5 步留一帧，对应 10 fs。先用短轨迹核对构型和输出，再逐轮延长。这里保留旧版配置的字段，使用前按所选版本的参数文档核对。 [DP-GEN 运行参数](https://docs.deepmodeling.com/projects/dpgen/en/latest/run/param.html)
 
 ```json
 {
@@ -234,7 +218,7 @@ status_word = stdout.read().decode('utf-8').split('<job_state>')[-1].split('</jo
 
 ```text
 "model_devi_jobs":  [{
-  	"sys_idx": [0],"traj_freq": 10,"_idx": "00",
+    "sys_idx": [0],"trj_freq": 10,"_idx": "00",
       	"template":{"lmp": "lmp/input.lammps"},
        	"rev_mat":{
 "lmp": {"V_NSTEPS": [20000], "V_TEMP": [300], "V_PRES": [1]},
@@ -244,37 +228,31 @@ status_word = stdout.read().decode('utf-8').split('<job_state>')[-1].split('</jo
 
 模板中的 `dump` 行需使用 `dump dpgen_dump`。在这一模式下，DPGEN 调用 `revise_lmp_input_dump` 写入 `trj_freq`，与在文件开头定义并引用 `DUMP_FREQ` 的方式不同。
 
-### 迭代过程与恢复
+## 三、沿一轮输出检查候选和标注
 
-`run` 主流程可进一步拆成图中的 9 步：
-
-<div align="left">
-<img alt="DPGEN 入门示例图" src="assets/dp-003.png" width="50%" />
-</div>
-
-假设最后一个迭代的候选构型数小于 `fp_task_min` 时，那该轮迭代实际上并没有进行新的 `00.train/`，而是软链接到前一轮迭代的 `00.train/`。
-如果任务异常退出需要重启，删除 `record.dpgen` 最后一行并重新键入前述命令即可。
-
-## 标记精度与模型偏差阈值
-
-用 VASP 标记 DPGEN 构型时，同样需要测试 `ENCUT` 和 `KSPACING` 的收敛。
-通过 MP 下载的晶体结构，可以先做晶胞微扰后再测试，目的是增大原子受力区分度。
-收敛标准是以渐进收敛线（或最高精度值）为参考，取相对波动小于一定范围的参数。
-一般而言，`ENCUT` 和 `KSPACING` 收敛测试的相对能量偏差小于 `1E-3 eV/atom`，
-力和位力偏差小于 `1E-2 eV/Angstrom` 和 `1E-2 eV/atom` 即可。
-此外，DPGEN 还需要通过测试来确定两个关键参数 `model_devi_f_trust_lo` 和 `model_devi_f_trust_hi` 的取值。
-具体的做法是先做一轮 run 迭代，模拟中采样构型的模型力偏差可以在 `iter.00000*/01.model_devi/task*/model_devi.out` 查看。
-使用 [collect_dpgen_deviations.py](../../scripts/deepmd/collect_dpgen_deviations.py) 收集 `model_devi.out` 的最大力偏差并输出 CSV。需要比较不同温度时，应依据来源目录和实际任务配置分组，不可将同一批数据重复标注为不同温度。分布图示例如下：
+一轮先在 `00.train` 生成模型，再由 `01.model_devi` 探索并记录偏差，最后在 `02.fp` 标注选中的构型。下图给出了每个阶段的子步骤。
 
 <div align="left">
-<img alt="DPGEN 入门示例图" src="assets/dp-004.png" width="50%" />
+<img alt="DP-GEN 一轮训练、探索与标注的九个步骤" src="assets/dp-003.png" width="50%" />
 </div>
 
-图（a）中最大偏差力分布的峰值在 `0.15 eV/Angstrom` 左右。
-一则说明该训练模型没有收敛，精度不够；二则说明力偏差判据下、上界取 `0.15` 和 `0.35` 是比较合适的。
-另一种经验做法是，判据的下界略高于训练误差，而上界则在此基础上再增加 `0.1~0.3 eV/Angstrom` 左右。
+`model_devi.out` 的 `max_devi_f` 是同一帧里原子力模型分歧的最大值。GeTe 示例的下界是 0.05 eV/Å，上界是 0.15 eV/Å。仅按该力判据，0.10 eV/Å 落在候选区，0.20 eV/Å 则要先查几何、相态或步长为何会产生很大的分歧。这两个数是读规则的示意。候选区中的构型还要经过当轮标注预算和选择规则。仓库的 [Al–Sc–N 配置](../../inputs/deepmd/JH_dpgen_alscn.json)用 0.10 和 0.25 eV/Å，阈值应结合体系、探索条件和独立参考验证来定。
 
-## 训练集收集
+从仓库根目录运行[偏差收集脚本](../../scripts/deepmd/collect_dpgen_deviations.py)，把示例路径替换为实际工作目录：
+
+```bash
+python scripts/deepmd/collect_dpgen_deviations.py /path/to/run/iter.000000/01.model_devi -o deviations.csv
+```
+
+CSV 保留了来源和步号，按任务目录回查温度、压力和初态再分组。原笔记的偏差图可以用来练习读分布。图（a）峰值约 0.15 eV/Å，只说明该批轨迹在这一范围内的模型分歧集中。若要校准阈值，从低偏差、候选区和高偏差分别抽少量结构做参考计算，比较模型分歧与实际误差。VASP 标签需用变形构型核对 `ENCUT` 和 `KSPACING`，按目标物性设定能量、力和 virial 精度。
+
+<div align="left">
+<img alt="模型最大原子力偏差的分布示例" src="assets/dp-004.png" width="50%" />
+</div>
+
+异常中止时，先保留 `record.dpgen` 和轮次目录，对照调度器状态以及当前阶段的输入、输出和回传记录。确认该阶段没有仍在运行的任务后，再按版本的恢复机制接续。候选数少时，核对是否复用了前一轮的训练结果以及本轮实际新增了哪些标签，再判断探索是否已覆盖目标条件。
+
+## 四、汇总标签并检查下一轮真正获得了什么
 
 迭代生成的数据分散在各轮目录中，可用 `dpgen collect` 汇总。先用 `dpgen collect -h` 查看说明，命令格式为 `dpgen collect JOB_DIR OUTPUT_DIR -p param.json`。其中 `JOB_DIR` 是包含 `iter.0000*` 的任务目录，`OUTPUT_DIR` 是收集后的目标目录。例如：
 
@@ -284,4 +262,4 @@ dpgen collect ./ ./collect -p param.json
 
 上述命令会把当前文件夹下的数据收集到 `collect` 目录里。
 `collect` 目录中，`init.*` 是初始训练集，`sys.*` 是 DPGEN 生成的训练集（按照 `param.json` 中的 `sys` 分类）。
-最后，使用命令 `python deepmd_to_xyz.py collect/sys.000/` 即可将 DP 数据转成 `.xyz` 格式。
+汇总后按系统核对帧数、元素顺序和标签，再与各轮实际通过的第一性原理任务对账。要转出某个系统，可从仓库根目录运行 `python scripts/structure/deepmd_to_xyz.py /path/to/collect/sys.000 -o sys.000.xyz`。接回下一轮前，保留独立测试集，继续按[模型评估](DeePMD入门.md#导出模型并检查预测)检查目标构型。

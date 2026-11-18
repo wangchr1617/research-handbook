@@ -2,9 +2,11 @@
 
 **适用环境：通用（原理）；GPUMD 训练与 MD 通常在 Linux GPU 环境执行。**
 
+完成 PbTe 教学训练后，可以先看预测力如何与标签对上。若真正关心的是 GeTe 声子，还要换成目标材料对应的模型和结构，检查小位移下的力响应。手册已有一对 GeTe 权重和位移声子案例，适合用来串起这两层验证。
+
 NEP（Neuroevolution Potential）使用可训练的局域描述符和紧凑前馈网络预测原子能。它的名字来自最初采用的自然演化策略优化方法，不是说原子结构通过遗传算法演化。
 
-## 一、历史与开发团队
+## 一、先分清势模型和运行软件
 
 Zheyong Fan（樊哲勇）及合作者在 2021 年发表 NEP，原始合作包含渤海大学、Aalto University、香港大学、北京科技大学等团队。此后有 NEP2、NEP3 和 2024 年的 NEP4；GPUMD 官方文档按代际说明了模型变化。GPUMD 是训练与动力学软件生态，NEP 是其中的一类机器学习势。[^nep][^docs]
 
@@ -45,13 +47,13 @@ $$
 
 NEP 的特点是紧凑表示、GPU 实现和面向大规模动力学、热输运的生态。高吞吐不意味着可以省去热流定义、尺寸效应和采样收敛检查。基础局域 NEP 的长程能力受截断限制；带动态电荷等扩展应作为独立模型核对。
 
-## 五、如何开始实践
+## 五、从 PbTe 的训练记录走到 GeTe 声子验证
 
 先运行一个已有元素映射的小数据训练，核对读入的原子数、能量和力，再检查有限差分与目标物性。训练代数只是预算，不能以“跑够十万代”代替收敛证据。独立测试集也不能按预测难度反复挑选。
 
 具体步骤见 [NEP 训练](../../GPUMD/NEP训练.md)、[GPUMD 编译](../../GPUMD/GPUMD编译.md)和 [LAMMPS 接口](../../GPUMD/LAMMPS的NEP插件编译.md)。横向看 [MTP](../描述符与基函数/MTP与主动学习.md)、[DP](DP与DeePMD.md)和 [ACE](../描述符与基函数/ACE与多体展开.md)。
 
-## 实践：PbTe 训练文件究竟包含什么
+### 先确认 PbTe 输入和元素顺序
 
 GPUMD 官方 `examples/nep_train` 使用 Te/Pb 数据，其最小 `nep.in` 只设置元素映射和训练代数。下面补充常用参数，完整文件见[PbTe 输入](../../../inputs/machine-learning/nep-PbTe.in)，保存为 `nep.in`，与配套 `train.xyz` 放在同一工作目录：
 
@@ -74,7 +76,7 @@ generation 10000
 
 进入包含输入和数据的目录，运行训练程序 `nep`；其与动力学程序 `gpumd` 是不同可执行文件。输出中的 `nep.txt` 是模型，`loss.out` 是过程记录，`energy_train.out`、`force_train.out` 等用于预测–标签对比，不能只检查某一个文件生成。
 
-## 按数组读预测结果
+### 从六列输出核对参考力
 
 ```python
 import numpy as np
@@ -88,9 +90,11 @@ print("force component RMSE (eV/angstrom):", rmse)
 
 这里使用该官方案例的六列力输出布局，前三列预测、后三列参考；其他版本先看格式说明。每一行是原子，而不是一帧构型，所以分母是全部力分量。若要按元素、温度或相态报告，需要保留每帧原子数和来源，才能把输出行映射回原始构型。
 
-部署到新结构前再核对预测模式、单位、元素顺序和独立测试。使用官方 PbTe 数据并不能证明模型适用于 GeTe，尽管二者都有 Te。
+### 换成 GeTe 后复核目标物性
 
-## 参考资料
+部署前对照结构元素与权重头。上面的 PbTe 输入使用 `Te Pb`，仓库声子案例的两份权重头则是 `nep4_zbl 2 Te Ge`。确认元素和顺序后，用同一参考结构、超胞、位移和原子映射比较力，再看声子频率与色散。训练力 RMSE 汇总了已有构型上的误差，小位移声子则检查平衡附近的力响应。 [GeTe 声子案例](../../../examples/gpumd/nep-phonons/NEP声子谱计算.ipynb)
+
+### 参考资料
 
 [^nep]: Z. Fan et al. Neuroevolution machine learning potentials: Combining high accuracy and low cost in atomistic simulations and application to heat transport. *Physical Review B* **104**, 104309 (2021). [原始论文](https://doi.org/10.1103/PhysRevB.104.104309)。
 [^docs]: GPUMD. [NEP 模型、描述符与代际](https://gpumd.org/potentials/nep.html)、[训练输入](https://gpumd.org/nep/input_files/nep_in.html)。软件支持范围按所用版本核对。

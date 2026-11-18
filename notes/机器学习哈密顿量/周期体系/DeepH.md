@@ -4,7 +4,9 @@
 
 DeepH 学习晶体结构到局域基下 DFT 哈密顿量矩阵块的映射，目标是绕过新结构上重复进行的自洽场迭代。它保留电子结构信息，与只学习势能面的 Deep Potential 不同。
 
-## 一、历史与开发团队
+一条连接相邻晶胞的 C–C 边，既要记录左右原子，也要记录跨过了哪个晶格位移。下面用 graphene 配置追踪这条边，再用仓库的 SSH 小模型核对跨胞块怎样组成能带。
+
+## 一、为什么按局域轨道块学习
 
 He Li、Zun Wang、Nianlong Zou、Meng Ye、Runzhang Xu、Xiaoxun Gong、Wenhui Duan 和 Yong Xu 于 2022 年正式发表 DeepH，预印本于 2021 年公开。工作主要由清华大学徐勇、段文晖相关团队及合作单位完成。[^paper]
 
@@ -14,7 +16,7 @@ He Li、Zun Wang、Nianlong Zou、Meng Ye、Runzhang Xu、Xiaoxun Gong、Wenhui 
 
 难点是 $p,d$ 等轨道随旋转混合。原始 DeepH 利用由局域几何定义的坐标系，在局域表示中学习矩阵，再通过基变换恢复全局表示。这把输出的旋转协变问题转化为规范一致的局域学习与变换。[^paper]
 
-## 三、推理流程与边界
+## 三、从局域块恢复全局矩阵
 
 结构 → 周期邻居图 → 局域坐标 → 预测局域块 → 变回全局轨道基 → 装配 $H(\mathbf k),S(\mathbf k)$ → 电子性质。
 
@@ -28,11 +30,11 @@ DeepH 的代表性应用包括大超胞、扭转范德华结构等：小胞中�
 
 与 [DeePTB-SK](../../机器学习紧束缚模型/环境依赖SK/DeePTB-SK.md)相比，DeepH 更直接学习参考基中的矩阵块；后者用参数化低维 TB 形式和能谱目标构造有效模型。
 
-## 五、结果检查
+## 五、先复原参考能带，再验证预测
 
 先用解析得到的参考矩阵重建能带，再学习少量结构；检查周期位移、轨道顺序、局域到全局变换和厄米性。仅有矩阵 MAE 不够，还需比较目标能窗、带隙及派生性质。代码与数据处理入口见 [DeepH-pack](https://github.com/mzjb/DeepH-pack)。
 
-## 实践：Graphene 的原始 INI 输入
+### 从 graphene 配置确认轨道与数据入口
 
 配套[graphene 输入](../../../inputs/machine-learning/deeph-graphene.ini)来自原始 DeepH-pack 的 `ini/graphene.ini`，不是后来新包的 TOML 接口。其关键部分是：
 
@@ -52,7 +54,7 @@ radius = 6.0
 
 例如 C 的 `s2p2d1` 基含两个 s 径向函数、两组 p 和一组 d，共 $2+2\times3+5=13$ 个轨道；C–C 块就是 `13×13`。在位块也包括不同轨道间耦合，不是只存十三个对角数。
 
-## 从文件到电子谱的实际步骤
+### 用正负晶格位移检查装配
 
 在该历史实现中，先按对应教程生成可读数据，再运行：
 
@@ -64,9 +66,11 @@ CLI 入口由[原始 `setup.py`](https://github.com/mzjb/DeepH-pack/blob/main/se
 
 局域坐标预测后，要对块做相容基变换，按原子对和晶格位移装配。设一维周期的相邻胞跃迁为 $T$，则 $H(k)=H_0+e^{ikd}T+e^{-ikd}T^\dagger$，后两项配对确保厄米性。二维 graphene 只是把平移和相位扩展到二维晶格；漏掉负平移的共轭块会产生非厄米谱。
 
+先在参考数据上抽一对跨胞块，核对反向块是否为共轭转置。再选一处相位不为 1 的 k 点装配，比较完整矩阵与参考谱。只测 Γ 点会漏过相位方向错误，沿路径的本征值也应在块检查之后核对。
+
 实空间装配的可运行例子见[SSH 矩阵与能带脚本](../../../examples/machine-learning/atomistic-models/fit_ssh.py)，其规则与真实大块相同，但模型维数和标签来源不同。
 
-## 参考资料
+### 参考资料
 
 [^paper]: H. Li et al. Deep-learning density functional theory Hamiltonian for efficient ab initio electronic-structure calculation. *Nature Computational Science* **2**, 367–377 (2022). [正式论文](https://doi.org/10.1038/s43588-022-00265-6)、[预印本](https://arxiv.org/abs/2104.03786)。
 

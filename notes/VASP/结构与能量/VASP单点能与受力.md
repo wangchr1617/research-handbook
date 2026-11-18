@@ -2,9 +2,9 @@
 
 **适用环境：Windows、macOS、Linux（准备输入与分析）；Linux + PBS（VASP）。**
 
-单点计算在固定晶胞和原子位置上求电子基态，得到能量、受力、电荷密度等。以两个原子的硅原胞为例，先认识 VASP 的四类输入，再使用 PBS 提交。
+想知道一份硅结构是否还需要弛豫，可以先保持坐标不动，收敛电子态再看原子受力。这个两原子案例还会保存电荷密度和波函数，可作为后续分析的输入。
 
-## 准备输入
+## 一、固定硅原胞，只求电子态
 
 | 文件 | 本例内容 |
 | --- | --- |
@@ -29,7 +29,7 @@ LREAL = .FALSE.
 
 `NSW=0` 不推进离子；`EDIFF` 控制电子自洽精度；`ENCUT` 的单位为 eV。本例同时保存 `CHGCAR` 和 `WAVECAR`，便于衔接后续分析；不需要这些文件时可关闭 `LCHARG`、`LWAVE`。
 
-## 提交与检查
+## 二、用日志与结果文件交叉验收
 
 将 [job.pbs](../../../examples/vasp/minimal/single-point/job.pbs) 和 [postprocess.py](../../../examples/vasp/minimal/single-point/postprocess.py) 一并放入工作目录，加载 VASP、MPI 和 Python 环境后执行：
 
@@ -37,7 +37,7 @@ LREAL = .FALSE.
 qsub job.pbs
 ```
 
-后处理从 `vasprun.xml` 汇总能量、受力与电子步数，并检查收敛和正常结束标记。也应查看 `OUTCAR` 与 `OSZICAR`，确认没有电子迭代达到上限、结构异常或不合理占据。
+后处理从 `vasprun.xml` 汇总能量、受力与电子步数，再在 `OUTCAR` 检查 `EDIFF is reached` 和结束计时。单点的验收条件是电子收敛且获得完整的能量、力等结果。若力明显偏大，应回查结构和参数，或从同一构型开始优化。也应查看 `OUTCAR` 与 `OSZICAR`，确认没有电子迭代达到上限、结构异常或不合理占据。
 
 `F` 是当前展宽方案下的电子自由能，`E0` 是向零展宽外推的能量，不能不加区分地混用，见 [OSZICAR 说明](https://vasp.at/wiki/OSZICAR)。比较结构能量时保持泛函、势、截断能、采样和能量定义一致。
 

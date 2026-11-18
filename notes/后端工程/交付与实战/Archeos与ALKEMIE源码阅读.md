@@ -2,13 +2,21 @@
 
 **适用环境：通用；阅读 Python／TypeScript 源码无需部署。实际运行应遵循对应项目的依赖锁、平台要求与部署文档。**
 
-## 从一次请求开始读
+## 一、拿一次登录、一次断线选阅读入口
 
-Archeos 提供科研工作台与运行时网关，ALKEMIE 包含科研工具、用户会话和 Agent 集成。阅读时沿“路由 → 输入模型 → 身份与权限 → 服务／引擎 → 持久化 → 响应”追踪一条请求，比逐个文件顺序翻阅更容易理解。
+先挑一个能核对的现象。登录后能不能写项目数据，沿 Archeos 的认证和成员检查查。断线后能不能找回尚未完成的输出，沿流式入口和恢复存储查。读到的边界可以在仓库 Demo 里用两个账号和同一个 run 做对照。 [Demo 请求与恢复实操](../../../examples/backend/agent-demo/请求与恢复实操.md)
 
 本篇源码链接固定在 Archeos `275ee9c5edcf4df6c773512d8576cb0010168fd4` 和 ALKEMIE `46bd55237fa01bf30fa65c7ae99bcbb6b4eca8a6`。后续版本可能改变路径、认证方式和数据模型。下表说明所链接源码的职责；部署行为与隔离效果需在目标环境分别验证。
 
-## Archeos：HTTP、认证与配置
+下面三条调用线分别对应登录、订阅和远端作业核对。
+
+| 线索 | 依次阅读 | 应能解释的结果 |
+| --- | --- | --- |
+| 登录后发送写请求 | Credentials → login → issue_session → app.boundary → current_user | 密码、Cookie、Origin、CSRF 分别在哪校验 |
+| 一个 run 的流 | events → runtime／grant → engine.stream → pending → close_iterator | 断开和权限撤销怎样结束订阅 |
+| 科研任务后续执行 | ScientificTask → record_task_intent → reconciliation_loop → continuation receipt | 唯一意图、授权复查、核对与重试如何区分 |
+
+## 二、登录成功后，写请求怎样确认身份
 
 | 入口 | 观察重点 | 对应笔记 |
 | --- | --- | --- |
@@ -41,7 +49,7 @@ def login(body: Credentials, request: Request, response: Response, db: DB):
 
 该函数挂在 auth router 下，完整 URL 还要看 app.include_router 的 prefix；不能仅把装饰器里的 `/login` 当成对外路径。Demo 的 `/api/auth/login` 与这里的原项目路径和输入字段均不同。
 
-## Archeos：持久化、流式与任务
+## 三、从 Archeos 的运行入口追到收尾
 
 | 入口 | 观察重点 |
 | --- | --- |
@@ -59,7 +67,7 @@ def login(body: Credentials, request: Request, response: Response, db: DB):
 
 对照[后台任务](../并发与任务/后台任务队列与恢复.md)：查找 `record_task_intent` 的唯一身份和授权检查，再观察 reconciliation 与 HTTP 查询之间的分工。本专题引入 Redis／Celery 是独立教学选型，不据此推断原项目采用 Celery。
 
-## ALKEMIE：会话撤销与流式恢复
+## 四、ALKEMIE 页面断开后，哪些数据还能取回
 
 | 入口 | 观察重点 |
 | --- | --- |
@@ -88,7 +96,7 @@ def agent_stream_scope(project_id: str, user_id: str | None) -> str:
 
 `AgentStreamRecoveryStore` 的 RLock 只保护同进程中的线程。跨进程部署后，相同字符串 scope 不会让多个 Python 字典自动同步；共享事件存储与消费协议必须另行实现。
 
-## 迁移为自己的 Demo
+## 五、把读到的边界变成 Demo 可以验证的行为
 
 1. 从输入模型与身份检查开始，先验证未登录、越权、未知字段和超长输入。
 2. 独立设计自己的会话／消息／run 表，不依赖私有运行目录或现有管理员账号。
@@ -98,17 +106,7 @@ def agent_stream_scope(project_id: str, user_id: str | None) -> str:
 
 对应的独立实现见 [Agent Demo](../../../examples/backend/agent-demo/README.md)。它借鉴职责划分，没有复制两项目的运行环境、密钥和用户数据。
 
-## 按调用顺序追踪，而不是停在文件清单
-
-可以选择以下三条线，每条线只追踪一个具体问题：
-
-| 线索 | 依次阅读 | 应能解释的结果 |
-| --- | --- | --- |
-| 登录后发送写请求 | Credentials → login → issue_session → app.boundary → current_user | 密码、Cookie、Origin、CSRF 分别在哪校验 |
-| 一个 run 的流 | events → runtime／grant → engine.stream → pending → close_iterator | 断开和权限撤销怎样结束订阅 |
-| 科研任务后续执行 | ScientificTask → record_task_intent → reconciliation_loop → continuation receipt | 唯一意图、授权复查、核对与重试如何区分 |
-
-## 把阅读结果映射到自己的代码
+### 对照可运行的入口与输入
 
 | 原项目中的职责 | 本仓库可运行入口 | 练习输入 |
 | --- | --- | --- |

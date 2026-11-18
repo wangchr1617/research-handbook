@@ -4,7 +4,9 @@
 
 DeepH-E3 把哈密顿量块拆成具有已知旋转规则的通道，让网络直接满足等变约束。它与原始 DeepH 的关系，是从局域坐标处理进一步走向全局等变表示。
 
-## 一、历史与开发团队
+DeepH 篇先把局域输出变回全局轨道基。DeepH-E3 改变的是网络怎样表达矩阵块。复用同一套能带装配前，先确认输入是否仍在全局基，再看块在旋转时怎样变化。 [原始 DeepH 路线](DeepH.md)
+
+## 一、从局域坐标处理走向全局等变
 
 Xiaoxun Gong、He Li 等与清华大学徐勇、段文晖团队及合作者于 2023 年发表 DeepH-E3，预印本于 2022 年公开。论文建立了包含 SOC 情况的 DFT 哈密顿量等变表示框架。[^paper]
 
@@ -24,13 +26,13 @@ Xiaoxun Gong、He Li 等与清华大学徐勇、段文晖团队及合作者于 2
 
 [HamGNN](HamGNN.md)同样将矩阵块与不可约张量表示联系起来。二者需比较数据接口、轨道约定、通道设计、输出约束、数据划分和实际速度；不能只看都使用 E(3) 就认为实现兼容。
 
-## 五、结果检查
+## 五、从轨道计数核对到旋转与能带
 
 从无 SOC 的小结构开始验证矩阵与能带；旋转几何并同步变换轨道，检查等变关系。再增加 SOC、复数矩阵和自旋通道，检查厄米性与适用的时间反演关系。低能带分裂、近简并和拓扑量应单独评估。
 
 实现入口可由 [DeepH-pack](https://github.com/mzjb/DeepH-pack)及论文代码声明追踪，采用与训练数据一致的版本与接口。
 
-## 实践：使用原论文的配置与数据入口
+### 对照网络配置和轨道壳层表
 
 [完整原始训练 INI](../../../inputs/machine-learning/deeph-e3-train.ini)保留 `basic/data/train/hyperparameters/target/network` 等节。它对应 [Xiaoxun-Gong/DeepH-E3](https://github.com/Xiaoxun-Gong/DeepH-E3)，不是后续重构软件的全部版本。
 
@@ -50,7 +52,7 @@ num_blocks = 3
 
 预处理数据目录要包含 `elements.dat`、`lat.dat`、`orbital_types.dat`、`site_positions.dat`、`info.json` 和 `hamiltonians.h5` 等文件。`orbital_types.dat` 记录的是角动量壳层列表：Mo 的 `[0,0,0,1,1,2,2]` 有七个壳层，但实际空间轨道数为 $3+2\times3+2\times5=19$，不能误读成七个轨道。
 
-## 命令与标签规范的实际关系
+### 先检查预处理，再开始训练
 
 ```bash
 python /path/to/DeepH-E3/deephe3-train.py train.ini
@@ -59,9 +61,11 @@ python /path/to/DeepH-E3/deephe3-eval.py eval.ini
 
 训练脚本具体位置按所检出目录确认，以上按原项目命令入口说明，`eval.ini` 需要另按[官方默认评估配置](https://github.com/Xiaoxun-Gong/DeepH-E3/tree/main/deephe3/default_configs)准备。用原 DeepH 工具预处理时需设置 `local_coordinate=False`，因为模型学习全局等变表示，不能再套原始局域坐标变换。
 
+准备好参考标签后，先抽查一个 Mo 的在位块。按这组壳层，无 SOC 的空间轨道块应为 19 × 19。再抽一组 p–p 子块，用同一旋转分别检查两条路径：先变换九个矩阵分量再分解，或先分解再按 0、1、2 阶旋转。检查通过后再把复原的块装配到能带，便于区分基变换和周期相位造成的问题。
+
 参考数据由原论文 Zenodo 数据集提供，见[项目 README](https://github.com/Xiaoxun-Gong/DeepH-E3#usage)。只把 POSCAR 和一个训练 INI 放在目录中不够；没有轨道矩阵标签，无法监督训练哈密顿量。
 
-## 参考资料
+### 参考资料
 
 [^paper]: X. Gong et al. General framework for E(3)-equivariant neural network representation of density functional theory Hamiltonian. *Nature Communications* **14**, 2848 (2023). [正式论文](https://doi.org/10.1038/s41467-023-38468-8)、[预印本](https://arxiv.org/abs/2210.13955)。
 

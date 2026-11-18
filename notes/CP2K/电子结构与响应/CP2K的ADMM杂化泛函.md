@@ -2,25 +2,21 @@
 
 **适用环境：Linux + PBS 运行计算；Windows / macOS / Linux 可准备输入与分析结果。**
 
-杂化泛函的精确交换常成为大体系计算瓶颈。ADMM 用较小辅助基组近似交换密度，并补充相应修正，降低部分 HFX 成本。
+把水分子的 PBE0 计算扩展到更大的体系时，精确交换可能成为主要开销。ADMM 用较小辅助基组近似交换密度，并补上交换修正。是否值得采用，要看省下的成本和目标量的误差。下面用同一份水分子输入作 full-HFX、cFIT3 和 FIT3 三路对照，先看误差怎样量。
 
-## 主基组与辅助基组承担什么任务
+## 一、保持 PBE0，改变交换的求值方式
 
 ADMM 近似的是精确交换的求值过程，杂化泛函的定义仍需另外指定。计算中保留两套基组：主基组描述轨道，AUX_FIT 描述辅助密度，各自引入的误差也要分别检查。
 
 比较时应以相同几何、主基组、泛函比例和积分设置的 full-HFX 为基准。总能误差、相对能误差与力误差并不总是同步，尤其做优化和 AIMD 时要检查受力。
 
-## 对照水分子的 full-HFX、cFIT3 与 FIT3
+## 二、用同一构型做三组对照
 
 使用水分子 PBE0，主基组 DZVP-MOLOPT-SR-GTH，网格 900/80 Ry。分别计算不使用 ADMM、使用 cFIT3 和使用 FIT3 的三个分支；数据来自安装中的 BASIS_MOLOPT、BASIS_ADMM 和 GTH_POTENTIALS。
 
-[案例目录](../../../examples/cp2k/minimal/admm-hybrid)包含以下科学输入：
+三份输入分别为 [full.inp](../../../examples/cp2k/minimal/admm-hybrid/full.inp)、[cfit3.inp](../../../examples/cp2k/minimal/admm-hybrid/cfit3.inp) 和 [fit3.inp](../../../examples/cp2k/minimal/admm-hybrid/fit3.inp)，共用 [structure.xyz](../../../examples/cp2k/minimal/admm-hybrid/structure.xyz)。这两个 ADMM 分支都用 `BASIS_PROJECTION` 和 `MO_DIAG`，互相比较时只换 H、O 的 `AUX_FIT`。对照 full-HFX 则衡量引入整套 ADMM 后的偏差。
 
-[cfit3.inp](../../../examples/cp2k/minimal/admm-hybrid/cfit3.inp)、[fit3.inp](../../../examples/cp2k/minimal/admm-hybrid/fit3.inp)、[full.inp](../../../examples/cp2k/minimal/admm-hybrid/full.inp)、[stages.json](../../../examples/cp2k/minimal/admm-hybrid/stages.json)、[structure.xyz](../../../examples/cp2k/minimal/admm-hybrid/structure.xyz)。
-
-结构写在坐标文件或各输入的原子/晶胞段；`stages.json` 列出计算阶段。配套 [run.py](../../../examples/cp2k/minimal/admm-hybrid/run.py) 顺序组织任务，[job.pbs](../../../examples/cp2k/minimal/admm-hybrid/job.pbs) 提交作业，[postprocess.py](../../../examples/cp2k/minimal/admm-hybrid/postprocess.py) 检查结果并绘图。
-
-## 参数与提交
+## 三、核对 ADMM 设置并运行
 
 加载 CP2K，确保安装数据目录可找到所需基组与势文件，必要时设置 `CP2K_DATA_DIR`；`CP2K_EXEC` 指定程序。本例单进程、单线程顺序计算，数据文件不随案例分发。
 
@@ -43,7 +39,7 @@ qsub job.pbs
 
 PBS 中的资源语法和软件加载方式按集群调整。计算结束后自动执行后处理；若只分析已保存的结果，运行 `python3 postprocess.py`。各阶段独立保存输出，便于定位失败步骤。
 
-## 辅助基组与变体怎样扩展
+## 四、为新体系选辅助基组
 
 案例中的 cFIT3、FIT3 用于展示近似误差，保留它们才能复查现有数值。新任务还可从安装数据目录的 `BASIS_ADMM_UZH`、`BASIS_ADMM_MOLOPT` 等库选择与主基组相配的辅助基组。例如，UZH 库包含 O 的 `admm-dzp-q6` 和 H 的 `admm-dzp-q1`，也有更大的 `admm-tzp` 等条目；应逐元素核对具体名称、价电子数和覆盖范围，不按文件的新旧或名称长短直接决定精度。
 
@@ -61,7 +57,7 @@ E_x^{\mathrm{HF}}[P]
 
 当前 `ADMM_TYPE` 可成组设置变体对应的投影、纯化和标度参数。`EXCH_CORRECTION_FUNC` 则选择交换修正，与主交换泛函及交换算符保持一致。更换 OT、对角化、占据或范围分离方案时，要重新核对所选变体的兼容性，不能只保留一个空 ADMM 段而假定所有默认值都相同。设置原理和选型见[官方 ADMM 指南](https://manual.cp2k.org/cp2k-2026_2-branch/methods/dft/hartree-fock/admm.html)。
 
-## 同时比较能量差与力差
+## 五、从能量差和力差判断近似误差
 
 相对 full-HFX，本例 cFIT3 与 FIT3 的能量差约为 −0.07695 与 −0.01526 eV；最大力分量差分别约 0.0907 与 0.0536 eV/Å。
 
@@ -69,9 +65,9 @@ E_x^{\mathrm{HF}}[P]
 
 ![CP2K的ADMM杂化泛函结果](../assets/admm-hybrid.png)
 
-图由案例后处理脚本读取实际计算输出生成。
+[后处理脚本](../../../examples/cp2k/minimal/admm-hybrid/postprocess.py)用各分支末次总能减去 full-HFX 总能，再逐原子逐分量相减并取最大绝对值。图中展示的是总能偏差。若研究势垒，应分别在端点和过渡区做这组对照，再比较相对能误差；单个构型节省的时间和引入的能量偏差都不足以选定生产方案。
 
-## 扩展到实际研究
+## 六、把对照扩展到真正要研究的构型
 
 从多种代表构型比较相对能、力与 SCF 稳定性，再扩展到优化或 AIMD。密度网格、主基组、HFX 筛选和辅助基组应分别控制。已掌握普通杂化输入可回看[PBE0 笔记](CP2K杂化泛函PBE0.md)，再选择适合目标精度的 ADMM 变体。
 

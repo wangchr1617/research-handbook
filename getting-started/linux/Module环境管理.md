@@ -4,17 +4,9 @@
 
 Module 通过改变当前 shell 的环境变量切换编译器、MPI 和软件版本。日常加载命令先看 [Module 入门](../Module使用.md)，本篇补充个人 modulefile 的写法。
 
-## 一、先使用现有环境
+## 一、什么时候值得写自己的 modulefile
 
-```bash
-type module
-module avail
-module list
-```
-
-集群找不到 `module` 时向管理员确认初始化路径，不在个人账号中修改 `/etc/profile`。如果要在自己的 Linux 工作站安装，使用发行版的 `environment-modules` 包或 [官方安装说明](https://modules.readthedocs.io/en/latest/INSTALL.html)，不需要照搬历史 TCL 下载地址和旧版本。
-
-管理员确认 `/opt/modulefiles` 是模块目录时，可用 `module use /opt/modulefiles` 增加搜索路径。直接覆盖 `MODULEPATH` 可能隐藏原有模块。
+假设你在个人目录里编译了两个版本的程序，旧项目要沿用旧版，新项目要测新版。只有一个可执行文件时，在作业脚本里写绝对路径就够了。切换版本还涉及动态库或其他环境变量时，可以把对应路径写进各自的 modulefile，在 PBS 脚本里明确加载版本。已有的系统模块按 [Module 入门](../Module使用.md)加载。
 
 ## 二、给自己安装的软件写模块
 

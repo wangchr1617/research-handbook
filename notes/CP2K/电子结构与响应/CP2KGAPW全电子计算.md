@@ -2,25 +2,21 @@
 
 **适用环境：Linux + PBS 运行计算；Windows / macOS / Linux 可准备输入与分析结果。**
 
-GAPW 将核附近的快速变化密度与较平滑部分分开处理，使 CP2K 能进行相应全电子计算。GAPW 与 GPW 的区别涉及密度表示，单独提高 GPW 截断能不能替代这一方法。
+如果要分析近核电子密度，先检查输入是否显式处理芯电子。仓库的赝势水分子单点只计算价电子，提高密度网格截断仍是在细化这个模型。下面切到全电子 GAPW，让水分子的 10 个电子都进入计算，再用同一份结构比较两个网格。
 
-## 从赝势 GPW 切换到全电子 GAPW
+## 一、从赝势 GPW 切换到全电子 GAPW
 
 GPW 常配合平滑赝势，用高斯轨道与辅助平面波网格处理电子结构；GAPW 进一步用原子中心处理恢复核区密度的细节。选择全电子模型还必须同时使用全电子基组和 `ALL` 核势，不能只改 `QS/METHOD`。
 
 全电子与赝势模型的绝对能量零点和芯电子贡献不同。应比较各自一致模型下的目标能量差、结构或性质，而不是把水分子的两个原始总能直接相减解释成化学效应。
 
-## 用水分子比较两个密度网格
+## 二、用水分子比较两个密度网格
 
 以中性水分子为例，PBE、`DZVP-ALL`、`POTENTIAL ALL`，显式计算 10 个电子。晶胞 10 Å、非周期泊松边界，分别采用 400 与 800 Ry 辅助密度网格，`REL_CUTOFF 80`；结构与其他参数保持一致。
 
-[案例目录](../../../examples/cp2k/minimal/gapw-all-electron)包含以下科学输入：
+对比 [400 Ry 输入](../../../examples/cp2k/minimal/gapw-all-electron/grid400.inp)与 [800 Ry 输入](../../../examples/cp2k/minimal/gapw-all-electron/grid800.inp)，只有 `MGRID/CUTOFF` 变化，两者共用 [structure.xyz](../../../examples/cp2k/minimal/gapw-all-electron/structure.xyz)。[run.py](../../../examples/cp2k/minimal/gapw-all-electron/run.py) 按 [stages.json](../../../examples/cp2k/minimal/gapw-all-electron/stages.json) 顺序运行两份输入。
 
-[grid400.inp](../../../examples/cp2k/minimal/gapw-all-electron/grid400.inp)、[grid800.inp](../../../examples/cp2k/minimal/gapw-all-electron/grid800.inp)、[stages.json](../../../examples/cp2k/minimal/gapw-all-electron/stages.json)、[structure.xyz](../../../examples/cp2k/minimal/gapw-all-electron/structure.xyz)。
-
-结构写在坐标文件或各输入的原子/晶胞段；`stages.json` 列出计算阶段。配套 [run.py](../../../examples/cp2k/minimal/gapw-all-electron/run.py) 顺序组织任务，[job.pbs](../../../examples/cp2k/minimal/gapw-all-electron/job.pbs) 提交作业，[postprocess.py](../../../examples/cp2k/minimal/gapw-all-electron/postprocess.py) 检查结果并绘图。
-
-## 配套设置方法、基组与核势
+## 三、配套设置方法、基组与核势
 
 加载 CP2K，确保安装数据目录可找到所需基组与势文件，必要时设置 `CP2K_DATA_DIR`；`CP2K_EXEC` 指定程序。本例单进程、单线程顺序计算，数据文件不随案例分发。
 
@@ -43,19 +39,19 @@ qsub job.pbs
 
 PBS 中的资源语法和软件加载方式按集群调整。计算结束后自动执行后处理；若只分析已保存的结果，运行 `python3 postprocess.py`。各阶段独立保存输出，便于定位失败步骤。
 
-## 总能接近，还要检查哪些量
+## 四、总能接近，还要检查哪些量
 
 后处理确认每个分支电子数为 10、SCF 收敛且正常结束，再比较能量与受力。图给出两种网格相对于 800 Ry 的能量变化。
 
-本例 800 与 400 Ry 的能量差约 −2.37×10⁻⁵ eV；受力也由脚本保存，可进一步比较分量。
+按 `results.json` 中的减法顺序，$E_{800}-E_{400}$ 约为 −2.37×10⁻⁵ eV。图以 800 Ry 为零点，所以 400 Ry 点在零线上方。受力以 Hartree/Bohr 保存；若关心结构优化，接着按原子和方向比较力分量的变化。
 
 这两个网格点展示了测试方法。总能差很小之后，仍需分别检查受力和核区响应；核谱或磁响应的目标精度不能仅由总能变化判断。
 
 ![CP2KGAPW全电子计算结果](../assets/gapw-all-electron.png)
 
-图由案例后处理脚本读取实际计算输出生成。
+[后处理脚本](../../../examples/cp2k/minimal/gapw-all-electron/postprocess.py)从各阶段的实际输出提取末次能量和受力。
 
-## 扩展到实际研究
+## 五、扩展到实际研究
 
 实际任务还需测试全电子基组、原子网格与 GAPW 特定容差。核相关谱学是否可用、是否包含所需相对论和响应效应，需查对应模块；GAPW 全电子本身不能替代专门的性质方法。用 Multiwfn 建输入后，仍应逐项核对方法、势与基组。
 

@@ -2,6 +2,8 @@
 
 **适用环境：已安装 PyTorch 的 Python 环境；下面只用 CPU 和标准库 CSV。**
 
+一个回归 batch 有三个样本时，特征应为 `[3,2]`，标签应为 `[3,1]`。如果标签少了最后一维，预测和标签相减会产生 `[3,3]` 的交叉差值，训练甚至仍可能继续。下面从八行 CSV 追到 batch，先把这个问题查清。
+
 模型不直接读取一堆计算目录，而是从 Dataset 取得一个样本，再由 DataLoader 组合成 batch。先把文件、样本和张量一一对应，再加入复杂的特征。
 
 ## 一、准备一个演示表格
@@ -22,7 +24,7 @@ feature_1,feature_2,energy_eV_per_atom
 
 特征是无量纲人工数值，能量是演示标签，不是材料计算结果。真实数据还应保存样本 ID、来源和分组键，这些元信息不必全部喂给网络。
 
-## 二、定义 Dataset
+## 二、让一行记录对应一个样本
 
 将本文两个 Python 代码块依次保存为 `dataset_demo.py`：
 
@@ -57,7 +59,7 @@ class MaterialDataset(Dataset):
 
 `__len__` 返回样本数，`__getitem__` 返回指定样本。目标保存为 `[N,1]`，与单输出回归网络的输出形状匹配，避免 `[N]` 和 `[N,1]` 广播成意外的损失矩阵。
 
-## 三、用 DataLoader 组成 batch
+## 三、对照首个 batch 和模型输出
 
 ```python
 root = Path(__file__).resolve().parent
@@ -73,7 +75,9 @@ assert features.shape == (3, 2)
 assert targets.shape == (3, 1)
 ```
 
-执行 `python dataset_demo.py`，应得到八个样本和上述 batch 形状。`num_workers=0` 让入门示例在主进程读数据，先减少跨平台多进程因素；确需加速时再测试多个 worker，脚本入口也要按多进程要求组织。
+执行 `python dataset_demo.py`，应得到八个样本和上述 batch 形状。接入模型后，先在第一个 batch 核对预测与标签的 shape 和 dtype，再计算损失。若发现 `[3]` 标签，回查 Dataset 是返回一个标量，还是一项长度为 1 的张量。`num_workers=0` 让入门示例在主进程读数据，先减少跨平台多进程因素；确需加速时再测试多个 worker，脚本入口也要按多进程要求组织。
+
+例如每行来自同一弛豫任务的不同帧，先按轨迹或材料保存训练和验证的样本索引，再分别交给 DataLoader。 [分组划分](../基础与评估/数据划分与模型评估.md)
 
 真实数据用预先确定的分组索引创建 Subset，不直接用这里的随机划分。标准化参数只从训练子集拟合；验证集使用同一参数，但不能参与其拟合。
 

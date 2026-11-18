@@ -2,9 +2,9 @@
 
 **适用环境：Linux（Quantum ESPRESSO）。**
 
-下面从 GeTe.cif 出发，用 QE 同时优化晶格参数和原子坐标，再从输出中提取最终结构。
+如果晶格参数由实验或外延约束给定，可用 `relax` 只优化原子。若目标是让 GeTe 在给定外压下同时调整晶胞和原子位置，则用 `vc-relax`。下面沿用六原子 GeTe 输入，说明怎样把从 CIF 读到的结构变成优化任务，以及末态结构在什么条件下可以交给下一步。
 
-## 从 CIF 生成输入模板
+## 一、从 CIF 生成输入模板
 
 使用 `Multiwfn_noGUI GeTe.cif` 打开结构，依次键入 `QE`、`pw.inp`、`q`，生成包含结构信息的基础模板：
 
@@ -40,7 +40,7 @@ K_POINTS automatic
 3 3 3 0 0 0
 ```
 
-## 设置晶胞与原子位置优化
+## 二、设置晶胞与原子位置优化
 
 在模板上设置 `vc-relax` 任务，补充 `&IONS`、`&CELL` 等相关段落。下面保留本例的参数与赝势选择：
 
@@ -112,55 +112,23 @@ K_POINTS automatic
 12 12 3 0 0 0
 ```
 
-赝势取自 SSSP 库；输入中的 `ge_pbe_v1.4.uspp.F.UPF` 和 `Te_pbe_v1.uspp.F.UPF` 应与实际文件名一致，`pseudo_dir` 替换为自己的势目录。这里的 `K_POINTS` 对应 VASPKIT 中 Accuracy Levels 为 0.03 时生成的 KPOINTS。
+赝势取自 SSSP 库；输入中的 `ge_pbe_v1.4.uspp.F.UPF` 和 `Te_pbe_v1.uspp.F.UPF` 应与实际文件名一致，`pseudo_dir` 替换为自己的势目录。这里的 `12 12 3` 来自原案例的 VASPKIT 网格，应再按目标力和应力检查收敛。输入保留归档设置。`occupations='fixed'` 时，`smearing` 与 `degauss` 不用于该占据方案。`scf_must_converge=.false.` 允许电子步未收敛时继续优化，新任务可保留默认的严格行为，避免用未收敛的力推动结构。[pw.x 输入手册](https://www.quantum-espresso.org/Doc/INPUT_PW.html)
 
-## 提交计算
+## 三、提交计算
 
-将下面的脚本保存为 `run_qe.pbs`，按所在集群修改软件路径、队列和资源，再用 `qsub run_qe.pbs` 提交：
+将输入保存为 `pw.inp`，复用[编译笔记中的 PBS 启动示例](QE编译.md)，按实际环境设置二进制路径、核数、队列和墙时。日志默认写到 `output`。
 
-```bash
-#PBS -N qe
-#PBS -l nodes=1:ppn=32
-#PBS -l walltime=24:00:00
-#PBS -q manycores
-#PBS -V
-#PBS -S /bin/bash
+## 四、查看优化过程与最终结构
 
-export MODULEPATH=/opt/modulefiles
-module load intel/2020.1.217
-module load gcc/9.3
-
-NP=`cat $PBS_NODEFILE | wc -l`
-NN=`cat $PBS_NODEFILE | sort | uniq | tee /tmp/nodes.$$ | wc -l`
-
-cat $PBS_NODEFILE > /tmp/nodefile.$$
-cd $PBS_O_WORKDIR
-ulimit -s unlimited
-
-EXEC=/home/your-user/Software/qe-7.3.1/bin/pw.x
-mpirun -machinefile $PBS_NODEFILE -np $NP $EXEC -pd .true. < pw.inp > output
-```
-
-## 查看优化过程与最终结构
-
-计算过程中可用下列命令查看能量、受力和应力：
+先检查电子步、几何停止原因、末步受力和压力，再提取结构。以下命令方便定位日志：
 
 ```bash
-grep " Total force =" output # 查看优化过程中各原子总的受力情况
-grep -A 20 "Forces acting on atoms (cartesian axes, Ry/au):" output # 查看优化过程中各原子的受力情况
-grep ! output # 查看优化过程中能量的变化过程
-grep -A 12 " Total force =" output # 查看优化过程中压力张量大小
+grep -nE 'convergence NOT achieved|bfgs converged|maximum number of steps|JOB DONE' output
+grep -nE 'Total force|total stress|P=' output
+awk '/Begin final coordinates/,/End final coordinates/' output
 ```
 
-使用命令 `grep "convergence NOT achieved" output` 检查电子步是否收敛；
-使用命令 `grep "End final coordinates" output` 检查离子步是否收敛；
-如果 QE 结构优化并未在几个离子步内结束，高精度计算时需要提取最后一次离子步输出的结构再进行结构优化。
-
-计算结束后，用下列命令提取最终晶胞与坐标：
-
-```text
-awk '/Begin final coordinates/,/End final coordinates/{print $0}' output
-```
+`End final coordinates` 只标出结构块结束。应结合优化终止信息和最后一个完整离子步的力与压力，判断是否达到 `forc_conv_thr` 和 `press_conv_thr`。若因步数上限停止，可用最后一个完整结构建立后续任务，并先检查电子收敛和步长。后续做静态 SCF 时，将同一个末态块中的晶格和坐标一起写入新输入，保留 Å 单位，并使用独立的工作数据目录。
 
 本例的 `vc-relax` 输出如下：
 

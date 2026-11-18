@@ -4,11 +4,11 @@
 
 MACE-MP 与 MACE-OFF 使用相关架构，但训练域与参考方法不同。选择权重时先看数据与任务，再看网络大小。[MACE 架构](../等变图神经网络/MACE.md)与这些已训练模型应分别记录。
 
-## 一、历史与开发团队
+## 一、先看权重由哪些数据训练
 
 MACE-MP-0 的基础模型工作由 Ilyes Batatia、Gábor Csányi 及跨机构合作团队推进，预印本于 2023 年末公开，编号为 `2401.00096`。MACE-OFF 工作由 Dávid Péter Kovács 等与 Cambridge 及合作团队推进，2023 年发布预印本，后续正式发表于 JACS。编号年份、首发日期和期刊年份可能不同，引用时保留版本。[^mp][^off]
 
-## 二、同一架构为什么会有不同适用域
+## 二、从硅晶体和分子任务选择权重
 
 MACE-MP-0 以 Materials Project 相关无机晶体数据为重要训练基础；MACE-OFF23 面向有机分子，其训练使用 SPICE-α 相关数据和指定量化计算口径。不同系列的元素、能量基准和化学环境不应混用。[^mp][^models]
 
@@ -20,17 +20,21 @@ MACE-MP-0 以 Materials Project 相关无机晶体数据为重要训练基础；
 
 这张表是核对路线，不是适用性保证。新的 MP、MPA、OMAT 等后缀还可能标识不同数据或训练过程，不能都叫作同一套 MACE-MP-0。
 
-## 三、短程模型与色散
+## 三、比较分子作用前先核对色散
 
 有限截断神经网络可以在训练范围内拟合部分分子间相互作用，但不自动获得无限距离的正确渐近行为。添加外部色散修正前要核对训练标签已经包含什么，避免把相同贡献重复加两次。
 
 微调时沿用一致的元素顺序、参考能与输出约定；目标标签若换泛函，先明确是在修正什么，而不是仅把新旧数据直接合并。
 
-## 四、结果检查
+## 四、怎样复核硅晶体的结果
 
-记录完整权重名、版本或校验值、是否加色散、设备与精度。对目标体系比较相对能、力、曲率和关键构型；有机体系还需检查分子间能量曲线及电荷适用域。模型卡与调用接口见[官方基础模型文档](https://mace-docs.readthedocs.io/en/latest/guide/foundation_models.html)。
+归档的硅案例使用 MACE-MP-0 small、CPU 双精度且关闭额外色散，扫描 5.25–5.65 Å 后，最低采样点为 5.45 Å。图中的能量以最低采样点为零。极小值附近加密可以检查离散网格误差，和独立参考比较才能判断模型误差。 [归档设置与检查结果](../../../examples/machine-learning/atomistic-models/reference/cpu-results.json)
 
-## 实践：两类权重在代码中明确选择
+![MACE-MP-0 small 在九个硅晶格常数采样点的相对能量](../../../examples/machine-learning/atomistic-models/figures/mace_si_scan.png)
+
+复现时记录完整权重名、版本或校验值、是否加色散、设备与精度。对目标体系比较相对能、力、曲率和关键构型；有机体系还需检查分子间能量曲线及电荷适用域。模型卡与调用接口见[官方基础模型文档](https://mace-docs.readthedocs.io/en/latest/guide/foundation_models.html)。
+
+### 在代码里固定所选权重
 
 ```python
 from ase.build import bulk, molecule
@@ -47,13 +51,13 @@ print("H2O total energy (eV):", water.get_potential_energy())
 
 完整[MACE 硅案例](../../../examples/machine-learning/atomistic-models/mace_silicon.py)保存实际权重的 SHA256，不只依赖会滚动变化的默认模型名。若已有本地权重，可通过 `--model /path/to/model` 运行同一套检查。
 
-## 以有机分子间能量曲线为例
+## 五、用分子间距离扫描检查 OFF
 
-验证 OFF 对水二聚体或有机分子间作用时，对一组固定相对取向扫描分子间距离，计算 $E_{AB}-E_A-E_B$。三个计算需使用相同权重、精度和电子态约定，单体几何保持与二聚体中相同，否则混入形变能。
+验证 OFF 对水二聚体或有机分子间作用时，对一组固定相对取向扫描分子间距离，计算 $E_{AB}-E_A-E_B$。三个计算需使用相同权重、精度和电子态约定，保持单体几何与二聚体中一致，避免把形变能混进相互作用能。若借用仓库水二聚体的几何起点，先确认该 OFF 权重允许对应元素和电荷态，再为整组距离单独计算同口径的参考相互作用能。 [水二聚体几何与计算条件](../../../examples/orca/minimal/weak-interactions/README.md)
 
 远离时相互作用应逐渐趋近该模型的渐近极限；局域模型截断后可能完全没有相互作用。若在此基础上额外加 D3，先核对训练标签、模型卡和官方建议，不能把开关打开后更深的势阱自动认为更准确。
 
-## 参考资料
+### 参考资料
 
 [^mp]: I. Batatia et al. A foundation model for atomistic materials chemistry. [预印本与版本历史](https://arxiv.org/abs/2401.00096)。
 [^off]: D. P. Kovács et al. MACE-OFF: Transferable Short Range Machine Learning Force Fields for Organic Molecules. [预印本](https://arxiv.org/abs/2312.15211)、[JACS 论文](https://doi.org/10.1021/jacs.4c07099)。

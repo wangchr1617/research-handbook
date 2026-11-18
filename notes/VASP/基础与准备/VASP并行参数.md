@@ -2,9 +2,9 @@
 
 **适用环境：Linux（PBS 集群）；macOS / Linux（本机小测试）。**
 
-先确认作业实际启动的 MPI 进程数，再选择并行参数。节点数、分配的 CPU 数、MPI 进程数和每进程 OpenMP 线程数不是同一个量；不要只把队列里申请的核数代入公式。
+同一份 VASP 输入用了更多核，耗时反而变长时，先看实际启动了多少 MPI 进程、每个进程开了多少线程，再查不可约 k 点与能带分组。仓库的硅单点提供了一份可读的 PBS 启动脚本，可以先用它分清这些数字，再在代表性结构上测性能。
 
-## KPAR 与 NCORE
+## 一、从 MPI 进程数推算分组
 
 对于普通单结构、纯 MPI 计算，且没有其他算法级分组时：
 
@@ -22,9 +22,9 @@ $$N_{\mathrm{MPI}}=\mathrm{KPAR}\times\mathrm{NCORE}\times\mathrm{NPAR}.$$
 
 `KPAR` 使不可约 k 点均匀分配时通常更高效，但不要求它必须整除 `NKPTS`；整除 MPI 进程数才是分组约束。取值还受内存、通信和负载均衡影响，不能一概“设得越大越好”。参见 [KPAR 说明](https://vasp.at/wiki/index.php/KPAR)。
 
-## PBS 与小测试
+## 二、用同一输入比较两种布局
 
-[单点案例的 job.pbs](../../../examples/vasp/minimal/single-point/job.pbs)从 PBS 节点文件取得进程数，设置 `OMP_NUM_THREADS=1`。先使用案例中的 `NCORE=1` 跑通流程，再在实际目标结构上比较少量合法组合。
+[单点案例的 job.pbs](../../../examples/vasp/minimal/single-point/job.pbs)从 PBS 节点文件取得进程数，设置 `OMP_NUM_THREADS=1`。按案例申请的两核与 `NCORE=1`，默认 `KPAR=1` 时，一个 k 点组内有两个能带并行组。实际启动后按日志核对进程数。先使用案例中的 `NCORE=1` 跑通流程，再在实际目标结构上比较少量合法组合。
 
 比较时保持输入、电子精度及初始状态一致，查看：
 
@@ -32,11 +32,11 @@ $$N_{\mathrm{MPI}}=\mathrm{KPAR}\times\mathrm{NCORE}\times\mathrm{NPAR}.$$
 rg 'NKPTS|NBANDS|LOOP:|LOOP\+' OUTCAR
 ```
 
-比较性能时，选取相近电子步的耗时，同时记录总内存与完整作业时间，并确认能量和受力一致。第一步常含初始化开销，改变 `NCORE` 还可能使程序自动补齐不同的 `NBANDS`；先确认任务规模相同，再比较速度。
+例如在 32 个纯 MPI 进程上，保持 `KPAR=4`，分别试 `NCORE=2` 和 `NCORE=4`，每个 k 点组对应 4 和 2 个能带并行组。比较性能时，选取相近电子步的耗时，同时记录总内存与完整作业时间，并确认能量和受力一致。第一步常含初始化开销，改变 `NCORE` 还可能使程序自动补齐不同的 `NBANDS`；先确认任务规模相同，再比较速度。
 
 两原子示例能验证程序和提交方式，但不足以选择几十或上百核生产任务的最佳设置。性能测试应使用接近实际原子数、k 点数和能带数的任务。
 
-## OpenMP、Gamma 与其他算法
+## 三、换执行版本时重新核对分组
 
 混合 MPI/OpenMP 需要相应编译版本和正确的进程、线程绑定。线程数大于 1 时，VASP 不再按纯 MPI 的方式使用 `NCORE`；不要一边保留纯 MPI 的核数公式，一边额外增加线程。总进程数乘每进程线程数，应与分配的物理核资源匹配。设置方法见[官方混合并行说明](https://vasp.at/wiki/index.php/Combining_MPI_and_OpenMP)。
 

@@ -43,7 +43,7 @@ ALKEMIE 课题组共建的科研学习手册。从配置环境、提交第一份
 | [inputs](inputs/README.md) | 按软件或任务组织的计算输入模板 |
 | [scripts](scripts/README.md) | 可复用脚本与计算辅助工具 |
 | [examples](examples/README.md) | 科研案例、Notebook 与配套数据 |
-| [templates](templates/README.md) | 学习与计算记录模板 |
+| [templates](templates/README.md) | 计算记录模板 |
 
 ### 按研究任务找资料
 

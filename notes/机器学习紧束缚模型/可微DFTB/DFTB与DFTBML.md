@@ -4,7 +4,9 @@
 
 DFTB（Density Functional Tight Binding）保留一个近似电子结构计算过程，机器学习则可调整其中的径向积分、在位参数或排斥项。它与直接学习势能面的神经网络势不同，也不等于所有经验 TB 的统称。
 
-## 一、历史与开发团队
+如果拟合后 H₂ 的总能曲线更准，固定键长下的轨道能有没有变？先把电子项、SCC 和排斥能分开，才能判断训练改动影响了什么。
+
+## 一、从 DFTB 基线理解可微拟合
 
 DFTB 来自对 DFT 能量及电荷响应的近似处理；Marcus Elstner、Thomas Frauenheim、Götthard Seifert 等合作于 1998 年发表 SCC-DFTB。后续 DFTB、DFTB+ 及扩展方法形成了多团队生态。[^scc]
 
@@ -42,11 +44,11 @@ DFTBML 通过灵活的一维径向函数等参数化学习相互作用，保留�
 
 与 [DeePTB-SK](../环境依赖SK/DeePTB-SK.md)相比，DFTBML 的核心是可微半经验电子模型的性质监督；与 [TBMaLT](TBMaLT.md)相比，后者是组织此类计算的工具框架，并非同一个已训练模型。
 
-## 五、结果检查
+## 五、从参数导数核对到独立构型
 
 先用未训练参数重现基线，核对能量分项、电荷守恒、$S$ 正定和 SCC 残差，再对参数做有限差分梯度检查。最后测试新分子或独立构型上的能量、偶极和曲线平滑性。若只修正排斥能，不能宣称电子能带也随之改善；要说明学习的具体分项。
 
-## 实践：区分电子参数、排斥项与训练目标
+### 先单独核对径向函数的导数
 
 学习一条径向函数时，可用三次样条保存离散参数。下面用独立的插值例子检查导数；接入 DFTBML 时仍需相应的电子模型与求解流程：
 
@@ -63,15 +65,15 @@ assert np.isclose(fd, spline(x, 1), atol=1e-8)
 
 这些数用于解释插值，不是某套可用于材料预测的参数。实际 DFTBML 需要在物理模型中组装这些积分，经过占据与自洽过程得到能量或偶极，再回传梯度。对样条的平滑性、单调约束、区间外行为和参考偏离正则，需要作为模型定义一起记录。
 
-## 用 H2 解释为什么不能只拟合排斥总能
+### 用同一组 H₂ 键长对照各能量项
 
 如果只调整 $E_{rep}(r)$，可以改变总能曲线与核力，但在电子参数不变时不会直接改变固定几何下的电子矩阵和本征值。因此“总能更准”和“能带更准”是不同目标。若同时调电子积分和排斥项，还可能有多个分项相互补偿。
 
-对简单双原子扫描，分别保存 `E_band`、电荷响应项、`E_rep`、总能、键长和电荷。只有总能一列时，即使训练误差很小，也难以判断模型学到了哪一项。对完整分子电子矩阵与电子数的真实核对，可先运行[水分子自洽案例](../../../examples/machine-learning/atomistic-models/molecular_matrix.py)，再接 DFTB 专用参数和求解器。
+对简单双原子扫描，分别保存 `E_band`、电荷响应项、`E_rep`、总能、键长和电荷。若本轮只调排斥项，用同一组键长记录调整前后各列，检查固定几何下的电子谱是否保持一致。只有总能一列时，即使训练误差很小，也难以判断模型学到了哪一项。对完整分子电子矩阵与电子数的真实核对，可先运行[水分子自洽案例](../../../examples/machine-learning/atomistic-models/molecular_matrix.py)，再接 DFTB 专用参数和求解器。
 
 原作者实现见[DFTBML](https://github.com/djyaron/DFTBML)。其模型与参数的训练范围需要按论文和发布数据说明，不能从一个 H2 或水例子推广到全部元素。
 
-## 参考资料
+### 参考资料
 
 [^scc]: M. Elstner et al. Self-consistent-charge density-functional tight-binding method for simulations of complex materials properties. *Physical Review B* **58**, 7260 (1998). [原始论文](https://doi.org/10.1103/PhysRevB.58.7260)。
 [^layer]: A Density Functional Tight Binding Layer for Deep Learning of Chemical Hamiltonians. [原始论文与完整作者](https://arxiv.org/abs/1808.04526)、[期刊论文](https://doi.org/10.1021/acs.jctc.8b00873)。

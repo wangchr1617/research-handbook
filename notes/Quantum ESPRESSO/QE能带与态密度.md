@@ -8,9 +8,11 @@
 | 能带 | `calculation='bands'`，使用当前晶胞的 `K_POINTS crystal_b` 路径并准备足够空带 | `bands.x` 以匹配的 `prefix/outdir` 读结果，用 `filband` 指定输出 |
 | DOS | `calculation='nscf'`，用更密的规则网格，按积分方法设置占据和采样 | `dos.x` 写出总 DOS。按需用 `projwfc.x` 分解原子、轨道和自旋 |
 
-## Si 原胞练习
+## 一、让两条路线共用硅的基态数据
 
 用 [QE 基础](QE基础知识.md)的 Si 原胞输入做 `scf.in`，将 Si 势文件名改为实际值。执行 `pw.x -in scf.in > scf.out`，确认电子收敛后，把 `tmp`、`pseudo` 和输入复制到两个独立工作目录。后续命令分别在对应分支执行，均使用 `prefix='si'` 和 `outdir='./tmp'`。
+
+## 二、沿 Γ—X 读取本征值
 
 能带分支把 `calculation` 改为 `'bands'`，在 `&SYSTEM` 中加 `nbnd=8`，将 k 点卡替换为下列短路径。该原胞的 `(0.5, 0, 0.5)` 对应一个 X 点。
 
@@ -29,6 +31,8 @@ K_POINTS crystal_b
 /
 ```
 
+## 三、用规则网格积分 DOS
+
 DOS 分支从 `scf.in` 改成 `calculation='nscf'`、`occupations='tetrahedra'`、`nbnd=8` 和 `K_POINTS automatic` 下的 `8 8 8 0 0 0`。保存为 `nscf.in` 并运行 `pw.x -in nscf.in > nscf.out`。将下段保存为 `dos.in`，执行 `dos.x -in dos.in > dos.out`。
 
 ```text
@@ -37,8 +41,8 @@ DOS 分支从 `scf.in` 改成 `calculation='nscf'`、`occupations='tetrahedra'`�
 /
 ```
 
-## 看结果
+## 四、核对能量零点和结果覆盖范围
 
-QE 7.6 下用 Si 的 PBE 模守恒赝势 `Si_ONCV_PBE-1.1.upf`试跑，`si.bands` 头部给出 8 条带和 21 个 k 点，`si.dos` 给出能量（eV）、总 DOS 和积分 DOS。Si 可用价带顶置零，并用更完整的路径与加密的均匀网格核对间接带边。Al 等金属则对齐费米能级，扫描网格与展宽。比较 DOS 时统一每胞或每原子、自旋和能量单位。
+QE 7.6 下用 Si 的 PBE 模守恒赝势 `Si_ONCV_PBE-1.1.upf`试跑，`si.bands` 头部给出 8 条带和 21 个 k 点，`si.dos` 给出能量（eV）、总 DOS 和积分 DOS。这份 Γ—X 练习只有一条线段。Si 的图可用价带顶置零，并用更完整的路径与加密的均匀网格核对间接带边。Al 等金属则对齐费米能级，扫描网格与展宽。比较 DOS 时统一每胞或每原子、自旋和能量单位。
 
 语法见 [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html)、[bands.x](https://www.quantum-espresso.org/Doc/INPUT_BANDS.html)与 [dos.x](https://www.quantum-espresso.org/Doc/INPUT_DOS.html)。

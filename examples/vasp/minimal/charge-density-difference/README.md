@@ -10,4 +10,4 @@
 python3 plane_profile.py cdd.cub --density-unit e/bohr3 --axis 3
 ```
 
-[plane_profile.py](plane_profile.py)输出平面平均、截面积分和累计电子数，保留斜晶胞的面积与法向高度。输入为 Multiwfn 导出的原子单位密度；其他来源需按实际单位设置。已保存的[数值表](cdd-plane-profile.dat)、[科学元数据](cdd-plane-profile.json)及结果图的解释见[共通方法笔记](../../../../notes/计算化学/密度差、平面平均与电荷位移.md#用已有-nacl-密度结果对照)。
+[plane_profile.py](plane_profile.py)输出平面平均、截面积分和累计电子数，保留斜晶胞的面积与法向高度。输入为 Multiwfn 导出的原子单位密度；其他来源需按实际单位设置。已保存的[数值表](cdd-plane-profile.dat)、[科学元数据](cdd-plane-profile.json)及结果图的解释见[共通方法笔记](../../../../notes/计算化学/密度差、平面平均与电荷位移.md#七用已有-nacl-密度结果对照)。

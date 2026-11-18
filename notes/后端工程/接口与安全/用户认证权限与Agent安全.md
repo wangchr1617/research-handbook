@@ -2,7 +2,9 @@
 
 **适用环境：通用；示例对应 FastAPI 与独立教学 Demo。公开部署需要 HTTPS 和入口访问控制。**
 
-## 认证与授权分别回答什么
+教学 Demo 中，A 和 B 都能登录。A 提交任务后，用 A 的凭据可读取结果；将同一个 `run_id` 交给 B 的客户端，请求应返回 404。这个对照把登录、资源归属和执行权限分开，后文沿同一任务查每一层。
+
+## 一、两个已登录用户，为什么只能看到自己的任务
 
 认证回答“请求者是谁”，授权回答“他可以对哪个资源执行什么操作”。用户 A 登录成功，不意味着可以读用户 B 的会话、下载 B 的文件或取消 B 的任务。模型声称“我是管理员”也不能成为授权依据。
 
@@ -17,7 +19,7 @@
 
 JWT 的 payload 通常是编码而非加密，不能放密码或模型密钥。自建用户名密码 Demo 可以使用服务端会话；团队应用更适合接入已有身份系统。密码哈希与 Bearer 认证的基础用法见 [FastAPI 安全教程](https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/)。
 
-## 密码与会话生命周期
+## 二、登录后的凭据怎样到期与撤销
 
 1. 创建账号时验证用户名和密码策略，用 Argon2 等密码哈希算法保存，不存明文或可逆加密密码。
 2. 登录时校验哈希，失败统一返回 `invalid_credentials`，限制按账号和来源的尝试频率。
@@ -29,7 +31,7 @@ JWT 的 payload 通常是编码而非加密，不能放密码或模型密钥。�
 
 Archeos 的 `auth.py::issue_session` 创建会话，`security.py::current_user` 验证 Cookie 和 CSRF；Demo 的 `security.py` 改用不透明 Bearer token 便于 `curl` 与 Fetch 练习。Demo 通过管理命令创建账号，网页只提供登录，不开放公共注册。
 
-## Cookie、CSRF、CORS 与 XSS
+### Cookie、CSRF、CORS 与 XSS
 
 Cookie 会自动随匹配请求发送。生产登录 Cookie 应设置 `HttpOnly`、`Secure`、合适的 `SameSite`、路径与有效期；写操作还应验证 CSRF token，并按部署方式检查 Origin。`HttpOnly` 防止脚本直接读 Cookie，但页面上的 XSS 仍可借用户身份发请求。
 
@@ -37,7 +39,7 @@ Bearer token 由脚本主动放请求头，常见跨站表单无法自动带上�
 
 CORS 控制浏览器是否允许跨源脚本读取响应，不是服务端认证机制。跨源 Cookie 请求需要明确允许的 Origin 和凭据策略；不能把 `*` 当作可信来源列表。用户可控内容用 `textContent` 或默认转义渲染，慎用 `innerHTML` 与 React 的 `dangerouslySetInnerHTML`。
 
-## 每个入口都做资源授权
+## 三、在每个入口核对具体资源
 
 参照 Archeos 的 `membership` 和资源 grant 思路，最小的用户级会话检查可以写成：
 
@@ -59,7 +61,7 @@ def own_conversation(db, conversation_id, current_user_id):
 
 多人课题组可以增加团队成员表与角色：成员读取自己的资源，管理员管理团队配置，平台管理员管理平台。角色不应默认赋予读取其他人的模型密钥权限。对修改、删除、提交计算等能力分别授权，避免一个笼统的 `is_admin` 包揽所有权限。
 
-## 读真实实现：Archeos 怎样识别当前用户
+### 读真实实现：Archeos 怎样识别当前用户
 
 下面摘录 [security.py::current_user](https://github.com/hfood02/Archeos/blob/275ee9c5edcf4df6c773512d8576cb0010168fd4/backend/archeos/security.py)，它依赖原项目的 DB、fail 与模型定义：
 
@@ -107,7 +109,7 @@ def membership(db: Session, user: User, team_id: str, admin: bool = False) -> tu
 
 如果把它简化为 `if user.platform_admin: pass`，会改变原本针对团队、成员生命周期和资源归属的规则。学习代码时应沿调用方追踪“团队检查”和“资源检查”各发生在哪一步。
 
-## Agent 工具的能力边界
+## 四、工具执行前要核对哪些权限和预算
 
 把模型输出当成不可信输入，工具服务器仍需校验参数、资源归属、路径、预算与审批状态。提示词“不要访问别人的文件”无法替代操作系统或服务端限制。
 
@@ -125,7 +127,7 @@ def membership(db: Session, user: User, team_id: str, admin: bool = False) -> tu
 
 文件策略可参考 [OWASP 文件上传指南](https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html)，Agent 工具授权可参考 [OWASP AI Agent 安全指南](https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html)。
 
-## 资源限制与错误分析
+### 资源限制与错误分析
 
 工具调用设置每次超时和整次 run 预算，控制并发和最大步骤数；执行子进程时管理整个进程组，先温和终止再强制结束。协程取消不等于外部计算停止，需要调用外部系统的取消 API，并记录取消结果。
 
@@ -133,9 +135,9 @@ Docker 的 CPU、内存、进程数和只读文件系统可以限制普通服务
 
 错误分析先按 `run_id` 定位：请求是否接收、是否入库、是否投递、worker 是否领取、哪次工具调用失败、错误是否可重试、外部副作用是否已发生。保存错误码、尝试次数和经脱敏的阶段信息，避免把整个提示词和凭据直接写入追踪。
 
-Demo 实现用户归属、会话撤销、有限输入、执行期限与有限重试，只运行固定统计工具。它没有公共登录限流、完整租户配额、外部工具沙箱或入口总请求体限制；先补齐这些机制，再开放到公网。
+Demo 实现用户归属、会话撤销、有限输入、执行期限与有限重试，只运行固定统计工具。公开部署还需要补齐登录限流、租户配额和外部工具沙箱。Demo 入口有 `Content-Length` 快速检查。分块传输和 multipart 解析前的总字节数仍需要入口层限制。
 
-## 用两个账号做可观察的权限实验
+## 五、用两个账号确认拒绝发生在哪
 
 运行[请求案例脚本](../../../scripts/backend/run_agent_example.py)会在全新临时库创建 reader_a、reader_b，密码随机生成且不输出；它不会碰现有 Archeos／ALKEMIE 账号。A 创建会话和 run 后，B 请求同一 run 与历史消息，都应得到 404。
 
@@ -147,6 +149,8 @@ Demo 实现用户归属、会话撤销、有限输入、执行期限与有限重
 | A 退出后复用旧令牌 | 仍能读历史 | 401 |
 | 已连接 SSE 后撤销登录 | 永久继续输出 | 下一轮复查后结束订阅 |
 
+先用 A 查同一个 run，确认测试对象确实存在，再用 B 查。若两次都返回 404，先核对测试数据与 ID，再判断权限实验是否成立。
+
 逐资源校验应在服务器完成，隐藏按钮、不可猜 UUID 和前端路由守卫都不构成服务器授权。
 
 ### Demo 的摘要、到期与撤销
@@ -155,9 +159,9 @@ Demo 实现用户归属、会话撤销、有限输入、执行期限与有限重
 
 验证撤销时，必须重复使用同一旧凭据访问受保护接口；“退出响应为 204”只证明退出接口返回成功。长连接还要通过 `event_page` 再查登录是否存在和过期。
 
-## 把 Agent 权限放在工具执行之前
+### 把 Agent 权限放在工具执行之前
 
-假设模型请求 `read_file(path='../../another-user/key')`，服务端需要先从当前用户／run 的授权上下文解析允许根目录，再解析资源标识并核对归属。工具参数只描述希望做什么，不能自己带 `as_admin=true` 改变授权身份。
+假设模型要读取另一会话上传的附件，服务端需要先从当前用户／run 的授权上下文解析允许根目录，再解析资源标识并核对归属。工具参数只描述希望做什么，不能自己带 `as_admin=true` 改变授权身份。
 
 | 预算 | 计量位置 | 失败时保存什么 |
 | --- | --- | --- |

@@ -2,7 +2,7 @@
 
 **适用环境：Windows 10 / 11（PowerShell、OpenSSH、浏览器）+ Linux（服务端）。**
 
-Windows 负责上传源码和打开浏览器，Alkemie 依赖及服务仍安装在 Linux 集群。本篇采用 PowerShell + OpenSSH，不要求先安装 WSL 或 Docker。
+如果要从 Windows 浏览器打开集群上的个人 Alkemie 服务，用 PowerShell 和 OpenSSH 就能上传源码、登录 Linux 和建立隧道。构建、依赖安装和服务启动都在远端 Linux 完成，服务端步骤沿用 [Alkemie 的 Linux 部署流程](Alkemie集群部署（macOS）.md#三linux-服务端准备环境)。
 
 ## 一、准备 SSH 与源码
 
@@ -62,7 +62,7 @@ tar -tf ..\alkemie-source.tar
 scp ..\alkemie-source.tar lab-cluster:~/
 ```
 
-`git archive HEAD` 只包含当前提交中的文件；未提交修改不会被带过去。检查归档不含密钥、私人数据和本机依赖。
+`git archive HEAD` 取的是提交中的文件。若 `git status --short` 显示刚修改的配置仍在工作区，上传后 Linux 端看到的还是提交里的版本。用 `git rev-parse HEAD` 记录打包版本，确认符合服务端部署说明，再用 `tar -tf` 核对归档内容。密钥和个人数据留在归档之外。
 
 Windows 的 `node_modules`、Conda 环境与 `.exe` 不上传到 Linux 充当运行依赖；前端和后端按服务端环境构建。
 

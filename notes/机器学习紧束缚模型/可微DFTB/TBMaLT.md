@@ -29,13 +29,13 @@ $$
 
 [DFTBML](DFTB与DFTBML.md)是一条具体参数化与学习方案；TBMaLT 是可以容纳不同方案的计算工具。比较时应写清是在比较求解器、训练策略，还是某套训练好的参数，避免把框架本身当作一个固定模型参加精度排名。
 
-## 五、开始实践与结果检查
+## 五、用同一分子检查批处理与梯度
 
 先选官方已支持的小体系与参数集，验证未训练基线；再只放开少量参数，比较自动导数与有限差分。逐步检查电荷守恒、SCC 收敛、总能分项和参数曲线，再增加环境依赖修正。
 
 保留参数文件来源、许可、元素配对覆盖及单位。若缺少某对元素的参数，不能靠把元素编号映射到相近元素来补齐。入口见[官方仓库](https://github.com/tbmalt/tbmalt)。
 
-## 实践：沿官方 CH4 / H2O 例子追踪真实对象
+### 先确认哪些位置对应真实原子
 
 官方 [`example_01.py`](https://github.com/tbmalt/tbmalt/blob/main/examples/example_01/example_01.py)使用 `Geometry`、`OrbitalInfo`、参数 feed 和 `Dftb2`。开头的结构与轨道准备可摘为：
 
@@ -49,7 +49,7 @@ orbitals = OrbitalInfo(geometry.atomic_numbers, shell_dict, shell_resolved=False
 
 这里 `shell_dict` 用原子序数作键，用角动量壳层列表作值。H 是一个 s，C/O 是一个 s 加一组 p。CH4 与 H2O 原子数不同，批处理会涉及 padding；零值填充位置不能作为真实原子参与电荷损失。
 
-## 哪些参数参与梯度计算
+### 从 SCC 输出追到样条参数
 
 官方例子从 `SkFeed.from_database` 读入 Hamiltonian 和 overlap 的样条，再将样条系数加入优化器。其训练循环的核心是：
 
@@ -66,11 +66,13 @@ for epoch in range(10):
 
 这段展示的目标是原子电子占据/电荷相关量，而不是仅拟合势能。完整例子中存在用于扩展的未实现辅助函数，且直接访问了一些私有 feed 字段；学习接口时应检出对应源码版本，不把这些私有名当成长期稳定 API。
 
+可以先单独求解 H₂O，再把它和 CH₄ 放进同一个 batch。使用同一参数集和收敛阈值，核对 H₂O 的实际原子位置上的输出在两次调用中是否一致，再确认损失统计排除了填充位置。随后只放开一个样条参数，在相同 SCC 条件下用正负扰动核对梯度。
+
 训练前先验证参数文件和基线 SCC 结果，再检查参数梯度与有限差分，并确认迭代状态在各步正确更新。自动微分成功返回一个数，不等于自洽误差已经小于训练目标精度。
 
-## 参考资料
+### 参考资料
 
 [^paper]: A. McSloy et al. TBMaLT, a flexible toolkit for combining tight-binding and machine learning. *Journal of Chemical Physics* **158**, 034801 (2023). [原始论文](https://doi.org/10.1063/5.0132892)。
-[^code]: TBMaLT 开发团队. [官方介绍](https://github.com/tbmalt/tbmalt/blob/main/README.rst)。
+[^code]: TBMaLT 开发团队。 [官方介绍](https://github.com/tbmalt/tbmalt/blob/main/README.rst)。
 
 返回[分类导航](README.md)或[专题首页](../README.md)。

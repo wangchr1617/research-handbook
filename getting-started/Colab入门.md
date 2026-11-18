@@ -1,65 +1,24 @@
-
 # Colab 入门
 
-**适用环境：通用（Windows / macOS / Linux 浏览器）。**
+Colab 适合在浏览器里试跑 Python 分析、检查数据或生成图。这里用仓库的一维紧束缚模型做第一次练习，默认 CPU 就够。若任务依赖授权求解器、受限数据或长时间独占资源，先按项目要求选择本机或集群环境。
 
-Colab 在浏览器中提供 Jupyter Notebook 环境，可以编写、运行 Python 代码并分享分析结果。
+## 一、先确认代码和文件在哪台机器上
 
-## 如何使用 Colab
+登录 [Google Colab](https://colab.research.google.com/)并新建 Notebook。在第一格运行 `print("hello")`，看到输出后再运行下面的单元。Colab 的代码在云端运行时执行，浏览器里的 Notebook 和运行目录里的文件分别保存。重连或更换运行时后，要准备重新取得输入和依赖。 [Colab 运行时说明](https://research.google.com/colaboratory/faq.html)
 
-先打开 [Google 账号注册页](https://accounts.google.com/signup)注册账号，已有账号则直接登录。然后在浏览器打开 [Google Colab](https://colab.research.google.com/)，选择新建 Notebook，在代码单元格输入 `print("hello")`，点击运行按钮或按 `Shift+Enter`，检查输出。
+## 二、从输入跑到可核对的结果
 
-Colab 不要求先安装 Python、Jupyter 或 Google Drive 桌面客户端。需要从云端硬盘管理文件时，在浏览器打开 [Google Drive](https://drive.google.com/)，进入“我的云端硬盘”：
-
-<div align="left">
-<img src="assets/colab/colab-001.png" width = "50%" />
-</div>
-
-在 `新建` → `更多` 里选择并创建 `Google Colaboratory`，如图所示：
-
-<div align="left">
-<img src="assets/colab/colab-002.png" width = "50%" />
-</div>
-
-如果没有 `Google Colaboratory` 选项，可以选择 `关联更多应用` 搜索并关联 `Colaboratory`，或直接从 Colab 首页新建。
-
-新建的 `.ipynb` 文件如图所示：
-
-<div align="left">
-<img src="assets/colab/colab-003.png" width = "50%" />
-</div>
-
-Colab 使用 `.ipynb` 格式，可以上传已有的 Jupyter Notebook，再在云端环境中打开和运行：
-
-<div align="left">
-<img src="assets/colab/colab-004.png" width = "50%" />
-</div>
-
-如果要使用 GPU 资源，需要选择 `Runtime` 并 `Change runtime type`，如图所示：
-
-<div align="left">
-<img src="assets/colab/colab-005.png" width = "50%" />
-</div>
-
-<div align="left">
-<img src="assets/colab/colab-006.png" width = "50%" />
-</div>
-
-使用以下代码即可查看当前获取的 GPU 资源：
+在新的运行时中运行下面的单元。从公共仓库取得算例后，先读 [案例说明](../examples/solid-state/tight-binding-band/README.md)，核对依赖和模型参数，再运行：
 
 ```python
-from google.colab import drive
-drive.mount('/content/drive')
-
-gpu_info = !nvidia-smi
-gpu_info = '\n'.join(gpu_info)
-if gpu_info.find('failed') >= 0:
-    print('Not connected to a GPU')
-else:
-    print(gpu_info)
+!git clone --depth 1 https://github.com/wangchr1617/research-handbook.git /content/research-handbook
+%cd /content/research-handbook/examples/solid-state/tight-binding-band
+%pip install -r requirements.txt
+!python run.py
 ```
 
-代码执行情况如图所示：
-<div align="left">
-<img src="assets/colab/colab-007.png" width = "50%" />
-</div>
+输出应包含 0.8 eV 的区边界带隙和 3.2 eV 的全谱跨度。用 `data/input.json` 中的跃迁参数复核带隙，再打开 `result.png`。若同时已有旧图，先确认本次脚本正常结束，再读新写出的 `results.json`。重新运行时可以复用已克隆的目录，从切换目录那一行继续。要保存分析，下载 Notebook 与结果图、表，并记录使用的仓库提交。
+
+## 三、任务需要 GPU 时才更换运行时
+
+从运行时菜单选择硬件加速器，更换后重新运行准备输入的单元。可执行 `!nvidia-smi` 检查 NVIDIA GPU 是否分配成功，随后还要确认所用计算库确实选择了该设备。若需要读取 Google Drive 的文件，可以在 Notebook 中挂载 Drive，并按实际目录填写路径。运行时间、设备和可用额度以当前 Colab 环境为准。 [Colab 资源限制](https://research.google.com/colaboratory/faq.html#resource-limits)

@@ -2,9 +2,9 @@
 
 **适用环境：macOS、Linux、Windows；激活虚拟环境时区分 shell。**
 
-`pip` 安装 Python 包，`uv` 还提供 Python 版本、虚拟环境和项目依赖管理。先选一种环境管理方式，确认 Python 路径，再装包。
+同一台电脑上，刚装好的 ASE 可能在终端能导入，换个编辑器或解释器就报缺包。用仓库的 [MgO 状态方程案例](../examples/materials/inorganic/README.md)练习时，可以先重绘已有数据。单人临时分析用虚拟环境配合 `python -m pip` 就够用。要让组员按同一份依赖记录重建项目，再看第四节用 uv 管理项目的做法。
 
-## 开始前
+**开始前**
 
 还没有 Python 时，先选一条路线：
 
@@ -65,6 +65,16 @@ python -m pip install ase -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 
 镜像只是下载来源，不是 TLS 报错的通用修复。`--no-deps` 会跳过依赖安装，应仅在已确认依赖齐全时使用。安装到受系统管理的 Python 报错时，改用虚拟环境，不执行 `sudo pip` 或强行覆盖系统包。
+
+重绘 MgO 曲线前，可用同一个 Python 检查三项依赖。在仓库根目录运行下面的命令，将路径换成你刚检查过的解释器。示例适用于 macOS 和 Linux。
+
+```bash
+MATERIALS_PYTHON=/path/to/environment/bin/python \
+  bash scripts/materials/run_local.sh --plot \
+  inorganic examples/materials/inorganic/data --output /tmp/mgo-result.png
+```
+
+运行器用指定解释器检查 ASE、NumPy 和 Matplotlib。若提示缺包，用该解释器的 `-m pip --version` 核对安装位置，再回到对应环境补依赖。重绘只读案例数据，可用来确认 Python 环境和绘图入口是否正常。
 
 ## 三、安装 uv
 

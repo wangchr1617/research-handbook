@@ -1,11 +1,10 @@
-
 # WSL 及 Docker 安装
 
 **适用环境：Windows + WSL 2（Ubuntu）。**
 
-## WSL 2 安装
+## 一、WSL 2 安装
 
-WSL 2 在 Windows 中提供 Linux 环境。下面以 Ubuntu 为例，依次配置 WSL、代理和 Docker。
+WSL 2 在 Windows 中提供 Linux 环境。下面以 Ubuntu 为例，先跑通 WSL，再决定要不要用代理和 Docker。若只需远程登录集群，按[Windows 新生入门](新生入门（Windows）.md)配置 SSH 客户端即可。
 
 先查看 [微软 WSL 官方安装指南](https://learn.microsoft.com/en-us/windows/wsl/install)，确认 Windows 版本满足要求。在开始菜单搜索 PowerShell，右键“以管理员身份运行”，执行：
 
@@ -44,7 +43,7 @@ MobaXterm 提供了对 WSL 的直接支持，无需复杂配置。
 
 ---
 
-## WSL 中配置代理（Windows 端运行 Clash）
+## 二、WSL 中配置代理（Windows 端运行 Clash）
 
 还没有代理服务时，先按 [DOVE 注册、购买与安装](DOVE加速器配置与使用技巧.md#一注册购买和安装)在 Windows 跑通客户端。下面是已有 Clash 用户的历史配置；使用 DOVE 时以客户端实际的协议、地址和端口替换，不照搬 `7890`。
 
@@ -72,100 +71,23 @@ unset HTTP_PROXY HTTPS_PROXY ALL_PROXY
 
 ---
 
-## 在 WSL 的 Ubuntu 中安装 Docker
+## 三、先选 Docker 后端，再跑通最小容器
 
-以下保留在 WSL Ubuntu 内安装 Docker Engine 的历史流程，软件源、包名和补全脚本需按所用 Ubuntu 与 Docker 版本核对。命令在自己的 WSL 环境执行；共享集群的安装和权限由管理员管理。
+如果日常在 Windows 上开发，且环境允许安装 Docker Desktop，可启用 WSL 2 后端，并在 Docker Desktop 的 WSL Integration 中选择自己的 Ubuntu 发行版。若要在自己的 Ubuntu 发行版内直接维护 Docker Engine，按 Ubuntu 版本和架构使用官方安装说明。先选定一个后端。已有镜像、容器或卷时，切换前确认数据保存在哪个后端。 [Docker Desktop 的 WSL 2 说明](https://docs.docker.com/desktop/features/wsl/) · [Docker Engine 的 Ubuntu 安装说明](https://docs.docker.com/engine/install/ubuntu/)
 
-### 安装前的准备工作
-
-如果 Ubuntu 自带 Docker，或者此前安装过低版本的 Docker，可以使用下列命令卸载：
+在已经启用集成的 Ubuntu 终端验证：
 
 ```bash
-sudo apt-get remove docker docker-engine docker.io containerd runc
+docker context show
+docker version
+docker run --rm hello-world
 ```
 
-执行以下命令来安装 Docker 依赖：
+`docker version` 应能取得客户端和服务端信息。只有客户端信息时，先查 Docker Desktop 是否运行、当前发行版是否已开启集成，以及 context 指向哪里。直接用 Docker Engine 的环境按本机配置决定是否需要 `sudo`。后文保留了 Engine 路线的 `sudo docker` 示例，Desktop 集成下通常直接使用 `docker`。
 
-```bash
-sudo apt install apt-transport-https ca-certificates curl software-properties-common gnupg lsb-release
-```
+`hello-world` 会拉取镜像并启动一个短容器。服务端已连通却拉取失败时，再检查镜像地址、网络和 Docker 后端的代理设置。终端能下载文件说明的是该终端的网络，Docker 后端下载镜像时可能用另一份配置。
 
-执行以下命令来添加 Docker 阿里镜像的 GPG 密钥：
-
-```bash
-curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-```
-
-然后添加阿里的 apt 源：
-
-```text
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-```
-
-然后更新源：
-
-```bash
-sudo apt update
-sudo apt-get update
-```
-
-### 安装 Docker
-
-使用下列命令安装最新版本的 Docker：
-
-```bash
-sudo apt install docker-ce docker-ce-cli containerd.io
-```
-
-安装完成后，使用 `sudo docker version` 命令查看 Docker 版本，
-`sudo systemctl status docker` 命令查看 Docker 运行状态。
-
-然后安装 Docker 命令补全工具：
-
-```bash
-sudo apt-get install bash-completion
-sudo curl -L https://raw.githubusercontent.com/docker/docker-ce/master/components/cli/contrib/completion/bash/docker -o /etc/bash_completion.d/docker.sh
-source /etc/bash_completion.d/docker.sh
-```
-
-当我们安装好了 Docker 之后，需要在 docker 命令前加上 sudo 来执行 docker 命令，例如 `sudo docker ps`。
-或者先使用 `sudo -i` 切换至 root 用户，再执行 docker 命令。
-
-在自行管理的 Linux 环境中，管理员可按访问策略授权 Docker 组，下面保留相应命令。共享集群用户应使用管理员提供的运行方式，不自行改组或系统服务：
-
-```bash
-sudo groupadd docker # 创建 docker 用户组, 注意：Docker 安装后通常会自动创建此组，重复执行可能报错
-sudo usermod -aG docker $USER # 将当前用户添加到 docker 组
-newgrp docker # 切换当前会话的组到 docker，实际是启动一个新的子 Shell
-docker ps -a # 验证用户是否有权限执行 docker 命令，成功列出容器即表示配置正确。
-```
-
-需要镜像加速时，先确认服务当前可用性与信任范围。下面保留历史配置示例，地址不能直接视为当前可用：
-使用 `sudo vim /etc/docker/daemon.json` 命令编辑配置文件如下：
-
-```json
-{
-  "registry-mirrors": [
-    "https://docker.m.daocloud.io",
-	"https://hub-mirror.c.163.com",
-	"https://dockerproxy.com"
-  ]
-}
-```
-
-然后重启 Docker 服务：
-
-```bash
-sudo service docker restart
-```
-
-使用 `docker info` 查看 Docker 信息。
-
-使用 `docker info | grep -A3 "Registry Mirrors"` 查看镜像是否配置成功。
-
----
-
-## 搜索 Docker 镜像
+## 四、搜索 Docker 镜像
 
 我们可以从叫做 [Docker hub](https://hub.docker.com/) 的 Docker 官方库获得镜像，或者我们也可以制作自己的镜像。
 
@@ -177,7 +99,7 @@ sudo docker search ubuntu
 
 ---
 
-## 下载 Docker 镜像
+## 五、下载 Docker 镜像
 
 使用 `docker pull` 命令下载 Docker 镜像，例如：
 
@@ -197,7 +119,7 @@ ubuntu       20.04     b7bab04fd9aa   6 weeks ago   72.8MB
 
 ---
 
-## 运行 Docker 容器
+## 六、运行 Docker 容器
 
 基于 Docker 镜像的标签（TAG）或者 ID（Image ID），我们可以使用 `docker run` 命令​​创建并启动指定一个新的容器，例如：
 
@@ -241,7 +163,7 @@ sudo docker kill 2105f3ec080a # 强制关闭，谨慎使用
 
 ---
 
-## 构建自定义 Docker 镜像
+## 七、构建自定义 Docker 镜像
 
 我们可以创建自定义的 Docker 镜像，避免不同系统、软件间的环境冲突。
 

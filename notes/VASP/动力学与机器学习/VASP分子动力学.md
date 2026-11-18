@@ -2,9 +2,9 @@
 
 **适用环境：Windows、macOS、Linux（准备输入与分析）；Linux + PBS（VASP）。**
 
-AIMD 在每个时间步求电子结构与原子受力，再推进原子运动。本例用两个硅原子、固定晶胞和短程 Nosé–Hoover NVT 轨迹，学习输入、提交和输出检查。
+几何优化只给出附近的稳定构型。想看有限温度下原子怎样运动，可以让 VASP 在每个时间步求电子态与受力，再更新坐标。这里用两个硅原子的固定晶胞跑六步 Nosé–Hoover NVT，先确认逐步输出，再把相同的检查用到生产轨迹。
 
-## 输入与 PBS 提交
+## 一、在固定晶胞里跑通六个时间步
 
 案例提供 [POSCAR](../../../examples/vasp/minimal/molecular-dynamics/POSCAR)、[INCAR](../../../examples/vasp/minimal/molecular-dynamics/INCAR)、[KPOINTS](../../../examples/vasp/minimal/molecular-dynamics/KPOINTS)、[POTCAR.spec](../../../examples/vasp/minimal/molecular-dynamics/POTCAR.spec)、[job.pbs](../../../examples/vasp/minimal/molecular-dynamics/job.pbs) 和 [postprocess.py](../../../examples/vasp/minimal/molecular-dynamics/postprocess.py)。
 
@@ -23,11 +23,11 @@ ISYM = 0
 
 `IBRION=0` 开启 MD，`POTIM` 此时是以 fs 为单位的时间步长。`MDALGO=2` 使用 Nosé–Hoover 热浴，`SMASS` 控制其质量相关设置，不能仅凭设定温度就认定轨迹已平衡；参数定义见 [MDALGO](https://vasp.at/wiki/MDALGO) 和 [SMASS](https://vasp.at/wiki/SMASS)。
 
-本例只有 6 帧，用于检查程序与后处理，不足以估算平衡温度、扩散系数或材料热稳定性。正式 AIMD 应选择足够大的超胞，先平衡再采样，并通过短程测试选择时间步长和电子精度。
+本例执行 6 个 1 fs 的积分步，保存 6 帧，用于检查程序与后处理，不足以估算平衡温度、扩散系数或材料热稳定性。正式 AIMD 应选择足够大的超胞，先平衡再采样，并通过短程测试选择时间步长和电子精度。
 
-## 查看轨迹与能量
+## 二、按步号核对坐标、温度和能量
 
-`XDATCAR` 保存位置轨迹，可用 VMD 等工具检查运动和周期边界；`OSZICAR` 包含每步温度、能量与动能。后处理检查电子收敛和设定步数，再由 [plot.py](../../../examples/vasp/minimal/molecular-dynamics/plot.py) 绘图。
+`XDATCAR` 保存位置轨迹，可用 VMD 等工具检查运动和周期边界；`OSZICAR` 包含每步温度、能量与动能。若后续改变了轨迹写出频率，需按实际步号匹配两个文件，再检查拼接处有无重复或缺步。案例后处理检查电子收敛和设定步数，再由 [plot.py](../../../examples/vasp/minimal/molecular-dynamics/plot.py) 绘图。
 
 ![硅的短程 NVT 温度与扩展体系能量变化](../assets/si-aimd.png)
 

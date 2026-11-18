@@ -2,24 +2,17 @@
 
 **适用环境：Linux + PBS 运行计算；Windows / macOS / Linux 可准备结构与分析结果。**
 
-几何优化沿受力调整原子位置。优化结束后，检查受力是否达到阈值，并核对最终结构；程序正常退出还不足以判断结构收敛。
+键长 1 Å 的 H₂ 在单点计算里仍有受力。现在放开坐标，让优化器沿受力更新结构。这里复用同一电子模型，所以可以把末态的键长变化与受力下降放在一起看。
 
 本例以键长 1 Å 的 H₂ 为起点，沿用[单点案例](OpenMX单点能与受力.md)的 PBE、PAO 和赝势，将 `MD.Type` 改为 `Opt`。最多允许 80 个原子步，目标最大力为 1e−4 Hartree/bohr。两原子模型便于观察键长变化，并核对两端方向相反的受力。
 
-## 运行 H₂ 优化
+## 一、运行 H₂ 优化
 
-[最小案例](../../../examples/openmx/minimal/geometry-optimization)包含：
-
-- [system.dat](../../../examples/openmx/minimal/geometry-optimization/system.dat)
-- [structure.xyz](../../../examples/openmx/minimal/geometry-optimization/structure.xyz)
-- [run.py](../../../examples/openmx/minimal/geometry-optimization/run.py)：组织计算步骤。
-- [job.pbs](../../../examples/openmx/minimal/geometry-optimization/job.pbs)：单节点 PBS 作业。
-- [postprocess.py](../../../examples/openmx/minimal/geometry-optimization/postprocess.py)：检查并提取结果。
-- [requirements.txt](../../../examples/openmx/minimal/geometry-optimization/requirements.txt)：Python 分析依赖。
+在[案例目录](../../../examples/openmx/minimal/geometry-optimization/README.md)中，OpenMX 读取 [system.dat](../../../examples/openmx/minimal/geometry-optimization/system.dat) 里的坐标与计算设置。[structure.xyz](../../../examples/openmx/minimal/geometry-optimization/structure.xyz) 供查看几何，[run.py](../../../examples/openmx/minimal/geometry-optimization/run.py) 负责生成实际运行的输入。
 
 在集群加载 OpenMX，并将 `OPENMX_DATA` 设为安装中的 `DFT_DATA19` 目录；其中应包含所选 PAO 和 VPS。势与基组由安装提供，案例不附带这些数据。`run.py` 将输入中的 `@DATA_PATH@` 替换为该目录，生成 `runtime.dat`；结构和电子参数均来自 `system.dat`。
 
-在案例目录安装 Python 依赖并提交：
+在案例目录安装 [Python 依赖](../../../examples/openmx/minimal/geometry-optimization/requirements.txt)并提交 [job.pbs](../../../examples/openmx/minimal/geometry-optimization/job.pbs)：
 
 ```bash
 python3 -m pip install -r requirements.txt
@@ -28,7 +21,7 @@ qsub job.pbs
 
 作业结束后会自动执行后处理。重新分析已有输出时，可单独运行 `python3 postprocess.py`。PBS 中的软件加载方式与资源语法按集群配置调整；此例不需要多节点。
 
-## 哪些设置控制优化精度
+## 二、哪些设置控制优化精度
 
 | 设置 | 怎样理解 |
 | --- | --- |
@@ -39,15 +32,13 @@ qsub job.pbs
 
 周期材料还需决定是否优化晶胞；固定晶胞原子优化与零压力晶格优化不是同一任务。
 
-## 根据受力判断是否收敛
+## 三、根据受力判断是否收敛
 
-本例约 8 个原子步完成，最终 H—H 距离约 0.75556 Å，最大力约 2.45×10⁻⁵ Hartree/bohr，已低于设定阈值。后处理从最终 `coordinates.forces` 块核对坐标和力，并绘制各步相对于最终值的能量。
+本例约 8 个原子步完成，最终 H—H 距离约 0.75556 Å，最大力约 2.45×10⁻⁵ Hartree/bohr，已低于设定阈值。[后处理脚本](../../../examples/openmx/minimal/geometry-optimization/postprocess.py)从 `system.out` 的最后一个 `coordinates.forces` 块读取两个原子的坐标与力，用坐标差的模得到键长，并取两个原子力矢量模的最大值。图的纵轴以末步总能为零点。
 
 优化能量不必每一步严格单调；但持续振荡、位移异常或力不下降时，应检查 SCF、坏接触和优化参数。结构续算需要明确最后有效结构，`scf.restart on` 不能代替几何状态恢复。
 
 ![OpenMX几何优化结果](../assets/geometry-optimization.png)
-
-图由案例的 `postprocess.py` 从计算输出生成。
 
 图中后期微小能量波动不影响本例达到受力阈值。若研究振动或很小的能量差，需要进一步测试基组、网格与几何精度。
 

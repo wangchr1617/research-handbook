@@ -2,7 +2,9 @@
 
 **适用环境：通用；代码为 Python 3.12、FastAPI、Pydantic 2。命令在本机终端执行。**
 
-## 从资源和操作开始
+用 Demo 统计一份研究笔记时，客户端先上传附件，再提交任务并等待结果。三个标识各有用途：会话 ID 指定任务归属，附件上传回执中的 `id` 要填入任务的 `attachment_id`，提交回执中的 `id` 则用来查 run 和订阅事件。 [完整请求练习](../../../examples/backend/agent-demo/请求与恢复实操.md)
+
+## 一、从请求方法判断接口动作
 
 HTTP 请求由方法、路径、请求头和可选请求体组成，响应包含状态码、响应头和响应体。把“会话”“消息”“执行任务”建模为资源，比为每个页面设计一个随意命名的接口更容易扩展。
 
@@ -32,7 +34,7 @@ HTTP 请求由方法、路径、请求头和可选请求体组成，响应包含
 | 429 | 请求或预算超过限额 |
 | 500 / 503 | 内部错误／依赖或服务暂不可用 |
 
-## 参数从哪里来
+## 二、一条请求的参数各放在哪里
 
 - 路径参数标识资源，例如 `/conversations/{conversation_id}`。
 - 查询参数控制筛选、排序和分页，例如 `?before=120&limit=50`。
@@ -42,7 +44,7 @@ HTTP 请求由方法、路径、请求头和可选请求体组成，响应包含
 
 FastAPI 可根据类型注解区分这些位置，参考[请求体](https://fastapi.tiangolo.com/tutorial/body/)与[文件上传](https://fastapi.tiangolo.com/tutorial/request-files/)。
 
-## 用 Pydantic 约束输入
+### 用 Pydantic 练习字段校验
 
 下面是参照 Archeos `schemas.py` 的输入模型风格写成的独立教学片段：
 
@@ -78,7 +80,7 @@ def page(limit: Annotated[int, Query(ge=1, le=100)] = 20):
 
 Pydantic 2 常用入口是 `model_validate()`、`model_dump()`、`field_validator`，并通过 `ConfigDict` 配置。默认允许的类型转换与严格校验不同，见 [Pydantic 模型](https://docs.pydantic.dev/latest/concepts/models/)和[严格模式](https://docs.pydantic.dev/latest/concepts/strict_mode/)。参数格式正确之后，还需要检查用户权限、资源归属与数据库约束。
 
-## 拆开看一条真实的任务请求
+## 三、用两份任务输入分辨接收成功和 422
 
 [run-normal.json](../../../inputs/backend/run-normal.json) 是可直接提交给 Demo 的输入：
 
@@ -172,21 +174,23 @@ class Credentials(Input):
 
 响应中的 `UserView` 只返回允许公开的字段；哈希、令牌加密字段和内部权限对象不能因为“都是 ORM 字段”就一起序列化。为接口声明 `response_model` 还能让 OpenAPI 表达响应约定，并在服务端发现输出不符合模型的问题。
 
-## 设计可长期使用的接口
+## 四、提交成功后，怎样查询或续看任务
 
 响应模型与输入模型分开：不要直接返回含 `password_hash` 的 ORM 对象。返回稳定的错误码和 `request_id`，把堆栈留在服务日志。时间统一使用带时区的 UTC 时间，或明确约定 Unix 秒；文件大小注明字节，超时注明秒。
+
+POST 返回 202 后，用响应体的 `id` 请求 `GET /api/runs/{run_id}`，核对 `status`、`attempt` 和 `error_code`。订阅 `GET /api/runs/{run_id}/events` 时记下最后处理的事件 ID；Demo 续订使用查询参数 `?after=事件ID`。若事件流断开，先查原任务或从游标续读。 [Demo 路由实现](../../../examples/backend/agent-demo/demo/main.py)
 
 列表必须有上限和稳定排序。消息可以按递增 `id` 做游标：先取 `id < before` 的最新 50 条，再反转为时间正序。按时间分页时应同时携带 `(created_at, id)`，避免时间相同的记录被跳过。Demo 会话列表使用简化的时间游标，完整分页应升级为双字段游标。
 
 客户端重试 POST 时复用同一个 `client_key`。服务端在 `(conversation_id, client_key)` 上加唯一约束，并核对输入内容：相同键、相同输入返回原任务；相同键、不同输入返回 `409`。前端按钮禁用只能减少误点，数据库约束才能处理真正的并发竞争。
 
-## 文件上传的检查
+## 五、附件怎样进入同一个任务
 
 配套 Demo 的 `demo/main.py::upload` 接收 `UploadFile`，验证会话归属，只允许 `.txt`、`.md` 和 UTF-8 文本，最多读取 65,537 字节后判定是否超过 64 KiB。小附件存数据库，原始文件名只用于展示。
 
 更大的文件使用对象存储和服务端生成的文件标识；下载也需要授权。扩展名与 `Content-Type` 都不能单独证明内容安全。入口代理还应限制完整请求体，避免 multipart 解析阶段先耗尽磁盘或内存；压缩包需要限制展开大小、文件数量和路径。具体策略见[权限与安全](用户认证权限与Agent安全.md)。
 
-## 顺着上传函数检查每一道边界
+### 顺着上传函数定位拒绝原因
 
 下面是 [Demo upload](../../../examples/backend/agent-demo/demo/main.py) 的完整实现；它接收的表单字段名是 `file`：
 
@@ -214,7 +218,7 @@ def upload(conversation_id: str, user: CurrentUser, file: Annotated[UploadFile, 
         return {"id": item.id, "filename": item.filename, "bytes": len(data)}
 ```
 
-先校验所属会话，再检查展示文件名；`read(limit + 1)` 可以区分“刚好到上限”和“已经超限”，不需要无限制读取。UTF-8 解码和 NUL 检查拒绝部分非文本内容，但不保证将来的 PDF／Office 解析器安全。附件在数据库中与会话绑定，提交任务时还会再次验证附件属于当前会话。
+先校验所属会话，再检查展示文件名；`read(limit + 1)` 可以区分“刚好到上限”和“已经超限”，不需要无限制读取。UTF-8 解码和 NUL 检查拒绝部分非文本内容，但不保证将来的 PDF／Office 解析器安全。上传成功后，从 201 响应取 `id`，填到同一会话下的任务 JSON 中。能通过 32 位十六进制格式校验，只说明字段形状正确。任务提交还会检查这条附件记录是否存在并属于该会话。
 
 | 具体输入 | 结果 | 由哪一步决定 |
 | --- | --- | --- |

@@ -2,9 +2,9 @@
 
 **适用环境：Windows、macOS、Linux（查看和准备输入）；Linux + PBS（提交计算）。**
 
-晶胞优化同时考虑原子受力与应力，用于求给定外压下的平衡晶格。这里使用 8 原子的金刚石型硅常规胞，演示从输入到 PBS 提交的完整流程。
+在 8 原子的硅常规胞中，原子受力很小之后，晶格仍可能带有残余压力。若目标是零外压下的晶格参数，应让晶胞参与优化，并同时验收原子力与压力。下面从初始边长 5.43 Å 的硅案例说明怎么设自由度、怎么看末态。
 
-## 准备与提交
+## 一、让硅晶胞在目标外压下调整
 
 案例包括 [structure.xyz](../../../examples/cp2k/minimal/cell-optimization/structure.xyz)、[cp2k.inp](../../../examples/cp2k/minimal/cell-optimization/cp2k.inp)、[job.pbs](../../../examples/cp2k/minimal/cell-optimization/job.pbs) 和[检查脚本](../../../examples/cp2k/minimal/cell-optimization/postprocess.py)。Multiwfn 中可选择同时优化结构和晶胞，生成后核对以下设置：
 
@@ -31,17 +31,19 @@
 
 将文件放在集群工作目录，加载 CP2K 环境后执行 `qsub job.pbs`。
 
-## 参数与结果判断
+## 二、核对末态压力、盒形与重启交接
 
 `EXTERNAL_PRESSURE`、`PRESSURE_TOLERANCE` 默认单位为 bar，本例 500 bar 为 0.05 GPa。`KEEP_ANGLES TRUE` 固定晶格夹角，并不自动固定三个边长相等。需要保持立方或其他晶体对称性时，应另外检查相应约束与最后的晶胞。
 
-检查 `CELL OPTIMIZATION COMPLETED`、最终受力与压力偏差，以及 `cell-optimization-FINAL-*.xyz` 中的晶格。晶胞变化会改变网格，应力对基组和网格误差也更敏感；比较不同设置时需观察压力与平衡体积是否稳定。
+检查 `CELL OPTIMIZATION COMPLETED`、最终受力与压力偏差，再从同一末步的重启文件或晶胞输出读取三个晶格矢量。最终 XYZ 可以核对坐标，但普通 XYZ 本身无法提供晶格。晶胞变化会改变网格，应力对基组和网格误差也更敏感；比较不同设置时需观察压力与平衡体积是否稳定。
 
 CP2K 2026.2 已不接受旧输入中的 `CELL_OPT/TYPE`，晶胞优化采用直接优化方案，不应照抄旧版 `TYPE GEO_OPT`。晶胞向量约定及约束含义见 [CELL_OPT 手册](https://manual.cp2k.org/trunk/CP2K_INPUT/MOTION/CELL_OPT.html)。
 
 在 Alkemie 中，用「晶胞优化」组件设置三维 Monkhorst–Pack 网格。下游组件可按自身任务设置网格。若接单点能检查交接，可核对 `optimized.restart` 来自上游的 `alkemie-1.restart`，并确认下游输入在 `EXT_RESTART` 中同时启用 `RESTART_CELL TRUE` 和 `RESTART_POS TRUE`。这样后续计算使用优化后的晶格和坐标。
 
-查看过程时保留每一帧对应的晶胞。普通 XYZ 轨迹不含晶胞，不能用最终晶胞或查看器生成的包围盒解释全部优化步骤；可按[可视化教程](../基础与准备/CP2K结果文件与可视化.md#变胞与动力学要保留逐帧晶胞)选择携带晶胞的格式。
+若只想比较固定晶胞内的内部坐标松弛，可对照[水分子几何优化](CP2K几何优化.md)理解 `GEO_OPT` 的验收逻辑。对硅变胞算例，还要额外核对最终晶胞的三个长度和压力是否满足模型与阈值。
+
+查看过程时保留每一帧对应的晶胞。普通 XYZ 轨迹不含晶胞，不能用最终晶胞或查看器生成的包围盒解释全部优化步骤；可按[可视化教程](../基础与准备/CP2K结果文件与可视化.md#四变胞与动力学要保留逐帧晶胞)选择携带晶胞的格式。
 
 ![八原子硅晶胞优化的实际能量评估轨迹。Γ 点小算例用于检查流程，晶格参数仍需基组、网格与 k 点收敛测试。](../assets/si-cell-energy.png)
 

@@ -2,9 +2,9 @@
 
 **适用环境：Windows、macOS、Linux（查看输入与绘图）；Linux + PBS（VASP、Phonopy 或频率计算）。**
 
-用有限位移法计算声子谱，可以将任务分成三步：Phonopy 生成位移超胞，VASP 计算受力，Phonopy 根据力常数求声子色散。这里使用两个原子的硅原胞和 $2\times2\times2$ 超胞。
+硅原胞在 Γ 点没有异常，声学支离开 Γ 后是否也稳定？要看整个色散，先用位移超胞求出原子间力常数，再在原胞倒空间的不同 q 点求频率。仓库案例从两个原子的硅原胞扩成 16 原子超胞，用一对正负位移走通这个流程。
 
-## 准备输入并提交 PBS
+## 一、准备输入并提交 PBS
 
 案例包括[原胞 POSCAR](../../../examples/vasp/minimal/phonon-dispersion/POSCAR)、[正位移结构](../../../examples/vasp/minimal/phonon-dispersion/POSCAR-001)、[负位移结构](../../../examples/vasp/minimal/phonon-dispersion/POSCAR-002)、[INCAR](../../../examples/vasp/minimal/phonon-dispersion/INCAR)、[KPOINTS](../../../examples/vasp/minimal/phonon-dispersion/KPOINTS)、[job.pbs](../../../examples/vasp/minimal/phonon-dispersion/job.pbs) 和[工作流脚本](../../../examples/vasp/minimal/phonon-dispersion/run.py)。
 
@@ -16,7 +16,7 @@ qsub job.pbs
 
 作业脚本生成两份 16 原子位移结构，分别写入 `disp-001/`、`disp-002/` 并进行静态受力计算。电子设置为 `ENCUT=450 eV`、`EDIFF=1E-8`、超胞 $3\times3\times3$ Γ 中心网格。位移结构不能再做离子优化，否则会失去所需的位移与受力关系。
 
-## Phonopy 实际做了什么
+## 二、把位移和受力一一配对
 
 [run.py](../../../examples/vasp/minimal/phonon-dispersion/run.py) 调用以下命令，位移幅度单位为 Å：
 
@@ -24,7 +24,7 @@ qsub job.pbs
 phonopy-init -d --dim 2 2 2 --amplitude 0.01 --pm
 ```
 
-`--pm` 为正负位移。Phonopy 利用对称性减少独立任务，并生成 `phonopy_disp.yaml`。对称性或结构改变时，不能沿用旧的位移编号与受力文件。
+`--pm` 为正负位移。Phonopy 利用对称性减少独立任务，并生成 `phonopy_disp.yaml`。提取受力时，两个 XML 的顺序应与这份 YAML 的位移顺序一致。若更换模型或对称性后需要更多位移，应按新生成的清单逐项计算与收集。
 
 计算结束后，[postprocess.py](../../../examples/vasp/minimal/phonon-dispersion/postprocess.py) 收集两份 `vasprun.xml`：
 
@@ -34,9 +34,9 @@ phonopy --config band.conf
 phonopy --config thermal.conf
 ```
 
-[band.conf](../../../examples/vasp/minimal/phonon-dispersion/band.conf) 给出原胞的高对称 q 路径；[thermal.conf](../../../examples/vasp/minimal/phonon-dispersion/thermal.conf) 给出用于热力学积分的 q 网格。本例按 Phonopy 4.x 的命令组织，接口说明见[官方 VASP 工作流](https://phonopy.github.io/phonopy/vasp.html)。
+[band.conf](../../../examples/vasp/minimal/phonon-dispersion/band.conf) 给出原胞的高对称 q 路径；[thermal.conf](../../../examples/vasp/minimal/phonon-dispersion/thermal.conf) 给出用于热力学积分的 $8\times8\times8$ q 网格。增加路径采样只会加密色散曲线，热容等积分量还要单独收敛规则 q 网格。本例按 Phonopy 4.x 的命令组织，接口说明见[官方 VASP 工作流](https://phonopy.github.io/phonopy/vasp.html)。
 
-## 怎么判断结果
+## 三、先检查 Γ 点，再看整条色散
 
 `band.yaml` 保存路径上的频率；使用 Phonopy 绘图工具或其他支持该格式的软件查看色散。硅原胞有两个原子，共六支声子，其中三支声学支在 Γ 点应接近零。输出的微小负数需结合量级判断；明显的负频率要检查相应模式、结构稳定性和数值收敛。
 
@@ -44,19 +44,17 @@ phonopy --config thermal.conf
 
 只想学习 Γ 点频率时，可用更小的 [VASP 内置有限差分](VASP有限差分振动频率.md)或 [DFPT 案例](VASP密度泛函微扰振动频率.md)。原胞 Γ 点的动力学矩阵只描述该点的振动，不能替代完整布里渊区的声子谱。
 
-## 结果图
+## 四、结果图
 
 后处理会调用 [plot.py](../../../examples/vasp/minimal/phonon-dispersion/plot.py) 绘图。已有提取数据时，在结果目录单独执行 `python3 plot.py` 即可重画，无需重算 VASP；绘图依赖见 [requirements.txt](../../../examples/vasp/minimal/phonon-dispersion/requirements.txt)。
 
 ![硅的简谐声子色散；2×2×2 超胞、正负 0.01 Å 位移、超胞 3×3×3 电子 k 网格。](../assets/si-phonons.png)
 
-硅的简谐声子色散；2×2×2 超胞、正负 0.01 Å 位移、超胞 3×3×3 电子 k 网格。
-
-## 极性晶体的长程电场修正
+## 五、极性晶体的长程电场修正
 
 对极性绝缘晶体，Γ 附近的集体离子位移可产生宏观电场，普通有限超胞力常数还需配合非解析修正描述相应长波行为，包括 LO–TO 分裂。
 
-所需输入为与同一结构、方法和原子顺序相容的完整 Born 有效电荷张量及离子固定的电子介电张量 $\epsilon_\infty$，不是含离子响应的总静态介电常数，也不是 Bader 电荷。定义见[响应电荷](../../计算化学/原子电荷、片段电荷与方法选择.md#响应电荷gapt-与-born-有效电荷)。
+所需输入为与同一结构、方法和原子顺序相容的完整 Born 有效电荷张量及离子固定的电子介电张量 $\epsilon_\infty$，不是含离子响应的总静态介电常数，也不是 Bader 电荷。定义见[响应电荷](../../计算化学/原子电荷、片段电荷与方法选择.md#八响应电荷gapt-与-born-有效电荷)。
 
 VASP 可按所用泛函的支持选择 `LEPSILON` 的 DFPT 或 `LCALCEPS` 的有限电场路线，具体限制和局域场设置见 [LEPSILON](https://vasp.at/wiki/LEPSILON)与[Born 张量说明](https://vasp.at/wiki/Born_effective_charges)。将响应数据交给 Phonopy 前，核对原胞选择、原子映射、单位和张量指标顺序；非解析项还取决于 q 趋近 Γ 的方向，见[Phonopy 公式](https://phonopy.github.io/phonopy/formulation.html#non-analytical-term-correction)。
 

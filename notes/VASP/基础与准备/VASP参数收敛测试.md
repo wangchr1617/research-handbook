@@ -2,9 +2,9 @@
 
 **适用环境：Linux（PBS 计算）；Windows / macOS / Linux（准备输入、分析与绘图）。**
 
-先确定需要收敛的量：相对能量、受力、应力、能隙或其他目标性质。总能量的每原子差达到阈值，不自动代表其他性质也收敛。下面以硅的固定结构为例，分别测试平面波截断能和 k 网格。
+硅单点跑通后，先决定下一步需要多准。若要比较两个构型的相对能，就检查相对能能否随参数稳定；若要优化晶胞，就把压力和应力也列入检查。下面沿仓库的硅原胞案例固定结构，先把截断能和 k 网格分别扫一遍，再用图判断是否值得加密。
 
-## 单变量扫描
+## 一、用七组计算分开扫描两个参数
 
 [最小案例](../../../examples/vasp/minimal/parameter-convergence)包含：
 
@@ -17,13 +17,13 @@
 | [job.pbs](../../../examples/vasp/minimal/parameter-convergence/job.pbs) | PBS 入口 |
 | [postprocess.py](../../../examples/vasp/minimal/parameter-convergence/postprocess.py)、[plot.py](../../../examples/vasp/minimal/parameter-convergence/plot.py) | 收敛检查与绘图 |
 
-脚本在 `7³` k 网格下测试 `350、450、550 eV`，在 `ENCUT=450 eV` 下测试 `5³、7³、9³、11³、13³` 网格，共七个不同组合。准备授权 Si 势并加载 Python 依赖后，执行 `qsub job.pbs`；已有输出时执行 `python3 postprocess.py` 即可重绘。
+脚本在 `7³` k 网格下测试 `350、450、550 eV`，在 `ENCUT=450 eV` 下测试 `5³、7³、9³、11³、13³` 网格，两条扫描共享 `450 eV / 7³`，因此只需七组计算。准备授权 Si 势并加载 Python 依赖后，执行 `qsub job.pbs`；已有输出时执行 `python3 postprocess.py` 即可重绘。
 
 `ENCUT` 的单位为 eV，可从所用势的 `ENMAX` 附近建立测试范围，但 `ENMAX` 不是所有目标性质的收敛证明。[官方 ENCUT 说明](https://vasp.at/wiki/index.php/ENCUT)强调应检查目标量并显式统一截断能。
 
 k 网格可由 VASPKIT 生成，也可使用 `KSPACING` 自动生成。后者在没有 KPOINTS 文件时生效，单位为 Å⁻¹；不要在保留 KPOINTS 时以为修改 `KSPACING` 就改变了采样。不同工具的间距定义还需核对 $2\pi$ 因子和网格取整方式，最终比较实际网格。参见 [KSPACING 说明](https://vasp.at/wiki/index.php/KSPACING)。
 
-## 结果与判断
+## 二、用扫描尾端的差值决定下一次计算
 
 ![硅的截断能与 k 网格收敛扫描](../assets/si-convergence.png)
 
@@ -32,7 +32,7 @@ k 网格可由 VASPKIT 生成，也可使用 `KSPACING` 自动生成。后者在
 - `450 → 550 eV`：约 `0.0053 meV/atom`，固定 `7³` k 网格。
 - `11³ → 13³`：约 `0.1291 meV/atom`，固定 `450 eV` 截断能。
 
-二者均小于本例的 `1 meV/atom` 阈值，阈值和扫描范围可在脚本开头调整。
+二者均小于本例的 `1 meV/atom` 阈值。若想采用 `450 eV / 11³`，可以在这个组合上复核目标量，并用 `550 eV / 13³` 做一次联合加密，检查两项同时提高后差别是否仍可接受。现有扫描包含前者，后者需另算。
 
 能否找到第一对接近的点就停止？还不够。应看连续多个点的变化，排除偶然抵消；截断与 k 网格分别稳定后，再在拟采用的组合上复核目标量。
 

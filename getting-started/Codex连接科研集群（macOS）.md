@@ -6,7 +6,7 @@
 
 下文地址、账号和端口均为示例，请替换成自己的配置。实际连接信息保存在本机，密码和私钥不要放进共享仓库。
 
-## 配置 SSH
+## 一、配置 SSH
 
 需要校园 VPN 时，先用学校提供的客户端（如 EasyConnect）登录。确认 VPN 已连接，再配置 SSH。
 
@@ -45,7 +45,7 @@ chmod 600 "$HOME/.ssh/config" "$HOME/.ssh/id_ed25519_lab"
 /usr/bin/ssh-add --apple-use-keychain "$HOME/.ssh/id_ed25519_lab"
 ```
 
-## 验证连接
+## 二、验证连接
 
 先检查配置，再交互登录：
 
@@ -62,9 +62,9 @@ ssh lab-cluster
 ssh -n -o BatchMode=yes -o ConnectTimeout=5 lab-cluster 'id -un; hostname'
 ```
 
-直接返回预期结果后，再让 Codex 使用同一命令。`BatchMode=yes` 禁止密码提示，`-n` 避免读取标准输入；免交互依靠已解锁的密钥，不要求私钥没有口令。
+直接返回预期账号和主机后，再让 Codex 使用同一命令。若 `ssh -G` 能展开配置却连不上，先核对 VPN、地址和端口。若交互连接成功而 BatchMode 失败，再检查已解锁的密钥和 SSH agent。`BatchMode=yes` 禁止密码提示，`-n` 避免读取标准输入；免交互依靠已解锁的密钥，不要求私钥没有口令。
 
-## 在 Codex 中操作
+## 三、在 Codex 中操作
 
 可以先给 Codex 一个只读任务：
 
@@ -77,7 +77,7 @@ ssh -n -o BatchMode=yes -o ConnectTimeout=5 lab-cluster 'id -un; hostname'
 
 将实际工作目录、PBS 命令路径和可用队列记在仓库外的私人速查中，供后续任务读取。
 
-## 提交作业与下载结果
+## 四、提交作业与下载结果
 
 计算和耗资源的后处理通过 PBS 执行，参考 [PBS 模板](../inputs/pbs/README.md)。以下命令在 Mac 运行，替换账号、PBS 路径和项目目录：
 
@@ -96,15 +96,15 @@ scp -r lab-cluster:/absolute/path/to/project/results/. \
   "$HOME/Downloads/project-results/"
 ```
 
-记录提交返回的作业 ID。连接中断后，先查作业和日志再决定是否重试，避免重复提交。作业从队列消失后，还需检查退出状态、程序完成标记和预期输出。
+把实际工作目录、提交返回的作业 ID 和预期输出名称记在同一条记录。后续查询沿用原作业 ID。连接中断后，先查作业和日志再决定是否重试，避免重复提交。作业从队列消失后，还需检查退出状态、程序完成标记和预期输出。
 
-## VPN 与定时监测
+## 五、VPN 与定时监测
 
 同一 VPN 账号在多设备间会互相挤下线时，约定按需切换设备。独立的 PBS 批处理作业提交后，通常可以断开 VPN；查询和下载时再连接。
 
 定时监测需要 Mac 保持唤醒、Codex 与模型服务可用、VPN 在线、SSH 免交互。重启或锁屏后应重新检查。VPN 自动登录依赖桌面状态，遇到验证码或二次验证交由本人处理；不要让定时任务反复抢占另一台设备的 VPN 会话。
 
-## 可选：远端使用本机代理
+## 六、可选：远端使用本机代理
 
 只有远端程序需要外网、且集群允许转发时才建立隧道。DOVE 等客户端的 HTTP 代理假设监听本机 `127.0.0.1:7890`，远端端口用 `18080` 举例：
 
@@ -127,7 +127,7 @@ curl -I --connect-timeout 5 --max-time 15 https://example.com
 
 用完后在远端执行 `unset HTTP_PROXY HTTPS_PROXY http_proxy https_proxy`，再在隧道终端按 `Ctrl+C`。核对远端端口只监听回环地址；端口冲突时换端口，不终止他人的会话。Mac 休眠、VPN 断开或代理退出都会使隧道不可用。转发参数见 [OpenSSH 手册](https://man.openbsd.org/ssh)。
 
-## 常见问题
+## 七、常见问题
 
 | 现象 | 检查方向 |
 | --- | --- |

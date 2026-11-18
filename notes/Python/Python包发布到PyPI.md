@@ -2,11 +2,9 @@
 
 **适用环境：Windows（PowerShell）、macOS / Linux（终端）；Python 3.10 及以上。**
 
-脚本被多个项目重复使用时，可以整理成包。以我此前的 [altbc_analyzer](https://github.com/wangchr1617/altbc_analyzer) 项目思路为例，这里用一个更小的演示包说明目录、构建、安装和发布流程。
+当几套分析脚本都要把总能量换算成每原子能量，可以把函数放进同一个小包，让每个项目明确安装哪个版本。本文沿用[脚本运行篇的 GeTe 换算函数](Python基础与脚本运行.md)，把它放进一个可安装的 wheel，再从空环境验证。组内共享可以先分发 wheel；需要让外部读者用包名安装时，再走 PyPI 发布流程。这个例子借鉴了 [altbc_analyzer](https://github.com/wangchr1617/altbc_analyzer) 的组织思路。
 
-先在本机把包构建、安装并测试好，再考虑上传。普通后处理脚本不必为了使用而发布到 PyPI。
-
-## 一、准备项目目录
+## 一、把 GeTe 换算函数放进可安装的包
 
 在新的练习目录中准备：
 
@@ -31,7 +29,7 @@ def energy_per_atom(energy_ev, atoms):
     return energy_ev / atoms
 ```
 
-## 二、描述构建方式和元数据
+## 二、写清安装名、导入名与运行依赖
 
 `pyproject.toml` 示例：
 
@@ -62,9 +60,9 @@ Convert total energy in eV to energy per atom.
 Use `from gete_analysis_demo import energy_per_atom` after installation.
 ```
 
-对外分发前补齐作者、来源和许可证；使用了他人代码时保留其许可要求。依赖写入 `[project]` 的 `dependencies`，不要把整个开发环境的 `pip freeze` 原样塞进运行依赖。
+安装时用的是 `[project].name` 中的发布名 `gete-analysis-demo`，代码里用的是 `src/` 下的导入名 `gete_analysis_demo`。如果换项目名，分别检查这两处和 README 示例是否一致。对外分发前补齐作者、来源和许可证；使用了他人代码时保留其许可要求。依赖写入 `[project]` 的 `dependencies`，不要把整个开发环境的 `pip freeze` 原样塞进运行依赖。
 
-## 三、先本地构建与检查
+## 三、离开源码目录，用 wheel 跑同一个算例
 
 在独立 Python 环境中，进入包含 `pyproject.toml` 的目录：
 
@@ -80,12 +78,12 @@ python -m twine check dist/*
 
 ```bash
 python -m pip install ./dist/gete_analysis_demo-0.1.0-py3-none-any.whl
-python -c "from gete_analysis_demo import energy_per_atom; assert energy_per_atom(-10, 2) == -5"
+python -c "import gete_analysis_demo as demo; print(demo.__file__); assert demo.energy_per_atom(-10.25, 2) == -5.125"
 ```
 
-测试时离开源码目录再导入，避免误把当前目录中的源码当成安装成功。正式项目还应检查资源文件是否进入 wheel、依赖是否完整。
+第一条命令从项目目录安装本次生成的 wheel。执行第二条前切换到项目外的目录，确认打印的路径来自测试环境的 `site-packages`，并且换算仍得到 −5.125 eV/atom。如果原仓库能运行、wheel 装好后却找不到模板或数据文件，直接解开 wheel 查看这些资源是否随包分发，再核对代码找资源的方式。
 
-## 四、测试发布，再正式发布
+## 四、从测试索引装回指定版本，再发正式索引
 
 先在 [TestPyPI](https://test.pypi.org/)注册账号，在账户设置中按平台要求配置验证和 API Token。正式 [PyPI](https://pypi.org/)需要独立账号凭据，测试站的 Token 不能直接用于正式站。
 
@@ -95,7 +93,13 @@ python -m twine upload --repository testpypi dist/*
 
 按 Twine 提示或其支持的凭据存储方式认证，Token 用户名为 `__token__`。不把 Token 写进脚本或提交到 Git；长期自动发布可按平台文档配置 Trusted Publishing。
 
-验证测试站安装时，TestPyPI 不一定具备所有运行依赖，应按项目说明单独准备。`--no-deps` 只适合依赖已确认安装齐全的情况。
+上传成功后，在另一个新环境里从测试索引装回本次版本。下面的包名和版本要换为自己实际上传的值。示例包没有运行依赖，可以跳过依赖解析。若实际项目有依赖，先从信任的正式索引单独装齐。参见 [PyPA 的 TestPyPI 指南](https://packaging.python.org/en/latest/guides/using-testpypi/)。
+
+```bash
+python -m pip install --index-url https://test.pypi.org/simple/ --no-deps gete-analysis-demo==0.1.0
+```
+
+安装后在项目外重复上节的导入路径和数值断言。这样连同索引上的包名、版本和安装产物一起得到验证。
 
 确认包名、版本、内容和许可后，才运行正式发布命令：
 

@@ -2,7 +2,7 @@
 
 **适用环境：macOS、Linux；Windows 可用 OpenSSH / MobaXterm，rsync 示例在 WSL 执行。**
 
-SSH 用于远程登录，SCP、SFTP 或 rsync 用于传输文件。先确认账号和连接，再传一个小文件，最后同步完整计算目录。
+SSH 用于远程登录，SCP、SFTP 或 rsync 用于传输文件。以取回一例计算摘要为例，先确认远端账号和目录，再将输入做一次往返校验。正式下载优先取日志、结果表和图，再按续算或后处理需要决定是否传完整轨迹。
 
 ## 一、准备连接
 
@@ -52,7 +52,7 @@ cmp ./input.inp ./downloaded/input.inp
 rsync -avhn lab-cluster:~/projects/demo/results/ ./results/
 ```
 
-检查列表后再执行去掉 `n` 的命令：
+检查预览中的文件和目录层级。若只需要核对 MgO 状态方程，可先把 `curve.csv`、`results.json` 和 `provenance.json` 下载到独立目录，参照[本机结果检查](../../notes/材料应用/本机运行与结果检查.md)读取。如果确认要同步整个结果目录，再执行：
 
 ```bash
 rsync -avh lab-cluster:~/projects/demo/results/ ./results/

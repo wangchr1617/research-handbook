@@ -6,13 +6,13 @@
 
 ---
 
-## 开始前
+**开始前**
 
 先准备 Windows 管理员权限以安装 WSL，模型客户端日常运行使用普通用户。网络准备见 [DOVE 注册与安装](DOVE加速器配置与使用技巧.md#一注册购买和安装)；下面历史 Clash 配置仅用于已经在用 Clash 的读者，不要求新生另外寻找同名客户端。
 
 Claude Code 安装后仍需模型账号。官方路线从 [Claude](https://claude.ai/)注册并按 [快速开始](https://code.claude.com/docs/en/quickstart)登录；API 路线从 [Anthropic 平台](https://platform.claude.com/)或 [DeepSeek 开放平台](https://platform.deepseek.com/)开通计费、创建 Key。CC Switch 不提供额度。
 
-## 环境信息
+**环境信息**
 
 | 项目 | 值 |
 |---|---|
@@ -147,7 +147,7 @@ proxy_off   # 关闭代理（日常使用、连接集群时）
 - **方式二**：VSCode 左下角点击绿色 `><` 图标，选择 **"连接到 WSL"**
 - **方式三**：`Ctrl+Shift+P` → 输入 `WSL` → 选择 **"Remote-WSL: New Window"**
 
-连接成功后左下角显示 **"WSL: Ubuntu"**，终端自动切换为 WSL 的 bash。
+连接 Ubuntu 后，先看左下角的 WSL 标识，再在集成终端运行 `uname -s` 和 `pwd`。前者应返回 `Linux`，后者应指向你要打开的项目目录。如果终端仍显示 PowerShell 提示符，先确认当前窗口连的是哪个环境，再安装下一节的工具。
 
 ---
 
@@ -178,7 +178,7 @@ npm --version    # 10.x.x
 npm install -g @anthropic-ai/claude-code
 ```
 
-安装完成后 `claude` 命令即可在终端中使用。同时建议在 VSCode 扩展商店安装 Claude Code 插件，获得更好的编辑体验。
+安装后在同一个 WSL 终端运行 `command -v claude` 和 `claude --version`，确认终端能找到可执行文件。想用侧边栏时，再在 VSCode 的 WSL 窗口安装 Claude Code 扩展。
 
 ### 3. 安装 CC Switch
 
@@ -231,7 +231,7 @@ VSCode 扩展使用第三方供应商的配置方式见 [官方说明](https://c
 
 ## 九、使用小技巧
 
-先在测试项目调用一个技能，检查实际生成的文件或工具返回，再用于正式工作。组合多个技能时明确每一步的输入、输出和单位；更新前保留已有配置，发现名称相同的技能时检查实际加载路径。
+第一次试用可以沿用 [Mac 篇的 MgO 只读示例](VSCode、ClaudeCode与CC%20Switch配置（Mac）.md#五日常使用)。在 WSL 中打开仓库，对照案例原文件检查回答。终端能回答而侧边栏报错时，先回第六节核对两者使用的配置位置。确认基本会话可用后，再在测试项目调用技能，检查实际生成的文件或工具返回。组合多个技能时明确每一步的输入、输出和单位；更新前保留已有配置，发现名称相同的技能时检查实际加载路径。
 
 ---
 

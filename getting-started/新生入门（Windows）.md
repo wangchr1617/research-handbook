@@ -3,13 +3,15 @@
 
 **适用环境：Windows（MobaXterm 客户端）+ Linux（集群端）。**
 
-## 开始前
+## 一、先区分本机练习与远程计算
+
+如果只是想复算已有图表，可以先按[本机运行说明](../notes/材料应用/本机运行与结果检查.md)或 [Colab 入门](Colab入门.md)跑一个小例子。需要在组内集群使用已有软件和算力时，再配置远程登录。
 
 先向课题组管理员申请个人集群账号，并索取登录地址、SSH 端口、初始密码和主机指纹。校园外访问通常还需学校 VPN，安装包和使用说明从学校信息化部门获取；VPN 登录与集群登录可能是不同账号。
 
 下面从下载 MobaXterm 开始，不要求先安装 Linux、WSL 或 Docker。下载或模型服务访问需要代理时，可先看 [DOVE 注册、购买与安装](DOVE加速器配置与使用技巧.md#一注册购买和安装)。
 
-## MobaXterm 安装及使用
+## 二、MobaXterm 安装及使用
 
 先开通个人集群账号，再用 SSH 客户端连接。下面以 Windows 上的 MobaXterm 为例，介绍登录、传文件和 Linux 基础操作。
 
@@ -18,13 +20,13 @@
 SSH 客户端市面上有挺多，我此前使用的 XShell，后面也跟着师兄、师姐转投了 MobaXterm。
 
 访问 [MobaXterm 官网](https://mobaxterm.mobatek.net/download.html) 下载 MobaXterm 的安装包，解压后双击 `.msi` 文件根据提示安装。
-打开软件后，点击左上角的 Session（会话控制），在弹出的窗口中选择 SSH，输入 `Remote host`、`Specify username` 和 `Port=2022`，如图所示：
+打开软件后，点击左上角的 Session（会话控制），在弹出的窗口中选择 SSH，输入 `Remote host`、`Specify username` 和管理员提供的端口号，如图所示：
 
 <div align="left">
 <img src="assets/first-steps/mobaxterm-001.png" width = "50%" />
 </div>
 
-首次登录时，需要输入管理员给的初始密码（输入密码时屏幕不显示字符），然后 Enter 确认进入个人账号。
+首次连接时先将提示中的主机指纹与管理员提供的值核对。首次登录时，需要输入管理员给的初始密码（输入密码时屏幕不显示字符），然后 Enter 确认进入个人账号。
 登录成功后，按管理员要求用 `passwd` 修改初始密码。后续出现 `access denied` 时，应检查账号、凭据与访问策略，不能仅据此判断是未改密码。
 
 MobaXterm 界面分为文件区（左）和终端区。
@@ -39,11 +41,11 @@ MobaXterm 一个常用的功能是，在文件区选中两个文件 A 和 B，�
 
 ---
 
-## 接下来学什么
+## 三、接下来学什么
 
 登录与传输跑通后，分别阅读 [Linux 命令行](linux/Linux命令行使用与常用命令.md)、[PBS 作业管理](PBS作业管理系统使用.md)和 [Module 使用](Module使用.md)。下面保留此前集群环境中的例子，具体队列、软件路径与版本以当前查询为准，不直接作为新账号的默认配置。
 
-## Linux 的基本命令
+## 四、Linux 的基本命令
 
 Linux 命令行可用于管理文件与目录、配置网络和系统。初学者先掌握文件操作、目录切换、权限设置和文本编辑，再逐步学习作业管理。
 
@@ -90,63 +92,11 @@ VIM 文本编辑器常用模式有四个：
 > 例如，设置一个别名 `alias ll='ls -al'` 即可键入 `ll` 列出所有文件包括隐藏文件的详细信息。
 > 如果要永久使用该别名，可以将该命令写入 `~/.bashrc` 配置文件（文件名前面加一个点表示隐藏文件）里面，然后 `source ~/.bashrc` 加载配置文件即可。
 > 单独键入 `alias` 可以列出系统中已设置的所有别名。
-> 下面给出我个人的历史 `~/.bashrc` 别名设置，仅供参考；包含删除输出的别名，不建议新手整段复制，先看清每个通配符匹配的文件：
->
-> ```shell
-> # User specific aliases and functions
-> cdls(){
->     \cd "${1}";
->     ls;
-> }
-> alias cd='cdls'
-> alias CD='cd'
-> alias LS='ls'
-> alias ..='cd ..'
-> alias ...='cd ../..'
-> alias ....='cd ../../..'
-> alias ~='cd ~'
-> alias ll='ls -al'
-> alias untgz='tar -zxvf'
-> alias untar='tar -xvf'
-> alias s='qstat -u changruiwang-ICME'
-> alias sq='qstat -q'
-> alias spath='qstat -f | grep -A 1 Output_Path'
-> alias q='showq'
-> alias cp='cp -r'
-> alias rmvasp='rm C* D* E* O* PC* R* W* X* output vasprun.xml IBZKPT *.[eo]1*'
-> alias rmcp2k='rm cp2k.[eo]* cp2k[-_]*'
-> alias rmgpumd='rm nep_*.txt nep.restart dump.xyz movie.xyz *.out output gpumd.[eo]* *.png'
->
-> alias dush='du -sh ./'                                   # 查看磁盘空间
-> alias gpcm='grep cm-1 OUTCAR'                            # 查看 VASP 频率
-> alias gpfi='grep f/i OUTCAR'                             # 查看 VASP 虚频
-> alias gpdisp='grep Edisp OUTCAR | tail -1'               # 查看 VASP 色散矫正的能量
-> alias gpfermi='grep E-fermi OUTCAR | tail -1'            # 查看 VASP 费米能级
-> alias gpirr='grep irreducible OUTCAR'                    # 查看 VASP 体系的倒晶格基矢
-> alias gpenmax='grep ENMAX POTCAR'                        # 查看 VASP 各个元素的截断能
-> alias gpvol='grep volume OUTCAR'                         # 查看 VASP 体积
-> alias gprra='grep required OUTCAR'                       # 查看 VASP 是否收敛
-> alias gpconv="grep F= OSZICAR | awk '{print \$1,\$5}'"   # 查看 VASP 能量收敛情况
-> alias gptit='grep TIT POTCAR'                            # 查看 VASP 赝势元素
-> alias gptot='grep TOT OUTCAR'                            # 查看 VASP 能量
-> alias gpzval='grep ZVAL OUTCAR'                          # 查看 VASP 价电子
-> alias gpela='grep -A9 "TOTAL ELASTIC MODULI" OUTCAR'     # 查看 VASP 弹性常数结果
-> alias gphes='grep hessian vasprun.xml'                   # 查看 VASP hessian 矩阵
-> alias gpstep='grep = OSZICAR | tail'                     # 查看 VASP AIMD 当前步
-> alias gpstatus='grep STATUS ML_LOGFILE | tail'           # 查看 VASP AIMD_MLFF 当前步
-> alias cp2kene='grep = cp2k-pos-1.xyz'                    # 查看 CP2K 结构优化每个离子步的能量
-> alias cp2kforce='grep Max\.\ g cp2k.out'                 # 查看 CP2K 结构优化每个离子步的受力
-> alias cp2kcell='grep CELL cp2k.out'                      # 查看 CP2K 晶胞优化结果
-> alias dprun='nohup dpgen run param.json machine.json 1>log 2>err &' # 运行 DPGEN
-> alias dpcol='dpgen collect ./ ./collect -p param.json'   # 收集 DPGEN 数据
-> alias gpbestcorr="grep Objective_function bestcorr*.out | sort -n -k 2" # 查看 ATAT mcsqs 生成的随机结构
-> ```
+> 入门练习可先用 `alias ll='ls -al'` 验证别名的作用。写进启动文件前，先在当前会话测试。
 
----
+## 五、PBS 作业基本命令
 
-## PBS 作业基本命令
-
-常用的 PBS 作业基本命令有：
+第一次提交时，先用管理员提供的最小测试脚本。上传后在远程终端用 `pwd` 和 `ls` 确认目录、脚本以及必需输入，再用 `qsub` 提交并记录返回的作业 ID。完成后回到同一目录，检查标准输出和预期结果文件。常用命令如下：
 
 - `qsub run.pbs` 提交一个指定脚本；多个脚本应逐个核对后分别提交；
 - `qstat -u "$USER"` 查看自己的作业运行情况；
@@ -196,7 +146,7 @@ mpirun -machinefile $PBS_NODEFILE -np $NP $EXEC > output
 
 ---
 
-## 使用集群上已经安装好的软件
+## 六、使用集群上已经安装好的软件
 
 集群通常同时提供多个版本的编译器、运行库和计算软件。Module 按模块切换相应环境变量，便于加载已有软件并保持版本配套。
 

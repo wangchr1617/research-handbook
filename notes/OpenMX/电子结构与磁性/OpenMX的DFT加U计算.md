@@ -2,25 +2,21 @@
 
 **适用环境：Linux + PBS 运行计算；Windows / macOS / Linux 可准备输入与分析结果。**
 
-DFT+U 对选定局域轨道的占据加入修正，常用于 d/f 电子体系。它不只改变带隙，也可能改变磁态、轨道占据与结构。
+给 NiO 加 U 时，先要说清这个数值施加在哪套轨道上。仓库的双原子胞把结构、磁初态和占据算符都保持一致，只给 Ni 的一组 d 轨道加上 4 eV，再看末步局域磁矩如何变化。
 
-## U 修正作用在哪些轨道上
+## 一、U 修正作用在哪些轨道上
 
 简化的旋转不变形式使用有效 U，修正项与 Tr[n−n²] 有关，其中 n 是所选轨道空间的占据矩阵。投影定义决定如何得到 n，因此 U 的取值也与轨道空间和方法相关。使用其他软件或投影方案的文献值时，需要先核对这些定义。
 
 OpenMX 4.0 还支持更一般的 U/J 与双计数形式。本例明确选 `scf.DFTU.Type 1` 和 `dual` 占据算符，不把不同算符与双计数方案混在一次对比中。
 
-## 用 NiO 最小胞观察 U 的影响
+## 二、用 NiO 最小胞观察 U 的影响
 
-使用 NiO 双原子岩盐原胞，常规晶格常数 4.17 Å；固定铁磁初态，对比 U=0 与作用于 Ni 第一套 d 径向轨道的 U=4 eV。此最小胞不能描述 NiO 的真实 AFM-II 磁胞，目的在于学习投影和局域磁矩响应。
+使用 NiO 双原子岩盐原胞，常规晶格常数 4.17 Å；使用同一铁磁初猜，对比 U=0 与作用于 Ni 第一套 d 径向轨道的 U=4 eV。此最小胞不能描述 NiO 的真实 AFM-II 磁胞，目的在于学习投影和局域磁矩响应。
 
-[案例目录](../../../examples/openmx/minimal/hubbard-u)包含以下科学输入：
+两份输入 [u0.dat](../../../examples/openmx/minimal/hubbard-u/u0.dat) 和 [u4.dat](../../../examples/openmx/minimal/hubbard-u/u4.dat) 都打开 DFT+U 并采用同一占据算符，唯一的变化是 `Hubbard.U.values` 中 Ni 的 `1d` 从 0.0 改到 4.0。这里的 `1d` 指第一套 d 径向函数。
 
-[stages.json](../../../examples/openmx/minimal/hubbard-u/stages.json)、[u0.dat](../../../examples/openmx/minimal/hubbard-u/u0.dat)、[u4.dat](../../../examples/openmx/minimal/hubbard-u/u4.dat)。
-
-结构写在坐标文件或各输入的原子/晶胞段；`stages.json` 列出计算阶段。配套 [run.py](../../../examples/openmx/minimal/hubbard-u/run.py) 顺序组织任务，[job.pbs](../../../examples/openmx/minimal/hubbard-u/job.pbs) 提交作业，[postprocess.py](../../../examples/openmx/minimal/hubbard-u/postprocess.py) 检查结果并绘图。
-
-## 选择占据算符并提交计算
+## 三、选择占据算符并提交计算
 
 加载 OpenMX 4.0，设置 `OPENMX_DATA` 为包含 PAO、VPS 的 `DFT_DATA19` 路径。运行脚本仅替换输入中的数据库路径，不复制势和基组；每步单进程、单线程。
 
@@ -43,7 +39,7 @@ qsub job.pbs
 
 PBS 中的资源语法和软件加载方式按集群调整。计算结束后自动执行后处理；若只分析已保存的结果，运行 `python3 postprocess.py`。各阶段独立保存输出，便于定位失败步骤。
 
-## Ni 局域磁矩怎样变化
+## 四、Ni 局域磁矩怎样变化
 
 后处理核对 SCF 与 `Occupation Number in LDA+U` 输出，并比较 Ni 的局域磁矩。图展示同一铁磁最小模型中 U 对局域自旋分布的影响；O 也可能带有诱导磁矩。
 
@@ -53,9 +49,9 @@ PBS 中的资源语法和软件加载方式按集群调整。计算结束后自�
 
 ![OpenMX的DFT加U计算结果](../assets/hubbard-u.png)
 
-图由案例后处理脚本读取实际计算输出生成。
+图使用[后处理脚本](../../../examples/openmx/minimal/hubbard-u/postprocess.py)提取的原生输出。
 
-## 扩展到实际研究
+## 五、扩展到实际研究
 
 实际 NiO 研究应采用合适 AFM 磁胞，收敛基组、网格、k 点并尝试不同轨道/磁性初态。需要解释带隙变化时，另输出自旋分辨能带/PDOS，核对局域轨道字符，而非只根据局域磁矩判断是否打开带隙。
 

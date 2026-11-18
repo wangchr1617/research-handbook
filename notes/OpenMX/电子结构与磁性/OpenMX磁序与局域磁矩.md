@@ -2,25 +2,21 @@
 
 **适用环境：Linux + PBS 运行计算；Windows / macOS / Linux 可准备输入与分析结果。**
 
-磁性计算要比较多个合理磁序，并确认自洽后仍处于目标态。输入的初始磁矩只是建立初猜，不代表最终局域磁矩被固定。
+把 bcc Fe 的第二个原子翻成反平行初猜，自洽后还能保持反平行吗？本例用同一个双原子胞分别启动铁磁和反铁磁计算，先从末步的两个局域磁矩确认磁序，再比较两个分支的能量。
 
-## 零总磁矩一定是反铁磁吗
+## 一、零总磁矩一定是反铁磁吗
 
 共线自旋在同一量子化轴上描述上下自旋电子。原子输入中的两列电子数之和应与赝势价电子相容，其差用于构造初始磁矩；最终自旋密度由自洽决定。
 
 总磁矩接近零既可能是反铁磁，也可能是非磁态。应同时查看各磁性原子的局域磁矩与空间排列。Mulliken 局域磁矩依赖局域基组与分区方式，跨软件比较时尤其要说明定义。
 
-## 比较 bcc Fe 的两种磁排列
+## 二、比较 bcc Fe 的两种磁排列
 
 使用 a=2.86 Å 的 bcc Fe 常规双原子胞，PBE、Fe6.0S-s2p2d1 与 Fe_PBE19S。铁磁（FM）分支中，两原子的初始上下自旋电子数均为 9/5；反铁磁（AFM）分支将第二个原子改为 5/9。所选势对每个 Fe 显式处理 14 个价电子。两分支固定同一结构，以比较磁排列的影响。
 
-[案例目录](../../../examples/openmx/minimal/magnetic-order)包含以下科学输入：
+将 [FM 输入](../../../examples/openmx/minimal/magnetic-order/fm.dat)与 [AFM 输入](../../../examples/openmx/minimal/magnetic-order/afm.dat)逐行对照，差异只在第二个 Fe 的两列初始自旋电子数。比较新磁序时也可沿用这次检查，先确认坐标、晶胞和电子参数都相同。
 
-[afm.dat](../../../examples/openmx/minimal/magnetic-order/afm.dat)、[fm.dat](../../../examples/openmx/minimal/magnetic-order/fm.dat)、[stages.json](../../../examples/openmx/minimal/magnetic-order/stages.json)。
-
-结构写在坐标文件或各输入的原子/晶胞段；`stages.json` 列出计算阶段。配套 [run.py](../../../examples/openmx/minimal/magnetic-order/run.py) 顺序组织任务，[job.pbs](../../../examples/openmx/minimal/magnetic-order/job.pbs) 提交作业，[postprocess.py](../../../examples/openmx/minimal/magnetic-order/postprocess.py) 检查结果并绘图。
-
-## 设置并运行两个分支
+## 三、设置并运行两个分支
 
 加载 OpenMX 4.0，设置 `OPENMX_DATA` 为包含 PAO、VPS 的 `DFT_DATA19` 路径。运行脚本仅替换输入中的数据库路径，不复制势和基组；每步单进程、单线程。
 
@@ -41,7 +37,7 @@ qsub job.pbs
 
 PBS 中的资源语法和软件加载方式按集群调整。计算结束后自动执行后处理；若只分析已保存的结果，运行 `python3 postprocess.py`。各阶段独立保存输出，便于定位失败步骤。
 
-## 同时看能量与局域磁矩
+## 四、同时看能量与局域磁矩
 
 本例 FM 两个 Fe 局域磁矩均约 2.3744 μB；AFM 则约为 +2.2075/−2.2075 μB，总磁矩接近零。因此 AFM 分支确实保留了反平行局域磁矩。
 
@@ -49,9 +45,9 @@ PBS 中的资源语法和软件加载方式按集群调整。计算结束后自�
 
 ![OpenMX磁序与局域磁矩结果](../assets/magnetic-order.png)
 
-图由案例后处理脚本读取实际计算输出生成。
+[后处理脚本](../../../examples/openmx/minimal/magnetic-order/postprocess.py)从最后一段磁矩输出读取两个 Fe 的局域值，并检查 AFM 分支中的乘积小于零。如果两次起算最后得到同一排列，就应先重新检查初态与收敛过程，再解释能量差。
 
-## 扩展到实际研究
+## 五、扩展到实际研究
 
 扩大磁胞比较更多磁序，并检查结构、基组、k 点与展宽收敛。将能量差映射到 Heisenberg 模型时，要给出交换路径、自旋归一化、符号和重复计数约定；两态差值不能直接当作一个普适 J。OpenMX 可结合 TB2J 导出交换模型，再用 Vampire 等做统计模拟，接口依赖见[磁性工具笔记](../基础与结构/OpenMX与磁性计算工具安装.md)。
 

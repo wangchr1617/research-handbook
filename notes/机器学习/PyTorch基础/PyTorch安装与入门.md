@@ -2,9 +2,11 @@
 
 **适用环境：Windows、macOS、Linux；先用 CPU 跑通，GPU 按设备选择 CUDA 或 MPS。**
 
+如果终端能导入 PyTorch，Notebook 却报 `ModuleNotFoundError`，先比较两边的 Python 路径。确认安装和运行使用同一解释器后，再核对设备，并用一个矩阵乘法检查能否执行。
+
 PyTorch 用张量表示数据，用自动微分计算梯度，再通过优化器更新模型。先安装一个独立环境，跑通小例子，再使用课题组的训练代码。
 
-## 一、安装环境
+## 一、把 PyTorch 安装到实际运行的环境
 
 没有 Python 时先按 [Conda 环境准备](../../../getting-started/Anaconda、Miniconda、Mamba安装与使用.md)安装 Miniconda 或 Miniforge。在对应 Prompt 或终端执行：
 
@@ -30,7 +32,7 @@ python -m pip install torch torchvision --index-url https://download.pytorch.org
 
 Linux NVIDIA GPU 用户先在获准节点检查 `nvidia-smi`，再按官方选择器和集群驱动支持范围选 CUDA 构建。`nvidia-smi` 显示的 CUDA 版本是驱动能力信息，不等于当前环境安装的工具包。Mac 不装 CUDA，Apple Silicon 可使用 MPS。
 
-## 二、确认解释器与设备
+## 二、先确认解释器，再核对设备上的结果
 
 将下面内容保存为 `check_torch.py`，在该目录执行 `python check_torch.py`：
 
@@ -52,9 +54,11 @@ print("Device:", x.device)
 print(x @ x.T)
 ```
 
+若导入失败，用当前解释器运行 `python -m pip show torch`。从 Notebook 排查时，在内核里先打印 `sys.executable`，再与终端输出对照。若导入正常但设备不可用，记录构建版本和设备检查结果，再按所选后端核对安装。
+
 结果应是 `[[5, 14], [14, 50]]`，显示格式随设备不同。CUDA / MPS 返回 `False` 时仍可使用 CPU，先完成这个计算再学训练循环。模型参数和参与同一次运算的张量放在同一设备。
 
-## 三、张量里最常看什么
+## 三、将张量形状对回数据和损失
 
 ```python
 import torch
@@ -65,7 +69,7 @@ y = torch.tensor([0, 1, 0, 1, 0, 1, 0, 1], dtype=torch.long)
 print(y.shape, y.dtype)
 ```
 
-这里有 8 个样本、每个 4 个特征；分类标签是一维整数。浮点特征常用 `float32`，分类标签常用 `long`。维度写对了，损失函数才知道如何比较预测与标签。
+这里有 8 个样本、每个 4 个特征；分类标签是一维整数。浮点特征常用 `float32`，分类标签常用 `long`。接分类损失时核对输出是否为 `[8, 类别数]`，标签是否为 `[8]`。换成单输出回归时，通常让预测和标签都为 `[8,1]`，避免多出一维广播。 [CSV 到回归 batch](PyTorch自定义数据集.md)
 
 以材料数据为例，能量是 eV 还是 eV/atom、应力是什么单位，都要在读入数据时统一。张量只存数字，不会替你判断物理单位。
 

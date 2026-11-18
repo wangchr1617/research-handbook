@@ -2,9 +2,9 @@
 
 **适用环境：Linux + PBS（VASP）；Windows / macOS / Linux 可绘图。**
 
-XAS 描述芯电子向未占据态的跃迁；XANES 关注吸收边附近的结构。这里以 Si K 边为例，用超胞核空穴法演示激发原子设置、谱线提取与展宽。
+要算 Si K 边，先在晶胞中标出哪一颗 Si 的 1s 轨道留下芯空穴，再计算芯电子向空态的跃迁。这个八原子案例串起原子类型、激发后的电子数和谱线能量参考，适合先检查核空穴有没有施加在预期的位点。
 
-## 指定核空穴
+## 一、把受激 Si 单独定义成一种原子类型
 
 [最小案例](../../../examples/vasp/minimal/xas-core-hole)使用 8 原子常规晶胞。[POSCAR](../../../examples/vasp/minimal/xas-core-hole/POSCAR)将第一个 Si 独立为一种原子类型，元素行写 `Si Si`，数量为 `1 7`。按此顺序将两份相同的授权 `Si_GW` 势拼接为 `POTCAR`（[势清单](../../../examples/vasp/minimal/xas-core-hole/POTCAR.spec)）。
 
@@ -22,7 +22,7 @@ CH_SIGMA = 0.3
 NBANDS = 48
 ```
 
-`CLNT` 是原子类型序号；`CLN=1, CLL=0` 指定 1s 芯态。默认 XCH 方案将一个芯电子放入价带计算空间，VASP 自动增加电子数，本例从 32 变为 33，勿再手动多加一次。空带数决定能覆盖的跃迁范围。
+`CLNT` 是原子类型序号；`CLN=1, CLL=0` 指定 1s 芯态。默认 XCH 方案将一个芯电子放入价带计算空间，VASP 自动增加电子数，本例的两个物种使用同一种势，因此基态价电子数为 $8\times4=32$；开启默认 XCH 后应报告 33 个电子。若计数不同，先核对势文件及芯空穴参数。空带数决定能覆盖的跃迁范围。
 
 加载 VASP，安装 [Python 依赖](../../../examples/vasp/minimal/xas-core-hole/requirements.txt)，使用 [2×2×2 k 网格](../../../examples/vasp/minimal/xas-core-hole/KPOINTS)和 [PBS 文件](../../../examples/vasp/minimal/xas-core-hole/job.pbs)提交：
 
@@ -30,7 +30,7 @@ NBANDS = 48
 qsub job.pbs
 ```
 
-## 提取与读图
+## 二、从电子数验收到谱线参考
 
 [后处理脚本](../../../examples/vasp/minimal/xas-core-hole/postprocess.py)检查 SCF、电子数和核谱结束标记，从 `OUTCAR` 提取虚部介电张量，取三个对角分量平均，再由 [plot.py](../../../examples/vasp/minimal/xas-core-hole/plot.py)绘图。图中纵轴归一化，不是绝对吸收系数。
 

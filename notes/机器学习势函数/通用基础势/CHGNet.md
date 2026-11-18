@@ -4,7 +4,7 @@
 
 CHGNet 的全称含 Crystal Hamiltonian Graph Neural Network，但其主要学习对象是势能、力、应力与局域磁矩，并非完整的轨道哈密顿量矩阵。它应首先放在机器学习势专题中理解。
 
-## 一、历史与开发团队
+## 一、哪些数据提供磁矩监督
 
 Bowen Deng、Peichen Zhong、KyuJung Jun 等与 Gerbrand Ceder 团队于 2023 年发表 CHGNet，主要合作来自 UC Berkeley、Lawrence Berkeley National Laboratory 及相关合作者。模型使用 Materials Project 的轨迹数据，除了能量、力和应力，还引入局域磁矩监督。[^paper]
 
@@ -14,7 +14,7 @@ CHGNet 通过原子图、键和角度特征更新局域环境表示，并用磁�
 
 为何磁矩有帮助？在部分过渡金属体系中，轨道占据、电荷态和局域磁矩相互关联，因此磁矩标签能为仅凭元素与几何难以区分的电子环境提供训练信息。但由磁矩推断氧化态需要化学前提，不能视为对任意材料唯一确定的真实电荷。[^paper]
 
-## 以 LiMnO2 的应用为例解释磁矩监督
+### 以 LiMnO₂ 区分磁矩监督与价态指认
 
 从同一参考计算获得能量、力、应力和局域磁矩，磁矩损失约束原子隐特征，能量头利用经过约束的特征预测总能。它不是先把模型预测磁矩强行变成整数价态，再用一个经验公式算能量。
 
@@ -30,13 +30,13 @@ CHGNet 通过原子图、键和角度特征更新局域环境表示，并用磁�
 
 含磁矩标签不等于支持任意非共线磁序、显式自旋动力学或所有亚稳磁态。对同一几何存在多个电子态的问题，要核对模型是否能把它们作为不同输入处理。
 
-## 四、结果检查
+## 四、先用硅核对单位，再去验证磁态
 
-在训练域之外同时检查能量差、力与磁性相关量；不同磁序的相对稳定性应单独与参考计算比较。不能因为局域磁矩预测接近，就推断带隙或输运性质也正确。
+在训练域之外同时检查能量差、力与磁性相关量；不同磁序的相对稳定性应单独与参考计算比较。例如检验 LiMnO₂ 的不同参考磁序时，先记录每次参考计算采用的磁序和 Hubbard $U$，然后对照相对能、局域磁矩及力。若模型输入无法指定磁序，应明确它无法针对同一几何分别预测这些分支。
 
 实践入口与模型权重见[官方实现](https://github.com/CederGroupHub/chgnet)。模型选择及微调步骤见[通用势选型](通用势的预训练与选型.md)。
 
-## 实践：Si 的原生预测与单位
+### 同一个结构要按同一单位比较
 
 以下使用 CHGNet 原仓库接口，并固定 `0.3.0` 权重名称。结构由 pymatgen 直接生成，避免额外 CIF 文件：
 
@@ -54,9 +54,9 @@ print("stress GPa:", prediction["s"])
 print("magmom mu_B:", prediction["m"])
 ```
 
-代码对应[CHGNet 官方用法](https://github.com/CederGroupHub/chgnet#direct-inference-static-calculation)。常规立方 Si 胞含八个原子，因此必须乘原子数才能与总能比较。`m` 是每个原子的磁矩相关预测；在 Si 上看到接近零的值，不意味着已验证过渡金属的电荷态预测。
+复用通用势选型篇的硅例时，先按每原子能比较接口输出，再核对力数组行数是否与结构一致。若需要逐原子对照力，使用同一个晶胞和原子顺序。代码对应[CHGNet 官方用法](https://github.com/CederGroupHub/chgnet#direct-inference-static-calculation)。常规立方 Si 胞含八个原子，因此必须乘原子数才能与总能比较。`m` 是每个原子的磁矩相关预测；在 Si 上看到接近零的值，不意味着已验证过渡金属的电荷态预测。
 
-## 参考资料
+### 参考资料
 
 [^paper]: B. Deng et al. CHGNet as a pretrained universal neural network potential for charge-informed atomistic modelling. *Nature Machine Intelligence* **5**, 1031–1041 (2023). [原始论文](https://doi.org/10.1038/s42256-023-00716-3)。
 

@@ -2,9 +2,9 @@
 
 **适用环境：通用（输入与分析）；Linux 集群运行大体系。参数按 CP2K 2026.2 分支手册说明。**
 
-从分子 PBE0 扩展到周期晶体时，除了交换比例，还要确定交换算符、布里渊区采样、积分屏蔽和内存预算。先用[水分子 PBE0 案例](CP2K杂化泛函PBE0.md)理解泛函定义，再逐项增加周期计算设置。
+[水分子 PBE0 案例](CP2K杂化泛函PBE0.md)在非周期盒里用完整库仑交换。换成周期晶体后，即使仍保留 25% HF 交换，也要决定怎样处理周期重复下的交换，以及用 Γ 点超胞还是 k 点采样。选定这两项之后，再通过积分屏蔽、辅助基组和并行资源控制开销。
 
-## 先区分三类近似
+## 一、先区分三类近似
 
 | 设置 | 控制什么 | 如何检查 |
 | --- | --- | --- |
@@ -14,7 +14,7 @@
 
 这些设置和 `MGRID/CUTOFF` 各管一层。提高平面波密度网格不能补回被屏蔽的交换积分；收紧 `EPS_SCF` 也不能消除辅助基组误差。
 
-## 截断半径与晶胞几何
+## 二、截断半径与晶胞几何
 
 `HF/INTERACTION_POTENTIAL` 定义交换作用算符。`TRUNCATED` 在距离小于 \(R_c\) 时使用 \(1/r\)，超过半径时置零；`SHORTRANGE` 使用 \(\operatorname{erfc}(\omega r)/r\)。两者具有不同数学定义，不能把短程泛函的范围参数直接当作 PBE0 的数值截断半径。
 
@@ -27,15 +27,15 @@ h_b=\frac{V}{|\mathbf c\times\mathbf a|},\quad
 h_c=\frac{V}{|\mathbf a\times\mathbf b|}.
 \]
 
-采用 \(2R_c<\min(h_a,h_b,h_c)\) 检查几何相容性，并为变胞过程保留余量。例如，12 Å 立方胞不宜直接配恰好 6 Å 的半径。增大半径可能需要扩胞；改变超胞后还应单独检查 Γ 点近似，不能把“截断球放得下”等同于采样已收敛。
+采用 \(2R_c<\min(h_a,h_b,h_c)\) 检查几何相容性，并为变胞过程保留余量。例如，复用仓库[斜晶胞示例](../../../examples/cp2k/minimal/structure-modes-path/lattice.xyz)的三个向量，体积为 540 Å³，最短面间高度约为 7.50 Å。因此按这个几何检查，半径要小于约 3.75 Å；这里仅借用晶胞几何演示计算。增大半径可能需要扩胞；改变超胞后还应单独检查 Γ 点近似，不能把“截断球放得下”等同于采样已收敛。
 
 6 Å 可作为一些体系的测试起点，定量判断应来自目标性质随半径的变化。反应物、产物与过渡态的能量比较采用一致的交换算符和截断设置，才能减少不受控的数值差异。参数单位和算符定义见[相互作用算符手册](https://manual.cp2k.org/cp2k-2026_2-branch/CP2K_INPUT/FORCE_EVAL/DFT/XC/HF/INTERACTION_POTENTIAL.html)。
 
-## 密度屏蔽为什么依赖初猜
+## 三、密度屏蔽为什么依赖初猜
 
 `EPS_SCHWARZ` 越小，保留的积分通常越多，计算与存储代价越高。能量和受力分别涉及 `EPS_SCHWARZ` 与 `EPS_SCHWARZ_FORCES`，做优化、声子或 AIMD 时还要检查力误差。
 
-`SCREEN_ON_INITIAL_P T` 利用初始密度矩阵进一步筛选积分。适合的准备方式是：先在相同结构、相容基组和赝势下完成较便宜的 PBE 计算，再用其收敛波函数启动 PBE0。下面仅展示第二步放入 `&DFT` 内的初猜片段，泛函和其余设置见完整案例：
+`SCREEN_ON_INITIAL_P T` 利用初始密度矩阵进一步筛选积分。适合的准备方式是：先在相同结构、相容基组和赝势下完成较便宜的 PBE 计算，再用其收敛波函数启动 PBE0。下面展示第二步放入 `&DFT` 的初猜片段。`SCREEN_ON_INITIAL_P T` 另放在 `HF/SCREENING` 下，重启文件名替换为第一步的实际输出。
 
 ```text
 WFN_RESTART_FILE_NAME pbe-RESTART.wfn
@@ -51,7 +51,7 @@ WFN_RESTART_FILE_NAME pbe-RESTART.wfn
 
 后续迭代会不会补回遗漏积分？这取决于设置。当前 `P_SCREEN_CORRECTION_FACTOR` 可在密度变化足够大时触发积分重算，但默认值 `0` 关闭这一纠正。应按实际启用状态判断，而非一概认为会自动补回，或永远不会更新。行为与默认值见[SCREENING 手册](https://manual.cp2k.org/cp2k-2026_2-branch/CP2K_INPUT/FORCE_EVAL/DFT/XC/HF/SCREENING.html)。
 
-## 第一轮很慢与内存预算
+## 四、第一轮很慢与内存预算
 
 常规四中心 HFX 需要构造大量积分。能存入内存的部分可在后续 SCF 迭代复用，未存下的部分可能按需重算。因此第一轮显著较慢时，先查看进程状态和 HFX 输出，再判断是否卡住；不要仅凭两次 SCF 行之间的等待时间作结论。
 
@@ -59,13 +59,13 @@ WFN_RESTART_FILE_NAME pbe-RESTART.wfn
 
 对常规 HFX，可观察 `Number of sph. ERI's calculated on the fly` 和 `Number of sph. ERI's stored in-core` 等统计，比较实际耗时和峰值内存后调整 MPI/线程组合。`MAX_DISK_SPACE` 可控制压缩四中心积分的磁盘缓存，代价包括磁盘空间与 I/O；不要将它当作无需测量的内存替代品。详见[HFX 内存参数](https://manual.cp2k.org/cp2k-2026_2-branch/CP2K_INPUT/FORCE_EVAL/DFT/XC/HF/MEMORY.html)。
 
-## 小晶胞可以使用 RI-HFXk
+## 五、小晶胞可以使用 RI-HFXk
 
 当前 CP2K 支持基于 RI 的 k 点杂化计算，不能沿用“杂化泛函一律只能算 Γ 点”的旧限制。小原胞加密 k 点通常值得与 Γ 点超胞方案比较；ADMM 也可与 RI-HFXk 组合，但 RI 辅助基组和 ADMM 辅助基组承担不同任务。
 
 在 RI-HFXk 中，截断半径要与 k 网格对应的 Born–von Kármán 超胞相容，不再简单限定为原胞最短高度的一半。应按[官方 RI-HFXk 教程](https://manual.cp2k.org/cp2k-2026_2-branch/methods/dft/hartree-fock/ri_kpoints.html)设置 RI 基组、交换算符和采样；收敛 SCF 网格与画能带的高对称路径也分别处理。`KP_NGROUPS` 增加并行分组，同时增加部分内存开销，总 MPI 进程数需能被组数整除。常规四中心 HFX 的内存调优经验不能直接替代 RI 张量的内存检查。
 
-## Kohn–Sham 矩阵稀疏警告
+## 六、Kohn–Sham 矩阵稀疏警告
 
 `The Kohn Sham matrix is not 100% occupied` 说的是矩阵块的存储范围，不是电子占据数不足。HFX 的非局域贡献可能超出按重叠矩阵建立的稀疏模式。
 

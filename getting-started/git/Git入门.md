@@ -2,7 +2,7 @@
 
 **适用环境：Windows（安装示例）；Git 命令适用于 Windows、macOS 和 Linux。**
 
-## Git 的安装
+## 一、Git 的安装
 
 Git 是开源的分布式版本控制系统，最初由 Linus Torvalds 为管理 Linux 内核开发而创建。
 访问 [Git 官网](https://git-scm.com/) 或者 [Git Windows 客户端](https://git-scm.com/downloads/win) 下载 Git 安装包。
@@ -26,11 +26,11 @@ man git-config
 git help config
 ```
 
-## 注册账号
+## 二、注册账号
 
 通过访问 [Github 首页](https://github.com/) 或者 [Gitee 首页](https://gitee.com/) 注册个人账号。
 
-## 配置 ssh 公钥
+## 三、配置 ssh 公钥
 
 目前 GitHub 和 Gitee 支持使用 HTTPS 协议和 SSH 协议进行代码的推送/拉取。
 
@@ -131,7 +131,7 @@ git config --global core.autocrlf input
 
 避免由于回车（CR）和换行（LF）导致的提交错误。
 
-## 新建仓库
+## 四、新建仓库
 
 在注册完成并成功登录 Gitee 账号后，用户可以开始创建自己的第一个仓库。
 
@@ -150,63 +150,25 @@ git config --global core.autocrlf input
 
 点击「创建」，即可在 Gitee 上创建你的仓库。
 
-## 提交代码
+## 五、提交前确认哪一版会写入历史
 
-下面的 `XXX` 是仓库地址占位符；示例主分支写作 `master`，实际操作以仓库的默认分支为准（也可能是 `main`）。先克隆仓库并在其中修改，通常比把已有目录强行关联到非空远端容易理解。
+第一次参与已有仓库时，用 `git clone <仓库地址>` 取得完整历史，再在本地开分支。如果只是想练习，不需要远端，直接在一个空目录执行 `git init` 即可。已有提交的远端优先从克隆开始。
 
-**方法 1、先将仓库 clone 到本地，修改后再 push 到 Gitee 的仓库**
-
-```bash
-git clone XXX
-```
-
-如果需要 clone 指定的分支，使用 `--branch`，例如：
+假设你按照 [Markdown 入门](Markdown入门.md)修改了 `README.md`。保存后先看工作区，再只暂存想提交的内容：
 
 ```bash
-git clone --branch dev XXX
+git status --short
+git diff -- README.md
+git add -- README.md
+git diff --cached -- README.md
+git commit -m "补充算例的结果检查"
 ```
 
-修改代码后，可以使用 Git Bash 执行下面命令：
+如果暂存后又编辑了同一个文件，`git status --short` 的左右两列分别显示暂存区和工作区的状态。原来就跟踪的文件可能显示 `MM`，此时 `git diff --cached` 看到本次将提交的版本，`git diff` 看到后续修改。需要把后续修改一起提交时，再执行一次 `git add -- README.md` 并复查。
 
-```bash
-git add README.md # 示例：只暂存确认过的文件，按实际路径替换
-git status -s # 查看仓库当前文件提交状态（A：新文件已暂存；AM：暂存后工作区又有修改）
-git commit -m "1.0.0" # 从 Git 的暂存区提交版本到仓库，参数 -m 后为当次提交的备注信息
-git push origin master # 将本地的 Git 仓库信息推送上传到服务器，参数 origin 后面是提交到的具体分支
-git log # 查看 Git 提交的日志
-```
+本地提交后，用 `git show --stat HEAD` 检查提交范围。若要推送到自己有权限使用的远端分支，先核对 `git remote -v` 和 `git branch --show-current`，再按[分支与合并](Git分支协作与合并.md)的协作流程操作。
 
-撰写提交说明时，如果一行不够，可以只执行 `git commit`，就会跳出文本编辑器，编写多行提交说明。
-
-**方法 2、本地初始化一个仓库，设置远程仓库地址后再做 push**
-
-和方法 1 的差别，在于先在本地创建仓库。
-
-```bash
-git init # 初始化新仓库，在当前目录下会出现一个名为 .git 的目录
-git remote add origin https://gitee.com/用户个性地址/HelloGitee.git
-git remote -v # 查看当前仓库对应的远程仓库地址
-```
-
-通过将一个远程仓库添加到本地的仓库中，完成了版本的一次初始化。
-
-接下去，进入你已经初始化好的或者克隆仓库的目录，然后执行：
-
-```bash
-git pull origin master # origin 是仓库名；master 是分支名
-```
-
-修改/添加文件，否则与原文件相比就没有变动。
-
-```bash
-git add .
-git commit -m "第一次提交"
-git push origin master
-```
-
-远端已有 README 或其他提交时，初学者优先克隆现有仓库，再复制自己的文件、检查并提交，避免创建两套互不关联的历史。不要通过强制推送覆盖已有文件；协作流程见 [分支与合并](Git分支协作与合并.md)。
-
-## 分支管理
+## 六、分支管理
 
 `git branch` 是 Git 中管理分支的核心命令之一，它允许你查看、创建、重命名和删除分支。
 分支是 Git 中用于管理不同开发线路的工具，便于进行功能开发、错误修复、多人协作等工作。
@@ -223,22 +185,22 @@ git checkout main
 git merge dev
 ```
 
-## 撤销命令
+## 七、撤销命令
 
 先用 `git status`、`git diff` 和 `git diff --cached` 判断修改在哪一层。取消暂存但保留工作区内容可用 `git restore --staged 文件名`，先提取旧文件比较可用 `git show HEAD:文件路径 > 另存文件`。
 
 不要把 `git reset --hard` 作为默认撤销操作，它会改变分支位置并覆盖文件。详细区别见 [Git 文件管理与撤销](Git文件管理与撤销.md)。
 
-## 更新命令
+## 八、更新命令
 
 `git fetch` 下载远程提交并更新本地的远程跟踪引用（如 origin/main），不会直接合并到当前分支，也不改动工作区文件。
 
 `git fetch` 与 `git pull` 的区别在于：
-`git pull` 会直接将远程的更改合并到当前分支，
+`git pull` 先下载远端更改，再按选项或配置合并、变基或仅接受快进，
 而 `git fetch` 只会下载更新而不进行合并操作。
 你可以在 fetch 之后查看、比对差异，然后决定如何处理这些更新。
 
-## 使用 Git Tag 标记版本
+## 九、使用 Git Tag 标记版本
 
 以 `main` 分支为例，要将当前 `main` 分支的状态发布为 `1.0.0` 版本，通常使用 Git Tag 来标记版本号。
 Tag 是 Git 中用于标识某个提交的特定点，可以用来表示版本。

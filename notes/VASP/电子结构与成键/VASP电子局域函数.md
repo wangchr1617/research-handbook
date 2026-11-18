@@ -4,9 +4,9 @@
 
 贡献者：胡京京、王昌锐
 
-ELF 是描述电子局域性的无量纲函数，通常介于 0 和 1。较高值可帮助识别共价键、孤对电子等局域区域，0.5 是均匀电子气的参考值；低 ELF 不能简单解释成“电子完全离域”，也不能直接当作电荷或键能。
+想看硅的近邻之间哪里出现局域区，可以从静态计算写出 ELF，再沿穿过目标区域的晶格平面取切片。ELF 是无量纲函数，通常介于 0 和 1。较高值可帮助识别共价键、孤对电子等局域区域，0.5 是均匀电子气的参考值；低 ELF 不能简单解释成“电子完全离域”，也不能直接当作电荷或键能。
 
-## 输入与提交
+## 一、从硅单点输出 ELF
 
 以硅原胞为例，案例提供 [POSCAR](../../../examples/vasp/minimal/electron-localization/POSCAR)、[INCAR](../../../examples/vasp/minimal/electron-localization/INCAR)、[KPOINTS](../../../examples/vasp/minimal/electron-localization/KPOINTS)、[POTCAR.spec](../../../examples/vasp/minimal/electron-localization/POTCAR.spec)、[job.pbs](../../../examples/vasp/minimal/electron-localization/job.pbs) 和 [postprocess.py](../../../examples/vasp/minimal/electron-localization/postprocess.py)。
 
@@ -23,25 +23,25 @@ LREAL = .FALSE.
 
 `LELF` 输出 `ELFCAR`，`NPAR=1` 按 [LELF 手册](https://vasp.at/wiki/LELF)设置。例子采用非自旋极化方案；非共线等扩展计算的支持范围需另查相应版本。
 
-## 用 Multiwfn 导出网格
+## 二、用 Multiwfn 导出网格
 
 后处理先检查 VASP，再由 [analyze.py](../../../examples/vasp/minimal/electron-localization/analyze.py) 载入 `ELFCAR`，按 [multiwfn.in](../../../examples/vasp/minimal/electron-localization/multiwfn.in) 的操作选择 `13 → 0`，导出 `elf.cub`。
 
 `ELFCAR` 与 `CHGCAR` 的文件布局相似，但其中的 ELF **没有电荷密度单位**，不能按电子密度除以晶胞体积或对其积分求电荷，见 [ELFCAR 手册](https://vasp.at/wiki/ELFCAR)。脚本同时检查值域，并将网格尺寸和极值写入 `elf-analysis.json`。
 
-## 查看切面
+## 三、沿晶格平面读取实际网格层
 
 [plot.py](../../../examples/vasp/minimal/electron-localization/plot.py) 在第三分数坐标约为 0.125 的实际网格层取切面，画出由第一、第二晶格向量张成平面内的 ELF。图保留斜晶胞的夹角，未对网格做额外平滑。
 
 ![硅原胞电子局域函数切面](../assets/si-elf.png)
 
-本例使用 350 eV 截断能和 3×3×3 k 网格，展示的是一个切面，不是沿该方向的整体投影。修改脚本中的 `FRACTION_C` 可选择其他层；改变网格精度后应重新生成图，不应把粗网格经插值后的平滑外观当作更高精度。
+本例使用 350 eV 截断能和 3×3×3 k 网格，展示的是一个切面，不是沿该方向的整体投影。修改脚本中的 `FRACTION_C` 可选择其他层。第三方向有 $N_3$ 个周期网格点时，脚本将目标分数坐标乘以 $N_3$ 后取最近整数，再以 $i/N_3$ 作为实际切面位置；改变网格精度后应重新生成图，不应把粗网格经插值后的平滑外观当作更高精度。
 
 已有 `ELFCAR` 时执行 `python3 analyze.py` 即可重新导出并绘图；已有 `elf.cub` 时执行 `python3 plot.py` 只重画。需要交互查看等值面或任意切面时，也可直接用 VESTA 打开 `ELFCAR`，并根据关注的区域调整等值面或色标。
 
 ELF 的局域区域与电子密度临界点是不同对象。要分析密度梯度路径，使用相应电子密度及[拓扑分析](../../计算化学/电子密度拓扑、临界点与键径.md)；不要把 ELF 高值或显示器中的几何连线当作密度键径。
 
-## 用局域分布提出反应取向初猜
+## 四、用局域分布提出反应取向初猜
 
 表面配体、吸附羰基或其它局部反应基团的 ELF，可帮助观察孤对电子和成键区域的空间排布，结合价层密度、静电势或电子响应指标提出几种靠近方向。
 
@@ -57,7 +57,7 @@ ELF 的局域区域与电子密度临界点是不同对象。要分析密度梯�
 
 PAW 价密度、全电子价层密度和将核心轨道占据置零得到的分析密度，也不是默认可互换的对象。跨方法解释价层方向性时先核对密度表示；ELF 不能从普通密度 Cube 唯一恢复。相关方法选择见[反应位点与周期表面](../../计算化学/电子转移、极化与分析方法的选择.md#周期表面怎样使用这些线索)和[赝势密度与补芯](../../计算化学/赝势密度、补芯与近核分析.md)。
 
-## 局域区域、电子数涨落与交换相关穴
+## 五、局域区域、电子数涨落与交换相关穴
 
 电子密度在区域 $\Omega$ 的积分给出平均电子数 $\langle N_\Omega\rangle$。它即使恰好等于 2，也不能证明始终有两个电子留在其中，更不能给这两个全同电子指定固定身份。对固定总电子数 N 的态，采用积分为 $N(N-1)$ 的有序电子对密度 $\rho_2$，区域电子数方差满足
 

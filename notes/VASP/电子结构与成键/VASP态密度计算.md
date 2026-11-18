@@ -2,9 +2,9 @@
 
 **适用环境：Windows、macOS、Linux（准备输入与绘图）；Linux + PBS（VASP、VASPKIT）。**
 
-以两个原子的金刚石型硅原胞为例，计算总态密度和原子轨道投影。先完成结构优化，再在固定结构上使用较密的均匀 k 点做静态计算。
+在硅的[能带图](VASP能带计算.md)上能看到本征值沿路径怎样变化。若想知道某个能量附近有多少态，就在同一类型的硅原胞上改用三维规则网格。本例画总 DOS，并保留轨道投影设置，方便继续追踪峰的来源。
 
-## 准备与提交
+## 一、让积分网格覆盖布里渊区
 
 案例提供 [POSCAR](../../../examples/vasp/minimal/density-of-states/POSCAR)、[INCAR](../../../examples/vasp/minimal/density-of-states/INCAR)、[KPOINTS](../../../examples/vasp/minimal/density-of-states/KPOINTS)、[POTCAR.spec](../../../examples/vasp/minimal/density-of-states/POTCAR.spec)、[job.pbs](../../../examples/vasp/minimal/density-of-states/job.pbs) 及[后处理入口](../../../examples/vasp/minimal/density-of-states/analyze.py)。
 
@@ -24,9 +24,9 @@ NEDOS = 401
 
 在集群加载 VASP、MPI 和 VASPKIT 环境后，执行 `qsub job.pbs`。
 
-## 用 VASPKIT 提取
+## 二、分别读取总 DOS 与累计态数
 
-作业脚本先检查 VASP 是否完成电子自洽，再调用 VASPKIT `111`，写出 `TDOS.dat` 与 `ITDOS.dat`。对应操作保存在 [vaspkit.in](../../../examples/vasp/minimal/density-of-states/vaspkit.in)，也可在结果目录手动运行：
+作业脚本先检查 VASP 是否完成电子自洽，再调用 VASPKIT `111`，写出 `TDOS.dat` 与 `ITDOS.dat`。前者给单位能量内的态密度，后者给累计态数。读取带边附近的小峰前，先确认横轴零点和能量步长。若加密 `NEDOS` 后峰形略变，再加密 k 网格看是否稳定。对应操作保存在 [vaspkit.in](../../../examples/vasp/minimal/density-of-states/vaspkit.in)，也可在结果目录手动运行：
 
 ```bash
 vaspkit < vaspkit.in
@@ -36,15 +36,13 @@ vaspkit < vaspkit.in
 
 绘图前检查能量参考：VASPKIT 通常按配置将费米能置零。半导体比较不同结构时可改用价带顶等统一基准；不要把各自置零的曲线当成绝对能级对齐。PDOS 是特定投影定义下的结果，原子与轨道投影之和不一定严格等于总 DOS。
 
-## 结果图
+## 三、先确认图中的零点与分辨率
 
 后处理会调用 [plot.py](../../../examples/vasp/minimal/density-of-states/plot.py) 绘图。已有提取数据时，在结果目录单独执行 `python3 plot.py` 即可重画，无需重算 VASP；绘图依赖见 [requirements.txt](../../../examples/vasp/minimal/density-of-states/requirements.txt)。
 
 ![硅原胞总态密度，PBE、5×5×5 k 网格；虚线为该 DOS 计算的费米能。](../assets/si-dos.png)
 
-硅原胞总态密度，PBE、5×5×5 k 网格；虚线为该 DOS 计算的费米能。
-
-## DOS 小峰与陷阱态怎样区分
+## 四、DOS 小峰与陷阱态怎样区分
 
 带边附近多出一个峰时，先检查离散本征值、占据、自旋、k 点和展宽，确认它不是采样或绘图造成的结构。再比较相容参考下的完整体系与目标缺陷、吸附或取代模型，并查看该能窗中态的空间分布。
 
@@ -54,7 +52,7 @@ VASP 的 [LPARD 后处理](https://vasp.at/wiki/LPARD)可从已收敛的 `WAVECA
 
 判断陷阱深浅需明确相对带边的能量参考及所研究的是单粒子能级、垂直激发还是弛豫后的电荷态转变。局域态的出现不直接给出俘获率、释放时间、迁移率或电导；这些性质还涉及载流子占据、电子与晶格响应及相应动力学。仅凭一个小峰随温度展宽或靠近前线轨道，不能确定热调控导电机制。
 
-## 与 UPS、XPS 对照时还需要什么
+## 五、与 UPS、XPS 对照时还需要什么
 
 占据 DOS 可帮助归属价带光电子谱，但实验强度还受光子能量、光电离矩阵元、占据、表面敏感性、终态及展宽影响。XPS 也能测量价带，并非只对应芯能级。等权重展宽全部占据态得到的是简化谱形；按原子或轨道截面加权 PDOS 时，记录截面的光子能量与来源，以及投影和归一化约定。相关物理关系见[光电子谱与 DOS 的原始讨论](https://pmc.ncbi.nlm.nih.gov/articles/PMC6696543/)。
 

@@ -58,6 +58,8 @@ git push -u origin docs/gete-inputs
 
 `notes/gete.md` 是示例路径，替换成自己修改的文件。新文件不会出现在普通 `git diff` 中，要结合 `git status` 和文件内容检查。
 
+如果这次改动补充了 [GeTe 算例](../../examples/materials/phase-change/README.md)的恢复步骤，提交前可用 `git diff --cached --name-only` 对照文件清单。若同时改了命令与标题，检查调用参数和指向该标题的链接，再把实际验证方式写进 PR。历史轨迹或临时日志留在运行目录，参见[科研文件取舍](Git文件管理与撤销.md)。
+
 在 GitHub / Gitee 打开 PR，说明解决什么问题、哪些步骤已验证。没有上游写权限时先 Fork，再从自己的仓库提交 PR；不要用强制推送解决权限或分支冲突。
 
 ## 三、遇到合并冲突时怎样继续

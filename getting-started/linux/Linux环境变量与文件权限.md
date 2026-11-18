@@ -34,7 +34,7 @@ OMP_NUM_THREADS=1 python analysis.py
 
 上面只为这次命令设置变量，`analysis.py` 要换成自己的脚本。若希望某个设置长期生效，先确认机器和 shell，再编辑个人配置：Bash 交互 shell 常读 `~/.bashrc`，zsh 常读 `~/.zshrc`，登录 shell 的规则还不同。
 
-`source 文件` 在当前 shell 执行配置；`bash 文件` 在子进程执行。PBS 作业、非交互 SSH 和图形应用不一定读取交互配置，作业脚本应显式加载需要的环境，见 [Module](../Module使用.md)。
+`source 文件` 在当前 shell 执行配置；`bash 文件` 在子进程执行。如果登录终端能调用程序，PBS 作业却报 `command not found`，可在作业脚本加载 [Module](../Module使用.md) 后将 `command -v` 和版本检查写入日志，再与交互终端对比。PBS 作业、非交互 SSH 和图形应用可能读取不同的启动文件，作业脚本应显式加载需要的环境。
 
 ## 三、读懂文件权限
 
@@ -44,6 +44,8 @@ ls -l input.inp
 ```
 
 以 `-rw-r-----` 为例，开头 `-` 表示普通文件；后三组分别对应所有者、组成员和其他用户的权限。`r` 读、`w` 写、`x` 执行；目录的 `x` 表示可进入和遍历。
+
+如果从[同步结果](SSH连接与文件同步.md)后读取 `results/run-a/program.out` 报权限不足，先逐层检查 `ls -ld results results/run-a`，再查文件的拥有者和读权限。有时文件本身可读，但用户无法穿过上一级目录。
 
 给自己的脚本增加执行权限：
 

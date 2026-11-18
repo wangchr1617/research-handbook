@@ -4,13 +4,13 @@
 
 贡献者：胡京京、王昌锐
 
-差分电荷密度比较整体与指定参考片段的电子密度：
+想知道 NaCl 形成后，电子密度在 Na、Cl 周围哪里增加、哪里减少，可以把完整晶体与同一晶胞中的两个中性子晶格相比。先按这个参考定义差分：
 
 $$\Delta\rho(\mathbf r)=\rho_{AB}(\mathbf r)-\rho_A(\mathbf r)-\rho_B(\mathbf r).$$
 
 正值表示相对该参考的电子积累，负值表示耗尽。先定义片段、电荷和自旋态，再解释图像；它不是与参考无关的“成键电荷”，也不能直接给出原子转移电子数。
 
-## 准备三个计算
+## 一、删除另一元素，保留晶胞和坐标
 
 [最小案例](../../../examples/vasp/minimal/charge-density-difference)采用 NaCl 两原子原胞，晶格常数 5.64 Å，参考为同一晶胞内分别保留 Na、Cl 的中性周期子晶格。整体和两片段均不优化原子位置。
 
@@ -34,7 +34,7 @@ qsub job.pbs
 
 作业建立 `combined`、`na`、`cl` 三个目录，计算后调用后处理。已有三组输出时直接运行 `python3 postprocess.py`，无需重算。
 
-## 用 Multiwfn 相减
+## 二、对齐网格后再逐点相减
 
 [postprocess.py](../../../examples/vasp/minimal/charge-density-difference/postprocess.py)先检查晶胞、位置和网格，再依照 [multiwfn.in](../../../examples/vasp/minimal/charge-density-difference/multiwfn.in) 调用 Multiwfn。手动操作为：
 
@@ -45,13 +45,13 @@ qsub job.pbs
 
 上述交互输入针对本例非自旋极化 CHGCAR。含自旋密度的文件会增加选择提示，使用时应相应调整。也可用 VASPKIT 的差分密度功能或在 VESTA 中查看导出的 Cube；相减前的一致性要求不变。
 
-## 结果图与检查
+## 三、先核对电子收支，再解释切片
 
 ![NaCl 相对于中性周期子晶格参考的差分电子密度](../assets/nacl-cdd.png)
 
 图由 [plot.py](../../../examples/vasp/minimal/charge-density-difference/plot.py)读取 Multiwfn 的实际结果生成：分数坐标为 $(s,t,t)$ 的切面包含 Na 和 Cl，保留晶格夹角，直接取 `96³` 网格点而不插值。红色为电子积累，蓝色为耗尽，单位为 $e/\text{Å}^3$。局部颜色反映密度重排，不能只看原子中心的一种颜色就判断整个原子的得失电子。
 
-本例整体与两片段积分分别约为 `14 e`、`7 e`、`7 e`，差分积分接近零。脚本还交叉核对 Cube 与原始 CHGCAR 的差值及单位；三维差分密度范围约为 `−0.1374～0.0527 e/Å³`。计算采用 `ENCUT=450 eV`，结果用于演示流程和参考态选择，研究应用还需检查数值参数收敛。
+本例整体与两片段积分分别约为 `14 e`、`7 e`、`7 e`，因此预期差分积分为 $14-7-7=0$。归档的[全胞积分](../../../examples/vasp/minimal/charge-density-difference/cdd-plane-profile.json)约为 $3.7\times10^{-9}$ e。全胞积分接近零后，还要核对局部差值，防止坐标错位造成的积累与耗尽互相抵消。脚本还交叉核对 Cube 与原始 CHGCAR 的差值及单位；三维差分密度范围约为 `−0.1374～0.0527 e/Å³`。计算采用 `ENCUT=450 eV`，结果用于演示流程和参考态选择，研究应用还需检查数值参数收敛。
 
 若要报告原子净电荷，可结合 [Bader 分析](VASPBader电荷分析.md)；若要显示电子局域程度，参见 [ELF](VASP电子局域函数.md)。这三类图和数值回答的问题不同。
 

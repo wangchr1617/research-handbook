@@ -4,7 +4,7 @@
 
 复杂模型开始之前，先训练一个简单基线。以带噪声的人工回归数据为例，比较“只预测训练集均值”和带正则化的线性模型，学会拟合、调参和评估。
 
-## 一、安装并准备数据
+## 一、先生成一组可以解释的标签
 
 ```bash
 python -m pip install numpy scikit-learn
@@ -31,7 +31,7 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 这是假设样本相互独立的演示数据，目标无物理单位。真实材料数据应先按 [数据划分](数据划分与模型评估.md)确定组或时间边界，不直接照抄随机划分。
 
-## 二、在训练部分选择超参数
+## 二、用相同留出集比较均值与 Ridge
 
 ```python
 baseline = DummyRegressor(strategy="mean").fit(x_train, y_train)
@@ -54,13 +54,15 @@ assert mean_absolute_error(y_test, search.predict(x_test)) < mean_absolute_error
 )
 ```
 
-执行 `python regression_demo.py`，Ridge 在这组近似线性的数据上应明显优于均值基线。`GridSearchCV` 采用越大越好的评分约定，所以 MAE 写成负值；输出的误差大小仍用正数报告。
+执行 `python regression_demo.py`，先看选中的 `alpha`，再看两行留出集指标。由于数据由前两列的线性组合加小噪声生成，Ridge 应比均值基线有更低的 MAE。若没有，先检查特征列、标签和训练／测试索引是否仍相互对应。`GridSearchCV` 采用越大越好的评分约定，所以 MAE 写成负值；输出的误差大小仍用正数报告。
 
 `StandardScaler` 放进 Pipeline，每个交叉验证训练折独立拟合，测试集不参与尺度计算。`ridge__alpha` 中前半部分是流水线里的步骤名称，后半部分是该估计器的参数。
 
-## 三、换成自己的表格
+## 三、换材料数据时先换划分规则
 
 把每个样本放一行、特征放各列，目标单独一列。排除材料标签、文件路径、作业 ID 等不该作为数值特征的元信息；这些信息用于追踪来源和分组。
+
+如果每行是一条轨迹里的构型，保留轨迹 ID 给划分器，并将相同的组边界用于超参数交叉验证。报告均值基线和 Ridge 时，两者都用同一份留出数据。 [按轨迹或材料分组](数据划分与模型评估.md)
 
 先检查缺失值、样本数和特征含义，再训练。若做缺失值填补，也放到 Pipeline 的训练阶段；不能先从整张表算平均值填补，再划分测试集。
 

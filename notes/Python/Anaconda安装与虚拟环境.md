@@ -1,8 +1,8 @@
 # Anaconda 安装
 
-**适用环境：Windows；保留 Anaconda 图形安装示例。跨平台环境管理见 [Anaconda、Miniconda、Mamba](../../getting-started/Anaconda、Miniconda、Mamba安装与使用.md)。**
+在 Windows 上第一次跑手册里的绘图示例，常见的问题是包装好了，脚本或 Notebook 却找不到它。先用独立环境跑通导入，再核对终端和 Notebook 实际用的是哪个 Python。已经有可用的 Conda 时，可以直接从创建环境开始。跨平台安装与环境选择见 [Conda 环境管理](../../getting-started/Anaconda、Miniconda、Mamba安装与使用.md)。
 
-## Windows 系统安装 Anaconda
+## 一、在 Windows 上安装并找到 Anaconda Prompt
 
 从 [Anaconda 官网](https://www.anaconda.com/download/) 下载 Windows 安装程序。运行安装向导，选择 **Just Me**，设置安装目录（如 `D:\anaconda3`），并按图选择安装选项。
 
@@ -21,7 +21,7 @@
 <img alt="编辑 Path" src="assets/python-012.png" width="50%" />
 </div>
 
-## 创建环境并运行 Jupyter
+## 二、用同一路径核对终端和 Notebook
 
 在 Anaconda Prompt 中执行，不需要管理员权限：
 
@@ -33,9 +33,9 @@ python -c "import sys; print(sys.executable)"
 jupyter notebook
 ```
 
-浏览器打开后可以新建 Notebook。结束时在启动 Jupyter 的终端按 `Ctrl+C` 并按提示确认停止，关闭浏览器标签页不等于停止服务器。
+浏览器打开后新建 Notebook，运行 `import sys; print(sys.executable)`，与启动前在终端打印的路径比较。若路径不同，先切换到对应环境的内核。终端能导入包而 Notebook 提示 `ModuleNotFoundError` 时，这一步能帮你判断包是否装在了另一个环境里。结束时在启动 Jupyter 的终端按 `Ctrl+C` 并按提示确认停止，关闭浏览器标签页不等于停止服务器。
 
-## 安装第三方库
+## 三、按任务安装依赖并检查导入
 
 以 ASE 为例，在已激活的目标环境中执行：
 
@@ -45,6 +45,6 @@ python -m pip check
 python -c "import ase; print(ase.__version__)"
 ```
 
-Linux / Mac 安装、Mamba、环境导出与离线准备见 [Conda 环境管理](../../getting-started/Anaconda、Miniconda、Mamba安装与使用.md)，依赖安装和 uv 项目管理见 [pip 与 uv](../../getting-started/pip与uv安装与使用.md)。
+`python -m pip` 使用当前解释器调用 pip。`pip check` 检查已安装包声明的依赖，后面的导入测试确认当前解释器能加载 ASE。若只是做[体积—能量绘图练习](科研数据读写与绘图.md)，按那篇的依赖安装并检查对应库即可。项目采用 uv 时，见 [pip 与 uv](../../getting-started/pip与uv安装与使用.md)。
 
 `--no-deps` 会跳过依赖安装，并非避免版本冲突的通用办法；`pip freeze` 是环境快照，不保证重新安装后能完整恢复系统库或消除多余包。正式复现应保留环境声明并在独立环境检查。

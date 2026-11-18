@@ -4,7 +4,9 @@
 
 BP 势是理解现代机器学习势函数的一条起点：把原子附近的环境变成固定长度的特征，用小型神经网络预测原子能，再求和得到总能。先读[能量与力的基础](../基础与比较/势函数的学习对象与数学基础.md)，再看这里的环境编码。
 
-## 一、历史与开发团队
+同一个 O 中心与两个 H 相距都为 1 Å。如果只把 H–O–H 夹角从 90° 变到 120°，只看两条中心键长的特征便无法区分。下面用仓库的 DScribe 对照检查角向特征，再看这些特征如何参与求力。
+
+## 一、为什么用原子环境表示能量
 
 Jörg Behler 与 Michele Parrinello 在 2007 年提出高维神经网络势框架，原论文作者单位为 ETH Zurich 在 Lugano 的研究团队。2011 年 Behler 系统整理了原子中心对称函数（ACSF）。这里介绍经典局域框架；后来的电荷平衡和长程扩展并不自动包含在原始 BP 模型中。[^bp][^acsf]
 
@@ -38,13 +40,13 @@ $R_s$ 是探测距离，$\eta$ 控制宽度，$f_c$ 在截断处平滑归零。�
 
 BP 的价值是把“可扩展到不同原子数”和“满足基本对称性”做进结构设计。其限制是有限截断、有限描述符分辨率和多元素通道增长；网络再大也无法恢复输入已丢失的信息。
 
-## 四、如何判断理解正确
+## 四、用同键长不同夹角核对表示
 
 画出两个中心键长相同、夹角不同的三原子构型。径向读数可以一样，角向读数应能区分它们。再整体旋转构型，所有标量描述符应保持不变。用不同网络输出的原子能比较“原子真实能量”没有直接物理依据，优先比较总能、力与目标物性。
 
 继续阅读 [GAP 与 SOAP](GAP与SOAP.md)和 [DP](../局域神经网络/DP与DeePMD.md)。
 
-## 实践：用真实 ACSF 实现区分键长与键角
+### 用 DScribe 计算 O 中心的特征
 
 以 O 为中心、两个 H 距离都为 1 Å 的三原子环境为例，只把 H–O–H 角从 90° 改为 120°。只统计 O–H 距离的径向函数不能区分二者；角向函数应当改变。下面调用 DScribe 的 ACSF 实现计算 90° 构型的特征：
 
@@ -61,9 +63,9 @@ print(features.shape)
 
 `centers=[0]` 只计算 O 中心，因此第一维是 `1`；第二维是按元素组合和对称函数展开后的特征数，并不是原子数。`g2_params` 每行是径向的 $\eta,R_s$，`g4_params` 每行是角向的 $\eta,\zeta,\lambda$。`r_cut`、坐标和 $R_s$ 使用相同长度单位；$\eta$ 相应带倒长度平方。`species` 要覆盖整个数据集的元素，不能每帧随出现的元素任意改变列定义。
 
-完整的[描述符案例](../../../examples/machine-learning/atomistic-models/descriptor_demo.py)实际生成两个角度、旋转和交换同种邻居，分别输出特征差。其矩张量、ACSF 和 SOAP 结果也可直接横向比较。这个例子解释输入表示；网络训练还要把所有中心的特征送入按元素共享的网络，再对总能求导。
+完整的[描述符案例](../../../examples/machine-learning/atomistic-models/descriptor_demo.py)实际生成两个角度、旋转和交换同种邻居，分别输出特征差。归档中的 ACSF 向量有 7 维，改变夹角后差的范数约为 0.00815，整体旋转和同元素邻居交换的差为零。这些数值适用于案例参数。对照 SOAP 时，先分别核对两种表示是否保留几何差异和不变性。 [归档结果](../../../examples/machine-learning/atomistic-models/reference/cpu-results.json)这个例子解释输入表示；网络训练还要把所有中心的特征送入按元素共享的网络，再对总能求导。
 
-## 训练代码中容易漏掉的求导链
+## 五、求力时要追踪哪些原子中心
 
 设 $G_b$ 为第 $b$ 个描述符、$w$ 为网络参数，则
 
@@ -76,7 +78,7 @@ $$
 
 资料：[DScribe ACSF 接口](https://singroup.github.io/dscribe/latest/tutorials/descriptors/acsf.html)。
 
-## 参考资料
+### 参考资料
 
 [^bp]: J. Behler, M. Parrinello. *Physical Review Letters* **98**, 146401 (2007). [原始论文](https://doi.org/10.1103/PhysRevLett.98.146401)。
 [^acsf]: J. Behler. Atom-centered symmetry functions for constructing high-dimensional neural network potentials. *Journal of Chemical Physics* **134**, 074106 (2011). [原始论文](https://doi.org/10.1063/1.3553717)。

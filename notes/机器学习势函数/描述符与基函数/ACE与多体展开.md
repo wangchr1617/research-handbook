@@ -2,9 +2,11 @@
 
 **适用环境：通用（原理）。**
 
+两组邻居的键长完全一样，只改变夹角，局域特征能不能分辨？仓库的描述符案例给出了这样的对照。向量通道的缩并就能读出夹角，ACE 则用一组径向和角通道组织这类相关项。 [夹角对照](MTP与主动学习.md)
+
 ACE（Atomic Cluster Expansion，原子团簇展开）是一套构造局域环境基函数的框架。它既能用于线性势，也能进入非线性模型或等变网络。MACE 借鉴了这条思路，但 ACE 与 MACE 并非同一个软件或同一套固定模型。
 
-## 一、历史与开发团队
+## 一、从局域几何到多体基函数
 
 Ralf Drautz 在 2019 年发表用于原子间势的 ACE 工作，来自 Ruhr-Universität Bochum 的相关研究。后续数学分析、实现和网络化路线由 Drautz、Christoph Ortner、Gábor Csányi 等多个团队及社区推进。2020 年 Drautz 又将框架扩展到向量、张量、磁性和电荷转移相关属性。[^ace][^tensor]
 
@@ -45,11 +47,11 @@ $$
 
 这些联系解释架构脉络，并不意味着有限参数、截断和训练方案不同的实现必然等价。实践中要同时检查基函数数量、正则化、数值条件和目标物性。
 
-## 五、学习检查
+## 五、从角动量分解走到拟合检查
 
 尝试展开上面的 $A_aA_b$，指出 $j=k$ 和 $j\ne k$ 两类项；再说明为什么“角阶更高”不能直接推出“涉及更多原子”。完成后可读[等变性与张量积](../等变图神经网络/等变性与张量积入门.md)和 [MACE](../等变图神经网络/MACE.md)。
 
-## 实践：把九个外积分量拆成三个表示
+### 用九个外积分量看三个角动量通道
 
 设 $T=\mathbf u\mathbf v^T$，将其拆成
 
@@ -73,15 +75,15 @@ assert np.allclose(t1.T, -t1)
 assert np.allclose(t2.T, t2) and np.isclose(np.trace(t2), 0)
 ```
 
-## 基函数数量如何影响实际训练
+### 扩大基集合前检查训练与验证
 
 假设每个 $A_{nlm}$ 包含元素通道、径向通道与角通道，相关阶为二时需要选择两组索引并耦合；相关阶为三时要选择三组，还需限制中间角动量、宇称和对称重复。它不是把 `correlation` 加一而成本完全不变。
 
-以 Si 的专用线性 ACE 为例，可先用少量径向通道和低相关阶拟合结构能，再加入力行；只有在验证误差确实受表达能力限制时增加基集合。检查基矩阵的奇异值、列尺度和正则化，能避免高阶基强相关导致不稳定系数。
+以 Si 的专用线性 ACE 为例，可先用少量径向通道和低相关阶拟合结构能，再加入力行；只有在验证误差确实受表达能力限制时增加基集合。比较两套基时固定训练与验证划分。若加高阶项只降低训练误差，先看基矩阵的奇异值和列尺度，检查是否出现近线性相关，再比较正则化下的独立力误差。最后用目标物性决定是否保留更大的基。
 
 若想直接操作球张量而不手写耦合系数，可运行[e3nn 张量积案例](../../../examples/machine-learning/atomistic-models/equivariance_demo.py)。它展示真实库中的耦合接口；完整 ACE 势还要包含邻域密度、径向基、对称化和模型拟合。
 
-## 参考资料
+### 参考资料
 
 [^ace]: R. Drautz. Atomic cluster expansion for accurate and transferable interatomic potentials. *Physical Review B* **99**, 014104 (2019). [原始论文](https://doi.org/10.1103/PhysRevB.99.014104)。
 [^tensor]: R. Drautz. Atomic cluster expansion of scalar, vectorial, and tensorial properties including magnetism and charge transfer. *Physical Review B* **102**, 024104 (2020). [原始论文](https://doi.org/10.1103/PhysRevB.102.024104)。

@@ -1,62 +1,10 @@
 # 基于 Docker 与 Apptainer 配置 OVITO
 
-**适用环境：Linux（Docker 构建、Apptainer 运行）；服务管理与系统安装需要管理员权限。**
+本机用图形界面检查结构，或者在独立 Python 环境里批处理，通常已经够用。如果分析脚本要在 Linux 集群运行，而节点上的系统库装不到当前环境，可以在有 Docker 的 Linux 机器上准备镜像，再交给集群的 Apptainer。下面沿用[两原子配位脚本](OVITOPython批量分析.md)，让两种运行环境都用同一份输入验收。
 
-第一次使用先看 [OVITO 图形界面](OVITO安装与基础操作.md)和 [Python 模块](OVITOPython批量分析.md)。下面保留容器部署方法，适用于系统依赖受限的 Linux 环境；普通集群账号不要自行启动或修改 Docker 服务。目录、软件版本和系统包名按实际构建环境确认。
+## 一、把 Python 和系统库装进镜像
 
-## Docker 基础操作
-
-```bash
-# 启动docker
-systemctl start docker
-# 设置开机启动
-systemctl enable docker
-# 查看docker信息
-docker info
-
-docker run			# 运行容器
-docker ps			# 列出正在运行的容器
-docker build		# 构建docker镜像
-docker exec			# 在容器中执行命令
-docker images		# 查看已加载的镜像
-
-# 强制删除镜像
-docker rmi -f 293e96aba527
-
-# 启动一个容器
-docker run -d ubuntu
-
-# 加载下载好的镜像文件
-docker load < docker-oowy-glibc-latest-amd64.tar
-```
-
-```bash
-# 运行glibc镜像
-docker run -it oowy/glibc /bin/bash
-```
-
-## 使用 Dockerfile 构建镜像
-
-首先配置镜像源
-
-```text
-vim /etc/docker/daemon.json
-添加 https://docker.xuanyuan.me
-
-# 重启服务
-systemctl daemon-reload
-systemctl restart docker
-```
-
-联网时使用自己的账号，将下面的用户名和密码替换为实际值：
-
-```bash
-/home/YOUR_USER/scripts/auth_client -u "用户名" -p "密码"
-```
-
-本例使用的 Dockerfile 位于 `/opt/docker-images` 下。
-
-Dockerfile 内容如下：
+在有 Docker 构建权限的 Linux 环境中准备 `Dockerfile`。下面保留 Ubuntu 24.04 和 Python 3.12 的构建记录，按目标节点的 CPU 架构选择构建环境。需要复现同一分析环境时，记下实际装入的 OVITO 版本，并保存使用的镜像。
 
 ```dockerfile
 FROM ubuntu:24.04
@@ -112,34 +60,45 @@ WORKDIR /app
 CMD ["bash"]
 ```
 
-在 Dockerfile 所在目录下运行：`docker build -t ovito_python_3.12 .` 开始构建环境。
-
-构建成功后通过以下命令运行环境：`docker run -it ovito_python_3.12:latest`
-
-更多时候只需挂载本次项目目录到容器中的某个目录，在项目目录运行：`docker run --rm -it --mount "type=bind,source=$PWD,target=/app" ovito_python_3.12:latest`
-
-### 通过 Apptainer 在计算节点上配置
+在 `Dockerfile` 所在目录运行：
 
 ```bash
-# 在root下先把原来的docker镜像导出为.tar文件，并修改用户权限和所属
-docker save -o ovito_python_3.12.tar ovito_python_3.12:latest
-cp ovito_python_3.12.tar /home/YOUR_USER/software/docker-images/
-chown zfli-ICME:zfli-ICME /home/YOUR_USER/software/docker-images/ovito_python_3.12.tar
-
-# 下面用普通用户权限操作
-cd /home/YOUR_USER/software/docker-images/
-chmod 644 ovito_python_3.12.tar
-module load apptainer
-# 将tar文件转换为沙盒目录
-apptainer build --sandbox ovito_sandbox docker-archive:///home/YOUR_USER/software/docker-images/ovito_python_3.12.tar
-# 把沙盒目录打包为apptainer镜像文件格式
-apptainer build ovito_python.sif ovito_sandbox
-# 启动交互式窗口，或者将主机目录挂载到容器内
-apptainer shell ovito_python.sif
-apptainer run --bind /host/path:/container/path my_image.sif
-# 或者执行特定命令（可以在pbs提交脚本中执行）
-apptainer exec --bind "$PWD:/app" ~/software/docker-images/ovito_python.sif python /app/analysis_trj.py 1600
-
-# 当前目录挂载
-apptainer exec --bind "$(pwd):/app" ovito_python.sif python /app/script.py
+docker build -t ovito_python_3.12 .
 ```
+
+构建中的 `import ovito` 用来发现解释器或系统库加载问题。导入通过后，还应读取实际格式并执行修改器。将基础篇的 `two-atoms.dump` 与批处理篇的 `analyze.py` 放到同一个练习目录。先在这个目录运行：
+
+```bash
+docker run --rm --mount "type=bind,source=$PWD,target=/app" ovito_python_3.12 \
+  python /app/analyze.py /app/two-atoms.dump /app/docker-coordination.csv --cutoff 2.5
+```
+
+`/app` 是容器内路径，对应宿主机当前目录。脚本使用独占创建方式写 CSV，重跑时换一个输出名。Docker 的挂载规则见[官方文档](https://docs.docker.com/engine/storage/bind-mounts/)。
+
+## 二、将构建产物交给 Apptainer
+
+在 Docker 主机导出刚验证过的镜像：
+
+```bash
+docker save -o ovito_python_3.12.tar ovito_python_3.12
+```
+
+将归档传到集群上自己可读写的目录。按站点说明加载 Apptainer，并在归档所在目录构建 SIF。已有同名 SIF 时，可为本次构建使用新文件名。
+
+```bash
+module load apptainer
+apptainer build ovito_python.sif "docker-archive://$PWD/ovito_python_3.12.tar"
+```
+
+归档 URI 需要指向实际文件。站点允许的构建位置、权限与临时空间按当地环境确认。构建入口见 [Apptainer 文档](https://apptainer.org/docs/user/latest/cli/apptainer_build.html)。
+
+## 三、用同一帧核对容器结果
+
+把 SIF 放到同一个练习目录，或在命令中替换为镜像的实际路径。运行：
+
+```bash
+apptainer exec --bind "$PWD:/app" ovito_python.sif \
+  /opt/venv/bin/python /app/analyze.py /app/two-atoms.dump /app/sif-coordination.csv --cutoff 2.5
+```
+
+两个 CSV 都应有一行数据：帧号 0、原子数 2、平均配位数 1。若容器能导入 OVITO 却读不到文件，先检查绑定目录和脚本所用的容器内路径。若能读入但写不出 CSV，检查输出是否已存在、挂载目录是否可写。小例通过后，再把相同命令和输入路径放进批处理脚本，记录镜像与分析参数。

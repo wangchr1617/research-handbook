@@ -2,9 +2,9 @@
 
 **适用环境：Linux + PBS（VASP）；Windows / macOS / Linux 可绘图。**
 
-Dimer 从接近过渡态的结构和一个试探方向出发，通过旋转寻找负曲率方向，再沿该方向爬坡、沿其他方向下坡。与 NEB 不同，它不需要完整的两端路径，但初始结构与方向仍会影响找到哪个鞍点。
+已有一份接近鞍点的硅构型，想把它沿局部曲率继续优化，可以用 Dimer。它从一个结构和一个试探方向起步，通过旋转寻找负曲率方向，再沿它爬坡、在其余方向下坡。若两个端点已知而中间路径不清楚，可先用 [CI-NEB](NEB过渡态搜索.md)确定候选区域。
 
-## 从接近鞍点的结构开始
+## 一、给近鞍点构型一个试探方向
 
 [最小案例](../../../examples/vasp/minimal/dimer)沿用 [NEB](NEB过渡态搜索.md)的七原子 Si 空位迁移模型：六个原子固定，仅迁移原子的三个方向自由。起点稍偏离 NEB 的中间构型。
 
@@ -22,7 +22,7 @@ DIMER_DIST = 0.01
 
 本例使用原生 `IBRION=44`，无需 VTST 补丁。`FINDIFF=2` 用中心差分估计曲率，`DIMER_DIST` 单位为 Å。试探方向可根据反应几何设定，也可从试算的虚频本征矢获得。
 
-## 提交与确认
+## 二、从搜索结果接到有限差分振动
 
 准备授权 Si `POTCAR`，采用 [KPOINTS](../../../examples/vasp/minimal/dimer/KPOINTS)，安装 [依赖](../../../examples/vasp/minimal/dimer/requirements.txt)，加载 VASP 后提交 [PBS 文件](../../../examples/vasp/minimal/dimer/job.pbs)：
 
@@ -32,9 +32,11 @@ qsub job.pbs
 
 [run.py](../../../examples/vasp/minimal/dimer/run.py)先执行 Dimer，再以最终结构和 [INCAR.frequency](../../../examples/vasp/minimal/dimer/INCAR.frequency)做有限差分振动检查。[后处理](../../../examples/vasp/minimal/dimer/postprocess.py)检查收敛、固定原子位移和虚频数，[plot.py](../../../examples/vasp/minimal/dimer/plot.py)生成诊断图。
 
+## 三、用负曲率和虚频检查自由子空间
+
 ![Dimer 梯度与受约束振动](../assets/si-dimer.png)
 
-本例最终报告的最大梯度约 0.00102 eV/Å，最近一次曲率约 −1.2587 eV/Å²。三个自由度的频率约为 16.079、16.075 THz 和一个虚频 3.280 THz，支持它是受约束子空间中的一阶鞍点。
+本例最终报告的最大梯度约 0.00102 eV/Å，最近一次曲率约 −1.2587 eV/Å²。三个自由度的频率约为 16.079、16.075 THz 和一个虚频 3.280 THz，支持它是受约束子空间中的一阶鞍点。脚本先检查末步方向曲率为负、最大梯度低于 0.02 eV/Å，再用独立有限差分结果数负模式。计算保留了六个固定原子，因此预期只有三个频率；其中恰好一个虚频，另外两个为实频。
 
 固定原子可承受较大的反作用力，所以不能用“所有原子的最大力”判断此例是否收敛。若放开更多原子，必须重新搜索并检查全部自由度；这个小模型不用于定量预测真实 Si 空位迁移势垒。正式分析还应沿虚频方向向两侧微扰并弛豫，确认连接到预期的两个极小值。
 

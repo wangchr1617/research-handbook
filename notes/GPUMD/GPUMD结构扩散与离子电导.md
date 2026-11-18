@@ -1,10 +1,15 @@
 # GPUMD 结构、扩散与离子电导
 
-结构采样先用 RDF 判断邻近配位，动力学再看各组分的位移与速度相关。离子电导还包含组分间相关性，不能从单条 Li⁺ 自扩散曲线直接确定。
+研究 Li 在固体里的输运时，[LiC₆ 案例](../材料应用/锂离子电池/锂离子电池：从LiC6电压到扩散与界面.md)中的 NEB 可以回答某条空位迁移路径的势垒有多高。若关心有限温度下 Li 实际走了多远，就要在目标温度和组成下采样轨迹。如果目的还包括估计电导，则要说明运动的离子怎样贡献电荷输运。
 
-1. **RDF**：在平衡后的生产段用 `compute_rdf`，选择最大距离和分箱数，记录采样间隔。对均匀各向同性体相，第一极小值前的配位数由 $4\pi\rho_B\int_0^{r_{\min}}r^2g_{AB}(r)\mathrm dr$ 给出，$\rho_B$ 是被计数组分的数密度。薄膜、孔道和非均匀相需按几何解释归一化。
-2. **自扩散**：用 `compute_msd` 检查按物种的展开位移，报告方向、单位和时间窗口。三维各向同性时 $D=\frac16\,\mathrm d(\mathrm{MSD})/\mathrm dt$。另用 `compute_sdc` 的速度相关积分检查时间窗和统计噪声。
-3. **电导**：若版本提供 `compute_ic`，先按文档确认模型支持的电荷和组分定义。集体电流法依赖电荷流的相关函数。用 Nernst–Einstein 公式从各组分自扩散得到的值可作忽略交叉相关的对照。
-4. **有限温度验证**：固定或测得实际密度后，延长轨迹并改变尺寸与种子。扩散慢时先检查实际跳跃事件、相态与 MSD 线性区，再拟合温度依赖。结构相变两侧分别报告，避免跨相拟合单一激活能。
+## 一、先确认轨迹采到了哪种结构
 
-参考 [GPUMD run.in 命令与单位入口](https://gpumd.org/gpumd/input_files/run_in.html)、[RDF](https://gpumd.org/gpumd/input_parameters/compute_rdf.html)、[MSD](https://gpumd.org/gpumd/input_parameters/compute_msd.html)及[自扩散](https://gpumd.org/gpumd/input_parameters/compute_sdc.html)。
+在平衡后的生产段用 `compute_rdf`，记录最大距离、分箱数和采样间隔。对均匀各向同性体相，可把 A–B 的第一极小值作为近邻壳层边界，用 $4\pi\rho_B\int_0^{r_{\min}}r^2g_{AB}(r)\mathrm{d}r$ 求配位数，其中 $\rho_B$ 为 B 组分数密度。换成层间通道或薄膜时，三维体相归一化会受几何影响，结合方向和局部配位检查。若升温途中发生相变，分开统计两侧的原子环境与扩散，避免把两种相态混进一个激活能。 [GPUMD RDF](https://gpumd.org/gpumd/input_parameters/compute_rdf.html)
+
+## 二、从三个方向的 MSD 读出扩散
+
+用 `compute_msd` 选择 Li 所在组。GPUMD 5.9.1 的 `msd.out` 第 1 列是相关时间（ps），第 2 至 4 列是三个方向的 MSD（Å²），第 5 至 7 列是对应的自扩散系数（Å²/ps）。若从轨迹自行复算，先展开周期边界。以层状材料为例，分别检查三个方向的长时间线性区，单方向扩散系数为该方向 MSD 斜率的一半。三个方向之和的斜率除以 6 得到方向平均值。近似各向同性时可用它代表整体扩散，层状材料则应同时给出面内和面外的结果。还可用 `compute_sdc` 的速度自相关积分交叉检查。两种读法都要给出时间窗口。若轨迹中几乎没有跳跃，先增加采样时间或独立种子，并检查体系尺寸和实际密度。 [MSD 输出](https://gpumd.org/gpumd/output_files/msd_out.html) · [自扩散](https://gpumd.org/gpumd/input_parameters/compute_sdc.html)
+
+## 三、说明电导包含哪些离子运动
+
+Nernst–Einstein 估算按各组分的数密度、电荷平方与自扩散系数加权，采用独立离子的近似。若要评价离子相关运动的贡献，需要考察集体电荷位移或电流相关函数。GPUMD 5.9.1 的 `compute_ic` 输入一次指定一个离子类型和电荷，类型编号以初始化时适用的映射为准。报告该命令的结果时注明选中类型和电荷。对多种可动离子，还需交代不同组分间的相关项如何处理。 [GPUMD 离子电导命令](https://gpumd.org/gpumd/input_parameters/compute_ic.html)

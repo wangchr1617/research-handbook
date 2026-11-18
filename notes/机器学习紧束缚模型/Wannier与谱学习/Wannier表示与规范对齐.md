@@ -4,7 +4,9 @@
 
 Wannier 方法把 Bloch 态组合成局域函数，从已有电子结构构造紧束缚表示。Wannier90 本身不是机器学习模型，但它可产生学习矩阵、构造低能模型及验证能带所需的数据。
 
-## 一、历史与开发团队
+相邻两个构型的能带都能重建，矩阵元素却突然变号，该怎么判断是物理变化还是轨道规范变化？先用手册的水分子矩阵复查基变换，再回到周期的 Wannier 数据。
+
+## 一、从 Bloch 态到局域表示
 
 Nicola Marzari 与 David Vanderbilt 在 1997 年建立最大局域 Wannier 函数路线；Arash A. Mostofi、Jonathan R. Yates、Young-Su Lee、Ivo Souza、Vanderbilt 和 Marzari 等开发 Wannier90，2008 年发表软件论文，后续由社区持续推进。这里区分物理表示、软件与在其之上建立的 ML 模型。[^mlwf][^w90]
 
@@ -28,7 +30,7 @@ $U(\mathbf k)$ 混合同一子空间中的态，选择合适的混合可以得�
 
 因此数据准备需要固定投影、轨道身份、能窗和相位，并用轨道重叠或连续追踪等方法对齐。存在近简并时，应关注子空间而非强行给单条态贴固定标签。规范问题的矩阵推导见[哈密顿量基础](../../机器学习哈密顿量/基础与比较/从轨道到哈密顿量矩阵.md)。
 
-## 实践：用真实轨道矩阵看规范翻转
+### 用水分子矩阵核对相位翻转
 
 先运行[水分子矩阵案例](../../../examples/machine-learning/atomistic-models/molecular_matrix.py)，对七轨道空间构造 $U=\mathrm{diag}(1,1,-1,1,1,1,1)$，同时计算 $U^THU$ 与 $U^TSU$。本征值应不变，某些非对角元符号改变。这与不同 Wannier 计算中轨道相位翻转造成的标签跳变是同类代数问题。
 
@@ -46,13 +48,13 @@ $$
 
 具体步骤是从高能块方程求出 $c_H=(E-H_{HH})^{-1}H_{HL}c_L$，代回低能块方程。这个表达仅在逆存在时成立；在某个能窗把它近似成能量无关模型，是额外近似，不能认为任意固定小矩阵都能精确保持所有能带与响应。
 
-## 五、结果检查
+## 五、先复原能带，再检查构型之间的连续性
 
-逐个构型先检查 Wannier 插值误差、中心和轨道身份，再检查相邻构型矩阵的连续性及厄米性。最终对独立构型和一般 $k$ 点验证。波函数相关物性还需同步变换位置、速度等算符，不能只对齐哈密顿量。
+逐个构型先检查 Wannier 插值误差、中心和轨道身份，再检查相邻构型矩阵的连续性及厄米性。若插值正确但矩阵突变，先查 Wannier 中心、轨道排序和相邻子空间重叠。将规范对齐后再重画相关跃迁随构型的曲线。最终对独立构型和一般 $k$ 点验证。波函数相关物性还需同步变换位置、速度等算符，不能只对齐哈密顿量。
 
 与只用能谱训练的模型比较见 [TBworks](TBworks与能谱监督.md)和[数据比较](../基础与比较/数据与横向比较.md)。
 
-## 实践：读一个 hr 文件需要保留哪些字段
+### 先核对 hr 文件中的权重与索引
 
 标准 `seedname_hr.dat` 的开头依次为注释、Wannier 函数数 `num_wann`、实空间网格点数 `nrpts`，再跟 `nrpts` 个简并权重，之后才是逐项矩阵数据。每行包含整数晶格位移、轨道索引、实部和虚部。索引通常从 1 开始，进入 Python 时要减一。
 
@@ -60,14 +62,14 @@ $$
 
 使用成熟读取工具，或先用同一份 hr 重建官方后处理能带，再接学习流程。仅通过 `np.loadtxt` 成功读取数字并不能验证格式解析正确。
 
-## 一个可操作的材料数据验收顺序
+### 用 Si 的局域子空间做逐构型复核
 
 以 Si 的 `sp3` 子空间为例，先固定投影与能窗，检查每个结构的目标带插值，再检查 Wannier 中心、展宽与轨道顺序，最后比较相邻热构型的跃迁连续性。若某帧子空间选择失败，先修正数据，不要让网络用平均化去掩盖规范跳变。
 
-## 参考资料
+### 参考资料
 
 [^mlwf]: N. Marzari, D. Vanderbilt. Maximally localized generalized Wannier functions for composite energy bands. *Physical Review B* **56**, 12847 (1997). [原始论文](https://doi.org/10.1103/PhysRevB.56.12847)。
 [^w90]: A. A. Mostofi et al. wannier90: A tool for obtaining maximally-localised Wannier functions. *Computer Physics Communications* **178**, 685–699 (2008). [原始论文](https://arxiv.org/abs/0708.0650)。
-[^files]: Wannier90 开发团队. [官方文档入口与版本说明](https://wannier.org/documentation/)。
+[^files]: Wannier90 开发团队。 [官方文档入口与版本说明](https://wannier.org/documentation/)。
 
 返回[分类导航](README.md)或[专题首页](../README.md)。

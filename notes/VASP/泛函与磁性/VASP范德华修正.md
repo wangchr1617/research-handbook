@@ -2,9 +2,9 @@
 
 **适用环境：Linux + PBS（VASP）；Windows / macOS / Linux 可绘图。**
 
-半局域泛函对长程色散的描述有限。D3、D3(BJ)、非局域 vdW 泛函等是不同方案，应按体系选择并保持整个能量比较过程一致。
+两个 H₂ 放在同一个盒子里，打开 D3(BJ) 后能量变了多少？先固定两分子的坐标，只切换色散方案，用输出检查修正项。若进一步研究结合，则要把两个单体的参考能量也纳入比较。
 
-## PBE 与 D3(BJ) 对照
+## 一、保持构型不变，只改 IVDW
 
 [最小案例](../../../examples/vasp/minimal/dispersion-d3)在同一 8 Å 周期盒中放置两个 H₂ 分子，只比较固定构型下的 PBE 与 PBE-D3(BJ)。配套 [POSCAR](../../../examples/vasp/minimal/dispersion-d3/POSCAR)、[KPOINTS](../../../examples/vasp/minimal/dispersion-d3/KPOINTS)、[PBE 参数](../../../examples/vasp/minimal/dispersion-d3/INCAR.pbe)和 [D3 参数](../../../examples/vasp/minimal/dispersion-d3/INCAR.d3)。
 
@@ -18,11 +18,13 @@ IVDW = 12
 qsub job.pbs
 ```
 
-[run.py](../../../examples/vasp/minimal/dispersion-d3/run.py)运行两套输入。[后处理](../../../examples/vasp/minimal/dispersion-d3/postprocess.py)核对电子收敛及 `OUTCAR` 中的实际 `Edisp`，并检查它与同构型总能差一致，再调用 [plot.py](../../../examples/vasp/minimal/dispersion-d3/plot.py)。
+[run.py](../../../examples/vasp/minimal/dispersion-d3/run.py)运行两套输入。[后处理](../../../examples/vasp/minimal/dispersion-d3/postprocess.py)核对电子收敛及 `OUTCAR` 中的实际 `Edisp`，并检查它与两次单点的电子自由能之差一致，再调用 [plot.py](../../../examples/vasp/minimal/dispersion-d3/plot.py)。
+
+## 二、用 Edisp 核对同构型自由能差
 
 ![同构型 H₂ 分子周期体系的 D3 修正](../assets/h2-d3.png)
 
-450 eV、Γ 点计算中，D3 修正约为 −10.50 meV。这里包含整个周期体系的色散贡献，既非单独的两分子相互作用能，也不代表优化后结合能。若要计算结合能，应在同一方案下另算各参考组分，检查盒子尺寸及几何，并按定义相减。
+450 eV、Γ 点计算中，D3 修正约为 −10.50 meV。这里包含整个周期体系的色散贡献，既非单独的两分子相互作用能，也不代表优化后结合能。计算冻结几何相互作用能时，应在相容的周期模型下分别计算两个固定单体，再从二聚体能量减去两份单体能量。若求弛豫后的结合能，则还需明确两边采用的独立参考几何。盒子大小也要测试，避免把周期镜像间的色散误当作分子对的作用。
 
 结构优化时色散也会影响受力与平衡几何。不要只在复合体系加修正、在参考分子却使用未修正的能量；也不要无依据地叠加多种色散方案。
 
