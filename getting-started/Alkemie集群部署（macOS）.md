@@ -134,7 +134,7 @@ curl --fail --show-error http://127.0.0.1:8445/api/server/health
 npm run test:deployment -- --base-url http://127.0.0.1:8445
 ```
 
-需要真实计算时，再用小输入核对生成的 PBS 脚本、提交账号、作业 ID 和程序结果。健康接口成功不能代替登录、WebSocket 和 PBS 验证。带 `--agents --write` 的回归会创建临时对象并可能消耗模型额度，按目标项目说明另行运行。
+需要真实计算时，再用小输入核对生成的 PBS 脚本、提交账号、作业 ID 和程序结果。健康接口成功不能代替登录、WebSocket 和 PBS 验证。带 `--agents --write` 的回归测试会创建临时对象并可能消耗模型额度，按目标项目说明另行运行。
 
 服务管理以部署输出为准：使用 systemd user service 时查看对应服务状态和日志；手工模式则使用实际服务目录生成的 `start.sh`、`stop.sh`。默认服务目录结构是 `工作区根目录/alkemie-server/`，先核对再执行。
 

@@ -50,7 +50,7 @@ create_from_DFT = False
 radius = 6.0
 ```
 
-这里 `/home/user` 和 `/path/to` 是需要改写的数据/结果位置；`interface=npz` 意味着它读取已经整理的矩阵数据，不能直接把含 OUTCAR 的目录放进去。完整文件的 `orbital` 枚举 C–C 轨道对的输出索引。
+这里的 `/home/user` 和 `/path/to` 是占位路径，实际使用时需替换为本机的数据和输出目录；`interface=npz` 表示程序读取的是已整理好的矩阵数据，不能直接把包含 OUTCAR 的目录填进去。完整文件的 `orbital` 枚举了 C–C 轨道对的输出索引。
 
 例如 C 的 `s2p2d1` 基含两个 s 径向函数、两组 p 和一组 d，共 $2+2\times3+5=13$ 个轨道；C–C 块就是 `13×13`。在位块也包括不同轨道间耦合，不是只存十三个对角数。
 

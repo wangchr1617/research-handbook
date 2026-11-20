@@ -152,7 +152,7 @@ fft-check success (sum of imaginary terms < 10^-12)
   0.00 0.00 0.00 1
 ```
 
-这条 Γ—X—W—K—Γ 路径使用常规立方轴的笛卡尔坐标，单位为 $2\pi/a$。若静态输入改用了显式晶格，先按该任务实际的 `alat` 和坐标朝向换算路径，或改用分数倒易坐标。FFT 检查只核对变换，画图前另看 Γ 附近声学支与虚频，并通过提高电子和 q 网格精度判断异常的来源。[matdyn.x 输入手册](https://www.quantum-espresso.org/Doc/INPUT_MATDYN.html)
+这条 Γ—X—W—K—Γ 路径使用常规立方轴的笛卡尔坐标，单位为 $2\pi/a$。如果静态输入改用了显式晶格，应先按该任务实际的 `alat` 和坐标朝向换算路径，或改用分数倒易坐标。FFT 检查只能验证傅里叶变换本身；画图前还需查看 Γ 附近的声学支与虚频，并通过提高电子网格和 q 网格精度来判断异常的来源，相关参数见 [matdyn.x 输入手册](https://www.quantum-espresso.org/Doc/INPUT_MATDYN.html)。
 
 最后，使用 `plotband.x` 来处理输出的声子频率文件。
 将以下内容保存为 `6_plotband.inp` 文件，然后运行 `plotband.x < 6_plotband.inp > 6_plotband.out`，生成的 `freq.plot` 文件可以直接导入 Origin 做图。

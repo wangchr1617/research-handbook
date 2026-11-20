@@ -33,7 +33,7 @@ Born 有效电荷是原子位移引起的极化响应，不是 Bader 或 Mullike
 
 `run.py` 用 ASE 明确修改笛卡尔位移，避免斜原胞分数坐标误读。
 
-在干净案例目录安装[Python 依赖](../../../examples/vasp/minimal/berry-polarization/requirements.txt)并提交：
+在干净案例目录安装 [Python 依赖](../../../examples/vasp/minimal/berry-polarization/requirements.txt)并提交：
 
 ```bash
 python3 -m pip install -r requirements.txt

@@ -34,7 +34,7 @@
 
 所有方向都从独立初猜自洽，未采用固定电荷的磁力定理流程。
 
-在干净案例目录安装[Python 依赖](../../../examples/vasp/minimal/magnetic-anisotropy/requirements.txt)并提交：
+在干净案例目录安装 [Python 依赖](../../../examples/vasp/minimal/magnetic-anisotropy/requirements.txt)并提交：
 
 ```bash
 python3 -m pip install -r requirements.txt

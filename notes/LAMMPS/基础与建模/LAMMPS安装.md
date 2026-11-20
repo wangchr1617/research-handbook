@@ -95,7 +95,7 @@ module load intel/2020.1.217
 
 ### 启用 GCMC 所需的 MC 包
 
-`fix gcmc` 由可选的 `MC` 包提供。先用将提交给调度器的那个可执行文件检查：
+`fix gcmc` 由可选的 `MC` 包提供。先用实际提交给调度器的可执行文件检查：
 
 ```bash
 lmp -help | grep -w gcmc

@@ -22,7 +22,7 @@ qsub job.pbs
 
 ## 二、用 SHAKE 日志和实际坐标交叉验收
 
-[后处理](../../../examples/vasp/minimal/constrained-md/postprocess.py)核对每一步电子收敛、`REPORT` 中的 SHAKE 收敛记录，并从 `XDATCAR` 按最小周期映像直接计算距离。若分子跨过盒边，直接用包裹后坐标相减会把短键读成长键；[plot.py](../../../examples/vasp/minimal/constrained-md/plot.py)绘图。
+[后处理脚本](../../../examples/vasp/minimal/constrained-md/postprocess.py)会核对每一步的电子收敛以及 `REPORT` 中的 SHAKE 收敛记录，并从 `XDATCAR` 按最小周期映像直接计算原子间距。如果分子跨越了周期性边界，直接用包裹后的坐标相减会把短键误算成长键；核对无误后再由 [plot.py](../../../examples/vasp/minimal/constrained-md/plot.py) 绘图。
 
 ![H₂ 约束 MD 的键长](../assets/h2-constrained-md.png)
 

@@ -18,11 +18,11 @@ X2C 从相对论理论构造有效电子哈密顿量。ORCA 本例的 X2C 是**�
 
 [nonrel.inp](../../../examples/orca/minimal/all-electron-x2c/nonrel.inp)、[stages.json](../../../examples/orca/minimal/all-electron-x2c/stages.json)、[structure.xyz](../../../examples/orca/minimal/all-electron-x2c/structure.xyz)、[x2c.inp](../../../examples/orca/minimal/all-electron-x2c/x2c.inp)。
 
-结构写在坐标文件或各输入的原子/晶胞段；`stages.json` 列出计算阶段。配套 [run.py](../../../examples/orca/minimal/all-electron-x2c/run.py) 顺序组织任务，[job.pbs](../../../examples/orca/minimal/all-electron-x2c/job.pbs) 提交作业，[postprocess.py](../../../examples/orca/minimal/all-electron-x2c/postprocess.py) 检查结果并绘图。
+分子结构存放在坐标文件或各输入文件的原子/晶胞段中，`stages.json` 用于列出计算阶段。配套脚本中，[run.py](../../../examples/orca/minimal/all-electron-x2c/run.py) 按顺序组织计算任务，[job.pbs](../../../examples/orca/minimal/all-electron-x2c/job.pbs) 用于提交作业，[postprocess.py](../../../examples/orca/minimal/all-electron-x2c/postprocess.py) 负责检查结果并绘图。
 
 ## 三、运行两个 HF 分支
 
-加载 ORCA 及其匹配的 MPI 环境，`ORCA_EXEC` 可指定驱动绝对路径。每步使用一个进程和 1000 MB 主要工作区，驱动外不加 `mpirun`；基组来自程序安装。
+加载 ORCA 及其匹配的 MPI 环境，`ORCA_EXEC` 可指定驱动绝对路径。每步计算使用 1 个进程和 1000 MB 主工作内存，直接调用 ORCA 驱动，外部不加 `mpirun`；所需基组由程序自带。
 
 | 设置 | 判断依据 |
 | --- | --- |

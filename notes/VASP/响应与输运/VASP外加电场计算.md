@@ -6,7 +6,7 @@
 
 ## 一、固定 H₂ 构型，分别施加正负场
 
-[最小案例](../../../examples/vasp/minimal/electric-field)将 H₂ 沿 z 放置，在相同结构上分别施加 `−0.02`、`0`、`+0.02` 的 `EFIELD`。输入为 [POSCAR](../../../examples/vasp/minimal/electric-field/POSCAR)、[KPOINTS](../../../examples/vasp/minimal/electric-field/KPOINTS)及 [负场](../../../examples/vasp/minimal/electric-field/INCAR.minus)、[零场](../../../examples/vasp/minimal/electric-field/INCAR.zero)、[正场](../../../examples/vasp/minimal/electric-field/INCAR.plus)参数。
+[最小案例](../../../examples/vasp/minimal/electric-field)将 H₂ 沿 z 放置，在相同结构上分别施加 `−0.02`、`0`、`+0.02` 的 `EFIELD`。输入为 [POSCAR](../../../examples/vasp/minimal/electric-field/POSCAR)、[KPOINTS](../../../examples/vasp/minimal/electric-field/KPOINTS) 及 [负场](../../../examples/vasp/minimal/electric-field/INCAR.minus)、[零场](../../../examples/vasp/minimal/electric-field/INCAR.zero)、[正场](../../../examples/vasp/minimal/electric-field/INCAR.plus)参数。
 
 ```text
 IDIPOL = 3
@@ -25,7 +25,7 @@ qsub job.pbs
 
 ## 二、用能量与偶极检查场反向
 
-[run.py](../../../examples/vasp/minimal/electric-field/run.py)完成三次自洽计算。[后处理](../../../examples/vasp/minimal/electric-field/postprocess.py)核对实际场强和偶极输出；对于无永久偶极的 H₂，检查正负场能量近似相同、诱导偶极近似反号，再由 [plot.py](../../../examples/vasp/minimal/electric-field/plot.py)绘图。
+[run.py](../../../examples/vasp/minimal/electric-field/run.py) 完成三次自洽计算。[后处理](../../../examples/vasp/minimal/electric-field/postprocess.py)核对实际场强和偶极输出；对于无永久偶极的 H₂，检查正负场能量近似相同、诱导偶极近似反号，再由 [plot.py](../../../examples/vasp/minimal/electric-field/plot.py) 绘图。
 
 ![H₂ 的外场响应](../assets/h2-field.png)
 

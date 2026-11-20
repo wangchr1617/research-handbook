@@ -34,6 +34,6 @@ SPECTRAL_TASK : BANDSTRUCTURE
 | 原子或轨道分解 | `SPECTRAL_TASK : PDOS`，保持相同能量参考与网格 | 各原子、自旋、轨道的相对贡献和投影残差 |
 | 路径能带 | `SPECTRAL_TASK : BANDSTRUCTURE` 与路径 | 带边、简并、沿方向的色散 |
 
-用独立目录保存 DOS 和 PDOS 输入输出，路径块换成相容的规则谱网格。按能窗用 `SPECTRAL_NBANDS` 等控制空带数。DOS 与 PDOS 可共用同一能量零点，但应检查输出确实包含所需频窗内的本征值和投影。[CASTEP 谱任务关键词](https://castep-docs.github.io/castep-docs/documentation/Spectral/keywords/)后处理可用与输出相容的 OptaDOS 流程，统一展宽、每胞或每原子归一化，以及自旋通道。金属 DOS 的尖峰位置和带隙边缘都要分别检查网格与展宽。
+用独立目录保存 DOS 和 PDOS 的输入输出，将路径块换成相容的规则谱网格，并按目标能窗用 `SPECTRAL_NBANDS` 等参数控制空带数。DOS 与 PDOS 可共用同一能量零点，但应检查输出文件是否确实包含所需能窗内的本征值和投影。相关设置可查阅[CASTEP 谱任务关键词](https://castep-docs.github.io/castep-docs/documentation/Spectral/keywords/)；后处理可采用与输出相容的 OptaDOS 流程，并统一展宽、每胞或每原子归一化以及自旋通道。对于金属 DOS 的尖峰位置和半导体的带隙边缘，都应分别检查网格密度与展宽的影响。
 
 比较 CASTEP 与 [VASP 的 Si 实例](../../examples/materials/semiconductor/README.md)时，先对齐原胞、赝势价电子数、k 点密度、泛函及能量零点。结果表至少记录带隙、带边位置和计算设置。公开练习见 [CASTEP Si 教程](https://castep-docs.github.io/castep-docs/tutorials/Bands_and_DOS/semiconductors/)、[金属教程](https://castep-docs.github.io/castep-docs/tutorials/Bands_and_DOS/metals/)及[能带和 DOS 教程](https://castep-docs.github.io/workshop/workshop/02_bands_dos/)。

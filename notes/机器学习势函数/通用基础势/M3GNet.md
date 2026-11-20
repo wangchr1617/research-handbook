@@ -62,7 +62,7 @@ atoms.calc = PESCalculator(potential=potential)
 print(atoms.get_potential_energy(), atoms.get_forces())
 ```
 
-这套权重的[官方模型卡](https://huggingface.co/materialyze/M3GNet-PES-MatPES-PBE-2025.2)要求包含三体父边映射修正的 MatGL `d0b6bf0` 或后续提交，不能只按模型名称匹配一个任意旧安装。其三体 cutoff 为 4 Å、原子图 cutoff 为 5 Å。拿硅与 MACE 对照时可复用同一组晶胞与位移，但分别记录各自截断和权重。先比较相对能与力，再决定是否需要增加参考算例。 [硅扫描实现](../../../examples/machine-learning/atomistic-models/mace_silicon.py)
+这套权重的[官方模型卡](https://huggingface.co/materialyze/M3GNet-PES-MatPES-PBE-2025.2)要求使用包含三体父边映射修正的 MatGL `d0b6bf0` 或后续提交，因此不能只看模型名称就随意配一个旧版 MatGL 环境来跑。其三体 cutoff 为 4 Å、原子图 cutoff 为 5 Å。拿硅与 MACE 对照时可复用同一组晶胞与位移，但分别记录各自截断和权重。先比较相对能与力，再决定是否需要增加参考算例。 [硅扫描实现](../../../examples/machine-learning/atomistic-models/mace_silicon.py)
 
 ### 复现时锁定实现版本与权重
 

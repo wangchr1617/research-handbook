@@ -18,7 +18,7 @@ IVDW = 12
 qsub job.pbs
 ```
 
-[run.py](../../../examples/vasp/minimal/dispersion-d3/run.py)运行两套输入。[后处理](../../../examples/vasp/minimal/dispersion-d3/postprocess.py)核对电子收敛及 `OUTCAR` 中的实际 `Edisp`，并检查它与两次单点的电子自由能之差一致，再调用 [plot.py](../../../examples/vasp/minimal/dispersion-d3/plot.py)。
+[run.py](../../../examples/vasp/minimal/dispersion-d3/run.py) 运行两套输入。[后处理](../../../examples/vasp/minimal/dispersion-d3/postprocess.py)核对电子收敛及 `OUTCAR` 中的实际 `Edisp`，并检查它与两次单点的电子自由能之差一致，再调用 [plot.py](../../../examples/vasp/minimal/dispersion-d3/plot.py)。
 
 ## 二、用 Edisp 核对同构型自由能差
 

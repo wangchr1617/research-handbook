@@ -1,6 +1,6 @@
 # DeePMD-kit 安装
 
-接手旧的 `graph.pb` 模型时，先确定需要的是 CPU 上核对预测、GPU 训练，还是给已有的 LAMMPS 加载模型。这三种用途的验收不同。下面沿用 Linux x86_64 上 DeePMD-kit 2.2.7 的离线安装场景。迁移时以模型的版本和后端为起点。 [2.2.7 安装文档](https://docs.deepmodeling.com/projects/deepmd/en/v2.2.7/install/easy-install.html)
+接手旧的 `graph.pb` 模型时，先确定需要的是 CPU 上核对预测、GPU 训练，还是给已有的 LAMMPS 加载模型。这三种用途的验收不同。下面沿用 Linux x86_64 上 DeePMD-kit 2.2.7 的离线安装场景，迁移时以模型的版本和后端为起点，详细步骤可参考 [2.2.7 安装文档](https://docs.deepmodeling.com/projects/deepmd/en/v2.2.7/install/easy-install.html)。
 
 ## 一、离线节点先把模型评估跑通
 

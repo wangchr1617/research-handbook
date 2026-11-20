@@ -25,7 +25,7 @@ EB_K = 78.4
 
 ## 二、用溶剂项验收，再用总自由能求差
 
-[run.py](../../../examples/vasp/minimal/implicit-solvation/run.py)分别建立 `vacuum/`、`solvent/`，完成计算后调用[后处理](../../../examples/vasp/minimal/implicit-solvation/postprocess.py)。后者检查电子收敛、构型和输入一致性，并确认 `OUTCAR` 实际输出了非零 `Ediel_sol` 溶剂项，结果写入 `solvation-results.json`。
+[run.py](../../../examples/vasp/minimal/implicit-solvation/run.py) 分别建立 `vacuum/`、`solvent/`，完成计算后调用[后处理](../../../examples/vasp/minimal/implicit-solvation/postprocess.py)。后者检查电子收敛、构型和输入一致性，并确认 `OUTCAR` 实际输出了非零 `Ediel_sol` 溶剂项，结果写入 `solvation-results.json`。
 
 本例读取两份输出的电子自由能，真空与溶剂侧分别为 −14.21166、−14.52149 eV，按未舍入的输出计算，差值约 −0.30982 eV；最终 `Ediel_sol` 约为 −1.48299 eV。
 

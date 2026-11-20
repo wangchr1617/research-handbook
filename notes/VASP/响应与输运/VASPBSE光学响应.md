@@ -8,7 +8,7 @@
 
 [最小案例](../../../examples/vasp/minimal/bse-optics)包含 [POSCAR](../../../examples/vasp/minimal/bse-optics/POSCAR)、[KPOINTS](../../../examples/vasp/minimal/bse-optics/KPOINTS)，以及 [PBE](../../../examples/vasp/minimal/bse-optics/INCAR.scf)、[空带对角化](../../../examples/vasp/minimal/bse-optics/INCAR.exact)、[GW](../../../examples/vasp/minimal/bse-optics/INCAR.gw)、[BSE](../../../examples/vasp/minimal/bse-optics/INCAR.bse)输入。准备授权 `Si_GW` POTCAR 和 [依赖](../../../examples/vasp/minimal/bse-optics/requirements.txt)，加载 VASP 后提交 [PBS 作业](../../../examples/vasp/minimal/bse-optics/job.pbs)。
 
-[run.py](../../../examples/vasp/minimal/bse-optics/run.py)依次完成四阶段，并把 GW 的 `WAVECAR`、`WAVEDER`、完整筛选核 `WFULL*.tmp` 等文件传给 BSE。本例 GW 和 BSE 都用 `ENCUTGW = 80` eV，保持屏蔽核对应的响应基组一致。若重跑 GW 改了截断或结构，BSE 应一并更新相配的文件。
+[run.py](../../../examples/vasp/minimal/bse-optics/run.py) 依次完成四阶段，并把 GW 的 `WAVECAR`、`WAVEDER`、完整筛选核 `WFULL*.tmp` 等文件传给 BSE。本例 GW 和 BSE 都用 `ENCUTGW = 80` eV，保持屏蔽核对应的响应基组一致。若重跑 GW 改了截断或结构，BSE 应一并更新相配的文件。
 
 ```text
 ALGO = BSE

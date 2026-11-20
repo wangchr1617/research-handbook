@@ -36,7 +36,7 @@ qsub job.pbs
 
 ## 二、对齐网格后再逐点相减
 
-[postprocess.py](../../../examples/vasp/minimal/charge-density-difference/postprocess.py)先检查晶胞、位置和网格，再依照 [multiwfn.in](../../../examples/vasp/minimal/charge-density-difference/multiwfn.in) 调用 Multiwfn。手动操作为：
+[postprocess.py](../../../examples/vasp/minimal/charge-density-difference/postprocess.py) 先检查晶胞、位置和网格，再依照 [multiwfn.in](../../../examples/vasp/minimal/charge-density-difference/multiwfn.in) 调用 Multiwfn。手动操作为：
 
 1. 打开 `combined/CHGCAR`，选择 `y`，将 VASP 存储的密度乘体积转换成实际密度。
 2. 进入 `13`（网格处理）→ `11`（网格运算）→ `4`（减去另一网格），输入 `na/CHGCAR`，仍选择 `y` 转换密度。
@@ -49,7 +49,7 @@ qsub job.pbs
 
 ![NaCl 相对于中性周期子晶格参考的差分电子密度](../assets/nacl-cdd.png)
 
-图由 [plot.py](../../../examples/vasp/minimal/charge-density-difference/plot.py)读取 Multiwfn 的实际结果生成：分数坐标为 $(s,t,t)$ 的切面包含 Na 和 Cl，保留晶格夹角，直接取 `96³` 网格点而不插值。红色为电子积累，蓝色为耗尽，单位为 $e/\text{Å}^3$。局部颜色反映密度重排，不能只看原子中心的一种颜色就判断整个原子的得失电子。
+图由 [plot.py](../../../examples/vasp/minimal/charge-density-difference/plot.py) 读取 Multiwfn 的实际结果生成：分数坐标为 $(s,t,t)$ 的切面包含 Na 和 Cl，保留晶格夹角，直接取 `96³` 网格点而不插值。红色为电子积累，蓝色为耗尽，单位为 $e/\text{Å}^3$。局部颜色反映密度重排，不能只看原子中心的一种颜色就判断整个原子的得失电子。
 
 本例整体与两片段积分分别约为 `14 e`、`7 e`、`7 e`，因此预期差分积分为 $14-7-7=0$。归档的[全胞积分](../../../examples/vasp/minimal/charge-density-difference/cdd-plane-profile.json)约为 $3.7\times10^{-9}$ e。全胞积分接近零后，还要核对局部差值，防止坐标错位造成的积累与耗尽互相抵消。脚本还交叉核对 Cube 与原始 CHGCAR 的差值及单位；三维差分密度范围约为 `−0.1374～0.0527 e/Å³`。计算采用 `ENCUT=450 eV`，结果用于演示流程和参考态选择，研究应用还需检查数值参数收敛。
 

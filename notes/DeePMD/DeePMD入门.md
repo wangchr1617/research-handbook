@@ -125,7 +125,7 @@ DP 按系统分类，例如上面的 `Ge64Te64` 就是一个系统。
 }
 ```
 
-上面的内嵌配置使用 6 Å 截断。仓库另存的 [GeTe 输入](../../inputs/deepmd/input_GeTe.json)使用 8 Å，且将验证段写成 `_validation_data`，复用前要换成实际的 `validation_data` 配置和独立目录。旧记录中 68、68 个近邻是按 8 Å 数出来的。若用上面的 6 Å 配置，应在数据齐备后按 6 Å 重新统计，并按 Ge、Te 的顺序为高密度构型留余量。`sel: "auto"` 可用作训练数据上的初值，仍需检查目标温压下的高密度样本。同样使用 `se_e2_a` 的[水配置](../../inputs/machine-learning/deepmd-water.json)把 `type_map` 写成 O、H，其 `sel` 的两项也按这个顺序对应。 [DeePMD-kit 2.0.3 参数手册](https://docs.deepmodeling.com/projects/deepmd/en/v2.0.3/train/train-input.html)
+上面的内嵌配置使用 6 Å 截断。仓库另存的 [GeTe 输入](../../inputs/deepmd/input_GeTe.json)使用 8 Å，且将验证段写成 `_validation_data`，复用前要换成实际的 `validation_data` 配置和独立目录。旧记录中 68、68 个近邻是按 8 Å 数出来的。若用上面的 6 Å 配置，应在数据齐备后按 6 Å 重新统计，并按 Ge、Te 的顺序为高密度构型留余量。`sel: "auto"` 可用作训练数据上的初值，仍需检查目标温压下的高密度样本。同样使用 `se_e2_a` 的[水配置](../../inputs/machine-learning/deepmd-water.json)把 `type_map` 写成 O、H，其 `sel` 的两项也按这个顺序对应，更多字段说明见 [DeePMD-kit 2.0.3 参数手册](https://docs.deepmodeling.com/projects/deepmd/en/v2.0.3/train/train-input.html)。
 
 先在已分配资源、且能解析相对数据路径的任务目录运行 `dp train input.json`。确认首批输入和损失可读，再扩大训练预算。以上配置的 virial 权重始终是零，若目标包含应力或 NPT 体积，应单独核对压力与应力表现。并行作业按当前后端文档设置进程和设备分配，不能用 CPU 槽位数直接推断应启动的 GPU 进程数。
 
@@ -137,8 +137,7 @@ DP 按系统分类，例如上面的 `Ge64Te64` 就是一个系统。
 
 训练结束后，运行 `dp freeze -o graph.pb` 冻结模型。`-o` 指定输出文件名，此处生成当前目录下的 `graph.pb`。
 
-压缩后的显存与耗时可以用同一短跑与原模型比较，先复核能量和逐原子力。
-可以使用命令 `dp compress -i graph.pb -o graph-compress.pb` 压缩 `graph.pb`。
+可以使用命令 `dp compress -i graph.pb -o graph-compress.pb` 压缩 `graph.pb`。压缩后先复核能量和逐原子力，再用同一短跑与原模型比较显存占用和耗时。
 
 如果准备了独立测试集，可以使用命令 `dp test -m graph-compress.pb -s ./test/ -d results` 检查训练模型的质量，它将在当前目录中输出名为 `results.e.out` 和 `results.f.out` 等文件。
 

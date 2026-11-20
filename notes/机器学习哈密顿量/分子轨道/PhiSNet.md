@@ -46,7 +46,9 @@ $$
 
 ### 把预测密度作为自洽初猜
 
-除了原论文，可阅读 [nablaDFT 的 PhiSNet 实现](https://github.com/AIRI-Institute/nablaDFT)，其论文明确说明为适配分子批处理做了修改。这是研究再实现，不能称为原作者原封不动的发布。批处理时各分子可以拼成同一个大图，但不同分子之间不能产生边；读出矩阵也必须按分子分别装配。
+除了原论文，可阅读 [nablaDFT 的 PhiSNet 实现](https://github.com/AIRI-Institute/nablaDFT)，其论文明确说明为适配分子批处理做了修改。这是社区的研究复现版本，不能等同于原作者的原始发布代码。批处理时各分子可以拼成同一个大图，但不同分子之间不能产生边；读出矩阵也必须按分子分别装配。
+
+先用仓库水分子的参考矩阵复查 `Tr(PS)=10`。接入模型时，先把预测密度对应到同一基，然后与默认初猜在相同结构、基组和阈值下做两次自洽。 [水分子矩阵与归档入口](../../../examples/machine-learning/atomistic-models/README.md)
 
 先用仓库水分子的参考矩阵复查 `Tr(PS)=10`。接入模型时，先把预测密度对应到同一基，然后与默认初猜在相同结构、基组和阈值下做两次自洽。 [水分子矩阵与归档入口](../../../examples/machine-learning/atomistic-models/README.md)
 

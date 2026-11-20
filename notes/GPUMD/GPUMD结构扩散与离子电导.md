@@ -4,12 +4,12 @@
 
 ## 一、先确认轨迹采到了哪种结构
 
-在平衡后的生产段用 `compute_rdf`，记录最大距离、分箱数和采样间隔。对均匀各向同性体相，可把 A–B 的第一极小值作为近邻壳层边界，用 $4\pi\rho_B\int_0^{r_{\min}}r^2g_{AB}(r)\mathrm{d}r$ 求配位数，其中 $\rho_B$ 为 B 组分数密度。换成层间通道或薄膜时，三维体相归一化会受几何影响，结合方向和局部配位检查。若升温途中发生相变，分开统计两侧的原子环境与扩散，避免把两种相态混进一个激活能。 [GPUMD RDF](https://gpumd.org/gpumd/input_parameters/compute_rdf.html)
+在平衡后的生产段使用 `compute_rdf`（见 [GPUMD RDF](https://gpumd.org/gpumd/input_parameters/compute_rdf.html)），并记录最大距离、分箱数和采样间隔。对均匀各向同性体相，可把 A–B 的第一极小值作为近邻壳层边界，用 $4\pi\rho_B\int_0^{r_{\min}}r^2g_{AB}(r)\mathrm{d}r$ 求配位数，其中 $\rho_B$ 为 B 组分数密度。如果换成层间通道或薄膜，三维体相归一化会受几何限制影响，应结合方向分布和局部配位一起检查。若升温途中发生相变，需分开统计相变两侧的原子环境与扩散，避免把两种相态混进同一个激活能。
 
 ## 二、从三个方向的 MSD 读出扩散
 
-用 `compute_msd` 选择 Li 所在组。GPUMD 5.9.1 的 `msd.out` 第 1 列是相关时间（ps），第 2 至 4 列是三个方向的 MSD（Å²），第 5 至 7 列是对应的自扩散系数（Å²/ps）。若从轨迹自行复算，先展开周期边界。以层状材料为例，分别检查三个方向的长时间线性区，单方向扩散系数为该方向 MSD 斜率的一半。三个方向之和的斜率除以 6 得到方向平均值。近似各向同性时可用它代表整体扩散，层状材料则应同时给出面内和面外的结果。还可用 `compute_sdc` 的速度自相关积分交叉检查。两种读法都要给出时间窗口。若轨迹中几乎没有跳跃，先增加采样时间或独立种子，并检查体系尺寸和实际密度。 [MSD 输出](https://gpumd.org/gpumd/output_files/msd_out.html) · [自扩散](https://gpumd.org/gpumd/input_parameters/compute_sdc.html)
+用 `compute_msd` 选中 Li 所在组。GPUMD 5.9.1 的 `msd.out` 第 1 列是相关时间（ps），第 2 至 4 列是三个方向的 MSD（Å²），第 5 至 7 列是对应的自扩散系数（Å²/ps），详见 [MSD 输出](https://gpumd.org/gpumd/output_files/msd_out.html)。若从轨迹自行复算，需先展开周期边界。以层状材料为例，应分别检查三个方向的长时间线性区，单方向扩散系数为该方向 MSD 斜率的一半，三个方向之和的斜率除以 6 则得到方向平均值。近似各向同性时可用方向平均值代表整体扩散，层状材料则应同时给出面内和面外结果。此外，还可用 `compute_sdc` 的速度自相关积分交叉检查（见[自扩散](https://gpumd.org/gpumd/input_parameters/compute_sdc.html)），两种读法都要注明所用的时间窗口。若轨迹中几乎没有离子跳跃，应先增加采样时间或独立种子，并检查体系尺寸和实际密度。
 
 ## 三、说明电导包含哪些离子运动
 
-Nernst–Einstein 估算按各组分的数密度、电荷平方与自扩散系数加权，采用独立离子的近似。若要评价离子相关运动的贡献，需要考察集体电荷位移或电流相关函数。GPUMD 5.9.1 的 `compute_ic` 输入一次指定一个离子类型和电荷，类型编号以初始化时适用的映射为准。报告该命令的结果时注明选中类型和电荷。对多种可动离子，还需交代不同组分间的相关项如何处理。 [GPUMD 离子电导命令](https://gpumd.org/gpumd/input_parameters/compute_ic.html)
+Nernst–Einstein 估算按各组分的数密度、电荷平方与自扩散系数加权，采用的是独立离子近似。若要评价离子相关运动的贡献，则需要考察集体电荷位移或电流相关函数。GPUMD 5.9.1 的 `compute_ic` 输入每次指定一个离子类型和电荷（见 [GPUMD 离子电导命令](https://gpumd.org/gpumd/input_parameters/compute_ic.html)），类型编号以初始化时适用的映射为准。报告该命令的结果时应注明选中的类型和电荷；对于含多种可动离子的体系，还需交代不同组分间的相关项如何处理。

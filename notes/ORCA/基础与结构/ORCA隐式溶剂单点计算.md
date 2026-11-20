@@ -18,7 +18,7 @@
 - [postprocess.py](../../../examples/orca/minimal/implicit-solvation/postprocess.py)：检查并提取结果。
 - [requirements.txt](../../../examples/orca/minimal/implicit-solvation/requirements.txt)：Python 分析依赖。
 
-在集群加载 ORCA 及其匹配的 MPI 环境。`ORCA_EXEC` 可指定 ORCA 驱动的绝对路径；作业使用一个进程、`%maxcore 1000`，PBS 申请 2 GB 内存。ORCA 由驱动启动，不在外面加 `mpirun`；基组由程序安装提供。
+在集群加载 ORCA 及其匹配的 MPI 环境。`ORCA_EXEC` 可指定 ORCA 驱动的绝对路径；作业使用 1 个进程、`%maxcore 1000`，PBS 申请 2 GB 内存。ORCA 由驱动直接启动，外部不加 `mpirun`；所需基组由程序自带。
 
 在案例目录安装 Python 依赖并提交：
 
@@ -40,7 +40,9 @@ qsub job.pbs
 
 ## 三、这个能量差包含什么
 
-后处理确认两个输出正常结束，并计算 E(CPCM)−E(gas)。本例气相约 −76.27350518 Hartree，CPCM 约 −76.28325375 Hartree，差约 −0.2653 eV。
+后处理确认两个输出正常结束，并计算 E(CPCM)−E(gas)。本例中气相电子能约为 −76.27350518 Hartree，CPCM 下约为 −76.28325375 Hartree，两者相差约 −0.2653 eV。
+
+本机将两个输入分别放在干净目录复跑，电子能差为 −0.009748572845 Hartree，约 −0.26527 eV。这个核对依赖同一个 PBE0/def2-SVP 模型与相同的结构文件。若只是拿两份总能做减法，应先检查输出中启用的溶剂项，不要把程序中已经计入的贡献再次加上。
 
 本机将两个输入分别放在干净目录复跑，电子能差为 −0.009748572845 Hartree，约 −0.26527 eV。这个核对依赖同一个 PBE0/def2-SVP 模型与相同的结构文件。若只是拿两份总能做减法，应先检查输出中启用的溶剂项，不要把程序中已经计入的贡献再次加上。
 

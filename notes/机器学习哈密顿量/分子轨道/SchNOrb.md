@@ -52,7 +52,7 @@ assert np.isclose(np.trace(p @ sample["overlap"]), 10)
 
 ## 五、把同样的检查接到训练输出
 
-原作者仓库的 [`src/scripts/run_schnorb.py`](https://github.com/atomistic-machine-learning/SchNOrb/blob/master/src/scripts/run_schnorb.py)负责训练/评估入口，[`extract_data.py`](https://github.com/atomistic-machine-learning/SchNOrb/blob/master/src/scripts/extract_data.py)处理参考数据。其软件发布属于早期 SchNetPack 生态，不能把当前 SchNetPack 的同名类与历史接口直接组合。
+原作者仓库中，[`src/scripts/run_schnorb.py`](https://github.com/atomistic-machine-learning/SchNOrb/blob/master/src/scripts/run_schnorb.py)负责训练与评估入口，[`extract_data.py`](https://github.com/atomistic-machine-learning/SchNOrb/blob/master/src/scripts/extract_data.py)负责处理参考数据。需要注意，该实现基于早期的 SchNetPack 生态，不能直接把新版 SchNetPack 中的同名类与历史接口混用。
 
 阅读源码时按三步追踪：数据字段如何保存 $H,S$ 及基信息；原子对特征怎样展开成矩阵块；训练指标怎样从矩阵转换为轨道量。复现论文需使用原始基组和数据；本文七轨道水例子用于验证同类矩阵流程。
 

@@ -109,7 +109,7 @@
 
 ## 二、用 GeTe 的三组初态检查探索范围
 
-这个 `param.json` 将扰动、缩小到 0.96 倍和扩大到 1.04 倍的三组初态分别编号为 0、1、2。`model_devi_jobs` 中的每项对应一轮探索。第 0 轮只取第 0 组，结合五个温度和两个压力，形成十组温压条件，再按实际匹配到的初态数生成任务。LAMMPS 步长 0.002 ps 时，1,000 步是 2 ps，每 5 步留一帧，对应 10 fs。先用短轨迹核对构型和输出，再逐轮延长。这里保留旧版配置的字段，使用前按所选版本的参数文档核对。 [DP-GEN 运行参数](https://docs.deepmodeling.com/projects/dpgen/en/latest/run/param.html)
+这个 `param.json` 将扰动、缩小到 0.96 倍和扩大到 1.04 倍的三组初态分别编号为 0、1、2。`model_devi_jobs` 中的每项对应一轮探索。第 0 轮只取第 0 组，结合五个温度和两个压力，形成十组温压条件，再按实际匹配到的初态数生成任务。LAMMPS 步长 0.002 ps 时，1,000 步是 2 ps，每 5 步留一帧，对应 10 fs。先用短轨迹核对构型和输出，再逐轮延长。这里保留了旧版配置的字段，使用前请按所选版本的 [DP-GEN 运行参数](https://docs.deepmodeling.com/projects/dpgen/en/latest/run/param.html)文档核对。
 
 ```json
 {

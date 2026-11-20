@@ -12,17 +12,17 @@ ORCA 给水中两个 H 都报出约 31.093 ppm。能否直接把这个数画在�
 
 ## 二、计算水中 H、O 的屏蔽
 
-对固定中性水分子采用 PBE0/pcSseg-1，计算 H 和 O 的屏蔽。pcSseg-1 是面向屏蔽性质的基组；这里不重新优化几何，以便将输入集中在响应模块。
+本例以固定构型的中性水分子为对象，采用 PBE0/pcSseg-1 计算 H 和 O 的核屏蔽。pcSseg-1 是专门针对屏蔽性质设计的基组；这里不做几何优化，以便把注意力集中在响应计算模块的设置上。
 
 [案例目录](../../../examples/orca/minimal/nmr-shielding)包含以下科学输入：
 
 [shielding.inp](../../../examples/orca/minimal/nmr-shielding/shielding.inp)、[stages.json](../../../examples/orca/minimal/nmr-shielding/stages.json)、[structure.xyz](../../../examples/orca/minimal/nmr-shielding/structure.xyz)。
 
-结构写在坐标文件或各输入的原子/晶胞段；`stages.json` 列出计算阶段。配套 [run.py](../../../examples/orca/minimal/nmr-shielding/run.py) 顺序组织任务，[job.pbs](../../../examples/orca/minimal/nmr-shielding/job.pbs) 提交作业，[postprocess.py](../../../examples/orca/minimal/nmr-shielding/postprocess.py) 检查结果并绘图。
+分子结构存放在坐标文件或各输入文件的原子/晶胞段中，`stages.json` 用于列出计算阶段。配套脚本中，[run.py](../../../examples/orca/minimal/nmr-shielding/run.py) 按顺序组织计算任务，[job.pbs](../../../examples/orca/minimal/nmr-shielding/job.pbs) 用于提交作业，[postprocess.py](../../../examples/orca/minimal/nmr-shielding/postprocess.py) 负责检查结果并绘图。
 
 ## 三、核选择与输入顺序
 
-加载 ORCA 及其匹配的 MPI 环境，`ORCA_EXEC` 可指定驱动绝对路径。每步使用一个进程和 1000 MB 主要工作区，驱动外不加 `mpirun`；基组来自程序安装。
+加载 ORCA 及其匹配的 MPI 环境，`ORCA_EXEC` 可指定驱动绝对路径。每步计算使用 1 个进程和 1000 MB 主工作内存，直接调用 ORCA 驱动，外部不加 `mpirun`；所需基组由程序自带。
 
 | 设置 | 作用 |
 | --- | --- |
@@ -44,7 +44,7 @@ PBS 中的资源语法和软件加载方式按集群调整。计算结束后自�
 
 ## 四、先核对原子，再解释屏蔽值
 
-原生屏蔽汇总给出两个 H 的各向同性屏蔽约 31.093 ppm，O 约 337.320 ppm；对称等价 H 的结果相同，提供一个简单一致性检查。
+原生屏蔽汇总表给出两个 H 的各向同性屏蔽均为约 31.093 ppm，O 约为 337.320 ppm；对称等价的 H 给出相同数值，正好可以作为一项简单的一致性检查。
 
 图画的是屏蔽，不是以 TMS 为零点的化学位移，也不是含线宽的实验 NMR 谱。后处理保留核编号、元素、各向同性值和各向异性值，避免只凭元素名丢失原子对应关系。
 
@@ -52,7 +52,7 @@ PBS 中的资源语法和软件加载方式按集群调整。计算结束后自�
 
 图由案例后处理脚本读取实际计算输出生成。
 
-本机复跑中，一个 H 的屏蔽张量主值为 23.766、25.352 和 44.161 ppm，平均即 31.093 ppm。另一个 H 给出同样的结果。若比较一组同核样品，还要保存参考物的结构、方法和环境。在简单差值约定下，样品的屏蔽越大，换算出的化学位移越小，这一符号也可用于检查作图。
+本机复跑中，一个 H 的屏蔽张量主值为 23.766、25.352 和 44.161 ppm，平均即 31.093 ppm，另一个 H 给出同样的结果。若比较一组同核样品，还要保存参考物的结构、方法和环境。在简单差值约定下，样品的屏蔽值越大，换算出的化学位移就越小，这一符号关系也可以用来核对作图是否正确。
 
 ## 五、扩展到实际研究
 

@@ -12,7 +12,7 @@
 qsub job.pbs
 ```
 
-[run.py](../../../examples/vasp/minimal/gw-quasiparticles/run.py)先收敛 PBE，再用 `ALGO = Exact` 在固定电荷密度下求 24 条能带、输出 `WAVECAR` 与 `WAVEDER`，最后计算一次 G₀W₀：
+[run.py](../../../examples/vasp/minimal/gw-quasiparticles/run.py) 先收敛 PBE，再用 `ALGO = Exact` 在固定电荷密度下求 24 条能带、输出 `WAVECAR` 与 `WAVEDER`，最后计算一次 G₀W₀：
 
 ```text
 ALGO = EVGW0
@@ -26,7 +26,7 @@ LSPECTRAL = .TRUE.
 
 `NBANDS` 为参与响应计算的能带总数，`NBANDSGW` 是输出准粒子修正的目标带数；二者用途不同。`ENCUTGW` 控制响应基组截断。`LSPECTRAL` 选择谱表示的计算方式，本例检查只产生一组预期 QP 表；不能简单把任意输出中的内部能级求解迭代数等同于屏蔽自洽次数。
 
-**每个阶段都要出现 SCF 收敛标记吗？** 固定密度的精确对角化不进行新的 SCF 循环。应先确认原始 PBE 已收敛，再检查后续阶段是否正常结束、是否输出了预期的 QP 表。[结果检查](../../../examples/vasp/minimal/gw-quasiparticles/postprocess.py)还核对本征值、占据和重整化因子 Z，并由 [plot.py](../../../examples/vasp/minimal/gw-quasiparticles/plot.py)绘图。
+**每个阶段都要出现 SCF 收敛标记吗？** 固定密度的精确对角化不进行新的 SCF 循环。应先确认原始 PBE 已收敛，再检查后续阶段是否正常结束、是否输出了预期的 QP 表。[结果检查](../../../examples/vasp/minimal/gw-quasiparticles/postprocess.py)还核对本征值、占据和重整化因子 Z，并由 [plot.py](../../../examples/vasp/minimal/gw-quasiparticles/plot.py) 绘图。
 
 ## 二、在同一组采样点上比较带边
 

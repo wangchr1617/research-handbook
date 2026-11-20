@@ -63,7 +63,7 @@ print(features.shape)
 
 `centers=[0]` 只计算 O 中心，因此第一维是 `1`；第二维是按元素组合和对称函数展开后的特征数，并不是原子数。`g2_params` 每行是径向的 $\eta,R_s$，`g4_params` 每行是角向的 $\eta,\zeta,\lambda$。`r_cut`、坐标和 $R_s$ 使用相同长度单位；$\eta$ 相应带倒长度平方。`species` 要覆盖整个数据集的元素，不能每帧随出现的元素任意改变列定义。
 
-完整的[描述符案例](../../../examples/machine-learning/atomistic-models/descriptor_demo.py)实际生成两个角度、旋转和交换同种邻居，分别输出特征差。归档中的 ACSF 向量有 7 维，改变夹角后差的范数约为 0.00815，整体旋转和同元素邻居交换的差为零。这些数值适用于案例参数。对照 SOAP 时，先分别核对两种表示是否保留几何差异和不变性。 [归档结果](../../../examples/machine-learning/atomistic-models/reference/cpu-results.json)这个例子解释输入表示；网络训练还要把所有中心的特征送入按元素共享的网络，再对总能求导。
+完整的[描述符案例](../../../examples/machine-learning/atomistic-models/descriptor_demo.py)实际生成了两个角度、整体旋转和交换同种邻居的构型，并分别输出特征差。归档中的 ACSF 向量有 7 维，改变夹角后差的范数约为 0.00815，而整体旋转和同元素邻居交换的差为零。这些数值对应案例中的具体参数；对照 SOAP 时，先分别核对两种表示是否都保留了几何差异与不变性。参见[归档结果](../../../examples/machine-learning/atomistic-models/reference/cpu-results.json)。需要说明的是，这个例子只展示了输入表示的构造；真正训练网络时，还要把所有中心的特征送入按元素共享的网络，再对总能求导得到力。
 
 ## 五、求力时要追踪哪些原子中心
 

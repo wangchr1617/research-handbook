@@ -20,7 +20,7 @@ O₂ 的键长已经优化收敛，为什么算出的解离能仍可能偏高？
 qsub job.pbs
 ```
 
-[run.py](../../../examples/vasp/minimal/oxygen-spin-reference/run.py)顺序执行三项计算。[后处理](../../../examples/vasp/minimal/oxygen-spin-reference/postprocess.py)核对电子收敛、O₂ 受力和总磁矩，再取最终 `e_0_energy` 计算：
+[run.py](../../../examples/vasp/minimal/oxygen-spin-reference/run.py) 顺序执行三项计算。[后处理](../../../examples/vasp/minimal/oxygen-spin-reference/postprocess.py)核对电子收敛、O₂ 受力和总磁矩，再取最终 `e_0_energy` 计算：
 
 $$D_e=2E(\mathrm O)-E(\mathrm O_2).$$
 

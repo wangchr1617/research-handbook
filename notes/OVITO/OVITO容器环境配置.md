@@ -90,7 +90,7 @@ module load apptainer
 apptainer build ovito_python.sif "docker-archive://$PWD/ovito_python_3.12.tar"
 ```
 
-归档 URI 需要指向实际文件。站点允许的构建位置、权限与临时空间按当地环境确认。构建入口见 [Apptainer 文档](https://apptainer.org/docs/user/latest/cli/apptainer_build.html)。
+归档 URI 需要指向实际存在的 `.tar` 文件；至于集群允许在何处构建镜像，以及对应的权限与临时空间限制，需按所在站点规定确认。构建入口见 [Apptainer 文档](https://apptainer.org/docs/user/latest/cli/apptainer_build.html)。
 
 ## 三、用同一帧核对容器结果
 

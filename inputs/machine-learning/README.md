@@ -26,7 +26,7 @@
 
 典型检查顺序：解析输入 → 确认元素/轨道与数据大小 → 小预算训练 → 验证误差 → 导出或推理 → 检查物理结果。语法解析通过不等于数据已经具备，也不等于模型已训练。
 
-NequIP 与 Allegro 的本地副本移除了可选 `compile_mode: compile`，便于先用普通执行路径理解流程；其他模型设置保持上游示例；本地副本统一去除了行尾空白。正式加速按所用版本重新开启。`trainer.logger=false` 可避免教程默认的 WandB 配置要求；这不影响模型本身。
+NequIP 与 Allegro 的本地副本移除了可选的 `compile_mode: compile`，便于先用普通执行路径理解流程，其余模型设置保持上游示例不变，并统一去除了行尾空白；正式加速时可按所用版本重新开启。`trainer.logger=false` 可避免教程默认的 WandB 配置要求，不影响模型本身。
 
 ## 来源与版本快照
 
@@ -43,6 +43,6 @@ NequIP 与 Allegro 的本地副本移除了可选 `compile_mode: compile`，便�
 | HamGNN | [`64dba1d` V2 配置](https://github.com/QuantumLab-ZY/HamGNN/blob/64dba1dbf445ccfa2683f560059c3fbca0df624a/examples/V2.x/config.yaml) | [GPL](licenses/hamlicense.txt) |
 | DeePTB | [`597a036` silicon](https://github.com/deepmodeling/DeePTB/tree/597a0361d1111f4a6dce66996b366fd43442816c/examples/silicon/tutorial_v2.2)、[E3](https://github.com/deepmodeling/DeePTB/blob/597a0361d1111f4a6dce66996b366fd43442816c/examples/e3/input_short_cpu.json) | [LGPL](licenses/dtblicense.txt) |
 
-上游输入和许可证按各自许可保留，不统一改写为本手册的 MIT。DeepH 的元数据与 LICENSE 标注应以所用发布的完整许可文件核对。
+上游输入和许可证按各自许可保留，不统一改写为本手册的 MIT。DeepH 的元数据与 LICENSE 标注应以所用发行版的完整许可文件为准。
 
 原理见[势函数](../../notes/机器学习势函数/README.md)、[哈密顿量](../../notes/机器学习哈密顿量/README.md)、[紧束缚模型](../../notes/机器学习紧束缚模型/README.md)；本地小型代码与数值例子见[配套案例](../../examples/machine-learning/atomistic-models/README.md)。

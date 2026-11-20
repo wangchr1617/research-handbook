@@ -59,7 +59,7 @@ training_module:
 nequip-train -cn allegro-tutorial.yaml trainer.accelerator=cpu trainer.max_epochs=2
 ```
 
-数据模块会按其实现下载和切分教程数据。正式使用前核对模型、NequIP 与 Allegro 包版本；旧仓库模板中的 `allegro.model.Allegro` 和新配置中的 `AllegroModel` 不是可随意替换的同名函数。
+运行后，数据模块会自动下载并切分教程数据。正式使用前核对模型、NequIP 与 Allegro 包版本；旧仓库模板中的 `allegro.model.Allegro` 和新配置中的 `AllegroModel` 不是可随意替换的同名函数。
 
 ### 用一帧 GeTe 检查边界力
 

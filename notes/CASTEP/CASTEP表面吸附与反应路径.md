@@ -13,7 +13,7 @@
 
 ## 二、从两个已弛豫位点准备 NEB 路径
 
-先优化初态、末态。两端点用相同晶胞、原子序号与固定原子约束。先选与目标迁移通道相符的周期映像。最近映像可作为单跳的起点；若经过中间位点或绕开障碍，按实际路径选择。CASTEP 的 NEB 任务在 `.param` 中设置 `TASK : TRANSITIONSTATESEARCH` 和 `TSSEARCH_METHOD : NEB`。在 `.cell` 中提供初态、`POSITIONS_ABS_PRODUCT` 和 `POSITIONS_ABS_INTERMEDIATE`，中间构型用于为 CASTEP 的分段插值指定一处初始路径锚点。生成后逐帧检查键长和短接触，再启动路径优化。[CASTEP NEB 接口](https://castep-docs.github.io/castep-docs/documentation/Transition_State_Search/neb/)
+先分别优化初态和末态，两端点保持相同的晶胞、原子序号与固定原子约束，并选取与目标迁移通道相符的周期映像（最近映像可作为单跳的起点；若需经过中间位点或绕开障碍，则按实际路径选择）。在 CASTEP 中设置 NEB 任务时，需在 `.param` 中指定 `TASK : TRANSITIONSTATESEARCH` 和 `TSSEARCH_METHOD : NEB`，在 `.cell` 中提供初态、`POSITIONS_ABS_PRODUCT` 和 `POSITIONS_ABS_INTERMEDIATE`（中间构型用于为分段插值指定一处初始路径锚点），详见 [CASTEP NEB 接口](https://castep-docs.github.io/castep-docs/documentation/Transition_State_Search/neb/)。路径生成后，先逐帧检查键长和原子短接触，确认无误再启动路径优化。
 
 查看 `.ts` 与主输出，检查每张图像的构型、路径连续性和力。加密图像或改变初始路径后复查最高点，比较相对于初态与末态的势垒。若研究化学反应的过渡态，可再检查局部振动模式及其位移方向。
 

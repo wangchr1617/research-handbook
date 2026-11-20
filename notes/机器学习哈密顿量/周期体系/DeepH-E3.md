@@ -48,7 +48,7 @@ irreps_mid = 64x0e+32x1o+16x2e+8x3o+8x4e
 num_blocks = 3
 ```
 
-`lmax=4` 是边方向展开的最高角阶；`num_blocks=3` 是交互块数，二者不能交换理解。该中间表示有 $64+32\times3+16\times5+8\times7+8\times9=368$ 个分量。比只写“高阶等变网络”更具体地看到了成本来源。
+`lmax=4` 是边方向展开的最高角阶；`num_blocks=3` 是交互块数，二者不能混淆。该中间表示共有 $64+32\times3+16\times5+8\times7+8\times9=368$ 个分量，从这个数字就能直观看出高阶等变网络的计算开销来自哪里。
 
 预处理数据目录要包含 `elements.dat`、`lat.dat`、`orbital_types.dat`、`site_positions.dat`、`info.json` 和 `hamiltonians.h5` 等文件。`orbital_types.dat` 记录的是角动量壳层列表：Mo 的 `[0,0,0,1,1,2,2]` 有七个壳层，但实际空间轨道数为 $3+2\times3+2\times5=19$，不能误读成七个轨道。
 

@@ -99,7 +99,7 @@ python -m twine upload --repository testpypi dist/*
 python -m pip install --index-url https://test.pypi.org/simple/ --no-deps gete-analysis-demo==0.1.0
 ```
 
-安装后在项目外重复上节的导入路径和数值断言。这样连同索引上的包名、版本和安装产物一起得到验证。
+安装后在项目外重复上节的导入路径和数值断言，这样就能把索引上的包名、版本和安装产物一并验证。
 
 确认包名、版本、内容和许可后，才运行正式发布命令：
 

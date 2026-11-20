@@ -64,7 +64,7 @@ scp ..\alkemie-source.tar lab-cluster:~/
 
 `git archive HEAD` 取的是提交中的文件。若 `git status --short` 显示刚修改的配置仍在工作区，上传后 Linux 端看到的还是提交里的版本。用 `git rev-parse HEAD` 记录打包版本，确认符合服务端部署说明，再用 `tar -tf` 核对归档内容。密钥和个人数据留在归档之外。
 
-Windows 的 `node_modules`、Conda 环境与 `.exe` 不上传到 Linux 充当运行依赖；前端和后端按服务端环境构建。
+不要把 Windows 下的 `node_modules`、Conda 环境和 `.exe` 上传到 Linux 当作运行依赖，前端和后端都应在服务端环境中重新构建。
 
 ## 三、Linux 部署
 

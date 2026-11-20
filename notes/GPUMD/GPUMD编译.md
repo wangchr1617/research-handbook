@@ -4,7 +4,7 @@
 
 ## 一、先对齐 GPU、CUDA 与宿主编译器
 
-从 [GPUMD 发布页](https://github.com/brucefan1983/GPUMD/releases)选择版本，解压后进入源码树的 `src/`。编译前用 `nvcc --version` 和 `g++ --version` 检查实际调用的工具，在目标 GPU 节点核对型号及驱动。上游 Make 构建用 `CUDA_ARCH` 选择目标算力。下面的命令只适用于所用工具链支持的 8.9 算力 GPU。换 GPU 或工具链后，先清理旧构建产物再编译。 [GPUMD 构建说明](https://github.com/brucefan1983/GPUMD#compile)
+从 [GPUMD 发布页](https://github.com/brucefan1983/GPUMD/releases)选择版本，解压后进入源码树的 `src/`。编译前先用 `nvcc --version` 和 `g++ --version` 检查实际调用的工具，并在目标 GPU 节点核对显卡型号与驱动。上游 Make 构建通过 `CUDA_ARCH` 指定目标算力（详见 [GPUMD 构建说明](https://github.com/brucefan1983/GPUMD#compile)），下面命令仅适用于工具链支持的 8.9 算力 GPU。更换 GPU 或工具链后，应先清理旧构建产物再重新编译。
 
 ```bash
 make CUDA_ARCH="-arch=sm_89"

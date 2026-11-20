@@ -25,7 +25,7 @@ SAXIS = 0 0 1
 qsub job.pbs
 ```
 
-[run.py](../../../examples/vasp/minimal/spin-orbit-coupling/run.py)顺序运行两组计算；[后处理](../../../examples/vasp/minimal/spin-orbit-coupling/postprocess.py)检查实际 SOC 开关、收敛与 Γ 点本征值，再调用 [plot.py](../../../examples/vasp/minimal/spin-orbit-coupling/plot.py)。已有输出可单独运行 `python3 postprocess.py`。
+[run.py](../../../examples/vasp/minimal/spin-orbit-coupling/run.py) 顺序运行两组计算；[后处理](../../../examples/vasp/minimal/spin-orbit-coupling/postprocess.py)检查实际 SOC 开关、收敛与 Γ 点本征值，再调用 [plot.py](../../../examples/vasp/minimal/spin-orbit-coupling/plot.py)。已有输出可单独运行 `python3 postprocess.py`。
 
 ## 二、从六重态读出分裂
 

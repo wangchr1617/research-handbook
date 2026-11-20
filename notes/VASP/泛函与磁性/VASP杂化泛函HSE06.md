@@ -23,7 +23,7 @@ HFSCREEN = 0.2
 qsub job.pbs
 ```
 
-[run.py](../../../examples/vasp/minimal/hybrid-hse06/run.py)先完成 PBE，再以其波函数初始化 HSE06，随后重新自洽优化。PBE `WAVECAR` 只提供初始轨道；HSE06 的非局域交换依赖轨道，第二步必须检查自身的收敛。两阶段均检查电子收敛；[后处理](../../../examples/vasp/minimal/hybrid-hse06/postprocess.py)核对实际交换参数和相同 k 点上的占据、未占据本征值。[plot.py](../../../examples/vasp/minimal/hybrid-hse06/plot.py)生成对照图。
+[run.py](../../../examples/vasp/minimal/hybrid-hse06/run.py) 先完成 PBE，再以其波函数初始化 HSE06，随后重新自洽优化。PBE `WAVECAR` 只提供初始轨道；HSE06 的非局域交换依赖轨道，第二步必须检查自身的收敛。两阶段均检查电子收敛；[后处理](../../../examples/vasp/minimal/hybrid-hse06/postprocess.py)核对实际交换参数和相同 k 点上的占据、未占据本征值。[plot.py](../../../examples/vasp/minimal/hybrid-hse06/plot.py) 生成对照图。
 
 ## 二、比较采到的带边，再决定是否加密
 

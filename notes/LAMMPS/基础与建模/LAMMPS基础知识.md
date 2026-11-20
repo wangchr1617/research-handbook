@@ -2,7 +2,7 @@
 
 **适用环境：Linux + PBS 运行计算；Windows/macOS 可使用对应程序，输入与分析流程通用。**
 
-第一次跑 LAMMPS，可以先用脚本里的 Lennard–Jones 参数生成一个周期晶体。它不依赖外部势文件，原子数、温度设置和运行步数都能从输入查到。先把日志里的值对回脚本，再换成真实材料的势函数，就能定位哪些设置必须一起改。
+第一次跑 LAMMPS，可以先用脚本里的 Lennard–Jones 参数生成一个周期晶体。它不依赖外部势文件，原子数、温度设置和运行步数都能从输入查到。先把日志里的输出值和输入脚本一一对应起来，再换成真实材料的势函数，就能明确哪些设置必须一起改。
 
 ## 一、软件定位、方法与任务
 
@@ -101,7 +101,9 @@ write_restart final.restart
 write_data final.data
 ```
 
-`lattice fcc 0.8442` 在 LJ 单位中给数密度，盒子边长则按晶格单位建立，不能把 0.8442 当成 Å。`pair_coeff` 的两个 1.0 分别为 epsilon 与 sigma；2.5 为截断。[`thermo_modify norm no`](https://docs.lammps.org/thermo_modify.html) 使此处广延量按整体输出，而非自动按原子数归一化；和文献比较时需明确是总能还是每原子能。
+`lattice fcc 0.8442` 在 LJ 单位下表示数密度，盒子边长则按晶格单位建立，不能把 0.8442 当成 Å。`pair_coeff` 的两个 1.0 分别为 epsilon 与 sigma；2.5 为截断。[`thermo_modify norm no`](https://docs.lammps.org/thermo_modify.html) 使此处广延量按整体输出，而非自动按原子数归一化；和文献比较时需明确是总能还是每原子能。
+
+把输入保存为 `in.lammps`，在单独的练习目录运行 `lmp -in in.lammps`，可执行文件名按安装替换。FCC 常规胞含四个原子，沿三个方向各铺五个晶胞，应得到 500 个原子。重置步号后，NVT 段运行五千步，对应 25 个 LJ 约化时间单位。可用日志对照原子数、终止步，再检查是否生成了轨迹和 restart。
 
 把输入保存为 `in.lammps`，在单独的练习目录运行 `lmp -in in.lammps`，可执行文件名按安装替换。FCC 常规胞含四个原子，沿三个方向各铺五个晶胞，应得到 500 个原子。重置步号后，NVT 段运行五千步，对应 25 个 LJ 约化时间单位。可用日志对照原子数、终止步，再检查是否生成了轨迹和 restart。
 

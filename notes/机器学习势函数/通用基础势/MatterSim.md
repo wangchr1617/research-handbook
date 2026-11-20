@@ -38,7 +38,7 @@ print("forces:", atoms.get_forces())
 print("stress GPa:", atoms.get_stress(voigt=False)/GPa)
 ```
 
-这里沿用[官方最小例子](https://github.com/microsoft/mattersim#usage)的接口，首次运行需要取得权重。明确指定 CPU，避免把 Apple Silicon 上的设备兼容与数值表现混同于模型本身的误差。切换 5M 权重应按文档的 `load_path` 指定，不让默认选择在复现中隐式变化。
+这里沿用[官方最小例子](https://github.com/microsoft/mattersim#usage)的接口，首次运行时会自动下载权重。明确指定 CPU，避免把 Apple Silicon 上的设备兼容与数值表现混同于模型本身的误差。切换 5M 权重应按文档的 `load_path` 指定，不让默认选择在复现中隐式变化。
 
 ## 五、从体积扫描扩展到温压验证
 

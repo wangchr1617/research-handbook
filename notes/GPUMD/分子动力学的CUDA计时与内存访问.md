@@ -6,7 +6,7 @@
 
 用仓库的[两阶段短跑](GPUMD首个动力学与续算.md)搭一个对照。固定势、输入坐标和速度，再从同一状态计量 2,000 步 NVE。1 fs 步长对应 2 ps，若墙钟用时 0.5 s，吞吐就是 4 ps/s。这里的时间仅作换算示例。实际测量要记录 GPU、驱动、CUDA 工具链、编译架构、程序版本、原子数、平均邻居数和精度。
 
-要找力计算的开销，预热后在同一个 CUDA stream 内记录起止事件，同步结束事件，再读 `cudaEventElapsedTime` 返回的毫秒数。若只在 CPU 上包住异步 kernel launch，读到的主要是提交开销。要判断实际模拟能快多少，另计包含必要同步、邻居表重建、数据传输和正常输出的墙钟时间。每步强制同步会改变流水执行，应把同步放在测量区间边界。 [NVIDIA CUDA 计时说明](https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#timing)
+要定位力计算的开销，应在预热后于同一个 CUDA stream 内记录起止事件，同步结束事件，再读取 `cudaEventElapsedTime` 返回的毫秒数（见 [NVIDIA CUDA 计时说明](https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#timing)）；如果只在 CPU 侧包住异步 kernel launch，测到的主要只是任务提交开销。要判断实际模拟能快多少，则需另计包含必要同步、邻居表重建、数据传输和正常输出的墙钟时间。注意不要在每一步强制同步，以免打断流水执行，同步应放在测量区间边界。
 
 ## 二、看清邻居访问后再改数据布局
 

@@ -28,10 +28,10 @@ qsub job.pbs
 
 ![固定 c 的晶胞优化轨迹](../assets/si-fixed-cell.png)
 
-图由 [plot.py](../../../examples/vasp/minimal/constrained-cell/plot.py)读取实际优化轨迹生成；a、b 重合，四步后均为约 5.48178 Å，c 保持 5.43 Å。450 eV、`3×3×3` 网格用于演示约束，不作为收敛后的硅晶格参数。
+图由 [plot.py](../../../examples/vasp/minimal/constrained-cell/plot.py) 读取实际优化轨迹生成；a、b 重合，四步后均为约 5.48178 Å，c 保持 5.43 Å。450 eV、`3×3×3` 网格用于演示约束，不作为收敛后的硅晶格参数。
 
 ## 三、按补丁实现选择输入格式
 
 `OPTCELL` 的含义取决于所用补丁。旧式三行矩阵、三整数对角应力补丁与 `IOPTCELL` 九分量补丁是不同实现，使用前先核对程序来源和输入格式。
 
-[VASP_OPT_AXIS](https://github.com/Chengcheng-Xiao/VASP_OPT_AXIS)还提供 `IOPTCELL = xx xy xz yx yy yz zx zy zz` 的应力掩码，以及直接恢复晶格分量的另一套补丁。后者要求 `IBRION = 2`；两种约束在斜晶胞中也不能等同。换补丁后应重新检查晶格轨迹，不能仅凭输入里存在该参数判断约束已生效。
+[VASP_OPT_AXIS](https://github.com/Chengcheng-Xiao/VASP_OPT_AXIS) 还提供 `IOPTCELL = xx xy xz yx yy yz zx zy zz` 的应力掩码，以及直接恢复晶格分量的另一套补丁。后者要求 `IBRION = 2`；两种约束在斜晶胞中也不能等同。换补丁后应重新检查晶格轨迹，不能仅凭输入里存在该参数判断约束已生效。

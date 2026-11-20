@@ -26,7 +26,7 @@ HILLS_BIN = 2
 
 ## 二、把四条丘记录还原成最终偏置
 
-[后处理](../../../examples/vasp/minimal/metadynamics/postprocess.py)检查逐步 SCF、`REPORT` 的偏置记录，以及 `HILLSPOT` 中四个高斯丘的中心、高度和宽度。[plot.py](../../../examples/vasp/minimal/metadynamics/plot.py)绘出实际键长和由高斯丘重建的最终偏置。
+[后处理脚本](../../../examples/vasp/minimal/metadynamics/postprocess.py)会检查每一步的 SCF 收敛情况、`REPORT` 中的偏置记录，以及 `HILLSPOT` 中四个高斯丘的中心、高度和宽度，再由 [plot.py](../../../examples/vasp/minimal/metadynamics/plot.py) 绘出实际键长与由高斯丘重建的最终偏置。
 
 ![H₂ 短轨迹及四个高斯丘形成的偏置](../assets/h2-metadynamics.png)
 

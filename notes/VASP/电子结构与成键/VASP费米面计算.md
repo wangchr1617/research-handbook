@@ -12,11 +12,11 @@
 qsub job.pbs
 ```
 
-[run.py](../../../examples/vasp/minimal/fermi-surface/run.py)先用 `11×11×11` 网格自洽，再读取电荷密度，在完整的 `9×9×9` 网格上计算本征值。`ISYM = -1` 保留全部 729 个点；[prepare.py](../../../examples/vasp/minimal/fermi-surface/prepare.py)生成 `KPOINTS.grid`，修改其中的 `GRID` 可加密。
+[run.py](../../../examples/vasp/minimal/fermi-surface/run.py) 先用 `11×11×11` 网格自洽，再读取电荷密度，在完整的 `9×9×9` 网格上计算本征值。`ISYM = -1` 保留全部 729 个点；[prepare.py](../../../examples/vasp/minimal/fermi-surface/prepare.py) 生成 `KPOINTS.grid`，修改其中的 `GRID` 可加密。
 
 ## 二、检查费米能是否落在能带范围内
 
-[后处理](../../../examples/vasp/minimal/fermi-surface/postprocess.py)检查 k 点覆盖、非自旋电子数和穿越费米能的能带，再保存 `fermi-grid.npz`。对每条带，先在完整网格上取最低和最高本征值，检查费米能是否夹在两者之间。脚本同时用同一网格上的占据数核对非自旋极化原胞约有 3 个价电子。[plot.py](../../../examples/vasp/minimal/fermi-surface/plot.py)用 scikit-image 的 marching cubes 提取实际等能面，按晶格倒易基矢换成 Å⁻¹，并补齐周期边界。
+[后处理](../../../examples/vasp/minimal/fermi-surface/postprocess.py)检查 k 点覆盖、非自旋电子数和穿越费米能的能带，再保存 `fermi-grid.npz`。对每条带，先在完整网格上取最低和最高本征值，检查费米能是否夹在两者之间。脚本同时用同一网格上的占据数核对非自旋极化原胞约有 3 个价电子。[plot.py](../../../examples/vasp/minimal/fermi-surface/plot.py) 用 scikit-image 的 marching cubes 提取实际等能面，按晶格倒易基矢换成 Å⁻¹，并补齐周期边界。
 
 ## 三、判断跨边界的面片是否相连
 

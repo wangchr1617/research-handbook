@@ -112,7 +112,7 @@ K_POINTS automatic
 12 12 3 0 0 0
 ```
 
-赝势取自 SSSP 库；输入中的 `ge_pbe_v1.4.uspp.F.UPF` 和 `Te_pbe_v1.uspp.F.UPF` 应与实际文件名一致，`pseudo_dir` 替换为自己的势目录。这里的 `12 12 3` 来自原案例的 VASPKIT 网格，应再按目标力和应力检查收敛。输入保留归档设置。`occupations='fixed'` 时，`smearing` 与 `degauss` 不用于该占据方案。`scf_must_converge=.false.` 允许电子步未收敛时继续优化，新任务可保留默认的严格行为，避免用未收敛的力推动结构。[pw.x 输入手册](https://www.quantum-espresso.org/Doc/INPUT_PW.html)
+赝势取自 SSSP 库；输入中的 `ge_pbe_v1.4.uspp.F.UPF` 和 `Te_pbe_v1.uspp.F.UPF` 应与实际文件名一致，`pseudo_dir` 需替换为自己的势目录。这里的 `12 12 3` 来自原案例的 VASPKIT 网格，正式计算时应再按目标力和应力检查收敛。输入中保留了原始归档设置：当 `occupations='fixed'` 时，`smearing` 与 `degauss` 不会生效；`scf_must_converge=.false.` 允许电子步未收敛时继续优化，新任务建议保留默认的严格行为，避免用未收敛的力推动结构。更多参数含义见 [pw.x 输入手册](https://www.quantum-espresso.org/Doc/INPUT_PW.html)。
 
 ## 三、提交计算
 

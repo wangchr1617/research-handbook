@@ -6,7 +6,7 @@
 
 ## 一、只释放第二个硅原子的第三个分数分量
 
-[最小案例](../../../examples/vasp/minimal/selective-relaxation)固定硅原胞中的第一个原子，让第二个原子只沿第三晶格方向放松。输入包括 [POSCAR](../../../examples/vasp/minimal/selective-relaxation/POSCAR)、[INCAR](../../../examples/vasp/minimal/selective-relaxation/INCAR)、[KPOINTS](../../../examples/vasp/minimal/selective-relaxation/KPOINTS)与 [PBS 脚本](../../../examples/vasp/minimal/selective-relaxation/job.pbs)。
+[最小案例](../../../examples/vasp/minimal/selective-relaxation)固定硅原胞中的第一个原子，让第二个原子只沿第三晶格方向放松。输入包括 [POSCAR](../../../examples/vasp/minimal/selective-relaxation/POSCAR)、[INCAR](../../../examples/vasp/minimal/selective-relaxation/INCAR)、[KPOINTS](../../../examples/vasp/minimal/selective-relaxation/KPOINTS) 与 [PBS 脚本](../../../examples/vasp/minimal/selective-relaxation/job.pbs)。
 
 ```text
 Selective dynamics

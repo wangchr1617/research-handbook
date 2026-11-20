@@ -52,7 +52,7 @@ mace_run_train --name=Si_demo --model=MACE \
   --batch_size=2 --max_num_epochs=20 --device=cpu --default_dtype=float64
 ```
 
-参数名来自[MACE 官方训练指南](https://mace-docs.readthedocs.io/en/latest/guide/training.html)。`E0s=average` 从训练能量拟合元素参考偏移，只提供初始化与基准，不能把不同泛函的数据物理差异都吸收掉。`num_interactions` 是交互层数，`correlation` 是局部乘积相关阶，`hidden_irreps` 是通道类型及重数。二十轮只用于流程学习，精度要看验证。
+参数名来自[MACE 官方训练指南](https://mace-docs.readthedocs.io/en/latest/guide/training.html)。`E0s=average` 从训练能量拟合元素参考偏移，只提供初始化与基准，不能把不同泛函的数据物理差异都吸收掉。`num_interactions` 是交互层数，`correlation` 是局部乘积相关阶，`hidden_irreps` 是通道类型及重数。这里的 20 轮只用来跑通训练流程，模型精度仍要看验证集上的表现。
 
 ### 用仓库的 Cu 数据做一次训练对照
 
@@ -76,7 +76,7 @@ atoms.calc = mace_mp(model="small", device="cpu", default_dtype="float64")
 print(atoms.get_potential_energy(), atoms.get_forces().shape)
 ```
 
-第一次运行会取得权重。总能与每原子能差一个原子数因子；ASE 的 stress 使用 eV/Å³，不能直接与以 GPa 输出的其他模型比较。网络及检查点的具体实现见[官方代码](https://github.com/ACEsuit/mace)。
+第一次运行时会自动下载对应权重。总能与每原子能差一个原子数因子；ASE 的 stress 使用 eV/Å³，不能直接与以 GPa 输出的其他模型比较。网络及检查点的具体实现见[官方代码](https://github.com/ACEsuit/mace)。
 
 ### 参考资料
 

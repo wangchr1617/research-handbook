@@ -6,7 +6,7 @@ ASE 和 LAMMPS 的[单点对照](NequIP模型部署与跨接口单点.md)通过�
 
 复用[硅状态方程案例](../../examples/vasp/minimal/equation-of-state/README.md)的原胞和体积取样。比较 DFT 和势模型在同一晶胞及坐标下的相对能量，检查最低点、曲率和拟合范围。两套能量都换算到每原子，并用各自的参考能对齐。若最低点偏移，先检查所用的结构和约束，再检查训练构型是否覆盖最低点两边。若需要变胞优化，先确认接口能返回应力，并以小应变下的能量斜率核对相应应力分量的符号和单位。
 
-固定胞优化可先用 ASE 检查最大力和末态配位。再用 DFT 在势模型优化后的同一构型上算一次力，判断该末态对 DFT 是否也接近平衡。 [NequIP ASE 优化示例](https://nequip.readthedocs.io/en/latest/integrations/ase.html#structural-relaxations)
+固定胞优化可先用 ASE 检查最大力和末态配位，再用 DFT 在势模型优化后的同一构型上算一次力，判断该末态对 DFT 是否也接近平衡，具体写法见 [NequIP ASE 优化示例](https://nequip.readthedocs.io/en/latest/integrations/ase.html#structural-relaxations)。
 
 ## 二、从相同初态做两档步长的短跑
 

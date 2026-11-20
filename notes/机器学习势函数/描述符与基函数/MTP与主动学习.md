@@ -43,7 +43,7 @@ M_1\cdot M_1=e^{-2}(|\mathbf r_1|^2+|\mathbf r_2|^2+2\mathbf r_1\cdot\mathbf r_2
 =2e^{-2}(1+\cos\theta).
 $$
 
-最后一步用了两个单位长度及点积定义。90° 时为 $2e^{-2}$，120° 时为 $e^{-2}$；零阶矩则始终为 $2e^{-1}$。归档中两组零阶矩同为约 0.73576，一阶矩缩并分别约为 0.27067 和 0.13534。这个对照说明径向分布相同时，缩并仍能分辨角度。 [描述符归档结果](../../../examples/machine-learning/atomistic-models/reference/cpu-results.json)完整数值代码见[描述符案例中的 `moment_features`](../../../examples/machine-learning/atomistic-models/descriptor_demo.py)。
+最后一步用了两个单位长度及点积定义。90° 时为 $2e^{-2}$，120° 时为 $e^{-2}$；零阶矩则始终为 $2e^{-1}$。归档中两组零阶矩同为约 0.73576，一阶矩缩并分别约为 0.27067 和 0.13534。这个对照说明，即便径向分布完全相同，一阶矩缩并仍能分辨角度变化，参见[描述符归档结果](../../../examples/machine-learning/atomistic-models/reference/cpu-results.json)。完整数值代码见[描述符案例中的 `moment_features`](../../../examples/machine-learning/atomistic-models/descriptor_demo.py)。
 
 ```python
 import numpy as np
@@ -60,7 +60,7 @@ assert np.isclose(m1 @ m1, 2*np.exp(-2))
 
 对线性系数而言，一个环境对应一行基函数读数。若已有行向量几乎覆盖同一方向，增加类似环境带来的信息有限。D-optimality 倾向选择能扩大设计矩阵所覆盖体积的样本，实践中用 maxvol 等方法及外推等级判断新构型是否离开已有覆盖。[^al]
 
-外推等级不是“当前力误差多少 eV/Å”。它反映模型表示中的几何覆盖；参考方法本身错误、截断不足或遗漏电荷态时，即使等级不高也可能预测错误。
+外推等级并不直接等同于“当前力误差有多少 eV/Å”，它反映的是新构型在模型特征空间中的几何覆盖情况。如果参考方法本身有误、截断半径不足或遗漏了电荷态，即使外推等级不高，模型仍可能预测出错。
 
 ## 四、特点、参数与结果检查
 

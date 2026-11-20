@@ -21,7 +21,7 @@
 - [postprocess.py](../../../examples/orca/minimal/single-point/postprocess.py)：检查并提取结果。
 - [requirements.txt](../../../examples/orca/minimal/single-point/requirements.txt)：Python 分析依赖。
 
-在集群加载 ORCA 及其匹配的 MPI 环境。`ORCA_EXEC` 可指定 ORCA 驱动的绝对路径；作业使用一个进程、`%maxcore 1000`，PBS 申请 2 GB 内存。ORCA 由驱动启动，不在外面加 `mpirun`；基组由程序安装提供。
+在集群加载 ORCA 及其匹配的 MPI 环境。`ORCA_EXEC` 可指定 ORCA 驱动的绝对路径；作业使用 1 个进程、`%maxcore 1000`，PBS 申请 2 GB 内存。ORCA 由驱动直接启动，外部不加 `mpirun`；所需基组由程序自带。
 
 在案例目录安装 Python 依赖并提交：
 

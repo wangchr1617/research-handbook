@@ -8,7 +8,7 @@
 
 [硅案例](../../../examples/vasp/minimal/rpa-energy)提供 [POSCAR](../../../examples/vasp/minimal/rpa-energy/POSCAR)、[KPOINTS](../../../examples/vasp/minimal/rpa-energy/KPOINTS)，以及 [PBE 自洽](../../../examples/vasp/minimal/rpa-energy/INCAR.scf)、[空带对角化](../../../examples/vasp/minimal/rpa-energy/INCAR.exact)、[非自洽 HF](../../../examples/vasp/minimal/rpa-energy/INCAR.exx)、[ACFDT](../../../examples/vasp/minimal/rpa-energy/INCAR.rpa)输入。
 
-准备授权 `Si_GW` POTCAR，安装 [依赖](../../../examples/vasp/minimal/rpa-energy/requirements.txt)，加载 VASP 后提交 [job.pbs](../../../examples/vasp/minimal/rpa-energy/job.pbs)。[run.py](../../../examples/vasp/minimal/rpa-energy/run.py)先获得收敛 PBE 轨道及 24 条能带，再分别求 HF 总能与 RPA 关联能。HF 阶段采用 `ALGO = Eigenval`、纯精确交换比例，并关闭半局域相关；不进行新的 HF 轨道自洽优化。
+准备授权 `Si_GW` POTCAR，安装 [依赖](../../../examples/vasp/minimal/rpa-energy/requirements.txt)，加载 VASP 后提交 [job.pbs](../../../examples/vasp/minimal/rpa-energy/job.pbs)。[run.py](../../../examples/vasp/minimal/rpa-energy/run.py) 先获得收敛 PBE 轨道及 24 条能带，再分别求 HF 总能与 RPA 关联能。HF 阶段采用 `ALGO = Eigenval`、纯精确交换比例，并关闭半局域相关；不进行新的 HF 轨道自洽优化。
 
 ```text
 ALGO = ACFDT
@@ -17,7 +17,7 @@ ENCUTGW = 80
 NOMEGA = 8
 ```
 
-ACFDT 阶段沿虚频积分。`NOMEGA` 为积分网格参数，`ENCUTGW` 是响应截断；它们不能代替轨道基组、空带和 k 点收敛。[后处理](../../../examples/vasp/minimal/rpa-energy/postprocess.py)分开读取两类能量，检查实际内部截断表，并保存相加后的演示总能及 [plot.py](../../../examples/vasp/minimal/rpa-energy/plot.py)生成的图。
+ACFDT 阶段沿虚频积分。`NOMEGA` 为积分网格参数，`ENCUTGW` 是响应截断；它们不能代替轨道基组、空带和 k 点收敛。[后处理](../../../examples/vasp/minimal/rpa-energy/postprocess.py)分开读取两类能量，检查实际内部截断表，并保存相加后的演示总能及 [plot.py](../../../examples/vasp/minimal/rpa-energy/plot.py) 生成的图。
 
 ## 二、沿内部截断表核对取数与收敛
 

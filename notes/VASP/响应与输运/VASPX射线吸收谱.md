@@ -6,9 +6,9 @@
 
 ## 一、把受激 Si 单独定义成一种原子类型
 
-[最小案例](../../../examples/vasp/minimal/xas-core-hole)使用 8 原子常规晶胞。[POSCAR](../../../examples/vasp/minimal/xas-core-hole/POSCAR)将第一个 Si 独立为一种原子类型，元素行写 `Si Si`，数量为 `1 7`。按此顺序将两份相同的授权 `Si_GW` 势拼接为 `POTCAR`（[势清单](../../../examples/vasp/minimal/xas-core-hole/POTCAR.spec)）。
+[最小案例](../../../examples/vasp/minimal/xas-core-hole)使用 8 原子常规晶胞。[POSCAR](../../../examples/vasp/minimal/xas-core-hole/POSCAR) 将第一个 Si 独立为一种原子类型，元素行写 `Si Si`，数量为 `1 7`。按此顺序将两份相同的授权 `Si_GW` 势拼接为 `POTCAR`（[势清单](../../../examples/vasp/minimal/xas-core-hole/POTCAR.spec)）。
 
-[INCAR](../../../examples/vasp/minimal/xas-core-hole/INCAR)的核心设置为：
+[INCAR](../../../examples/vasp/minimal/xas-core-hole/INCAR) 的核心设置为：
 
 ```text
 ICORELEVEL = 2
@@ -32,7 +32,7 @@ qsub job.pbs
 
 ## 二、从电子数验收到谱线参考
 
-[后处理脚本](../../../examples/vasp/minimal/xas-core-hole/postprocess.py)检查 SCF、电子数和核谱结束标记，从 `OUTCAR` 提取虚部介电张量，取三个对角分量平均，再由 [plot.py](../../../examples/vasp/minimal/xas-core-hole/plot.py)绘图。图中纵轴归一化，不是绝对吸收系数。
+[后处理脚本](../../../examples/vasp/minimal/xas-core-hole/postprocess.py)检查 SCF、电子数和核谱结束标记，从 `OUTCAR` 提取虚部介电张量，取三个对角分量平均，再由 [plot.py](../../../examples/vasp/minimal/xas-core-hole/plot.py) 绘图。图中纵轴归一化，不是绝对吸收系数。
 
 ![Si K 边核空穴示例](../assets/si-xas.png)
 

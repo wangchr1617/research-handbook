@@ -75,7 +75,7 @@ assert features.shape == (3, 2)
 assert targets.shape == (3, 1)
 ```
 
-执行 `python dataset_demo.py`，应得到八个样本和上述 batch 形状。接入模型后，先在第一个 batch 核对预测与标签的 shape 和 dtype，再计算损失。若发现 `[3]` 标签，回查 Dataset 是返回一个标量，还是一项长度为 1 的张量。`num_workers=0` 让入门示例在主进程读数据，先减少跨平台多进程因素；确需加速时再测试多个 worker，脚本入口也要按多进程要求组织。
+执行 `python dataset_demo.py`，应得到八个样本和上述 batch 形状。接入模型后，先在第一个 batch 核对预测与标签的 shape 和 dtype，再计算损失。若发现标签形状是 `[3]`，回查 Dataset 是返回了标量，还是长度为 1 的张量。`num_workers=0` 让入门示例在主进程读数据，先减少跨平台多进程因素；确需加速时再测试多个 worker，脚本入口也要按多进程要求组织。
 
 例如每行来自同一弛豫任务的不同帧，先按轨迹或材料保存训练和验证的样本索引，再分别交给 DataLoader。 [分组划分](../基础与评估/数据划分与模型评估.md)
 

@@ -29,7 +29,7 @@ LMAXMIX = 4
 qsub job.pbs
 ```
 
-[run.py](../../../examples/vasp/minimal/dft-plus-u/run.py)分别自洽计算两组输入；[后处理](../../../examples/vasp/minimal/dft-plus-u/postprocess.py)检查实际 U、J、轨道选择与收敛，并调用 VASPKIT `111` 提取 `TDOS.dat`，最后由 [plot.py](../../../examples/vasp/minimal/dft-plus-u/plot.py)绘图。已有输出可单独运行 `python3 postprocess.py`。
+[run.py](../../../examples/vasp/minimal/dft-plus-u/run.py) 分别自洽计算两组输入；[后处理](../../../examples/vasp/minimal/dft-plus-u/postprocess.py)检查实际 U、J、轨道选择与收敛，并调用 VASPKIT `111` 提取 `TDOS.dat`，最后由 [plot.py](../../../examples/vasp/minimal/dft-plus-u/plot.py) 绘图。已有输出可单独运行 `python3 postprocess.py`。
 
 ## 二、把两组自旋谱放到各自费米能参考下
 

@@ -121,7 +121,7 @@ ubuntu       20.04     b7bab04fd9aa   6 weeks ago   72.8MB
 
 ## 六、运行 Docker 容器
 
-基于 Docker 镜像的标签（TAG）或者 ID（Image ID），我们可以使用 `docker run` 命令​​创建并启动指定一个新的容器，例如：
+基于 Docker 镜像的标签（TAG）或者 ID（Image ID），我们可以使用 `docker run` 命令创建并启动一个新的容器，例如：
 
 ```bash
 sudo docker run -it ubuntu:20.04 /bin/bash # 使用 --name 参数给创建的容器命名
@@ -159,7 +159,7 @@ sudo docker stop 2105f3ec080a # 用空格隔开 ID 可以同时退出多个容�
 sudo docker kill 2105f3ec080a # 强制关闭，谨慎使用
 ```
 
-如果需要启动一个已停止的容器​​（不创建新容器），使用 `docker start` 命令。
+如果需要启动一个已停止的容器（不创建新容器），使用 `docker start` 命令。
 
 ---
 
@@ -231,8 +231,8 @@ CMD ["bash"]
 
 `CMD` 类似于 `RUN` 指令，用于运行程序，但二者运行的时间点不同：
 
-- `CMD` 在 docker run 时运行（如果 Dockerfile 中如果存在多个 CMD 指令，仅最后一个生效。）。
-- `RUN` 是在 docker build 时运行。
+- `CMD` 在 `docker run` 时运行（如果 Dockerfile 中存在多个 CMD 指令，仅最后一个生效）。
+- `RUN` 是在 `docker build` 时运行。
 
 组织 Dockerfile 时同时考虑依赖缓存和镜像体积；相关安装命令可用 `&&` 连接，便于在同一步处理依赖。
 

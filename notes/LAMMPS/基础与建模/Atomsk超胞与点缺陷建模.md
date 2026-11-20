@@ -19,6 +19,6 @@ atomsk al_vacancy.xsf al_vacancy.lmp
 
 ## 二、转换后用完美晶格核对缺陷
 
-转换格式后重新核对盒矢量、坐标单位、元素和 LAMMPS 类型映射。读取 `al_vacancy.lmp` 的 LAMMPS 输入还需设置与所用势函数一致的单位、边界、原子样式和势参数。进入松弛或动力学前，先检查是否有异常近邻，并保留 `al_bulk.xsf` 作为 [Wigner–Seitz 分析](../../OVITO/Wigner-Seitz缺陷分析.md)的参考。若只检查刚生成、尚未弛豫的结构，用完美超胞作为参考，应有 107 个各占一个原子的位点、1 个空位和 0 个过量原子。若分析给出多重占据，先核对晶胞、参考和转换后的坐标。用于计算空位形成能时，完美和缺陷超胞应使用相同计算设置，另对超胞尺寸做收敛检查。
+转换格式后重新核对盒矢量、坐标单位、元素和 LAMMPS 类型映射。读取 `al_vacancy.lmp` 的 LAMMPS 输入还需设置与所用势函数一致的单位、边界、原子样式和势参数。开始弛豫或动力学模拟前，先检查是否有异常近邻，并保留 `al_bulk.xsf` 作为 [Wigner–Seitz 分析](../../OVITO/Wigner-Seitz缺陷分析.md)的参考。若只检查刚生成、尚未弛豫的结构，用完美超胞作为参考，应有 107 个各占一个原子的位点、1 个空位和 0 个过量原子。若分析给出多重占据，先核对晶胞、参考结构和转换后的坐标。用于计算空位形成能时，完美和缺陷超胞应使用相同计算设置，另对超胞尺寸做收敛检查。
 
 命令与选项见 [Atomsk 官方删原子教程](https://atomsk.univ-lille.fr/tutorial_removeatoms.php)和[选项说明](https://atomsk.univ-lille.fr/doc/en/options.html)。

@@ -56,7 +56,7 @@ print(allowed)  # 0e、1e、2e
 
 原函数遍历各输入表示，筛掉目标表示集合不允许的通道，再给张量积构造指令和归一化系数。源代码见[`ori_QHNet_with_bias.py`](https://github.com/divelab/AIRS/blob/main/OpenDFT/QHNet/models/ori_QHNet_with_bias.py)。路径筛选降低不必要运算，但不改变输出必须覆盖对应轨道块的要求。
 
-例如用 RHF/STO-3G 的水分子做装配检查时，O 的在位块为 5 × 5，两个 H 各为 1 × 1，O–H 块为 5 × 1。反向块需按共轭转置还原。这个尺寸由教学基组决定，接入 QHNet 数据时应按其实际基配置重算。先以[水分子矩阵案例](../../../examples/machine-learning/atomistic-models/molecular_matrix.py)验证本征求解和电子数，再接真实 QHNet 输出，能把网络误差与矩阵后处理错误分开定位。测耗时时分别记录前向、矩阵装配与本征求解。
+例如用 RHF/STO-3G 的水分子做装配检查时，O 的在位块为 5 × 5，两个 H 各为 1 × 1，O–H 块为 5 × 1。反向块需按共轭转置还原。这个尺寸由教学基组决定，接入 QHNet 数据时应按其实际基配置重算。先以[水分子矩阵案例](../../../examples/machine-learning/atomistic-models/molecular_matrix.py)验证本征求解和电子数，再接真实 QHNet 输出，能把网络误差与矩阵后处理错误分开定位。测试耗时时，应分别记录前向推理、矩阵装配与本征求解的时间。
 
 ### 参考资料
 

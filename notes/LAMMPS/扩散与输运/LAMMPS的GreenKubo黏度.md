@@ -16,7 +16,7 @@
 
 [案例目录](../../../examples/lammps/minimal/green-kubo-viscosity)通过 [stages.json](../../../examples/lammps/minimal/green-kubo-viscosity/stages.json)组织计算阶段。
 
-结构写在坐标文件或各输入的原子/晶胞段；`stages.json` 列出计算阶段。配套 [run.py](../../../examples/lammps/minimal/green-kubo-viscosity/run.py) 顺序组织任务，[job.pbs](../../../examples/lammps/minimal/green-kubo-viscosity/job.pbs) 提交作业，[postprocess.py](../../../examples/lammps/minimal/green-kubo-viscosity/postprocess.py) 检查结果并绘图。
+结构信息写在坐标文件或各输入脚本的原子与晶胞定义段中；`stages.json` 列出了各个计算阶段。配套的 [run.py](../../../examples/lammps/minimal/green-kubo-viscosity/run.py) 负责按顺序组织任务，[job.pbs](../../../examples/lammps/minimal/green-kubo-viscosity/job.pbs) 用于提交作业，[postprocess.py](../../../examples/lammps/minimal/green-kubo-viscosity/postprocess.py) 用于检查结果并绘图。
 
 ## 三、参数与提交
 

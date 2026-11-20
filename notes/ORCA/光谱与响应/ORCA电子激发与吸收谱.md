@@ -6,7 +6,7 @@
 
 ## 一、用水分子演示五个单重激发
 
-用固定几何水分子演示五个单重激发。采用 PBE0/def2-SVP，`%tddft` 中设 `nroots 5`、`tda false`，明确使用完整 TDDFT。这个小体系便于学习数据链；缺少弥散函数和仅少量激发态的设置不用于定量描述水的完整吸收光谱。
+本例以固定几何构型的水分子演示前五个单重激发态的计算。方法采用 PBE0/def2-SVP，并在 `%tddft` 中设置 `nroots 5` 与 `tda false`，明确启用完整 TDDFT。这个小体系适合用来熟悉从输入到绘图的数据链；由于缺少弥散函数且仅计算了少量激发态，该设置不适用于定量描述水的完整吸收光谱。
 
 ## 二、准备 TDDFT 输入并运行
 
@@ -19,7 +19,7 @@
 - [postprocess.py](../../../examples/orca/minimal/tddft/postprocess.py)：检查并提取结果。
 - [requirements.txt](../../../examples/orca/minimal/tddft/requirements.txt)：Python 分析依赖。
 
-在集群加载 ORCA 及其匹配的 MPI 环境。`ORCA_EXEC` 可指定 ORCA 驱动的绝对路径；作业使用一个进程、`%maxcore 1000`，PBS 申请 2 GB 内存。ORCA 由驱动启动，不在外面加 `mpirun`；基组由程序安装提供。
+在集群加载 ORCA 及其匹配的 MPI 环境。`ORCA_EXEC` 可指定 ORCA 驱动的绝对路径；作业使用 1 个进程、`%maxcore 1000`，PBS 申请 2 GB 内存。ORCA 由驱动直接启动，外部不加 `mpirun`；所需基组由程序自带。
 
 在案例目录安装 Python 依赖并提交：
 
@@ -42,7 +42,7 @@ qsub job.pbs
 
 ## 四、激发能与强度要一起看
 
-后处理读取 ORCA 6.1 的电偶极吸收表，保留 eV、nm 与无量纲振子强度。第一激发能约 7.5656 eV、振子强度约 0.0160；有的态振子强度为零，不能据此认为该电子态不存在。
+后处理读取 ORCA 6.1 的电偶极吸收表，保留 eV、nm 与无量纲振子强度。其中第一激发能约为 7.5656 eV，振子强度约为 0.0160；需要注意的是，某些态的振子强度为零，这仅表示电偶极禁阻，不能据此认为该电子态不存在。
 
 ORCA 此任务末尾的 `FINAL SINGLE POINT ENERGY` 为所选第一激发态的总能；脚本另从 `E(SCF)` 保存基态能，避免将两者混淆。基态能与单点案例约 −76.27350518 Hartree 一致。
 

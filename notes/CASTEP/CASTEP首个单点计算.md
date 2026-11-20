@@ -23,7 +23,7 @@ SYMMETRY_GENERATE
 KPOINT_MP_GRID : 6 6 6
 ```
 
-保存 `si.param`。这里用 PBE、400 eV 截断与固定占据启动 Si 绝缘态自洽。首次试算后从输出核对发行版为 Si 选用的赝势。跨计算比较时，应保持同一势定义和价电子数，必要时显式指定 `SPECIES_POT`。
+保存 `si.param`。这里先用 PBE 泛函、400 eV 截断能与固定占据跑通 Si 的绝缘态自洽。首次试算后，从输出文件中核对当前发行版为 Si 默认选用的赝势；跨计算比较时应保持同一套赝势定义和价电子数，必要时通过 `SPECIES_POT` 显式指定。
 
 ```text
 TASK : SINGLEPOINT
@@ -41,6 +41,6 @@ castep si
 
 把 `castep` 换成本机实际可执行程序名。先用 `castep -help search cut_off_energy` 核对关键词。命令使用种子名 `si`，程序由此读取同名的两个文件。比较不同输入时使用独立目录，以免同名输出或检查点混在一起。
 
-打开 `si.castep`，依次核对程序版本、元素和价电子数、晶胞与 k 网格、截断、SCF 收敛及最终能量。原胞含两个 Si。做金属对照时，把固定占据设置改成与金属相容的占据方案并核对展宽，见 [Si 与 Al 能带对照](CASTEP的Si与Al能带对照.md)。下一步先做[截断与 k 点收敛](CASTEP截断与k点收敛.md)，再优化几何。
+打开 `si.castep`，依次核对程序版本、元素和价电子数、晶胞与 k 网格、截断能、SCF 收敛情况及最终能量（本例原胞共含两个 Si 原子）。如果后续要做金属对照，需要把固定占据改成适用于金属的占据方案并核对展宽，见 [Si 与 Al 能带对照](CASTEP的Si与Al能带对照.md)。完成单点后，下一步先做[截断与 k 点收敛](CASTEP截断与k点收敛.md)，再优化几何结构。
 
 参考 [CASTEP 运行说明](https://www.castep.org/using_castep)、[Cell 关键词](https://castep-docs.github.io/castep-docs/documentation/Input_Files/cell_keywords/)及[输出文件](https://castep-docs.github.io/castep-docs/documentation/Output_Files/output_files/)。

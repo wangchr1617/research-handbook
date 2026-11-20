@@ -43,6 +43,6 @@ DOS 分支从 `scf.in` 改成 `calculation='nscf'`、`occupations='tetrahedra'`�
 
 ## 四、核对能量零点和结果覆盖范围
 
-QE 7.6 下用 Si 的 PBE 模守恒赝势 `Si_ONCV_PBE-1.1.upf`试跑，`si.bands` 头部给出 8 条带和 21 个 k 点，`si.dos` 给出能量（eV）、总 DOS 和积分 DOS。这份 Γ—X 练习只有一条线段。Si 的图可用价带顶置零，并用更完整的路径与加密的均匀网格核对间接带边。Al 等金属则对齐费米能级，扫描网格与展宽。比较 DOS 时统一每胞或每原子、自旋和能量单位。
+在 QE 7.6 下使用 Si 的 PBE 模守恒赝势 `Si_ONCV_PBE-1.1.upf` 试跑时，`si.bands` 头部会给出 8 条带和 21 个 k 点，`si.dos` 则输出能量（eV）、总 DOS 和积分 DOS。这份 Γ—X 练习只包含一条高对称线段；画 Si 的能带图时通常以价带顶为零点，并结合更完整的路径与加密的均匀网格来核对间接带边。Al 等金属则应以费米能级为零点，并扫描 k 网格与展宽。比较不同计算的 DOS 时，需统一每胞或每原子归一化、自旋通道以及能量单位。
 
 语法见 [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html)、[bands.x](https://www.quantum-espresso.org/Doc/INPUT_BANDS.html)与 [dos.x](https://www.quantum-espresso.org/Doc/INPUT_DOS.html)。

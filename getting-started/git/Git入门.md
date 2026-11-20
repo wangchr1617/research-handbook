@@ -175,8 +175,7 @@ git commit -m "补充算例的结果检查"
 
 使用 `git branch` 查看分支列表，当前所在的分支会以 `*` 号标记。
 使用 `git branch <branch-name>` 创建新分支，并使用 `git checkout <branch-name>` 切换分支。
-通过选项控制如 `git branch -option <new-branch-name>` 可以实现：
--m 重命名当前所在分支；-d 删除本地分支（前提是该分支已合并到当前分支）。
+通过 `git branch <选项> <branch-name>` 也可以执行常用管理操作：`-m` 用于重命名当前所在分支，`-d` 用于删除已合并到当前分支的本地分支。
 
 分支合并需要先切换到目标分支（如 main），然后将指定分支（如 dev）合并到当前分支：
 

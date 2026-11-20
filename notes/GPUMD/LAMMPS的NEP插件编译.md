@@ -1,6 +1,6 @@
 # NEP-LAMMPS 编译
 
-已有 LAMMPS 的结构、边界和后处理输入时，可以用 NEP_CPU 提供的 `pair_style nep` 接进原工作流。上游 LAMMPS 接口支持单隐藏层的 NEP 势及其 ZBL 变体，qNEP、偶极和极化率模型超出该接口的支持范围。选接口前先读模型文件头，再核对随所选提交发布的说明。 [NEP_CPU 接口说明](https://github.com/brucefan1983/NEP_CPU#lammps-interface)
+已有 LAMMPS 的结构、边界和后处理输入时，可以用 NEP_CPU 提供的 `pair_style nep` 接进原工作流。上游 LAMMPS 接口支持单隐藏层的 NEP 势及其 ZBL 变体，qNEP、偶极和极化率模型超出该接口的支持范围。选接口前先读模型文件头，再核对随所选提交发布的 [NEP_CPU 接口说明](https://github.com/brucefan1983/NEP_CPU#lammps-interface)。
 
 ## 一、按同一条构建路线接入 USER-NEP
 
@@ -12,7 +12,7 @@ cp -R NEP_CPU/interface/lammps/USER-NEP lammps/src/
 cp NEP_CPU/interface/lammps/USER-NEP.cmake lammps/cmake/Modules/Packages/
 ```
 
-按上游构建说明，在 `lammps/cmake/CMakeLists.txt` 的 `STANDARD_PACKAGES` 与 `PKG_WITH_INCL` 列表中加入 `USER-NEP`，然后从共同父目录配置并构建。若选择传统 Make 路线，则按上游说明在 `lammps/src/` 中启用 `make yes-USER-NEP` 并使用对应的机器目标构建。 [NEP_CPU 构建说明](https://github.com/brucefan1983/NEP_CPU#build-1)
+按 [NEP_CPU 构建说明](https://github.com/brucefan1983/NEP_CPU#build-1)，在 `lammps/cmake/CMakeLists.txt` 的 `STANDARD_PACKAGES` 与 `PKG_WITH_INCL` 列表中加入 `USER-NEP`，然后从共同父目录配置并构建。若选择传统 Make 路线，则按上游说明在 `lammps/src/` 中启用 `make yes-USER-NEP` 并使用对应的机器目标构建。
 
 ```bash
 cmake -S lammps/cmake -B lammps/build -DCMAKE_BUILD_TYPE=Release -DPKG_USER-NEP=ON

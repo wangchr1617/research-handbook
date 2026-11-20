@@ -20,4 +20,4 @@ special_bonds lj/coul 0.0 0.0 0.5
 
 ## 二、用四原子链核对 1–4 缩放
 
-对于教学拓扑 1–2–3–4，`special_bonds lj/coul 0.0 0.0 0.5` 把相隔一根或两根键的 LJ 和 Coulomb 权重设为零，把端点 1 和 4 的权重设为 0.5。这里数的是沿拓扑的成键距离。可以选两组固定坐标，先比同一四原子链的能量，再改变二面角复查相对能量。若能量差异常，先核对键表、参数单位和端点缩放，再检查二面角系数。对更复杂的旧输入，可沿[模型与输入核对](LAMMPS旧算例的模型与输入核对.md)追到生成后的拓扑。参见 [LAMMPS special_bonds](https://docs.lammps.org/special_bonds.html)。
+对于 1–2–3–4 的示例拓扑，`special_bonds lj/coul 0.0 0.0 0.5` 把相隔一根或两根键的 LJ 和 Coulomb 权重设为零，把端点 1 和 4 的权重设为 0.5。这里数的是沿拓扑的成键距离。可以选两组固定坐标，先比较同一四原子链的能量，再改变二面角复查相对能量。若能量差异常，先核对键表、参数单位和端点缩放，再检查二面角系数。对更复杂的旧输入，可沿[模型与输入核对](LAMMPS旧算例的模型与输入核对.md)追查生成后的拓扑。参见 [LAMMPS special_bonds](https://docs.lammps.org/special_bonds.html)。

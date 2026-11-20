@@ -6,7 +6,7 @@
 
 ## 一、用 ZnS 计算电子与离子响应
 
-[最小案例](../../../examples/vasp/minimal/piezoelectric-response)采用晶格常数 5.41 Å 的两原子 [POSCAR](../../../examples/vasp/minimal/piezoelectric-response/POSCAR)、450 eV 的 [INCAR](../../../examples/vasp/minimal/piezoelectric-response/INCAR)与 `3×3×3` [KPOINTS](../../../examples/vasp/minimal/piezoelectric-response/KPOINTS)。关键设置为：
+[最小案例](../../../examples/vasp/minimal/piezoelectric-response)采用晶格常数 5.41 Å 的两原子 [POSCAR](../../../examples/vasp/minimal/piezoelectric-response/POSCAR)、450 eV 的 [INCAR](../../../examples/vasp/minimal/piezoelectric-response/INCAR) 与 `3×3×3` [KPOINTS](../../../examples/vasp/minimal/piezoelectric-response/KPOINTS)。关键设置为：
 
 ```text
 IBRION = 8
@@ -19,7 +19,7 @@ LEPSILON = .TRUE.
 
 ## 二、重排剪切列后逐项相加
 
-[后处理](../../../examples/vasp/minimal/piezoelectric-response/postprocess.py)读取 `OUTCAR` 中以 C/m² 为单位的电子、离子压电表；将 VASP 的 `xx yy zz xy yz zx` 重排为常见 Voigt 顺序 `xx yy zz yz xz xy`，并由 [plot.py](../../../examples/vasp/minimal/piezoelectric-response/plot.py)绘图。
+[后处理](../../../examples/vasp/minimal/piezoelectric-response/postprocess.py)读取 `OUTCAR` 中以 C/m² 为单位的电子、离子压电表；将 VASP 的 `xx yy zz xy yz zx` 重排为常见 Voigt 顺序 `xx yy zz yz xz xy`，并由 [plot.py](../../../examples/vasp/minimal/piezoelectric-response/plot.py) 绘图。
 
 ![ZnS 的压电贡献和总张量](../assets/zns-piezo.png)
 
